@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Select, FormControl, InputLabel, MenuItem, SelectChangeEvent } from '@mui/material';
-import { get } from '@/utils/api';
-import CreateOptionsForselectHelper from '@/utils/actions/createOptionsForSelect.helper';
-import { getValueFromLocalStorage } from '@/utils/actions/local-starage';
+import { getRequest } from "@/utils/api-calls.util";
+import { CreateOptionsForselectHelper } from "@/utils/create-options-for-select";
 
 interface Props {
   handleChange: (event: any, from: string, control_for: string) => void
@@ -46,11 +45,10 @@ const MuiSelect = ({
   ]
 
   const [options, setOptions] = useState<any[]>([]);
-  const token = getValueFromLocalStorage('token')
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await get(optionsUrlData, token)
+      const res = await getRequest(optionsUrlData)
 
       if (res && res.status === 200) {
         const payload = CreateOptionsForselectHelper(res.data.data, optionDataKey)

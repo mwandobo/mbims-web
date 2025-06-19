@@ -1,9 +1,9 @@
 import {Filter, PlusCircle} from "lucide-react"
-import MuiBreadcrumbs from "../breadcumb/mui-breadcumb"
-import {ReusableButton} from "../button/reusable-button"
-import BackButton from "../button/back-button"
 import React, {ReactNode} from "react"
 import {useGlobalContextHook} from "@/hooks/useGlobalContextHook";
+import MuiBreadcrumbs from "@/components/breadcumb/mui-breadcumb";
+import {ButtonComponent} from "@/components/button/button.component";
+import BackButtonComponent from "@/components/button/back-button.component";
 
 interface Props {
     handleClick?: (type: string) => void
@@ -52,7 +52,7 @@ const PageHeader = ({
                 {filter &&
 
                     < div className=''>
-                        <ReusableButton
+                        <ButtonComponent
                             name='Apply Filters'
                             onClick={() => handleFilters()}
                             rounded={'md'}
@@ -65,20 +65,20 @@ const PageHeader = ({
                             text_color={'text-gray-700'}
                         >
                             <Filter size={18}/>
-                        </ReusableButton>
+                        </ButtonComponent>
                     </div>
                 }
                 {
                     isDownload && ButtonDownloadComponent
                 }
                 {isShowPage && !isHideBack &&
-                    <BackButton/>
+                    <BackButtonComponent/>
                 }
 
                 {!isShowPage && !isShowPage && !isHideAdd &&
 
                     < div className=''>
-                        <ReusableButton
+                        <ButtonComponent
                             name='Add'
                             onClick={() => handleClick && handleClick('create')}
                             rounded={'md'}
@@ -91,7 +91,7 @@ const PageHeader = ({
                             text_color={'text-gray-700'}
                         >
                             <PlusCircle size={18}/>
-                        </ReusableButton>
+                        </ButtonComponent>
                     </div>
                 }
 

@@ -88,13 +88,13 @@ const items: ISidebarItem[] = [
         items: [
             {
                 name: 'Departments',
-                path: '/admnistration/departments',
+                path: '/administration/departments',
                 permission: 'departments-list',
                 icon: Table
             },
             {
                 name: 'Employees',
-                path: '/admnistration/employees',
+                path: '/administration/employees',
                 permission: 'employees-list',
                 icon: User
             },
