@@ -6,7 +6,7 @@ import TextArea from "../inputs/text-area"
 import TextFieldComponent from "../inputs/text-field"
 import PopupModal from "../modal/popup-modal"
 import MuiMultiSelectSelect from "@/components/inputs/mui-multi-select";
-import {ReactNode} from "react"
+import {Fragment, ReactNode} from "react"
 import FileInputComponent from "@/components/inputs/file-input.component";
 import MuiSelectLocal from "@/components/inputs/mui-select-local";
 import {getValueFromLocalStorage} from "@/utils/local-storage.util";
@@ -82,7 +82,7 @@ const CrudFormComponent = ({
                                 ) : (
                                     // If itHasCustomForm is false, map over formInputs
                                     formInputs && formInputs.length > 0 && formInputs.map((item, index) => (
-                                        <>{!item.isRemoved &&
+                                        <Fragment key={index}>{!item.isRemoved &&
                                             <div className="" key={index}>
                                                 {item?.type === 'text' && (
                                                     <TextFieldComponent
@@ -188,7 +188,7 @@ const CrudFormComponent = ({
                                                 )}
                                             </div>
                                         }
-                                        </>
+                                        </Fragment>
                                     ))
                                 )
                             }

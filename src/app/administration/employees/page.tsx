@@ -2,9 +2,9 @@
 
 import ProtectedRoute from '@/components/authentication/protected-route'
 import PageHeader from '@/components/header/page-header'
-import { usePageData } from '@/hooks/use-page/use-page-data'
-import { checkPermissions } from '@/utils/actions/check-permissions'
 import React from 'react'
+import {usePageDataHook} from "@/hooks/page-render-hooks/use-page-data.hook";
+import {checkPermissions} from "@/utils/check-permissions";
 
 interface Props {
     parent_id?: string
@@ -19,7 +19,7 @@ function Employees({
 
     const _deptFormInputs = [
         {
-            name: 'first_name',
+            name: 'firstName',
             type: 'text',
             label: 'First Name',
             value: '',
@@ -28,7 +28,7 @@ function Employees({
             errorMessage: ''
         },
         {
-            name: 'middle_name',
+            name: 'middleName',
             type: 'text',
             label: 'Middle Name',
             value: '',
@@ -37,7 +37,7 @@ function Employees({
             errorMessage: ''
         },
         {
-            name: 'last_name',
+            name: 'lastName',
             type: 'text',
             label: 'Last Name',
             value: '',
@@ -64,12 +64,12 @@ function Employees({
             errorMessage: ''
         },
         {
-            name: 'position_id',
+            name: 'department_id',
             type: 'select',
-            label: 'Position',
+            label: 'Department',
             value: parent_id,
-            optionsUrlData: `/position`,
-            optionDataKey: 'departments',
+            optionsUrlData: `/departments`,
+            optionDataKey: 'name',
             required: true,
             isError: false,
             errorMessage: ''
@@ -80,7 +80,7 @@ function Employees({
             label: 'Role',
             value: parent_id,
             optionsUrlData: `/role`,
-            optionDataKey: 'departments',
+            optionDataKey: 'name',
             required: true,
             isError: false,
             errorMessage: ''
@@ -97,7 +97,7 @@ function Employees({
     ]
     const _columns = [
         {
-            id: 'full_name',
+            id: 'fullName',
             numeric: false,
             disablePadding: false,
             label: 'Employee Name',
@@ -127,12 +127,6 @@ function Employees({
             label: 'Department',
         },
         {
-            id: 'position',
-            numeric: false,
-            disablePadding: false,
-            label: 'Position',
-        },
-        {
             id: 'role',
             numeric: false,
             disablePadding: false,
@@ -141,19 +135,19 @@ function Employees({
     ]
 
     const permission = 'employees'
-    const url = `/employee?position_id=${parent_id}`
+    const url = `/users`
 
     const {
         loading,
         createdForm,
         handleClick,
         tabular,
-    } = usePageData({
+    } = usePageDataHook({
         columns: _columns,
         formInputs: _deptFormInputs,
         url: url,
         modalTitle: 'Employee',
-        viewUrl: '/admnistration/employees/',
+        viewUrl: '/administration/employees/',
         state_properties: [],
         permission: permission,
         emailNotificationBody: { code: 'create-employee', operation: null, id: null },
@@ -170,7 +164,7 @@ function Employees({
                             <>
                                 <PageHeader
                                     handleClick={handleClick}
-                                    links={[{ name: 'Employees / List', linkTo: '/admnistration/employees', permission: '' }]}
+                                    links={[{ name: 'Employees / List', linkTo: '/administration/employees', permission: '' }]}
                                     subHeader={subHeader}
 
                                 />
