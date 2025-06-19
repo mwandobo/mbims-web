@@ -81,7 +81,7 @@ function SidebarItem({ item }: { item: ISidebarItem }) {
             {expanded && items && items.length &&
                 <div className="flex flex-col ml-4">
                     {items.map(item =>
-                        checkPermissions(item?.permission) && <> <SubMenuItem key={item.path} item={item} /></>
+                        checkPermissions(item?.permission) &&  <SubMenuItem key={item.path} item={item} />
                     )}
                 </div>
             }

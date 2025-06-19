@@ -14,11 +14,11 @@ const deptFormInputs = [
         value: '',
         required: true,
         isError: false,
-        errorMessage: ''
+        errorMessage: '',
     },
     {
         name: 'description',
-        type: 'text',
+        type: 'textArea',
         label: 'Description',
         value: '',
         isError: false,
@@ -33,6 +33,7 @@ const columns = [
         disablePadding: false,
         label: 'Department Name',
         width: '30%',
+
     },
     {
         id: 'description',

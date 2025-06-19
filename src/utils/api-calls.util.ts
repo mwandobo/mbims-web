@@ -33,7 +33,7 @@ const postRequest = async <T>(url: string, data: any, token?: string | null, isF
 };
 
 const putRequest = async <T>(url: string, data: any, token?: string | null): Promise<any> => {
-    return index.put(url, data, config());
+    return index.patch(url, data, config());
 };
 
 const deleteRequest = async <T>(url: string, token?: string | null): Promise<any> => {
