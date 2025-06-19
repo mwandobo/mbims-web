@@ -1,10 +1,10 @@
 "use client"
 
-import { setValueLocalStorage } from '@/utils/actions/local-starage'
 import { ChevronDown, LucideIcon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import React, { useMemo, useState } from 'react'
 import {useGlobalContextHook} from "@/hooks/useGlobalContextHook";
+import {setValueLocalStorage} from "@/utils/local-storage.util";
 
 interface ISubItem {
     name: string

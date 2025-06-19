@@ -4,9 +4,9 @@ import { ChevronDown, LucideIcon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import React, { useMemo, useState } from 'react'
 import SubMenuItem from './submenu-item'
-import { setValueLocalStorage } from '@/utils/actions/local-starage'
-import { checkPermissions } from '@/utils/actions/check-permissions'
 import {useGlobalContextHook} from "@/hooks/useGlobalContextHook";
+import {setValueLocalStorage} from "@/utils/local-storage.util";
+import {checkPermissions} from "@/utils/check-permissions";
 
 interface ISidebarItem {
     name: string
