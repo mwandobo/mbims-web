@@ -103,7 +103,7 @@ const initialState: State = {
     viewedItem: initialViewedItem,
     notificationBody: initialNotificationBody,
     inEvaluation: false,
-    isSideBarHidden: true,
+    isSideBarHidden: false,
     slideOverContent: initialSlideOverContent,
     filterBody: initialFilteringBody,
     planningItem: initialPlanningItem,

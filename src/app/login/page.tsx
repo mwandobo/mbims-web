@@ -39,47 +39,54 @@ export default function LoginPage() {
             }
 
             try {
-                const response = await postRequest<any>('login', {email, password})
+                const response = await postRequest<any>('auth/login', {email, password})
+
+                console.log('response', response)
+
+
+
                 if (response.status === 200) {
+
+
                     const user = response?.data?.user
                     const role = response?.data?.role
-                    const {
-                        permissions,
-                        approvals,
-                        sys_approvals,
-                        approved_items,
-                        notifications,
-                    } =response?.data
+                    const token = response?.data?.access_token
+                    // const {
+                    //     permissions,
+                    //     approvals,
+                    //     sys_approvals,
+                    //     approved_items,
+                    //     notifications,
+                    // } =response?.data
 
-                    const token = JSON.stringify(user?.token);
 
-                    if (Number(user.is_otp_verified) === 0) {
-                        router.push(`/verify-otp/${user.id}`)
-                        return;
-                    }
-
-                    if (Number(user.is_password_changed) === 0) {
-                        router.push(`/change-password/${user.id}`)
-                        return;
-                    }
-
-                    const notificationPayload = {
-                        count: notifications.filter((note: any) => !note.is_read).length,
-                        notifications: notifications,
-                    };
-
-                    dispatch({type: "UPDATE_NOTIFICATION_BODY", payload: notificationPayload});
-                    dispatch({type: 'SET_CURRENT_USER', payload: user})
+                    // if (Number(user.is_otp_verified) === 0) {
+                    //     router.push(`/verify-otp/${user.id}`)
+                    //     return;
+                    // }
+                    //
+                    // if (Number(user.is_password_changed) === 0) {
+                    //     router.push(`/change-password/${user.id}`)
+                    //     return;
+                    // }
+                    //
+                    // const notificationPayload = {
+                    //     count: notifications.filter((note: any) => !note.is_read).length,
+                    //     notifications: notifications,
+                    // };
+                    //
+                    // dispatch({type: "UPDATE_NOTIFICATION_BODY", payload: notificationPayload});
+                    // dispatch({type: 'SET_CURRENT_USER', payload: user})
 
                     // dispatch
                     if (setValueLocalStorage('token', token) === 1 &&
                         setValueLocalStorage('user', JSON.stringify(user)) &&
-                        setValueLocalStorage('role', JSON.stringify(role)) &&
-                        setValueLocalStorage('permissions', JSON.stringify(permissions)) &&
-                        setValueLocalStorage('approvals', JSON.stringify(approvals)) &&
-                        setValueLocalStorage('sys_approvals', JSON.stringify(sys_approvals)) &&
-                        setValueLocalStorage('approved_items', JSON.stringify(approved_items)) &&
-                        setValueLocalStorage("notificationBody", JSON.stringify(notificationPayload))
+                        setValueLocalStorage('role', JSON.stringify(role))
+                        // setValueLocalStorage('permissions', JSON.stringify(permissions)) &&
+                        // setValueLocalStorage('approvals', JSON.stringify(approvals)) &&
+                        // setValueLocalStorage('sys_approvals', JSON.stringify(sys_approvals)) &&
+                        // setValueLocalStorage('approved_items', JSON.stringify(approved_items)) &&
+                        // setValueLocalStorage("notificationBody", JSON.stringify(notificationPayload))
                     ) {
                         setLoading(!loading)
                         router.push('/')

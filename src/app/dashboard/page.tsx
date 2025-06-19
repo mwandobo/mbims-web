@@ -11,6 +11,7 @@ import SlideOverV1 from "@/components/slide-over/slide-over-v1.component";
 import LoadingComponent from "@/components/status/loading.component";
 import MultiColorCircularProgress from "@/components/graphs/multi-color-circular-chart";
 import {getRequest} from "@/utils/api-calls.util";
+import {generateYearRange} from "@/utils/generate-years.util";
 
 function Dashboard() {
     const [data, setData] = useState<any>(null)
@@ -43,53 +44,53 @@ function Dashboard() {
                     : '';
 
                 const [
-                    projectStatsRes,
-                    projectExpenseStatsRes,
-                    projectPieChartStatsRes,
-                    assignedTasksRes,
-                    salesPurchaseStats,
-                    salesVsPurchase,
-                    projectBudgetSummary,
+                    contractsStats,
+                    // projectExpenseStatsRes,
+                    // projectPieChartStatsRes,
+                    // assignedTasksRes,
+                    // salesPurchaseStats,
+                    // salesVsPurchase,
+                    // projectBudgetSummary,
                 ] = await Promise.all([
-                    getRequest(`dashboard/project-stats${queryParams}`),
-                    getRequest(`dashboard/project-expenses-stats${queryParams}`),
-                    getRequest(`dashboard/project-pie-chart-stats${queryParams}`),
-                    getRequest(`dashboard/assigned-tasks${queryParams}`),
-                    getRequest(`dashboard/sales-purchase-stats${queryParams}`),
-                    getRequest(`dashboard/sales-vs-purchase${queryParams}`),
-                    getRequest(`dashboard/project-budget-summary${queryParams}`)
+                    getRequest(`dashboard/contracts-stats${queryParams}`),
+                    // getRequest(`dashboard/project-expenses-stats${queryParams}`),
+                    // getRequest(`dashboard/project-pie-chart-stats${queryParams}`),
+                    // getRequest(`dashboard/assigned-tasks${queryParams}`),
+                    // getRequest(`dashboard/sales-purchase-stats${queryParams}`),
+                    // getRequest(`dashboard/sales-vs-purchase${queryParams}`),
+                    // getRequest(`dashboard/project-budget-summary${queryParams}`)
                 ]);
 
                 if (
-                    projectStatsRes.status === 200 &&
-                    projectExpenseStatsRes.status === 200 &&
-                    projectPieChartStatsRes.status === 200 &&
-                    assignedTasksRes.status === 200 &&
-                    salesPurchaseStats.status === 200 &&
-                    salesVsPurchase.status === 200 &&
-                    projectBudgetSummary.status === 200
+                    contractsStats.status === 200
+                    // &&
+                    // projectExpenseStatsRes.status === 200 &&
+                    // projectPieChartStatsRes.status === 200 &&
+                    // assignedTasksRes.status === 200 &&
+                    // salesPurchaseStats.status === 200 &&
+                    // salesVsPurchase.status === 200 &&
+                    // projectBudgetSummary.status === 200
                 ) {
-                    const _projectBudgetSummary = projectBudgetSummary.data.data;
                     setData({
-                        projectStats: projectStatsRes.data.data,
-                        projectExpenseStats: projectExpenseStatsRes.data.data,
-                        projectPieChartStatsRes: projectPieChartStatsRes.data.data,
-                        assignedTasks: assignedTasksRes.data.data,
-                        salesPurchaseStats: salesPurchaseStats.data.data,
-                        salesVsPurchase: salesVsPurchase.data.data,
-                        projectBudgetSummary: _projectBudgetSummary
+                        contractsStats: contractsStats.data,
+                        // projectExpenseStats: projectExpenseStatsRes.data.data,
+                        // projectPieChartStatsRes: projectPieChartStatsRes.data.data,
+                        // assignedTasks: assignedTasksRes.data.data,
+                        // salesPurchaseStats: salesPurchaseStats.data.data,
+                        // salesVsPurchase: salesVsPurchase.data.data,
+                        // projectBudgetSummary: _projectBudgetSummary
                     });
 
-                    const total = _projectBudgetSummary.reduce((sum, item) => sum + item.grandTotal, 0);
+                    // const total = _projectBudgetSummary.reduce((sum, item) => sum + item.grandTotal, 0);
 
-                    setTotalBudget(total);
-                    const calculatedBudgetData = _projectBudgetSummary.map(item => ({
-                        ...item,
-                        percentage: ((item.grandTotal / total) * 100).toFixed(2),
-                        color: `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`
-                    }));
-
-                    setBudgetData(calculatedBudgetData);
+                    // setTotalBudget(total);
+                    // const calculatedBudgetData = _projectBudgetSummary.map(item => ({
+                    //     ...item,
+                    //     percentage: ((item.grandTotal / total) * 100).toFixed(2),
+                    //     color: `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`
+                    // }));
+                    //
+                    // setBudgetData(calculatedBudgetData);
 
                     setIsLoading(false)
                 }
@@ -130,11 +131,11 @@ function Dashboard() {
 
     const projectStats = data?.projectStats
     const items = [
-        {name: "Total Projects", quantity: projectStats?.all_projects},
-        {name: "Pending Projects", quantity: projectStats?.pending_projects},
-        {name: "Ongoing Projects", quantity: projectStats?.ongoing_projects},
-        {name: "Completed Projects", quantity: projectStats?.completed_projects},
-        {name: "Closed Projects", quantity: projectStats?.closed_projects},
+        {name: "Total Contracts", quantity: projectStats?.all_projects},
+        {name: "Pending Contracts", quantity: projectStats?.pending_projects},
+        {name: "Ongoing Contracts", quantity: projectStats?.ongoing_projects},
+        {name: "Completed Contracts", quantity: projectStats?.completed_projects},
+        {name: "Closed Contracts", quantity: projectStats?.closed_projects},
     ]
 
     const salesPurchaseStats = data?.salesPurchaseStats
@@ -147,7 +148,7 @@ function Dashboard() {
         {name: "Total Pending Sale", quantity: salesPurchaseStats?.total_pending_out_payments},
     ]
 
-    const years = [2021, 2022, 2023, 2024, 2025]
+    const years = generateYearRange()
 
     return (
         <ProtectedRoute>
@@ -155,7 +156,7 @@ function Dashboard() {
                 <LoadingComponent/>
             ) : (
                 <>
-                    <div className='flex flex-col text-xs'>
+                    <div className='flex flex-col text-xs text-gray-800 '>
                         <div className={'w-full flex justify-between font-medium'}>
                             <div>
                                 {selectedYears?.length > 0 && (
@@ -223,60 +224,69 @@ function Dashboard() {
                             )}
                         </div>
 
-                        <div className={'flex bg-white flex-col mt-2 p-2 border border-gray-200 shadow-md rounded-md'}>
-                            <h3 className={'mb-2 font-semibold'}>Sales Dashboard</h3>
+                        {data?.assignedTasks && (
 
-                            <div className={'bg-white p-2'}>
-                                <div className={'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 '}>
-                                    {salesStats.map((item, index) => (
-                                        <div key={index}
-                                             className={'bg-white h-20 flex flex-col justify-center items-center border border-gray-200 shadow-md rounded-md'}>
-                                            <p>{item.name}</p>
-                                            <p>{item.quantity}</p>
-                                        </div>
-                                    ))}
+
+                            <div
+                                className={'flex bg-white flex-col mt-2 p-2 border border-gray-200 shadow-md rounded-md'}>
+                                <h3 className={'mb-2 font-semibold'}>Sales Dashboard</h3>
+
+                                <div className={'bg-white p-2'}>
+                                    <div className={'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 '}>
+                                        {salesStats.map((item, index) => (
+                                            <div key={index}
+                                                 className={'bg-white h-20 flex flex-col justify-center items-center border border-gray-200 shadow-md rounded-md'}>
+                                                <p>{item.name}</p>
+                                                <p>{item.quantity}</p>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div className={'flex flex-col lg:flex-row mt-2 gap-2 w-full'}>
-                                {data?.salesVsPurchase && (
-                                    <div className={'bg-white lg:w-2/5 shadow-md rounded-md p-2 border border-gray-200'}>
-                                        <h3 className={'mb-2 mt-2 font-semibold'}>Sales Vs Purchase</h3>
-                                        <div className={'flex justify-center items-center w-full h-full'}>
-                                            <AreaChartComponent data={data?.salesVsPurchase}/>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {data?.projectExpenseStats && (
-                                    <div className={'lg:w-2/5 border border-gray-200 p-2 shadow-md rounded-md'}>
-                                        <h3 className={'mb-2 font-semibold'}>Project Expenses </h3>
-                                        <BarChartComponent data={data?.projectExpenseStats}/>
-                                    </div>
-                                )}
-
-                                {budgetData?.length > 0 && (
-                                    <div className="flex lg:w-1/5 flex-col bg-white shadow-md rounded-md border border-gray-200 p-4">
-                                        <h3 className={'font-medium'}>Budget Summary for All Projects:</h3>
-                                        <div className="flex w-full justify-center">
-                                            <MultiColorCircularProgress segments={budgetData}/>
-                                        </div>
-                                        <div className={'flex flex-col w-full text-xs'}>
-                                            <p className="flex gap-1 mb-1 font-medium">Total Budget: {totalBudget}</p>
-                                            <div className="">
-                                                {budgetData.map((item, index) => (
-                                                    <div key={index} className={'flex mb-1 gap-1'}>
-                                                        <span className={'w-4'} style={{backgroundColor: item.color}}></span>
-                                                        <p className="flex items-center ">{item.name} - {item.grandTotal}</p>
-                                                    </div>
-                                                ))}
+                                <div className={'flex flex-col lg:flex-row mt-2 gap-2 w-full'}>
+                                    {data?.salesVsPurchase && (
+                                        <div
+                                            className={'bg-white lg:w-2/5 shadow-md rounded-md p-2 border border-gray-200'}>
+                                            <h3 className={'mb-2 mt-2 font-semibold'}>Sales Vs Purchase</h3>
+                                            <div className={'flex justify-center items-center w-full h-full'}>
+                                                <AreaChartComponent data={data?.salesVsPurchase}/>
                                             </div>
                                         </div>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
+                                    )}
+
+                                    {data?.projectExpenseStats && (
+                                        <div className={'lg:w-2/5 border border-gray-200 p-2 shadow-md rounded-md'}>
+                                            <h3 className={'mb-2 font-semibold'}>Project Expenses </h3>
+                                            <BarChartComponent data={data?.projectExpenseStats}/>
+                                        </div>
+                                    )}
+
+                                    {budgetData?.length > 0 && (
+                                        <div
+                                            className="flex lg:w-1/5 flex-col bg-white shadow-md rounded-md border border-gray-200 p-4">
+                                            <h3 className={'font-medium'}>Budget Summary for All Projects:</h3>
+                                            <div className="flex w-full justify-center">
+                                                <MultiColorCircularProgress segments={budgetData}/>
+                                            </div>
+                                            <div className={'flex flex-col w-full text-xs'}>
+                                                <p className="flex gap-1 mb-1 font-medium">Total
+                                                    Budget: {totalBudget}</p>
+                                                <div className="">
+                                                    {budgetData.map((item, index) => (
+                                                        <div key={index} className={'flex mb-1 gap-1'}>
+                                                            <span className={'w-4'}
+                                                                  style={{backgroundColor: item.color}}></span>
+                                                            <p className="flex items-center ">{item.name} - {item.grandTotal}</p>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>)}
                     </div>
+
 
                     <SlideOverV1
                         isShowSlideOver={isSideOverOpened}
