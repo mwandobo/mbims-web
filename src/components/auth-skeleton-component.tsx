@@ -16,7 +16,7 @@ function AuthSkeletonComponent({children, loading, subtitle, title}: Props) {
         <div
             className="fixed top-0 left-0 w-full h-[100vh] flex items-center justify-center z-50"
             style={{
-                backgroundImage: "url('/main_bg.jpg')",
+                backgroundImage: "url('/bg-1.jpg')",
                 backgroundRepeat: "repeat",
                 backgroundSize: "1000px 1000px"
 
@@ -31,7 +31,7 @@ function AuthSkeletonComponent({children, loading, subtitle, title}: Props) {
                     {/* Left Section */}
                     <div className="relative h-full ps-4 pt-4 pb-4 flex flex-col">
                         {/* Logo - top left */}
-                        <img src="/logo.png" alt="Logo" className="h-16 w-16 object-contain absolute top-4 left-4"/>
+                        <img src="/logo.png" alt="Logo" className="h-16 w-24 object-contain absolute top-4 left-4"/>
 
                         {/* Centered Content */}
                         <div className="flex flex-1 flex-col justify-center items-center mt-16">
@@ -55,7 +55,7 @@ function AuthSkeletonComponent({children, loading, subtitle, title}: Props) {
 
                         {/* Footer */}
                         <p className="text-sm text-gray-500 mt-4">
-                            &copy; {new Date().getFullYear()} Flex. All rights reserved.
+                            &copy; {new Date().getFullYear()} EMASUITE. All rights reserved.
                         </p>
                     </div>
 
@@ -63,11 +63,11 @@ function AuthSkeletonComponent({children, loading, subtitle, title}: Props) {
                     <div className=" hidden md:flex justify-center items-center py-2">
                         <div className="h-full bg-[#0c55d7] flex flex-col gap-8 justify-center px-8 rounded-2xl">
                             <h4 className="text-start w-full text-4xl text-white">
-                                Effortlessly manage your team Projects.
+                                Effortlessly manage your Contracts.
                             </h4>
                             <p className="text-start w-full text-white">
-                                Carry out Monitoring, Evaluation, and Learning (MEAL) activities as you accomplish your
-                                LogFrame.
+                                Carry out Contracts Management, Licences , and Notifications Activities as you Accomplish your
+                                Purchase.
                             </p>
                             <div className="flex">
                                 <div className="rounded-md p-2 bg-white">

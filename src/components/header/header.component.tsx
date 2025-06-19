@@ -1,11 +1,11 @@
 'use client'
 import React, {useEffect,} from "react";
 import {useRouter} from "next/navigation";
-import {getValueFromLocalStorage, removeValueFromLocalStorage} from "@/utils/actions/local-starage";
 import {useGlobalContextHook} from "@/hooks/useGlobalContextHook";
 import ProfileDropdown from "@/components/dropdown/profile-dropdown.component";
 import NotificationComponent from "@/components/notification/notification-component";
 import {Menu, X} from "lucide-react";
+import {getValueFromLocalStorage, removeValueFromLocalStorage} from "@/utils/local-storage.util";
 
 function Header() {
     const router = useRouter();

@@ -4,16 +4,16 @@ import "./globals.css";
 import {GlobalContextProvider} from "@/context/GlobalContext";
 import React from "react";
 import HydrationZustand from "@/app/Hydrated";
-import Header from "@/components/header";
 import {Sidebar} from "lucide-react";
 import MainComponentWrapper from "@/components/sidebar/main-component-wrapper";
-import Footer from "@/components/footer";
 import {ToastContainer} from "react-toastify";
 import SlideOverRender from "@/components/slide-over/slide-over-render.component";
+import Footer from "@/components/footer/footer.component";
+import Header from "@/components/header/header.component";
 const inter = Inter({subsets: ["latin"]});
 
 export const metadata: Metadata = {
-    title: "Project Management System",
+    title: "Contract Management System",
     description: "The Software System to Manage Projects",
     icons: {
         icon: [
