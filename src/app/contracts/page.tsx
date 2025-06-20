@@ -129,25 +129,27 @@ function Project() {
 
     const _columns = [
         {
-            id: 'code',
+            id: 'title',
             numeric: false,
             disablePadding: false,
-            label: 'Code',
+            label: 'Contract Title',
         },
         {
-            id: 'name',
+            id: 'supplierName',
             numeric: false,
             disablePadding: false,
-            label: 'Project Name',
+            label: 'Supplier',
         },
         {
-            id: 'type',
-            numeric: false,
-            disablePadding: false,
-            label: 'Project Pillar',
+            id: 'departmentName',
+            label: 'Department',
+            value: '',
+            required: true,
+            isError: false,
+            errorMessage: ''
         },
         {
-            id: 'formatted_start_date',
+            id: 'startDate',
             type: 'date',
             label: 'Start Date',
             value: '',
@@ -156,37 +158,16 @@ function Project() {
             errorMessage: ''
         },
         {
-            id: 'formatted_end_date',
-            type: 'date',
+            id: 'endDate',
+            numeric: false,
+            disablePadding: false,
             label: 'End Date',
-            value: '',
-            required: true,
-            isError: false,
-            errorMessage: ''
-        },
-        {
-            id: 'location',
-            numeric: false,
-            disablePadding: false,
-            label: 'Location',
-        },
-        {
-            id: 'owner',
-            numeric: false,
-            disablePadding: false,
-            label: 'Owner',
         },
         {
             id: 'status',
             numeric: false,
             disablePadding: false,
             label: 'Status',
-        },
-        {
-            id: 'progress_status',
-            numeric: false,
-            disablePadding: false,
-            label: 'Progress',
         },
     ]
 
