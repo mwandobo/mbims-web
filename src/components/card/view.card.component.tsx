@@ -50,14 +50,14 @@ const ViewCardComponent = ({
 
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
                 {data.map((item, index) => (
-               <>{ item.label &&
-                   <div key={index} className="flex justify-center bg-gray-100 p-2 mb-1 ">
+               <div key={index}>{ item.label &&
+                   <div className="flex justify-center bg-gray-100 p-2 mb-1 ">
                        <h3 className="text-right border-r border-gray-700 pr-2 w-1/2 text-sm">{item.label}</h3>
                        <p className="font-semibold text-left pl-2  w-1/2 text-sm">{item.value}</p>
                    </div>
                }
 
-               </>
+               </div>
                 ))}
             </div>
             <div className='flex justify-end w-full'>

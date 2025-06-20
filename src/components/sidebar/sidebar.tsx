@@ -106,7 +106,7 @@ const items: ISidebarItem[] = [
             },
             {
                 name: 'Roles',
-                path: '/roles',
+                path: '/administration/roles',
                 permission: 'roles-list',
                 icon: RollerCoaster
             },
