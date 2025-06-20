@@ -8,13 +8,16 @@ import PageHeader from "@/components/header/page-header";
 import { useEffect, useState } from "react";
 import {getRequest} from "@/utils/api-calls.util";
 import {PermTableComponent} from "@/app/administration/roles/fragments/perm.table.component";
+import {useRouter} from "next/navigation";
 
 
 const RolesShow = ({ params }: { params: { roleId: string } }) => {
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
+    const router = useRouter()
     const id = params?.roleId
 
+    const navigate = () => router.push(`/administration/roles/assign/${id}`)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -52,6 +55,8 @@ const RolesShow = ({ params }: { params: { roleId: string } }) => {
                                     ]}
                                     titleA={`Role`}
                                     titleB={` ${data?.name} `}
+                                    showAssignButton={true}
+                                    assignButtonCallBack={navigate}
                                 />
                             </div>
                             <hr className="bg-gray-100" />

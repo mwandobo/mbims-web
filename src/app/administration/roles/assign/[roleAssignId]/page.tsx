@@ -4,44 +4,67 @@ import ProtectedRoute from "@/components/authentication/protected-route";
 import MuiCardComponent from "@/components/card/mui-card.component";
 import ViewCardComponent from "@/components/card/view.card.component";
 import PageHeader from "@/components/header/page-header";
-import {get, post} from "@/utils/api";
 import {useEffect, useState} from "react";
 import {useRouter} from "next/navigation"
 import MuiCheckbox from "@/components/inputs/mui-checkbox";
-import {ReusableButton} from "@/components/button/reusable-button";
 import {CheckCircle2} from "lucide-react";
-import {getValueFromLocalStorage} from "@/utils/actions/local-starage";
+import {getRequest, postRequest} from "@/utils/api-calls.util";
+import {ButtonComponent} from "@/components/button/button.component";
 
 
-const createPermissionCheckData = (permissionGroups: any[], user_permissions: any[]) => {
-    let result = [];
-    if (permissionGroups && permissionGroups.length > 0)
+const groupPermissions = (permissions: any[]) => {
+    const grouped = permissions.reduce((acc: any, permission: any) => {
+        if (!acc[permission.group]) {
+            acc[permission.group] = [];
+        }
+        acc[permission.group].push({
+            ...permission,
+            checked: false, // default unchecked
+        });
+        return acc;
+    }, {});
 
-        result = permissionGroups.map((group: any) => ({
-            ...group,
-            checked: group.permissions.some((perm: any) =>
-                user_permissions.some(_perm => Number(_perm.id) === Number(perm.id))
-            ),
-            permissions: group.permissions.map((perm: any) => ({
-                ...perm,
-                checked: !!user_permissions.find(_perm => Number(_perm.id) === Number(perm.id))
-            }))
-        }));
-
-    return result
+    return Object.keys(grouped).map(groupName => ({
+        name: groupName,
+        checked: false,
+        permissions: grouped[groupName]
+    }));
 };
 
 
+const createPermissionCheckData = (permissions: any[], rolePermissions: any[]) => {
+
+    console.log('permissions',permissions )
+    const groupedPermissions = groupPermissions(permissions);
+
+
+
+    // return groupedPermissions.map(group => ({
+    //     ...group,
+    //     checked: group.permissions.every((perm: any) =>
+    //         rolePermissions.some((assignedPerm: any) => Number(assignedPerm.id) === Number(perm.id))
+    //     ),
+    //     permissions: group.permissions.map(perm => ({
+    //         ...perm,
+    //         checked: !!rolePermissions.find((assignedPerm: any) => Number(assignedPerm.id) === Number(perm.id))
+    //     }))
+    // }));
+
+    return groupedPermissions
+};
+
+
+
+
 const RolesAssign = ({params}: { params: { roleAssignId: string } }) => {
+    const id = params.roleAssignId
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
-
-    const token = getValueFromLocalStorage('token')
-    const id = params.roleAssignId
-
     const router = useRouter()
     const [checkAll, setCheckAll] = useState(false);
-    const [groups, setGroups] = useState<any[]>(createPermissionCheckData(data?.permissionGroups, data?.rolePermissions));
+    // const [groups, setGroups] = useState<any[]>(createPermissionCheckData(data?.allPermissions, data?.rolePermissions));
+    const [groups, setGroups] = useState<any[]>([]);
+
 
     const handleCheck = (event: any, from?: string) => {
         const value = event?.target?.value;
@@ -64,7 +87,7 @@ const RolesAssign = ({params}: { params: { roleAssignId: string } }) => {
             if (groupName === 'group') {
 
                 updatedGrops = groups.map((group: any) => {
-                    if (Number(group.id) === Number(groupId)) {
+                    if (group.name === groupId) {
                         let updatedPerms = group.permissions.map((perm: any) => {
                             return {...perm, checked: !group.checked}
                         });
@@ -78,7 +101,7 @@ const RolesAssign = ({params}: { params: { roleAssignId: string } }) => {
             if (groupName === 'perm') {
                 updatedGrops = groups.map((group: any) => {
                     let updatedPerms = group.permissions.map((perm: any) => {
-                        if (Number(perm.id) === Number(groupId)) {
+                        if (perm.id === groupId) {
                             return {...perm, checked: !perm.checked}
                         }
 
@@ -96,18 +119,18 @@ const RolesAssign = ({params}: { params: { roleAssignId: string } }) => {
 
 
     const createPermissionPayload = () => {
-        const _perms: any[] = [];
+        const selectedPermissions: number[] = [];
 
-        groups.map((group: any) => {
-            group.permissions.map((perm: any) => {
-                if (perm.checked === true) {
-                    _perms.push(perm.id)
+        groups.forEach(group => {
+            group.permissions.forEach(perm => {
+                if (perm.checked) {
+                    selectedPermissions.push(perm.id);
                 }
-            })
-        })
+            });
+        });
 
-        return _perms
-    }
+        return selectedPermissions;
+    };
 
     const handleSave = async () => {
         try {
@@ -117,11 +140,11 @@ const RolesAssign = ({params}: { params: { roleAssignId: string } }) => {
                 permissions: createPermissionPayload()
             }
 
-            const res = await post(`role/assign/${id}`, payload, token);
+            const res = await postRequest(`roles/assign/${id}`, payload);
 
-            if (res.status === 200) {
+            if ([200, 201].includes(res.status)) {
                 setLoading(false)
-                router.push(`/roles/${id}`)
+                router.push(`/administration/roles/${id}`)
             }
         } catch (error) {
             console.error('An error occurred:', error);
@@ -132,11 +155,11 @@ const RolesAssign = ({params}: { params: { roleAssignId: string } }) => {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
-            const res = await get(`role/show_assign/${id}`, token)
+            const res = await getRequest(`roles/permissions/${id}`)
 
-            if (res && res.status === 200) {
-                setData(res.data.data)
-                setGroups(createPermissionCheckData(res?.data?.data?.permissionGroups, res?.data?.data?.rolePermissions))
+            if ([200, 201].includes(res.status)) {
+                setData(res.data)
+                setGroups(createPermissionCheckData(res?.data?.allPermissions, res.data?.routePermissions))
                 setLoading(false)
             }
         };
@@ -161,10 +184,10 @@ const RolesAssign = ({params}: { params: { roleAssignId: string } }) => {
                             <div className="mb-3">
                                 <ViewCardComponent
                                     data={[
-                                        {label: 'Name', value: data?.name},
+                                        {label: 'Name', value: data?.roleName},
                                     ]}
                                     titleA={`Role`}
-                                    titleB={` ${data?.name} `}
+                                    titleB={` ${data?.roleName} `}
                                 />
                             </div>
                             <hr className="bg-gray-100"/>
@@ -198,13 +221,13 @@ const RolesAssign = ({params}: { params: { roleAssignId: string } }) => {
                                                             <MuiCheckbox
                                                                 handleChange={handleCheck}
                                                                 label={group.name}
-                                                                from={`group_${group.id}`}
+                                                                from={`group_${group.name}`}
                                                                 checked={group.checked}
                                                             />
                                                         </div>
 
                                                         <hr/>
-                                                        <div className="grid grid-cols-3 item-start ps-20 w-3/4">
+                                                        <div className="flex flex-col item-start ps-20 w-3/4">
                                                             {group.permissions && group.permissions.map((permission: any) => (
                                                                 <MuiCheckbox
                                                                     key={permission.id}
@@ -225,7 +248,7 @@ const RolesAssign = ({params}: { params: { roleAssignId: string } }) => {
 
 
                                         <div className="flex justify-end mt-2">
-                                            <ReusableButton name={'save'}
+                                            <ButtonComponent name={'save'}
                                                             onClick={handleSave}
                                                             rounded={'md'}
                                                             padding={'p-3'}
@@ -237,7 +260,7 @@ const RolesAssign = ({params}: { params: { roleAssignId: string } }) => {
                                                             text_color={'text-gray-900'}
                                             >
                                                 <CheckCircle2/>
-                                            </ReusableButton>
+                                            </ButtonComponent>
                                         </div>
                                     </>
                                 </div>
