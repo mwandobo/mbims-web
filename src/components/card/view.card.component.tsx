@@ -1,8 +1,8 @@
 
 
 import React, { ReactNode } from 'react';
-import { ReusableButton } from '../button/reusable-button';
 import { Ellipsis } from 'lucide-react';
+import {ButtonComponent} from "@/components/button/button.component";
 
 type Props = {
     data: any[];
@@ -37,12 +37,12 @@ const ViewCardComponent = ({
                 <div className=''>
                     {isExtraButton && (
                         buttonName === 'Task Completed' ? <p className='bg-gray-200 p-1'>{buttonName}</p> :
-                            <ReusableButton
+                            <ButtonComponent
                                 name={buttonName}
                                 onClick={() => onClick(buttonKey)}
                             >
                                 <Ellipsis />
-                            </ReusableButton >)
+                            </ButtonComponent >)
 
                     }
                 </div>

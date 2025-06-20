@@ -98,8 +98,8 @@ export const useCrudOperatorHook = (
         const newModalBodyArray = modalBodyArray.map((item: any) => {
             let objKeyValue;
 
-            // Parse dates for specific fields
-            if (item.name === 'start_date' || item.name === 'end_date' || item.name === 'd_o_b') {
+            // // Parse dates for specific fields
+            if (item.name === 'dateOfBirth') {
                 objKeyValue = parseDate(payload[item.name]);
             } else {
                 objKeyValue = payload[item.name];
@@ -227,20 +227,6 @@ export const useCrudOperatorHook = (
             setUrl(!isApiV2 ? `${incomingUrl}/store` : incomingUrl);
             setHttpMethod('post');
             clearFormForCreate()
-            handleNotificationPayload('create');
-        }
-
-        if (type.toLowerCase() === 'add-price') {
-            setIsModalOpen(true);
-            setModalTitle(`Add Price to Item ${payload?.name}`);
-            const newUrl = !isApiV2
-                ? insertIdBeforeQueryParams(`${incomingUrl}/update`, payload?.id)
-                : insertIdBeforeQueryParams(`${incomingUrl}/add-price`, payload?.id);
-            setUrl(newUrl);
-            setIsForm(true);
-            setValueLocalStorage('add-price', 'add-price');
-            setOnSaveButtonName('Save');
-            setHttpMethod('post');
             handleNotificationPayload('create');
         }
 
