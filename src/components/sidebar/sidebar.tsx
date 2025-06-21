@@ -105,6 +105,12 @@ const items: ISidebarItem[] = [
                 icon: Users,
             },
             {
+                name: 'Clients',
+                path: '/administration/clients',
+                permission: 'clients-list',
+                icon: Users,
+            },
+            {
                 name: 'Roles',
                 path: '/administration/roles',
                 permission: 'roles-list',

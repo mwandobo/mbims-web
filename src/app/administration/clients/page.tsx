@@ -11,8 +11,7 @@ interface Props {
     subHeader?: string
 
 }
-function Employees({
-    parent_id,
+function Clients({
     subHeader
 
 }: Props) {
@@ -21,7 +20,7 @@ function Employees({
         {
             name: 'name',
             type: 'text',
-            label: 'Supplier Name',
+            label: 'Client Name',
             value: '',
             required: true,
             isError: false,
@@ -61,7 +60,7 @@ function Employees({
             id: 'name',
             numeric: false,
             disablePadding: false,
-            label: 'Supplier Name',
+            label: 'Client Name',
         },
         {
             id: 'phone',
@@ -83,8 +82,8 @@ function Employees({
         },
     ]
 
-    const permission = 'suppliers'
-    const url = `/suppliers`
+    const permission = 'clients'
+    const url = `/clients`
 
     const {
         loading,
@@ -95,8 +94,8 @@ function Employees({
         columns: _columns,
         formInputs: _deptFormInputs,
         url: url,
-        modalTitle: 'Suppliers',
-        viewUrl: '/administration/suppliers/',
+        modalTitle: 'Client',
+        viewUrl: '/administration/clients/',
         state_properties: [],
         permission: permission,
         isApiV2:true,
@@ -112,7 +111,7 @@ function Employees({
                             <>
                                 <PageHeader
                                     handleClick={handleClick}
-                                    links={[{ name: 'Suppliers / List', linkTo: '/administration/suppliers', permission: '' }]}
+                                    links={[{ name: 'Clients / List', linkTo: '/administration/clients', permission: '' }]}
                                     subHeader={subHeader}
 
                                 />
@@ -127,4 +126,4 @@ function Employees({
     )
 }
 
-export default Employees
+export default Clients

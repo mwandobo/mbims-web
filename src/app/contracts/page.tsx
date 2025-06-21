@@ -5,55 +5,69 @@ import PageHeader from '@/components/header/page-header'
 import React from 'react'
 import {usePageDataHook} from "@/hooks/page-render-hooks/use-page-data.hook";
 import {checkPermissions} from "@/utils/check-permissions";
-function Project() {
+function Contract() {
     const permission = 'projects'
 
     const projectInputs = [
         {
-            name: 'name',
+            name: 'title',
             type: 'text',
-            label: 'Name',
+            label: "Contract Title",
             value: '',
             required: true,
             isError: false,
             errorMessage: ''
         },
         {
-            name: 'owner',
-            type: 'text',
-            label: 'Owner',
+            name: 'service_request_type',
+            type: 'select-local',
+            label: 'Select Group',
             value: '',
+            optionsUrlData: [{label: 'Suppliers', value: 'supplier'},{label: 'Clients', value: 'external'},{label: 'Others', value: 'others'}],
+            optionDataKey: 'departments',
             required: true,
             isError: false,
-            errorMessage: ''
+            errorMessage: '',
+            control_for: '',
         },
         {
-            name: 'type_id',
+            name: 'supplier_id',
             type: 'select',
-            label: `Project Pillar`,
+            label: `Select Supplier`,
             value: '',
-            optionsUrlData: `settings?group=project`,
-            optionDataKey: 'departments',
+            optionsUrlData: `suppliers`,
+            optionDataKey: 'name',
             required: true,
             isError: false,
             errorMessage: '',
             control_for: ''
         },
         {
-            name: 'communication_channel_ids',
-            type: 'multi-select',
-            label: `Communication Channel`,
+            name: 'client_id',
+            type: 'select',
+            label: `Select Client`,
             value: '',
-            optionsUrlData: `settings?group=communication_channel`,
-            optionDataKey: 'departments',
+            optionsUrlData: `clients`,
+            optionDataKey: 'name',
             required: true,
             isError: false,
             errorMessage: '',
             control_for: ''
         },
-
         {
-            name: 'start_date',
+            name: 'department_id',
+            type: 'select',
+            label: `Select Department`,
+            value: '',
+            optionsUrlData: `departments`,
+            optionDataKey: 'name',
+            required: true,
+            isError: false,
+            errorMessage: '',
+            control_for: ''
+        },
+        {
+            name: 'startDate',
             type: 'date',
             label: 'Start Date',
             value: '',
@@ -62,28 +76,9 @@ function Project() {
             errorMessage: ''
         },
         {
-            name: 'end_date',
+            name: 'endDate',
             type: 'date',
             label: 'End Date',
-            value: '',
-            required: true,
-            isError: false,
-            errorMessage: ''
-        },
-        {
-            name: 'location',
-            type: 'text',
-            label: 'Location',
-            value: '',
-            required: true,
-            isError: false,
-            errorMessage: ''
-        },
-
-        {
-            name: 'prepared_by',
-            type: 'text',
-            label: 'Prepared By',
             value: '',
             required: true,
             isError: false,
@@ -99,28 +94,11 @@ function Project() {
             errorMessage: ''
         },
         {
-            name: 'summary',
-            type: 'textArea',
-            label: 'Summary',
+            name: 'file',
+            type: 'file',
+            label: "Upload File",
             value: '',
-            required: true,
-            isError: false,
-            errorMessage: ''
-        },
-        {
-            name: 'purpose',
-            type: 'textArea',
-            label: 'Purpose',
-            value: '',
-            required: true,
-            isError: false,
-            errorMessage: ''
-        },
-        {
-            name: 'scope',
-            type: 'textArea',
-            label: 'Scope',
-            value: '',
+            placeholder: "upload file",
             required: true,
             isError: false,
             errorMessage: ''
@@ -200,7 +178,7 @@ function Project() {
                                     links={[{ name: 'Contracts / List', linkTo: '/contracts', permission: '' }]}
                                 />
                                 {tabular()}
-                                {createdForm('lg')}
+                                {createdForm('md')}
                             </>
                     }
                 </>
@@ -210,4 +188,4 @@ function Project() {
     )
 }
 
-export default Project
+export default Contract
