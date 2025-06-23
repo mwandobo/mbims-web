@@ -4,7 +4,7 @@ import { getRequest } from "@/utils/api-calls.util";
 import CreateOptionsForSelect from "@/utils/create-options-for-select";
 
 interface Props {
-  handleChange: (event: any, from: string, control_for: string) => void
+  handleChange: (event: any, from: string, control_for: string, control_type: string) => void
   rows?: number;
   placeholder?: string;
   label?: string;
@@ -18,6 +18,7 @@ interface Props {
   control?: string
   control_id?: string
   control_for?: string
+  control_type?: string
 }
 
 const MuiSelect = ({
@@ -32,11 +33,12 @@ const MuiSelect = ({
   error,
   label = '',
   control,
-  control_for
+  control_for,
+                     control_type
 }: Props) => {
 
   const onChange = (event: SelectChangeEvent) => {
-    return handleChange(event, from, control_for)
+    return handleChange(event, from, control_for, control_type)
   };
 
   const assumptionOptions = [

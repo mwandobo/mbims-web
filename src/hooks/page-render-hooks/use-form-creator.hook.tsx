@@ -26,23 +26,23 @@ interface Props {
 }
 
 export const useCrudFormCreatorHook = ({
-                                       isModalOpen,
-                                       onCloseModal,
-                                       onSaveButtonName = 'save',
-                                       modalTitle,
-                                       url,
-                                       httpMethod,
-                                       modalBodyArray,
-                                       modalBodyString,
-                                       itHasCustomForm,
-                                       customForm,
-                                       isButtonDisabled,
-                                       isForm,
-                                       state_properties = [],
-                                       isShowAddPriceButton,
-                                       from,
-                                       isFormData
-                                   }: Props) => {
+                                           isModalOpen,
+                                           onCloseModal,
+                                           onSaveButtonName = 'save',
+                                           modalTitle,
+                                           url,
+                                           httpMethod,
+                                           modalBodyArray,
+                                           modalBodyString,
+                                           itHasCustomForm,
+                                           customForm,
+                                           isButtonDisabled,
+                                           isForm,
+                                           state_properties = [],
+                                           isShowAddPriceButton,
+                                           from,
+                                           isFormData
+                                       }: Props) => {
     const createPayload = (body: any[]) => {
         const payload: any = {};
         body?.forEach((input) => {
@@ -57,9 +57,7 @@ export const useCrudFormCreatorHook = ({
     const createFormInputs = (clear?: string) => {
         let payload: any[] = [];
         modalBodyArray?.forEach((input) => {
-            // if (!input.isRemoved) {
             payload = [...payload, input];
-            // }
         });
 
         return payload
@@ -70,13 +68,14 @@ export const useCrudFormCreatorHook = ({
     const [formData, setFormData] = useState<any>(createPayload(modalBodyArray))
     const [formInputs, setFormInputs] = useState<any[]>(createFormInputs())
 
-    const handleInputChange = (e: any, from?: any, control_for?: string) => {
+    const handleInputChange = (e: any, from?: any, control_for?: string, control_type?: string) => {
         try {
             formData[from] = from === 'file' ? e.target.files[0] : e.target.value
             const body = {
                 from,
                 value: e.target.value,
-                control_for
+                control_for,
+                control_type
             }
             updateFormDataPayload(body)
             setFormData(formData)
@@ -85,168 +84,32 @@ export const useCrudFormCreatorHook = ({
         }
     };
 
-    const sideUpdatePayload = (payload?: any, value?: string) => {
+    const handleControlVisibility = (controlFor: string, value?: string) =>
+        formInputs?.map(input => ({
+            ...input,
+            isRemoved: input.controlled_by === controlFor
+                ? value !== input.control
+                : input.isRemoved
+        }));
+
+    const sideUpdateUrlPayload = (control_for: string, value?: string) => {
         return formInputs?.map((input) => {
-            if (input.name === payload.name) {
+
+            if (input.control === control_for) {
+                let selectUrl;
                 try {
-                    // Check if optionsUrlData is a full URL
-                    let url;
-                    if (payload.optionsUrlData.startsWith("http")) {
-                        url = new URL(payload.optionsUrlData);
-                    } else {
-                        url = new URL(`api/${payload.optionsUrlData}`, baseURL);
-                    }
-
-                    // Add or update 'type' query parameter
-                    url.searchParams.set("type", value || "");
-                    return { ...payload, optionsUrlData: url.toString() };
+                    selectUrl = new URL(input.optionsUrlData);
                 } catch (error) {
-                    console.error("Invalid URL:", payload.optionsUrlData);
-                    return input;
+                    selectUrl = new URL(`api/${input.optionsUrlData}`, baseURL);
                 }
+
+                selectUrl.searchParams.set('type', value);
+                input.optionsUrlData = selectUrl.toString();
+
+                return input
             }
+
             return input;
-        });
-    };
-
-
-    const sideUpdatePayloadSponsorship = (value?: string) => {
-        return formInputs?.map((input) => {
-            if (Number(value) === 8) {
-                if (input.name === 'amount' || input.name === 'currency_id') {
-                    return {...input, isRemoved: false}
-                }
-                if (input.name === 'name') {
-                    return {...input, isRemoved: true}
-                }
-                return input
-            }
-            if (Number(value) === 11) {
-                if (input.name === 'name') {
-                    return {...input, isRemoved: false}
-                }
-                if (input.name === 'amount' || input.name === 'currency_id') {
-                    return {...input, isRemoved: true}
-                }
-                return input
-            }
-            return input
-        });
-    };
-
-    const sideUpdatePayloadAssignment = (value?: string) => {
-        return formInputs?.map((input) => {
-            if (Number(value) === 17) {
-                if (input.name === 'personnel_id') {
-                    return {...input, isRemoved: false}
-                }
-                if (input.name === 'dept_id') {
-                    return {...input, isRemoved: true}
-                }
-
-                return input
-            }
-            if (Number(value) === 18) {
-                if (input.name === 'dept_id') {
-                    return {...input, isRemoved: false}
-                }
-                if (input.name === 'personnel_id') {
-                    return {...input, isRemoved: true}
-                }
-                return input
-            }
-            return input
-        });
-    };
-
-    const sideUpdatePayloadWorkshopServiceRequest = (value?: string) => {
-        return formInputs?.map((input) => {
-            if (value === 'internal') {
-                if (input.name === 'from') {
-                    return {...input, isRemoved: false}
-                }
-                if (input.name === 'from_id') {
-                    return {...input, isRemoved: false}
-                }
-                if (input.name === 'item_id') {
-                    return {...input, isRemoved: true}
-                }
-                return input
-            }
-            if (value === 'external') {
-                if (input.name === 'from') {
-                    return {...input, isRemoved: true}
-                }
-                if (input.name === 'from_id') {
-                    return {...input, isRemoved: true}
-                }
-                if (input.name === 'item_id') {
-                    return {...input, isRemoved: false}
-                }
-                return input
-            }
-            return input
-        });
-    };
-
-
-    const sideUpdatePayloadTechnicianType = (value?: string) => {
-        return formInputs?.map((input) => {
-            if (value === 'internal') {
-                if (input.name === 'name') {
-                    return {...input, isRemoved: true}
-                }
-                if (input.name === 'maintained_by_id') {
-                    return {...input, isRemoved: false}
-                }
-
-                return input
-            }
-            if (value === 'external') {
-                if (input.name === 'name') {
-                    return {...input, isRemoved: false}
-                }
-                if (input.name === 'maintained_by_id') {
-                    return {...input, isRemoved: true}
-                }
-                return input
-            }
-            return input
-        });
-    };
-
-    const sideUpdatePayloadResource = (value?: string) => {
-        return formInputs?.map((input) => {
-            switch (Number(value)) {
-                case 23:
-                    if (input.name === 'personnel_id') {
-                        return {...input, isRemoved: false};
-                    }
-                    if (input.name === 'quantity' || input.name === 'item_id' || input.name === 'service_id') {
-                        return {...input, isRemoved: true};
-                    }
-                    return input;
-
-                case 29:
-                    if (input.name === 'quantity' || input.name === 'item_id') {
-                        return {...input, isRemoved: false};
-                    }
-                    if (input.name === 'personnel_id' || input.name === 'service_id') {
-                        return {...input, isRemoved: true};
-                    }
-                    return input;
-                case 30:
-                    if (input.name === 'service_id') {
-                        return {...input, isRemoved: false};
-                    }
-                    if (input.name === 'personnel_id' || input.name === 'item_id' || input.name === 'quantity') {
-                        return {...input, isRemoved: true};
-                    }
-                    return input;
-
-                default:
-                    return input;
-            }
         });
     };
 
@@ -255,9 +118,8 @@ export const useCrudFormCreatorHook = ({
         value?: string
         clear?: string
         control_for?: string
+        control_type?: string
     }
-
-
 
     const updateFormDataPayload = (body: UpdateFormDataProps) => {
         const {
@@ -265,6 +127,7 @@ export const useCrudFormCreatorHook = ({
             value,
             clear,
             control_for,
+            control_type
         } = body
         let newfoundInputs = [...formInputs];
 
@@ -273,89 +136,17 @@ export const useCrudFormCreatorHook = ({
             newfoundInputs = newfoundInputs.map(input => ({...input, value: '', errorMessage: ''}));
         }
 
-        if(control_for){
-            let foundInput = newfoundInputs.find(input => input.control === control_for);
-
-            if (foundInput){
-                // Check if optionsUrlData is a valid URL
-                let selectUrl;
-                try {
-                    // Try to construct a URL object, assuming it's a valid URL
-                    selectUrl = new URL(foundInput.optionsUrlData);
-                } catch (error) {
-                    // If it's not a valid URL, prepend a base URL to make it valid
-                    selectUrl = new URL(`api/${foundInput.optionsUrlData}`, baseURL);
-                }
-
-                // Set the query parameter
-                selectUrl.searchParams.set('type', value);
-
-                foundInput.optionsUrlData = selectUrl.toString();
+        if (control_for) {
+            switch (control_type) {
+                case 'hide-show':
+                    newfoundInputs = handleControlVisibility(control_for, value); // Update inputs for sponsors
+                    break;
+                case 'update-url':
+                    newfoundInputs = sideUpdateUrlPayload(control_for, value); // Update inputs for sponsors
+                    break;
+                default:
+                    break;
             }
-        }
-
-        if (control_for === 'sponsors') {
-            const foundInput = formInputs.find(item => item.control === 'sponsor_type');
-            newfoundInputs = sideUpdatePayload(foundInput, value); // Update inputs for sponsors
-        }
-
-        if (control_for === 'maintenance_items') {
-            const foundInput = formInputs.find(item => item.control === 'maintenance_items');
-            newfoundInputs = sideUpdatePayload(foundInput, value); // Update inputs for sponsors
-        }
-
-        if (control_for === 'sale-quotation-item') {
-            const foundInput = newfoundInputs.find(item => item.control === 'sale-quotation-item'); // Update formInputs copy
-            foundInput.optionsUrlData = `sale-rfq/${value}/items-for-select`;
-        }
-
-
-        if (control_for === 'quotation-item') {
-            const foundInput = newfoundInputs.find(item => item.control === 'quotation-item'); // Update formInputs copy
-            foundInput.optionsUrlData = `purchase-rfq/${value}/items-for-select`;
-        }
-
-        if (control_for === 'invoice') {
-            const foundInput = newfoundInputs.find(item => item.control === 'invoice'); // Get input from copy
-
-            // Check if optionsUrlData is a valid URL
-            let selectUrl;
-            try {
-                // Try to construct a URL object, assuming it's a valid URL
-                selectUrl = new URL(foundInput.optionsUrlData);
-            } catch (error) {
-                // If it's not a valid URL, prepend a base URL to make it valid
-                selectUrl = new URL(`api${foundInput.optionsUrlData}`, baseURL);
-            }
-
-            // Set the query parameter
-            selectUrl.searchParams.set('type', value);
-
-            // Update optionsUrlData with the new URL
-            foundInput.optionsUrlData = selectUrl.toString();
-        }
-
-
-        if (control_for === 'sponsorship') {
-            newfoundInputs = sideUpdatePayloadSponsorship(value); // Update inputs for sponsors
-        }
-
-        if (control_for === 'assignment') {
-            newfoundInputs = sideUpdatePayloadAssignment(value); // Update inputs for sponsors
-        }
-
-        if (control_for === 'workshop_service') {
-            newfoundInputs = sideUpdatePayloadWorkshopServiceRequest(value); // Update inputs for sponsors
-        }
-
-        if (control_for === 'technician_items') {
-            newfoundInputs = sideUpdatePayloadTechnicianType(value); // Update inputs for sponsors
-        }
-
-
-
-        if (control_for === 'resource') {
-            newfoundInputs = sideUpdatePayloadResource(value); // Update inputs for sponsors
         }
 
         if (from) {

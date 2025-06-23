@@ -21,7 +21,7 @@ interface Props {
     itHasCustomForm?: boolean
     customForm?: ReactNode; // React component to be rendered
     formInputs?: any[]
-    handleInputChange?: (e: any, from?: any, control_for?: string) => void
+    handleInputChange?: (e: any, from?: any, control_for?: string, control_type?: string) => void
     isDisabled?: boolean
     modalBodyString?: string
     size?: 'sm' | 'md' | 'lg';
@@ -121,6 +121,7 @@ const CrudFormComponent = ({
                                                         control={item.control}
                                                         control_id={item.control_id}
                                                         control_for={item.control_for}
+                                                        control_type={item.control_type}
                                                         value={item.value}
                                                         error={item.errorMessage}
                                                         isDisabled={isDisabled}
@@ -137,6 +138,7 @@ const CrudFormComponent = ({
                                                         control={item.control}
                                                         control_id={item.control_id}
                                                         control_for={item.control_for}
+                                                        control_type={item.control_type}
                                                         value={item.value}
                                                         error={item.errorMessage}
                                                         isDisabled={isDisabled}

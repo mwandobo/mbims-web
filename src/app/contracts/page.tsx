@@ -19,16 +19,17 @@ function Contract() {
             errorMessage: ''
         },
         {
-            name: 'service_request_type',
+            name: 'group',
             type: 'select-local',
             label: 'Select Group',
             value: '',
-            optionsUrlData: [{label: 'Suppliers', value: 'supplier'},{label: 'Clients', value: 'external'},{label: 'Others', value: 'others'}],
+            optionsUrlData: [{label: 'Suppliers', value: 'supplier'},{label: 'Clients', value: 'client'}],
             optionDataKey: 'departments',
             required: true,
             isError: false,
             errorMessage: '',
-            control_for: '',
+            control_for: 'contract-group',
+            control_type: 'hide-show',
         },
         {
             name: 'supplier_id',
@@ -39,8 +40,10 @@ function Contract() {
             optionDataKey: 'name',
             required: true,
             isError: false,
+            isRemoved: true,
             errorMessage: '',
-            control_for: ''
+            controlled_by: 'contract-group',
+            control: 'supplier'
         },
         {
             name: 'client_id',
@@ -50,9 +53,11 @@ function Contract() {
             optionsUrlData: `clients`,
             optionDataKey: 'name',
             required: true,
+            isRemoved: true,
             isError: false,
+            controlled_by: 'contract-group',
             errorMessage: '',
-            control_for: ''
+            control: 'client'
         },
         {
             name: 'department_id',
