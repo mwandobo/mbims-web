@@ -30,7 +30,7 @@ const columns = [
 
 function Roles() {
 
-    const permission = 'roles'
+    const permission = 'role'
 
     const {
         loading,
@@ -56,7 +56,7 @@ function Roles() {
         <ProtectedRoute>
 
             <>{
-                !checkPermissions(`${permission}-list`) ? <p>You are not authorized</p> : <>
+                !checkPermissions(`${permission}_read`) ? <p>You are not authorized</p> : <>
                     {
                         loading ? <p>Loading...</p>
                             :

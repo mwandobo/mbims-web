@@ -82,7 +82,7 @@ function Clients({
         },
     ]
 
-    const permission = 'clients'
+    const permission = 'client'
     const url = `/clients`
 
     const {
@@ -104,7 +104,7 @@ function Clients({
     return (
         <ProtectedRoute>
             <>{
-                !checkPermissions(`${permission}-list`) ? <p>You are not authorized</p> : <>
+                !checkPermissions(`${permission}_read`) ? <p>You are not authorized</p> : <>
                     {
                         loading ? <p>Loading...</p>
                             :

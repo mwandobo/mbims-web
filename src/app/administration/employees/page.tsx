@@ -134,7 +134,7 @@ function Employees({
         },
     ]
 
-    const permission = 'employees'
+    const permission = 'employee'
     const url = `/users`
 
     const {
@@ -157,7 +157,7 @@ function Employees({
     return (
         <ProtectedRoute>
             <>{
-                !checkPermissions(`${permission}-list`) ? <p>You are not authorized</p> : <>
+                !checkPermissions(`${permission}_read`) ? <p>You are not authorized</p> : <>
                     {
                         loading ? <p>Loading...</p>
                             :

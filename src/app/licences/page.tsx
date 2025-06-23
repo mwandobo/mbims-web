@@ -6,7 +6,7 @@ import React from 'react'
 import {usePageDataHook} from "@/hooks/page-render-hooks/use-page-data.hook";
 import {checkPermissions} from "@/utils/check-permissions";
 function Contract() {
-    const permission = 'projects'
+    const permission = 'licence'
 
     const projectInputs = [
         {
@@ -148,7 +148,7 @@ function Contract() {
     return (
         <ProtectedRoute>
             <>{
-                !checkPermissions(`${permission}-list`) ? <p>You are not authorized</p> : <>
+                !checkPermissions(`${permission}_read`) ? <p>You are not authorized</p> : <>
                     {
                         loading ? <p>Loading...</p>
                             :
