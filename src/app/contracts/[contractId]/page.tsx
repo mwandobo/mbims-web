@@ -144,11 +144,6 @@ const ContractShow = ({params}: { params: { contractId: string } }) => {
                                     }
                                 />
                             </div>
-
-
-
-
-
                         </MuiCardComponent>
                     </>
             }
