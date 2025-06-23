@@ -118,10 +118,16 @@ function Contract() {
             label: 'Contract Title',
         },
         {
+            id: 'group',
+            numeric: false,
+            disablePadding: false,
+            label: 'Contract Group',
+        },
+        {
             id: 'supplierName',
             numeric: false,
             disablePadding: false,
-            label: 'Supplier',
+            label: 'Supplier/Client Name',
         },
         {
             id: 'departmentName',
@@ -168,7 +174,9 @@ function Contract() {
         state_properties: [],
         permission: permission,
         from: "contracts",
-        isApiV2: true
+        isApiV2: true,
+        isFormData: true,
+        isMaintainViewNavigationForV1: true
     })
     return (
         <ProtectedRoute>

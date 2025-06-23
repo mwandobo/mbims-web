@@ -92,8 +92,8 @@ export const usePopulateTableHook = ({
     const createRowData = () => {
         let newData: any = []
 
-        if (data && data.length > 0) {
-            newData = data.filter(obj => !obj.is_deleted)
+        if (Array.isArray(data) && data.length > 0) {
+            newData = data?.filter(obj => !obj.is_deleted)
                 .map(obj => {
                     if (obj.has_url) {
                         obj = {

@@ -14,15 +14,14 @@ import SubContract from "@/app/contracts/fragments/sub-contract";
 import {ButtonComponent} from "@/components/button/button.component";
 import FormattedMoney from "@/components/money-format.component";
 
-
-const ProjectShow = ({params}: { params: { projectId: string } }) => {
+const ContractShow = ({params}: { params: { contractId: string } }) => {
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
     const [refresh, setRefresh] = useState(false)
-    const id = params.projectId
+    const id = params.contractId
     const router = useRouter()
 
-    const url = `project/show/${id}`
+    const url = `contracts/${id}`
     const navigateToLogin = () => {
         return router.push('/login')
     }
@@ -32,7 +31,7 @@ const ProjectShow = ({params}: { params: { projectId: string } }) => {
             const res = await getRequest(url)
 
             if (res && res.status === 200) {
-                setData(res.data.data)
+                setData(res.data)
                 setLoading(false)
             }
         } catch (error: any) {
@@ -41,6 +40,7 @@ const ProjectShow = ({params}: { params: { projectId: string } }) => {
             }
         }
     };
+
     useEffect(() => {
         fetchData()
     }, [refresh])
@@ -73,20 +73,6 @@ const ProjectShow = ({params}: { params: { projectId: string } }) => {
         />,
     ];
 
-    const communicationChannels = (data: any) => {
-        return (
-            <div className="flex flex-col text-xs">
-                {data && data.map((item, index) => (
-                    <div key={index} className="flex justify-between">
-                        <span className="font-medium">{item.name}</span>
-                        <span className="text-gray-600">{item.location}</span>
-                    </div>
-                ))}
-            </div>
-        );
-    };
-
-
     const buttonsBody = () => {
         return <>
             {data?.status === 'pending' &&
@@ -116,7 +102,7 @@ const ProjectShow = ({params}: { params: { projectId: string } }) => {
                     <>
                         <PageHeader
                             links={[
-                                {name: 'Project', linkTo: '/projects', permission: 'projects', isClickable: true},
+                                {name: 'Contracts', linkTo: '/contracts', permission: 'contracts', isClickable: true},
                                 {name: 'Show', linkTo: '/', permission: ''},
                             ]}
                             isShowPage={true}
@@ -124,50 +110,45 @@ const ProjectShow = ({params}: { params: { projectId: string } }) => {
                         <MuiCardComponent>
                             <ViewCardComponent
                                 data={[
-                                    {label: 'Code', value: data?.code},
-                                    {label: 'Project Name', value: data?.name},
-                                    {label: 'Project Pillar', value: data?.type},
-                                    {label: 'Project Location', value: data?.location},
-                                    {label: 'Project Owner', value: data?.owner},
-                                    {label: 'Communication Channel', value: communicationChannels(data.communication_channels)},
-                                    {label: 'Start Date', value: data.formatted_start_date},
-                                    {label: 'End Date', value: data.formatted_end_date},
-                                    {
-                                        label: 'Total Direct Cost',
-                                        value: <FormattedMoney amount={data.total_direct_cost}/>
-                                    },
-                                    {
-                                        label: 'Total Resource Cost',
-                                        value: <FormattedMoney amount={data.total_resource_cost}/>
-                                    },
-                                    {
-                                        label: 'Grand Total Cost',
-                                        value: <FormattedMoney amount={data.grand_total_cost}/>
-                                    },
-                                    {label: 'Prepared By', value: data?.prepared_by},
-                                    {label: 'Description', value: data?.description},
-                                    {label: 'Summary', value: data?.summary},
-                                    {label: 'Scope', value: data?.scope},
-                                    {label: 'Purpose', value: data?.purpose},
-                                    {label: 'Progress', value: data.progress_status},
+                                    {label: 'Contract Title', value: data?.title},
+                                    {label: 'Contract Group', value: data?.group},
+                                    {label:  data?.group === 'client' ? 'Client Name' : "Supplier Name", value: data?.supplierName},
+                                    {label: 'Department Name', value: data?.departmentName},
+                                    {label: 'Start Date', value: data.startDate},
+                                    {label: 'End Date', value: data.endDate},
                                     {label: 'Status', value: data.status},
+                                    {
+                                        label: 'Contract File',
+                                        value: data?.fileUrl ? (
+                                            <a href={data?.fileUrl} target="_blank" rel="noopener noreferrer"
+                                               className="text-blue-600 border-b border-gray-300 underline underline-offset-3">
+                                                View File
+                                            </a>
+                                        ) : 'No file available'
+                                    },
 
                                 ]}
-                                titleA="Project"
-                                titleB={data?.name}
+                                titleA="Contract"
+                                titleB={data?.title}
                             />
-                        </MuiCardComponent>
-                        <MuiCardComponent>
-                            <MuiTab
-                                columns={
+
+                            <div className={'mt-3 px-4'}>
+                                <MuiTab
+                                    columns={
                                         [
                                             "Sub Contracts",
                                         ]
-                                }
-                                nodes={
+                                    }
+                                    nodes={
                                         nodes // Show all nodes when condition is true
-                                }
-                            />
+                                    }
+                                />
+                            </div>
+
+
+
+
+
                         </MuiCardComponent>
                     </>
             }
@@ -175,4 +156,4 @@ const ProjectShow = ({params}: { params: { projectId: string } }) => {
     );
 };
 
-export default ProjectShow;
+export default ContractShow;

@@ -117,7 +117,7 @@ function SubContract({
         },
     ]
 
-    const url = `assignment?project_id=${project?.id}&for=${from}&for_id=${from_id}`
+    const url = ``
 
     const {
         loading,
