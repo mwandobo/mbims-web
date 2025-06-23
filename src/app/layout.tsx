@@ -39,7 +39,7 @@ export default function RootLayout({children}: Props) {
         <div className="bg-gray-200 ">
             <HydrationZustand>
                 <GlobalContextProvider>
-                    <PermissionsProvider>
+                    {/*<PermissionsProvider>*/}
                     <div className={'flex flex-col'}>
                         <div className={'flex w-full flex-col'}>
                             <Header/>
@@ -54,7 +54,7 @@ export default function RootLayout({children}: Props) {
                         <SlideOverRender/>
                         <ToastContainer />
                     </div>
-                    </PermissionsProvider>
+                    {/*</PermissionsProvider>*/}
                 </GlobalContextProvider>
             </HydrationZustand>
         </div>

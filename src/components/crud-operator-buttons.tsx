@@ -1,5 +1,6 @@
 import {CheckCircle2, EyeIcon, Pen, ShieldCheck, Trash2, X} from "lucide-react";
 import {ButtonComponent} from "@/components/button/button.component";
+import {checkPermissions} from "@/utils/check-permissions";
 
 interface Props {
     permission?: string;
@@ -28,6 +29,7 @@ const CrudButtonsComponent = ({
                               }: Props) => {
     return <div className='p-0 m-0 inline-flex w-full gap-1'>
 
+        {checkPermissions(`${permission ? `${permission}_read` : ""}`) &&
             <ButtonComponent
                 name='View'
                 onClick={() => handleClick && handleClick('show', input)}
@@ -41,9 +43,9 @@ const CrudButtonsComponent = ({
             >
                 <EyeIcon size={16} color={'black'}/>
             </ButtonComponent>
+        }
 
-
-
+        {checkPermissions(`${permission ? `${permission}_delete` : ""}`) &&
             <ButtonComponent
                 name='Delete'
                 onClick={() => handleClick && handleClick('delete', input)}
@@ -57,7 +59,9 @@ const CrudButtonsComponent = ({
             >
                 <Trash2 size={16} color='red'/>
             </ButtonComponent>
+        }
 
+        {checkPermissions(`${permission ? `${permission}_update` : ""}`) &&
             <ButtonComponent
                 name='Edit'
                 onClick={() => handleClick && handleClick('edit', input)}
@@ -71,8 +75,7 @@ const CrudButtonsComponent = ({
             >
                 <Pen size={16} color={'black'}/>
             </ButtonComponent>
-
-
+        }
     </div>
 }
 

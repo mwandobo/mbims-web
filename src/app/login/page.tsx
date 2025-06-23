@@ -43,14 +43,13 @@ export default function LoginPage() {
 
                 console.log('response', response)
 
-
-
                 if (response.status === 200) {
-
-
-                    const user = response?.data?.user
-                    const role = response?.data?.role
                     const token = response?.data?.access_token
+                    const user = response?.data?.user
+                    const role = user?.role
+                    const permissions = role?.permissions
+
+
                     // const {
                     //     permissions,
                     //     approvals,
@@ -79,9 +78,9 @@ export default function LoginPage() {
                     // dispatch({type: 'SET_CURRENT_USER', payload: user})
 
                     // dispatch
-                    if (setValueLocalStorage('token', token) === 1 &&
+                    if (setValueLocalStorage('token', token) &&
                         setValueLocalStorage('user', JSON.stringify(user)) &&
-                        setValueLocalStorage('role', JSON.stringify(role))
+                        setValueLocalStorage('system_permissions', JSON.stringify(permissions))
                         // setValueLocalStorage('permissions', JSON.stringify(permissions)) &&
                         // setValueLocalStorage('approvals', JSON.stringify(approvals)) &&
                         // setValueLocalStorage('sys_approvals', JSON.stringify(sys_approvals)) &&
