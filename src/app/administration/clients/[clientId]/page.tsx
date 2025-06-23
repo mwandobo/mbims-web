@@ -8,12 +8,12 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {getRequest} from "@/utils/api-calls.util";
 
-const SupplierShow = ({ params }: { params: { supplierId: string } }) => {
+const ClientShow = ({ params }: { params: { clientId: string } }) => {
     const router = useRouter()
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
 
-    const id = params.supplierId
+    const id = params.clientId
 
     const url = `suppliers/${id}`
     const navigateToLogin = () => {
@@ -79,4 +79,4 @@ const SupplierShow = ({ params }: { params: { supplierId: string } }) => {
     );
 };
 
-export default SupplierShow;
+export default ClientShow;
