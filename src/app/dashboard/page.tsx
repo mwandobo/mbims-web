@@ -1,328 +1,180 @@
-"use client"
+import { Card, Col, Row, Statistic, Table, Typography } from 'antd';
+import { Bar, Pie, Line } from '@ant-design/charts';
+import React from 'react';
 
-import ProtectedRoute from '@/components/authentication/protected-route'
-import React, {useEffect, useState} from 'react'
-import BarChartComponent from "@/components/graphs/bar-chart";
-import AreaChartComponent from "@/components/graphs/area-chart";
-import {useRouter} from "next/navigation";
-import PieChartComponent from "@/components/graphs/pie-chart";
-import {Filter} from "lucide-react";
-import SlideOverV1 from "@/components/slide-over/slide-over-v1.component";
-import LoadingComponent from "@/components/status/loading.component";
-import MultiColorCircularProgress from "@/components/graphs/multi-color-circular-chart";
-import {getRequest} from "@/utils/api-calls.util";
-import {generateYearRange} from "@/utils/generate-years.util";
+const { Title, Text } = Typography;
 
-function Dashboard() {
-    const [data, setData] = useState<any>(null)
-    const [isLoading, setIsLoading] = useState(false)
-    const [budgetData, setBudgetData] = useState([]);
-    const [totalBudget, setTotalBudget] = useState(0);
-    const [refresh, setRefresh] = useState(false)
-    const [selectedYears, setSelectedYears] = useState<number[]>([]);
-    const [isSideOverOpened, setIsSideOverOpen] = useState(false)
-    const [isSubmitted, setIsSubmitted] = useState(false)
-    const router = useRouter()
-
-    const toggleYearSelection = (year: number) => {
-        setSelectedYears(prevSelectedYears =>
-            prevSelectedYears.includes(year)
-                ? prevSelectedYears.filter(selectedYear => selectedYear !== year)
-                : [...prevSelectedYears, year]
-        );
+const DashboardPage = () => {
+    // Dummy data - replace with real API calls
+    const stats = {
+        totalContracts: 124,
+        activeContracts: 89,
+        expiringSoon: 15,
+        totalLicenses: 76,
+        activeLicenses: 62,
+        expiredLicenses: 8,
+        suppliers: 42,
+        clients: 58,
+        departments: 12
     };
 
-    const checkIfDisabled = () => selectedYears?.length <= 0
+    const contractTypes = [
+        { type: 'Supplier Contracts', value: 68 },
+        { type: 'Client Contracts', value: 56 },
+    ];
 
-    useEffect(() => {
+    const licenseStatus = [
+        { status: 'Active', value: 62 },
+        { status: 'Expired', value: 8 },
+        { status: 'Pending Renewal', value: 6 },
+    ];
 
-        const fetchAllData = async () => {
-            try {
-                setIsLoading(true)
-                const queryParams = selectedYears.length
-                    ? `?years=${selectedYears.join(',')}`
-                    : '';
+    const expirationData = [
+        { month: 'Jan', contracts: 3, licenses: 2 },
+        { month: 'Feb', contracts: 5, licenses: 1 },
+        { month: 'Mar', contracts: 7, licenses: 4 },
+        { month: 'Apr', contracts: 2, licenses: 3 },
+        { month: 'May', contracts: 4, licenses: 2 },
+        { month: 'Jun', contracts: 6, licenses: 5 },
+    ];
 
-                const [
-                    contractsStats,
-                    // projectExpenseStatsRes,
-                    // projectPieChartStatsRes,
-                    // assignedTasksRes,
-                    // salesPurchaseStats,
-                    // salesVsPurchase,
-                    // projectBudgetSummary,
-                ] = await Promise.all([
-                    getRequest(`dashboard/contracts-stats${queryParams}`),
-                    // getRequest(`dashboard/project-expenses-stats${queryParams}`),
-                    // getRequest(`dashboard/project-pie-chart-stats${queryParams}`),
-                    // getRequest(`dashboard/assigned-tasks${queryParams}`),
-                    // getRequest(`dashboard/sales-purchase-stats${queryParams}`),
-                    // getRequest(`dashboard/sales-vs-purchase${queryParams}`),
-                    // getRequest(`dashboard/project-budget-summary${queryParams}`)
-                ]);
+    const recentActivities = [
+        { id: 1, type: 'Contract', action: 'Renewed', entity: 'ABC Corp', date: '2023-06-15', user: 'John Doe' },
+        { id: 2, type: 'License', action: 'Approved', entity: 'XYZ Ltd', date: '2023-06-14', user: 'Jane Smith' },
+        { id: 3, type: 'Contract', action: 'Created', entity: 'Global Inc', date: '2023-06-12', user: 'Mike Johnson' },
+        { id: 4, type: 'License', action: 'Expired', entity: 'Tech Solutions', date: '2023-06-10', user: 'System' },
+    ];
 
-                if (
-                    contractsStats.status === 200
-                    // &&
-                    // projectExpenseStatsRes.status === 200 &&
-                    // projectPieChartStatsRes.status === 200 &&
-                    // assignedTasksRes.status === 200 &&
-                    // salesPurchaseStats.status === 200 &&
-                    // salesVsPurchase.status === 200 &&
-                    // projectBudgetSummary.status === 200
-                ) {
-                    setData({
-                        contractsStats: contractsStats.data,
-                        // projectExpenseStats: projectExpenseStatsRes.data.data,
-                        // projectPieChartStatsRes: projectPieChartStatsRes.data.data,
-                        // assignedTasks: assignedTasksRes.data.data,
-                        // salesPurchaseStats: salesPurchaseStats.data.data,
-                        // salesVsPurchase: salesVsPurchase.data.data,
-                        // projectBudgetSummary: _projectBudgetSummary
-                    });
-
-                    // const total = _projectBudgetSummary.reduce((sum, item) => sum + item.grandTotal, 0);
-
-                    // setTotalBudget(total);
-                    // const calculatedBudgetData = _projectBudgetSummary.map(item => ({
-                    //     ...item,
-                    //     percentage: ((item.grandTotal / total) * 100).toFixed(2),
-                    //     color: `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`
-                    // }));
-                    //
-                    // setBudgetData(calculatedBudgetData);
-
-                    setIsLoading(false)
-                }
-            } catch (error) {
-                if (error?.code === "ERR_NETWORK") {
-                    navigateToLogin();
-                }
-            }
-        };
-
-        fetchAllData();
-    }, [refresh]);
-
-    const navigateToLogin = () => {
-        return router.push('/login')
-    }
-
-    const handleOpenFilters = () => {
-        setIsSideOverOpen(!isSideOverOpened)
-    }
-
-    const handleClearFilters = () => {
-        setSelectedYears([])
-        setRefresh(!refresh)
-        setIsSubmitted(false)
-    }
-
-    const handleCloseSlideOver = () => {
-        setIsSideOverOpen(!isSideOverOpened)
-        setSelectedYears([])
-    }
-
-    const onSubmit = () => {
-        setIsSubmitted(true)
-        setIsSideOverOpen(!isSideOverOpened)
-        setRefresh(!refresh)
-    }
-
-    const projectStats = data?.projectStats
-    const items = [
-        {name: "Total Contracts", quantity: projectStats?.all_projects},
-        {name: "Pending Contracts", quantity: projectStats?.pending_projects},
-        {name: "Ongoing Contracts", quantity: projectStats?.ongoing_projects},
-        {name: "Completed Contracts", quantity: projectStats?.completed_projects},
-        {name: "Closed Contracts", quantity: projectStats?.closed_projects},
-    ]
-
-    const salesPurchaseStats = data?.salesPurchaseStats
-    const salesStats = [
-        {name: "Total Sales", quantity: salesPurchaseStats?.total_sales},
-        {name: "Total Purchase", quantity: salesPurchaseStats?.total_purchases},
-        {name: "Total Complete Purchase", quantity: salesPurchaseStats?.total_in_payments},
-        {name: "Total Complete Sale", quantity: salesPurchaseStats?.total_out_payments},
-        {name: "Total Pending Purchase", quantity: salesPurchaseStats?.total_pending_in_payments},
-        {name: "Total Pending Sale", quantity: salesPurchaseStats?.total_pending_out_payments},
-    ]
-
-    const years = generateYearRange()
+    const departmentDistribution = [
+        { department: 'Finance', contracts: 28, licenses: 12 },
+        { department: 'IT', contracts: 32, licenses: 24 },
+        { department: 'Operations', contracts: 45, licenses: 18 },
+        { department: 'HR', contracts: 19, licenses: 22 },
+    ];
 
     return (
-        <ProtectedRoute>
-            {isLoading ? (
-                <LoadingComponent/>
-            ) : (
-                <>
-                    <div className='flex flex-col text-xs text-gray-800 '>
-                        <div className={'w-full flex justify-between font-medium'}>
-                            <div>
-                                {selectedYears?.length > 0 && (
-                                    <div className={'flex flex-col bg-gray-100 mb-2 p-2 rounded-md'}>
-                                        <p className={'me-2'}>Selected Filters:</p>
-                                        <div className={'flex'}>
-                                            <p className={'me-2'}>Years:</p>
-                                            {selectedYears.map((year, index) => (
-                                                <p key={year} className="me-1">
-                                                    {year}{index < selectedYears.length - 1 ? ',' : ''}
-                                                </p>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                            <button
-                                className={' flex justify-center items-center p-2 border border-gray-200 shadow-sm rounded-md hover:bg-gray-50 mb-2 gap-1'}
-                                onClick={handleOpenFilters}
-                            >
-                                <Filter size={12}/>Filters
-                            </button>
-                        </div>
+        <div className="dashboard-container">
+            <Title level={2}>Contract & License Management Dashboard</Title>
 
-                        <div className='flex flex-col lg:flex-row gap-2'>
-                            <div className={'lg:w-2/3'}>
-                                <div className={'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 '}>
-                                    {items.map((item, index) => (
-                                        <div key={index}
-                                             className={'bg-white h-20 flex flex-col justify-center items-center shadow-md rounded-md border border-gray-200'}>
-                                            <p>{item.name}</p>
-                                            <p>{item.quantity}</p>
-                                        </div>
-                                    ))}
-                                </div>
+            {/* Summary Stats Row */}
+            <Row gutter={16} style={{ marginBottom: 24 }}>
+                <Col span={4}>
+                    <Card>
+                        <Statistic title="Total Contracts" value={stats.totalContracts} />
+                    </Card>
+                </Col>
+                <Col span={4}>
+                    <Card>
+                        <Statistic title="Active Contracts" value={stats.activeContracts} />
+                    </Card>
+                </Col>
+                <Col span={4}>
+                    <Card>
+                        <Statistic title="Expiring Soon" value={stats.expiringSoon} />
+                    </Card>
+                </Col>
+                <Col span={4}>
+                    <Card>
+                        <Statistic title="Total Licenses" value={stats.totalLicenses} />
+                    </Card>
+                </Col>
+                <Col span={4}>
+                    <Card>
+                        <Statistic title="Active Licenses" value={stats.activeLicenses} />
+                    </Card>
+                </Col>
+                <Col span={4}>
+                    <Card>
+                        <Statistic title="Expired Licenses" value={stats.expiredLicenses} />
+                    </Card>
+                </Col>
+            </Row>
 
-                                {data?.projectPieChartStatsRes && (
-                                    <div className={'mt-2 bg-white shadow-md rounded-md p-2 border border-gray-200'}>
-                                        <div className={'mb-2'}>
-                                            <h3 className={'font-semibold'}>Project Stats Pie Chart</h3>
-                                        </div>
-                                        <div className={'w-1/4'}>
-                                            <PieChartComponent data={data?.projectPieChartStatsRes}/>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
+            {/* Main Content Row */}
+            <Row gutter={16}>
+                {/* Left Column */}
+                <Col span={12}>
+                    <Card title="Contract Types" style={{ marginBottom: 16 }}>
+                        <Pie
+                            data={contractTypes}
+                            angleField="value"
+                            colorField="type"
+                            radius={0.8}
+                            label={{
+                                type: 'inner',
+                                content: '{name}',
+                            }}
+                        />
+                    </Card>
 
-                            {data?.assignedTasks && (
-                                <div className="lg:w-1/3 bg-white p-2 border border-gray-200 shadow-md rounded-md">
-                                    <div className="flex flex-col border-b border-gray-100">
-                                        <h3 className="mb-2 font-semibold">Assigned Tasks</h3>
-                                        {data?.assignedTasks.map((task, index) => (
-                                            <div
-                                                key={index}
-                                                className={`flex items-center justify-between p-2 ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}`}
-                                            >
-                                                <p className="w-[20px] text-center">{`${index + 1}.`}</p>
-                                                <p className="flex-1 text-start">{task.name}</p>
-                                                <p className="ml-4">{task.status}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
+                    <Card title="License Status">
+                        <Pie
+                            data={licenseStatus}
+                            angleField="value"
+                            colorField="status"
+                            radius={0.8}
+                            label={{
+                                type: 'inner',
+                                content: '{name}',
+                            }}
+                        />
+                    </Card>
+                </Col>
 
-                        {data?.assignedTasks && (
+                {/* Right Column */}
+                <Col span={12}>
+                    <Card title="Upcoming Expirations" style={{ marginBottom: 16 }}>
+                        <Line
+                            data={expirationData}
+                            xField="month"
+                            yField="contracts"
+                            seriesField="type"
+                            color={['#1890ff', '#13c2c2']}
+                            yAxis={{
+                                label: {
+                                    formatter: (v) => `${v} documents`,
+                                },
+                            }}
+                            legend={{
+                                position: 'top',
+                            }}
+                            smooth
+                        />
+                    </Card>
 
+                    <Card title="By Department">
+                        <Bar
+                            data={departmentDistribution}
+                            xField="department"
+                            yField={['contracts', 'licenses']}
+                            isStack
+                            seriesField="type"
+                            marginRatio={0}
+                            label={{
+                                position: 'middle',
+                            }}
+                        />
+                    </Card>
+                </Col>
+            </Row>
 
-                            <div
-                                className={'flex bg-white flex-col mt-2 p-2 border border-gray-200 shadow-md rounded-md'}>
-                                <h3 className={'mb-2 font-semibold'}>Sales Dashboard</h3>
+            {/* Recent Activities */}
+            <Card title="Recent Activities" style={{ marginTop: 16 }}>
+                <Table
+                    columns={[
+                        { title: 'Type', dataIndex: 'type', key: 'type' },
+                        { title: 'Action', dataIndex: 'action', key: 'action' },
+                        { title: 'Entity', dataIndex: 'entity', key: 'entity' },
+                        { title: 'Date', dataIndex: 'date', key: 'date' },
+                        { title: 'User', dataIndex: 'user', key: 'user' },
+                    ]}
+                    dataSource={recentActivities}
+                    size="small"
+                    pagination={false}
+                />
+            </Card>
+        </div>
+    );
+};
 
-                                <div className={'bg-white p-2'}>
-                                    <div className={'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 '}>
-                                        {salesStats.map((item, index) => (
-                                            <div key={index}
-                                                 className={'bg-white h-20 flex flex-col justify-center items-center border border-gray-200 shadow-md rounded-md'}>
-                                                <p>{item.name}</p>
-                                                <p>{item.quantity}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                <div className={'flex flex-col lg:flex-row mt-2 gap-2 w-full'}>
-                                    {data?.salesVsPurchase && (
-                                        <div
-                                            className={'bg-white lg:w-2/5 shadow-md rounded-md p-2 border border-gray-200'}>
-                                            <h3 className={'mb-2 mt-2 font-semibold'}>Sales Vs Purchase</h3>
-                                            <div className={'flex justify-center items-center w-full h-full'}>
-                                                <AreaChartComponent data={data?.salesVsPurchase}/>
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {data?.projectExpenseStats && (
-                                        <div className={'lg:w-2/5 border border-gray-200 p-2 shadow-md rounded-md'}>
-                                            <h3 className={'mb-2 font-semibold'}>Project Expenses </h3>
-                                            <BarChartComponent data={data?.projectExpenseStats}/>
-                                        </div>
-                                    )}
-
-                                    {budgetData?.length > 0 && (
-                                        <div
-                                            className="flex lg:w-1/5 flex-col bg-white shadow-md rounded-md border border-gray-200 p-4">
-                                            <h3 className={'font-medium'}>Budget Summary for All Projects:</h3>
-                                            <div className="flex w-full justify-center">
-                                                <MultiColorCircularProgress segments={budgetData}/>
-                                            </div>
-                                            <div className={'flex flex-col w-full text-xs'}>
-                                                <p className="flex gap-1 mb-1 font-medium">Total
-                                                    Budget: {totalBudget}</p>
-                                                <div className="">
-                                                    {budgetData.map((item, index) => (
-                                                        <div key={index} className={'flex mb-1 gap-1'}>
-                                                            <span className={'w-4'}
-                                                                  style={{backgroundColor: item.color}}></span>
-                                                            <p className="flex items-center ">{item.name} - {item.grandTotal}</p>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>)}
-                    </div>
-
-
-                    <SlideOverV1
-                        isShowSlideOver={isSideOverOpened}
-                        title="Apply Filters"
-                        onClose={handleCloseSlideOver}
-                        width={'15rem'}
-                        onSubmit={onSubmit}
-                        onClear={handleClearFilters}
-                        isSubmitDisabled={checkIfDisabled()}
-                        isClearDisabled={!isSubmitted}
-                    >
-                        <div>
-                            <div className={'mb-2 shadow-md rounded-md border border-gray-200 p-2'}>
-                                <h3 className={'mb-2 font-semibold'}>Years</h3>
-                                <div className={'grid grid-cols-2 gap-1'}>
-                                    {years.map(item => (
-                                        <button
-                                            key={item}
-                                            onClick={() => toggleYearSelection(item)}
-                                            className={`h-10 gap-2 shadow-md rounded-md mb-1 border hover:bg-gray-100 ${
-                                                selectedYears.includes(item)
-                                                    ? 'bg-gray-300 border-gray-100'
-                                                    : 'bg-white border-gray-200'
-                                            }`}
-                                        >
-                                            {item}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </SlideOverV1>
-                </>
-            )}
-        </ProtectedRoute>
-    )
-}
-
-export default Dashboard
+export default DashboardPage;

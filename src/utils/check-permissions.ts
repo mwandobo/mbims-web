@@ -3,13 +3,7 @@ import { getValueFromLocalStorage } from "@/utils/local-storage.util";
 export const checkPermissions = (permission: string) => {
     const permissionsJson = getValueFromLocalStorage('system_permissions');
 
-    console.log('!permission', permission)
-    console.log('permissionsJson', permissionsJson)
-
-
     if (!permission) {
-
-        console.log('!permission', permission)
         // If no permission string is provided, allow access by default
         return true;
     }

@@ -168,7 +168,8 @@ export const usePageDataHook = ({
                 const finalUrl = parsedUrl.toString();
                 const res = await getRequest(finalUrl)
                 if (res.status === 200) {
-                    setData(res.data)
+                    console.log(res.data.data)
+                    setData(res.data?.data)
                     if (res.data?.pagination?.total) {
                         setTotalRecords(res.data?.pagination?.total)
                     }

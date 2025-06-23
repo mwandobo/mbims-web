@@ -34,3 +34,41 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+
+// Sample data structure for API responses
+const dashboardData = {
+stats: {
+totalContracts: 124,
+activeContracts: 89,
+expiringSoon: 15,
+totalLicenses: 76,
+activeLicenses: 62,
+expiredLicenses: 8,
+suppliers: 42,
+clients: 58,
+departments: 12
+},
+contractTypes: [
+{ type: 'Supplier Contracts', value: 68 },
+{ type: 'Client Contracts', value: 56 },
+],
+licenseStatus: [
+{ status: 'Active', value: 62 },
+{ status: 'Expired', value: 8 },
+{ status: 'Pending Renewal', value: 6 },
+],
+expirationTimeline: [
+{ month: 'Jan', contracts: 3, licenses: 2 },
+// ... more months
+],
+departmentDistribution: [
+{ department: 'Finance', contracts: 28, licenses: 12 },
+// ... more departments
+],
+recentActivities: [
+{ id: 1, type: 'Contract', action: 'Renewed', entity: 'ABC Corp', date: '2023-06-15', user: 'John Doe' },
+// ... more activities
+]
+};
