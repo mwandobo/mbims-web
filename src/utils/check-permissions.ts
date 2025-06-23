@@ -1,24 +1,37 @@
-import {getValueFromLocalStorage} from "@/utils/local-storage.util";
+import { getValueFromLocalStorage } from "@/utils/local-storage.util";
 
 export const checkPermissions = (permission: string) => {
-    const permissionsJson = getValueFromLocalStorage('permissions');
+    const permissionsJson = getValueFromLocalStorage('system_permissions');
 
-    let permissions: any[] = [];
-    let allowAccess = false;
-    if (permissionsJson) {
-        permissions = JSON.parse(permissionsJson);
-    }
+    console.log('!permission', permission)
+    console.log('permissionsJson', permissionsJson)
+
 
     if (!permission) {
-        allowAccess = true;
-    }else   if (!permissions || permissions.length <= 0 ) {
-        allowAccess = true;
+
+        console.log('!permission', permission)
+        // If no permission string is provided, allow access by default
+        return true;
     }
 
-    else {
-        const foundIndex = permissions && permissions.findIndex((perm => perm.mapped_name === permission));
-        allowAccess = foundIndex >= 0;
+    if (!permissionsJson) {
+        // If permissions are not collected or not found, allow access by default
+        return true;
     }
 
-    return allowAccess;
+    let permissions: any[] = [];
+    try {
+        permissions = JSON.parse(permissionsJson);
+    } catch (error) {
+        // In case JSON parsing fails, allow access by default
+        return true;
+    }
+
+    if (!Array.isArray(permissions) || permissions.length === 0) {
+        // If permissions is not an array or is empty, allow access by default
+        return true;
+    }
+
+    // Check if the permission exists
+    return permissions.some((perm) => perm.name === permission);
 };

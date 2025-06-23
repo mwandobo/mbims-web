@@ -10,6 +10,7 @@ import SlideOverRender from "@/components/slide-over/slide-over-render.component
 import Footer from "@/components/footer/footer.component";
 import Header from "@/components/header/header.component";
 import Sidebar from "@/components/sidebar/sidebar";
+import {PermissionsProvider} from "@/context/permission-provider";
 const inter = Inter({subsets: ["latin"]});
 
 export const metadata: Metadata = {
@@ -38,6 +39,7 @@ export default function RootLayout({children}: Props) {
         <div className="bg-gray-200 ">
             <HydrationZustand>
                 <GlobalContextProvider>
+                    <PermissionsProvider>
                     <div className={'flex flex-col'}>
                         <div className={'flex w-full flex-col'}>
                             <Header/>
@@ -52,6 +54,7 @@ export default function RootLayout({children}: Props) {
                         <SlideOverRender/>
                         <ToastContainer />
                     </div>
+                    </PermissionsProvider>
                 </GlobalContextProvider>
             </HydrationZustand>
         </div>

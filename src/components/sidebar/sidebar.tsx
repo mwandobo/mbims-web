@@ -1,8 +1,6 @@
 "use client"
 
 import {
-    Activity,
-    Armchair,
     Book,
     FolderKanban,
     FolderOpenDot,
@@ -60,60 +58,60 @@ const items: ISidebarItem[] = [
         name: 'Dashboard',
         path: '/dashboard',
         icon: LayoutDashboard,
-        permission: 'dashboard-list'
+        permission: 'dashboard_read'
     },
     {
         name: 'Contracts',
         path: '/contracts',
         icon: FolderOpenDot,
-        permission: 'contracts-list',
+        permission: 'contract_read',
     },
     {
         name: 'Licences',
         path: '/licences',
-        permission: 'licences-list',
+        permission: 'licence_read',
         icon: Book,
     },
     {
         name: 'Reports',
         path: '/report',
         icon: FolderKanban,
-        permission: 'project_management-list',
+        permission: 'report_read',
     },
     {
         name: 'Administration',
         path: '/administration',
-        permission: 'administration-list',
+        permission: 'administration_read',
         icon: ShieldEllipsis ,
         items: [
             {
                 name: 'Departments',
                 path: '/administration/departments',
-                permission: 'departments-list',
+                permission: 'department_read',
                 icon: Table
             },
             {
                 name: 'Employees',
                 path: '/administration/employees',
-                permission: 'employees-list',
+                permission: 'employee_read',
                 icon: User
             },
             {
                 name: 'Suppliers',
                 path: '/administration/suppliers',
-                permission: 'suppliers-list',
+                permission: 'supplier_read',
                 icon: Users,
             },
             {
                 name: 'Clients',
                 path: '/administration/clients',
-                permission: 'clients-list',
+                permission: 'client_read',
                 icon: Users,
             },
             {
                 name: 'Roles',
                 path: '/administration/roles',
-                permission: 'roles-list',
+                permission: 'role_read',
                 icon: RollerCoaster
             },
         ]
@@ -121,7 +119,7 @@ const items: ISidebarItem[] = [
     {
         name: 'Settings',
         path: '/settings',
-        permission: 'settings-list',
+        permission: 'settings_read',
         icon: Settings ,
     },
 ]
