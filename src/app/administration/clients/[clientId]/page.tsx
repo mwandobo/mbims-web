@@ -7,15 +7,17 @@ import PageHeader from "@/components/header/page-header";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {getRequest} from "@/utils/api-calls.util";
+import Clients from "@/app/administration/clients/page";
 
 const ClientShow = ({ params }: { params: { clientId: string } }) => {
+    const { clientId } = params;
     const router = useRouter()
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
 
-    const id = params.clientId
+    const id = clientId
 
-    const url = `suppliers/${id}`
+    const url = `clients/${id}`
     const navigateToLogin = () => {
         return router.push('/login')
     }
@@ -53,22 +55,27 @@ const ClientShow = ({ params }: { params: { clientId: string } }) => {
                     <>
                         <PageHeader
                             links={[
-                                { name: 'Supplier', linkTo: '/administration/suppliers', permission: 'employees', isClickable: true },
-                                { name: 'Show', linkTo: '/administration/suppliers/show', permission: '' },]}
+                                {
+                                    name: 'Clients',
+                                    linkTo: '/administration/suppliers',
+                                    permission: 'client',
+                                    isClickable: true
+                                },
+                                {name: 'Show', linkTo: '/administration/suppliers/show', permission: ''},]}
                             isShowPage={true}
                         />
                         <MuiCardComponent>
                             <ViewCardComponent
                                 data={[
-                                    { label: 'Supplier Name', value: data.fullName },
-                                    { label: 'Phone', value: data?.phone },
-                                    { label: 'Email', value: data?.email },
-                                    { label: 'Birth Date', value: data?.dateOfBirth },
+                                    {label: 'Client Name', value: data.name},
+                                    {label: 'Phone', value: data?.phone},
+                                    {label: 'Email', value: data?.email},
+                                    {label: 'Birth Date', value: data?.dateOfBirth},
                                     // { label: 'Status', value: StatusCreatorHelperActive(passedData?.status) },
 
                                 ]}
-                                titleA="Supplier"
-                                titleB={data.fullName}
+                                titleA="Client"
+                                titleB={data.name}
                             />
 
                         </MuiCardComponent>
@@ -79,4 +86,5 @@ const ClientShow = ({ params }: { params: { clientId: string } }) => {
     );
 };
 
-export default ClientShow;
+export default ClientShow
+
