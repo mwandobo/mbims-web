@@ -1,3 +1,6 @@
+'use client'
+
+
 import { Card, Col, Row, Statistic, Table, Typography } from 'antd';
 import { Bar, Pie, Line } from '@ant-design/charts';
 import React from 'react';

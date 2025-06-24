@@ -139,7 +139,6 @@ export default function LoginPage() {
                     onChange={handleChange}
                     isError={false}
                     errorMessage={''}
-                    isColumn={true}
                 />
                 <TextFieldComponent
                     placeholder={'password'}
@@ -149,7 +148,6 @@ export default function LoginPage() {
                     onChange={handleChange}
                     isError={false}
                     type='password'
-                    isColumn={true}
                     errorMessage={''}
                 />
                 <div className="flex flex-col items-end gap-2 mb-6 text-white">
