@@ -7,76 +7,42 @@ import {usePageDataHook} from "@/hooks/page-render-hooks/use-page-data.hook";
 import SubContractView from "@/app/contracts/fragments/sub-contract-view";
 
 interface Props {
-    from_id?: any
-    project: any
-    from?: any
+    contract_id?: any
     isHideAdd?: boolean
 }
 
 function SubContract({
-    from_id,
-    project,
-    from,
-    isHideAdd
-}: Props) {
+                         contract_id,
+                         isHideAdd
+                     }: Props) {
 
     const formInputs = [
         {
-            name: 'assignment_type_id',
-            type: 'select',
-            label: `Select Type of Assignment`,
+            name: 'title',
+            type: 'text',
+            label: "Contract Title",
             value: '',
-            optionsUrlData: `settings?group=assignment`,
-            optionDataKey: 'departments',
             required: true,
             isError: false,
-            errorMessage: '',
-            control_for: 'assignment'
-        },
-        {
-            name: 'personnel_id',
-            type: 'select',
-            label: `Select Personnel`,
-            value: '',
-            optionsUrlData: `/employee`,
-            optionDataKey: 'users',
-            required: true,
-            isError: false,
-            isRemoved: true,
             errorMessage: ''
         },
+
         {
-            name: 'dept_id',
-            type: 'select',
-            label: `Select Department`,
-            value: '',
-            optionsUrlData: `department`,
-            optionDataKey: 'departments',
-            required: true,
-            isError: false,
-            isRemoved: true,
-            errorMessage: ''
-        },
-        {
-            name: 'start_date',
+            name: 'startDate',
             type: 'date',
             label: 'Start Date',
             value: '',
             required: true,
             isError: false,
-            minDate: project?.start_date,
-            maxDate: project?.end_date,
             errorMessage: ''
         },
         {
-            name: 'end_date',
+            name: 'endDate',
             type: 'date',
             label: 'End Date',
             value: '',
             required: true,
             isError: false,
-            minDate: project?.start_date,
-            maxDate: project?.end_date,
             errorMessage: ''
         },
         {
@@ -87,37 +53,52 @@ function SubContract({
             required: true,
             isError: false,
             errorMessage: ''
-        }
+        },
+        {
+            name: 'file',
+            type: 'file',
+            label: "Upload File",
+            value: '',
+            placeholder: "upload file",
+            required: true,
+            isError: false,
+            errorMessage: ''
+        },
     ]
+
 
     const columns = [
         {
-            id: 'personnel_department',
+            id: 'title',
             numeric: false,
             disablePadding: false,
-            label: 'Personnel/Department',
+            label: 'Contract Title',
         },
         {
-            id: 'description',
-            numeric: false,
-            disablePadding: false,
-            label: 'Description',
-        },
-        {
-            id: 'formatted_start_date',
-            numeric: false,
-            disablePadding: false,
+            id: 'startDate',
+            type: 'date',
             label: 'Start Date',
+            value: '',
+            required: true,
+            isError: false,
+            errorMessage: ''
         },
         {
-            id: 'formatted_end_date',
+            id: 'endDate',
             numeric: false,
             disablePadding: false,
             label: 'End Date',
         },
+        {
+            id: 'status',
+            numeric: false,
+            disablePadding: false,
+            label: 'Status',
+        },
     ]
 
-    const url = ``
+
+    const url = `http://localhost:8001/api/contracts/${contract_id}/sub-contracts`
 
     const {
         loading,
@@ -129,12 +110,13 @@ function SubContract({
         columns: columns,
         formInputs: formInputs,
         url: url,
-        modalTitle: 'Assignment',
+        modalTitle: 'Sub Contract',
         viewUrl: '',
         state_properties: [],
         isHideShow: false,
         isApiV2: true,
-        sliderComponent:SubContractView
+        isFormData: true,
+        sliderComponent: SubContractView
     })
 
     return (
@@ -146,7 +128,7 @@ function SubContract({
                         <PageHeader
                             handleClick={handleClick}
                             subHeader='Sub Contracts / List'
-                            links={[{ name: 'Sub Contracts', linkTo: `/contracts/` }]}
+                            links={[{name: 'Sub Contracts', linkTo: `/contracts/`}]}
                             isHideAdd={isHideAdd}
                         />
 

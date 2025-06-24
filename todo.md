@@ -10,11 +10,6 @@ user otp verification
 populate select in edit
 
 
-
-
-
-
-
 // Sample data structure for API responses
 const dashboardData = {
 stats: {

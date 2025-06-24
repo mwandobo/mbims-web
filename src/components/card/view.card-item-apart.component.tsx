@@ -31,7 +31,7 @@ const ViewCardItemApartComponent = ({
     return (
         <div className="flex flex-col ">
             <div className='flex justify-between mb-2'>
-                <h3 className='p-2 text-left text-lg text-gray-600'>
+                <h3 className='p-2 text-left text-lg text-gray-800'>
                     {titleA && <span className='mr-1 text-sm'>{titleA} :</span>}
                     <span className='font-semibold text-gray-700 mr-1 text-sm'>{titleB}</span>
                 </h3>
@@ -49,7 +49,7 @@ const ViewCardItemApartComponent = ({
                 </div>
             </div>
 
-            <div className='flex flex-col w-full'>
+            <div className='flex flex-col w-full text-gray-800'>
                 {data.map((item, index) => (
                     <div key={index} className="flex justify-between bg-gray-100 p-2 mb-1 ">
                         <h3 className="text-left border-r border-gray-700 pr-2 w-1/2 text-sm">{item.label}</h3>

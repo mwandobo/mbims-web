@@ -69,7 +69,7 @@ const ContractShow = ({params}: { params: { contractId: string } }) => {
     const nodes: React.ReactNode[] = [
         <SubContract
             key={'sub-contract'}
-            project={data}
+            contract_id={id}
         />,
     ];
 

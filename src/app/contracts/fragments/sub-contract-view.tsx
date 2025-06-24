@@ -1,17 +1,17 @@
 "use client"
 
 import ProtectedRoute from "@/components/authentication/protected-route";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ViewCardItemApartComponent from "@/components/card/view.card-item-apart.component";
 import {getRequest} from "@/utils/api-calls.util";
 
 const SubContractView = (id: string) => {
-
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
     const router = useRouter()
-    const url = `contracts/${id}`
+
+    const url = `sub-contracts/${id}`
     const navigateToLogin = () => {
         return router.push('/login')
     }
@@ -22,8 +22,8 @@ const SubContractView = (id: string) => {
                 setLoading(true)
                 const res = await getRequest(url)
 
-                if (data && res.status === 200) {
-                    setData(res.data.data)
+                if (res.status === 200) {
+                    setData(res.data)
                     setLoading(false)
                 }
 
@@ -48,13 +48,22 @@ const SubContractView = (id: string) => {
                             <div className="mb-3 w-full ">
                                 <ViewCardItemApartComponent
                                     data={[
-                                        { label: 'Personnel/Department', value: data?.personnel_department },
+                                        { label: 'Title', value: data?.title },
                                         { label: 'Description', value: data?.description },
-                                        { label: 'Start Date', value: data?.formatted_start_date },
-                                        { label: 'End Date', value: data?.formatted_end_date },
+                                        { label: 'Start Date', value: data?.startDate },
+                                        { label: 'End Date', value: data?.endDate },
+                                        {
+                                            label: 'Sub Contract File',
+                                            value: data?.fileUrl ? (
+                                                <a href={data?.fileUrl} target="_blank" rel="noopener noreferrer"
+                                                   className="text-blue-600 border-b border-gray-300 underline underline-offset-3">
+                                                    View File
+                                                </a>
+                                            ) : 'No file available'
+                                        },
                                     ]}
-                                    titleA={`Assignment`}
-                                    titleB={` ${data?.name} `}
+                                    titleA={`Sub Contract`}
+                                    titleB={` ${data?.title} `}
                                 />
                             </div>
 

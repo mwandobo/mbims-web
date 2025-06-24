@@ -1,7 +1,7 @@
 import { TextField } from "@mui/material";
 
-interface TextFieldsProps {
-    placeholder: string;
+interface TextFieldComponentProps {
+    placeholder?: string;
     isDisabled?: boolean;
     isRequired?: boolean;
     isError?: boolean;
@@ -10,9 +10,8 @@ interface TextFieldsProps {
     type?: string;
     from: string;
     errorMessage?: string;
-    isRow?: boolean;
-    isColumn?: boolean;
-    isSmall?: boolean;
+    layout?: "row" | "column" | "none";
+    size?: "small" | "medium";
     onChange: (e: any, from: string) => void;
 }
 
@@ -26,77 +25,61 @@ const TextFieldComponent = ({
                                 value,
                                 type,
                                 from,
-                                isRow = false,
-                                isColumn = false,
-                                isSmall = false,
-                            }: TextFieldsProps) => {
-    const labelStyles = {
-        fontSize: isSmall ? "14px" : "16px",
-        color: "black",
-        display: "flex",
-        alignItems: "center",
-    };
-
-    const inputStyles = {
-        fontSize: isSmall ? "14px" : "16px",
-        color: "black",
-        padding: isSmall ? "6px 10px" : "10px 14px",
-    };
-
-    const renderCustomLabel = () => (
-        <label
-            className={`text-black ${isSmall ? "text-sm" : "text-base"} ${
-                isRequired ? "after:content-['*'] after:ml-1 after:text-red-500" : ""
-            }`}
-        >
-            {label}
-        </label>
+                                layout = "none",
+                                size = "medium",
+                            }: TextFieldComponentProps) => {
+    // Render required asterisk
+    const renderRequiredAsterisk = () => (
+        <span style={{ color: "red", marginLeft: "4px" }}>*</span>
     );
 
-    const wrapperClass = isRow
-        ? "flex items-center gap-4 mb-4"
-        : isColumn
-            ? "flex flex-col mb-4"
-            : "";
-
     return (
-        <div className={wrapperClass || "mb-4"}>
-            {(isRow || isColumn) && label && renderCustomLabel()}
+        <div className={layout === "row" ? "flex items-center gap-4 mb-4" :
+            layout === "column" ? "flex flex-col mb-4" : "mb-4"}>
+            {/* External label for row/column layouts */}
+            {(layout === "row" || layout === "column") && label && (
+                <label className={`text-black ${size === "small" ? "text-sm" : "text-base"} flex items-center`}>
+                    {label}
+                    {isRequired && renderRequiredAsterisk()}
+                </label>
+            )}
 
             <div className="flex-1">
                 {errorMessage && (
                     <p className="text-red-400 mb-1 text-xs">{errorMessage}</p>
                 )}
                 <TextField
-                    label={
-                        !(isRow || isColumn)
-                            ? isRequired ? (
-                                <span style={{ display: "flex", alignItems: "center" }}>
-                                      {label}
-                                    <span
-                                        style={{
-                                            color: "red",
-                                            marginLeft: "4px",
-                                            fontSize: "16px",
-                                        }}
-                                    >
-                                          *
-                                      </span>
-                                  </span>
-                            ) : (
-                                label
-                            )
-                            : undefined
-                    }
-                    sx={{ width: "100%" }}
-                    InputLabelProps={{ style: labelStyles }}
-                    inputProps={{ style: inputStyles }}
-                    size={isSmall ? "small" : "medium"}
+                    label={layout === "none" ? label : undefined}
+                    sx={{
+                        width: "100%",
+                        '& .MuiInputLabel-root': {
+                            color: 'black',
+                            '&.Mui-focused': {
+                                color: 'black', // Keep black when focused
+                            },
+                        },
+                        '& .MuiOutlinedInput-root': {
+                            '& input': {
+                                padding: size === "small" ? "6px 10px" : "16px 14px",
+                            },
+                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                borderColor: 'rgb(24, 118, 209)', // Keep black outline when focused
+                            },
+                        },
+                        ...(isRequired && {
+                            '& .MuiInputLabel-asterisk': {
+                                color: 'red',
+                            },
+                        }),
+                    }}
+                    size={size}
                     value={value}
                     placeholder={placeholder}
                     onChange={(e) => onChange(e, from)}
                     disabled={isDisabled}
                     type={type}
+                    fullWidth
+                    required={isRequired}
                 />
             </div>
         </div>
