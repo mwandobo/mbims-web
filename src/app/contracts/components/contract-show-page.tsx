@@ -128,9 +128,12 @@ export default function ContractShowPage({contractId}: { contractId: string }) {
                                         value: data?.supplierName
                                     },
                                     {label: 'Department Name', value: data?.departmentName},
+                                    {label: 'Status', value: data.status},
                                     {label: 'Start Date', value: data.startDate},
                                     {label: 'End Date', value: data.endDate},
-                                    {label: 'Status', value: data.status},
+                                    {label: 'Extended Date', value: data.farthestExtendedDate ?? '---'},
+                                    {label: 'Extended Amount', value: data.totalExtensionAmount },
+                                    {label: 'Total Amount', value: Number(data?.amount) + Number(data.totalExtensionAmount) },
                                     {
                                         label: 'Contract File',
                                         value: data?.fileUrl ? (

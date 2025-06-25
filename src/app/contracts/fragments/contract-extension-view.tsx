@@ -50,6 +50,7 @@ const ContractExtensionView = (id: string) => {
                                     data={[
                                         { label: 'Title', value: data?.title },
                                         { label: 'Amount', value: data?.amount },
+                                        { label: 'Extended Date', value: data?.extendedDate },
                                         { label: 'Description', value: data?.description },
                                         {
                                             label: 'File',

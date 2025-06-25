@@ -37,6 +37,15 @@ function ContractExtension({
             errorMessage: ''
         },
         {
+            name: 'extendedDate',
+            type: 'date',
+            label: 'Extended Date',
+            value: '',
+            required: true,
+            isError: false,
+            errorMessage: ''
+        },
+        {
             name: 'description',
             type: 'textArea',
             label: 'Description',
@@ -69,6 +78,12 @@ function ContractExtension({
             numeric: false,
             disablePadding: false,
             label: 'Amount',
+        },
+        {
+            id: 'extendedDate',
+            numeric: false,
+            disablePadding: false,
+            label: 'Extended Date',
         },
         {
             id: 'status',
