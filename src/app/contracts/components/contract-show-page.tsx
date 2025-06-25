@@ -116,6 +116,7 @@ export default function ContractShowPage({contractId}: { contractId: string }) {
                             <ViewCardComponent
                                 data={[
                                     {label: 'Contract Title', value: data?.title},
+                                    {label: 'Contract Amount', value: data?.amount},
                                     {label: 'Contract Group', value: data?.group},
                                     {
                                         label: data?.group === 'client' ? 'Client Name' : "Supplier Name",

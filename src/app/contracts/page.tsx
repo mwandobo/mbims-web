@@ -19,6 +19,15 @@ function Contract() {
             errorMessage: ''
         },
         {
+            name: 'amount',
+            type: 'text',
+            label: "Contract Amount",
+            value: '',
+            required: true,
+            isError: false,
+            errorMessage: ''
+        },
+        {
             name: 'group',
             type: 'select-local',
             label: 'Select Group',
@@ -116,6 +125,12 @@ function Contract() {
             numeric: false,
             disablePadding: false,
             label: 'Contract Title',
+        },
+        {
+            id: 'amount',
+            numeric: false,
+            disablePadding: false,
+            label: 'Amount',
         },
         {
             id: 'group',

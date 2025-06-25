@@ -49,6 +49,7 @@ const SubContractView = (id: string) => {
                                 <ViewCardItemApartComponent
                                     data={[
                                         { label: 'Title', value: data?.title },
+                                        { label: 'Amount', value: data?.amount },
                                         { label: 'Description', value: data?.description },
                                         { label: 'Start Date', value: data?.startDate },
                                         { label: 'End Date', value: data?.endDate },

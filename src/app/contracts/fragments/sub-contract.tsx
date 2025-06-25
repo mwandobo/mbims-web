@@ -26,7 +26,15 @@ function SubContract({
             isError: false,
             errorMessage: ''
         },
-
+        {
+            name: 'amount',
+            type: 'text',
+            label: "Contract Amount",
+            value: '',
+            required: true,
+            isError: false,
+            errorMessage: ''
+        },
         {
             name: 'startDate',
             type: 'date',
@@ -70,6 +78,12 @@ function SubContract({
     const columns = [
         {
             id: 'title',
+            numeric: false,
+            disablePadding: false,
+            label: 'Contract Title',
+        },
+        {
+            id: 'amount',
             numeric: false,
             disablePadding: false,
             label: 'Contract Title',
