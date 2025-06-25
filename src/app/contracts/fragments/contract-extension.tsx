@@ -4,8 +4,7 @@ import ProtectedRoute from '@/components/authentication/protected-route'
 import PageHeader from '@/components/header/page-header'
 import React from 'react'
 import {usePageDataHook} from "@/hooks/page-render-hooks/use-page-data.hook";
-import SubContractView from "@/app/contracts/fragments/sub-contract-view";
-import ContractFileView from "@/app/contracts/fragments/contract-file-view";
+import ContractExtensionView from "@/app/contracts/fragments/contract-extension-view";
 
 interface Props {
     contract_id?: any
@@ -93,7 +92,7 @@ function ContractExtension({
         },
     ]
 
-    const url = `contract/${contract_id}/extensions`
+    const url = `contracts/${contract_id}/extensions`
 
     const {
         loading,
@@ -111,7 +110,7 @@ function ContractExtension({
         isHideShow: false,
         isApiV2: true,
         isFormData: true,
-        sliderComponent: ContractFileView
+        sliderComponent: ContractExtensionView
     })
 
     return (

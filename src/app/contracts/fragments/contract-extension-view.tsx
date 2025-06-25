@@ -6,12 +6,13 @@ import { useRouter } from "next/navigation";
 import ViewCardItemApartComponent from "@/components/card/view.card-item-apart.component";
 import {getRequest} from "@/utils/api-calls.util";
 
-const ContractExtensionView = (id: string) => {
+const ContractExtensionView = (payload: any) => {
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
     const router = useRouter()
 
-    const url = `contract-extensions/${id}`
+    const url = `contracts/${payload?.contractId}/extensions/${payload?.id}`
+
     const navigateToLogin = () => {
         return router.push('/login')
     }
@@ -33,10 +34,10 @@ const ContractExtensionView = (id: string) => {
                 }
             }
         };
-        if(id){
+        if(payload){
             fetchData()
         }
-    }, [id])
+    }, [payload])
 
     return (
 

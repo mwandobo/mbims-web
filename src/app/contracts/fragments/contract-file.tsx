@@ -63,7 +63,7 @@ function ContractFile({
         },
     ]
 
-    const url = `contract/${contract_id}/files`
+    const url = `contracts/${contract_id}/files`
 
     const {
         loading,
