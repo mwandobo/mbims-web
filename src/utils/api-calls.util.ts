@@ -1,10 +1,16 @@
 import axios from 'axios';
 import {getValueFromLocalStorage} from "@/utils/local-storage.util";
 
-// export const baseURL = 'http://127.0.0.1:8001/api/';
-export const baseURL = 'https://sportpesa.ema.co.tz/backend/api/';
+export const baseURL = 'http://127.0.0.1:8001/api/';
+// export const baseURL = 'https://sportpesa.ema.co.tz/backend/api/';
 
 export const nextBaseURL = 'http://localhost:3000';
+
+// const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+
+console.log('base url',process.env.NEXT_PUBLIC_BASE_URL);
+
+
 
 // Axios instance
 const index = axios.create({
