@@ -12,13 +12,14 @@ import {getRequest} from "@/utils/api-calls.util";
 import {showConfirmationModal} from "@/utils/show-alert-dialog";
 import SubContract from "@/app/contracts/fragments/sub-contract";
 import {ButtonComponent} from "@/components/button/button.component";
+import ContractFile from "@/app/contracts/fragments/contract-file";
 
 export default function ContractShowPage({contractId}: { contractId: string }) {
 
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
     const [refresh, setRefresh] = useState(false)
-    const id = {contractId}
+    const id = contractId
     const router = useRouter()
 
     const url = `contracts/${id}`
@@ -67,6 +68,10 @@ export default function ContractShowPage({contractId}: { contractId: string }) {
     };
 
     const nodes: React.ReactNode[] = [
+        <ContractFile
+            key={'contract-file'}
+            contract_id={id}
+        />,
         <SubContract
             key={'sub-contract'}
             contract_id={id}
@@ -139,6 +144,7 @@ export default function ContractShowPage({contractId}: { contractId: string }) {
                                 <MuiTab
                                     columns={
                                         [
+                                            "Contract Files",
                                             "Sub Contracts",
                                         ]
                                     }

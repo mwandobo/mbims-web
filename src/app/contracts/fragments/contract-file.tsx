@@ -5,13 +5,14 @@ import PageHeader from '@/components/header/page-header'
 import React from 'react'
 import {usePageDataHook} from "@/hooks/page-render-hooks/use-page-data.hook";
 import SubContractView from "@/app/contracts/fragments/sub-contract-view";
+import ContractFileView from "@/app/contracts/fragments/contract-file-view";
 
 interface Props {
     contract_id?: any
     isHideAdd?: boolean
 }
 
-function SubContract({
+function ContractFile({
                          contract_id,
                          isHideAdd
                      }: Props) {
@@ -20,26 +21,7 @@ function SubContract({
         {
             name: 'title',
             type: 'text',
-            label: "Contract Title",
-            value: '',
-            required: true,
-            isError: false,
-            errorMessage: ''
-        },
-
-        {
-            name: 'startDate',
-            type: 'date',
-            label: 'Start Date',
-            value: '',
-            required: true,
-            isError: false,
-            errorMessage: ''
-        },
-        {
-            name: 'endDate',
-            type: 'date',
-            label: 'End Date',
+            label: "File Title",
             value: '',
             required: true,
             isError: false,
@@ -66,28 +48,12 @@ function SubContract({
         },
     ]
 
-
     const columns = [
         {
             id: 'title',
             numeric: false,
             disablePadding: false,
-            label: 'Contract Title',
-        },
-        {
-            id: 'startDate',
-            type: 'date',
-            label: 'Start Date',
-            value: '',
-            required: true,
-            isError: false,
-            errorMessage: ''
-        },
-        {
-            id: 'endDate',
-            numeric: false,
-            disablePadding: false,
-            label: 'End Date',
+            label: 'File Title',
         },
         {
             id: 'status',
@@ -97,7 +63,7 @@ function SubContract({
         },
     ]
 
-    const url = `contracts/${contract_id}/sub-contracts`
+    const url = `contract/${contract_id}/files`
 
     const {
         loading,
@@ -109,13 +75,13 @@ function SubContract({
         columns: columns,
         formInputs: formInputs,
         url: url,
-        modalTitle: 'Sub Contract',
+        modalTitle: 'Contract File',
         viewUrl: '',
         state_properties: [],
         isHideShow: false,
         isApiV2: true,
         isFormData: true,
-        sliderComponent: SubContractView
+        sliderComponent: ContractFileView
     })
 
     return (
@@ -126,8 +92,8 @@ function SubContract({
                     <>
                         <PageHeader
                             handleClick={handleClick}
-                            subHeader='Sub Contracts / List'
-                            links={[{name: 'Sub Contracts', linkTo: `/contracts/`}]}
+                            subHeader='Contract Files / List'
+                            links={[{name: 'Contract Files', linkTo: `/contracts/`}]}
                             isHideAdd={isHideAdd}
                         />
 
@@ -139,4 +105,4 @@ function SubContract({
     )
 }
 
-export default SubContract
+export default ContractFile
