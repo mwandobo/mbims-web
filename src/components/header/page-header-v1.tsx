@@ -1,6 +1,6 @@
 import {PlusCircle} from "lucide-react"
-import {ReusableButton} from "../button/reusable-button"
-import BackButton from "@/components/button/back-button-v1";
+import BackButtonComponent from "@/components/button/back-button.component";
+import {ButtonComponent} from "@/components/button/button.component";
 
 interface Props {
     title?: string
@@ -21,7 +21,7 @@ const PageHeader = ({
         <h4 className="text-sm font-semibold" style={{fontSize}}>{title}</h4>
         {isShowAddButton &&
             < div className=''>
-                <ReusableButton
+                <ButtonComponent
                     name='Add'
                     onClick={() => handleClick && handleClick('create')}
                     rounded={'md'}
@@ -34,12 +34,12 @@ const PageHeader = ({
                     text_color={'text-gray-700'}
                 >
                     <PlusCircle size={13}/>
-                </ReusableButton>
+                </ButtonComponent>
             </div>
         }
         {isShowBackButton &&
             < div className=''>
-                <BackButton/>
+                <BackButtonComponent/>
             </div>
         }
     </div>

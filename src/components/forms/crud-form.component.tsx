@@ -5,7 +5,6 @@ import MuiSelect from "../inputs/mui-select"
 import TextArea from "../inputs/text-area"
 import TextFieldComponent from "../inputs/text-field"
 import PopupModal from "../modal/popup-modal"
-import MuiMultiSelectSelect from "@/components/inputs/mui-multi-select";
 import {Fragment, ReactNode} from "react"
 import FileInputComponent from "@/components/inputs/file-input.component";
 import MuiSelectLocal from "@/components/inputs/mui-select-local";
@@ -145,19 +144,6 @@ const CrudFormComponent = ({
                                                         isRequired={item.required}
                                                     />
                                                 )}
-
-                                                {item?.type === 'multi-select' && (
-                                                    <MuiMultiSelectSelect
-                                                        optionsUrlData={item.optionsUrlData}
-                                                        optionDataKey={item.optionDataKey}
-                                                        from={item.name}
-                                                        handleChange={handleInputChange}
-                                                        value={item.value}
-                                                        label={item.label}
-                                                        placeholder={item.placeholder}
-                                                    />
-                                                )}
-
                                                 {item?.type === 'date' && (
                                                     <MuiDate
                                                         handleDateChange={handleInputChange}
