@@ -6,12 +6,15 @@ import { useRouter } from "next/navigation";
 import ViewCardItemApartComponent from "@/components/card/view.card-item-apart.component";
 import {getRequest} from "@/utils/api-calls.util";
 
-const SubContractView = (id: string) => {
+const SubContractView = (payload: any) => {
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
     const router = useRouter()
 
-    const url = `sub-contracts/${id}`
+
+    console.log('payload', payload)
+
+    const url = `contracts/${payload?.contractId}/sub-contracts/${payload?.id}`
     const navigateToLogin = () => {
         return router.push('/login')
     }
@@ -33,10 +36,11 @@ const SubContractView = (id: string) => {
                 }
             }
         };
-        if(id){
+
+        if(payload){
             fetchData()
         }
-    }, [id])
+    }, [payload])
 
     return (
 

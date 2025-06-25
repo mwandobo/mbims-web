@@ -267,6 +267,7 @@ export const useCrudOperatorHook = (
                     payload: {
                         isOpen: true,
                         from_id: payload?.id,
+                        payload: payload,
                         sliderOverComponent: sliderComponent,
                     }
                 })

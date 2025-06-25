@@ -34,6 +34,7 @@ interface slideOverContent {
     sliderOverTitle: string
     sliderOverComponent: any
     from_id: string
+    payload: any
 }
 
 interface filterBody {
@@ -82,9 +83,9 @@ const initialSlideOverContent: slideOverContent = {
     isOpen: false,
     sliderOverTitle: '',
     from_id: '',
+    payload: null,
     sliderOverComponent: () => ''
 }
-
 
 const initialEvaluationForm: evaluationForm = {
     data: [],

@@ -86,7 +86,7 @@ function SubContract({
             id: 'amount',
             numeric: false,
             disablePadding: false,
-            label: 'Contract Title',
+            label: 'Amount',
         },
         {
             id: 'startDate',

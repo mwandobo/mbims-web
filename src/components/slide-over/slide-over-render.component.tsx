@@ -25,7 +25,7 @@ const SlideOverRender = () => {
         width={'25rem'}
     >
 
-        {slideOverContent?.sliderOverComponent(slideOverContent.from_id) ?? ''}
+        {slideOverContent?.sliderOverComponent(slideOverContent.payload) ?? ''}
     </SlideOverV2>
 };
 
