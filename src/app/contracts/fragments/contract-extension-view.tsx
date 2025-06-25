@@ -6,12 +6,12 @@ import { useRouter } from "next/navigation";
 import ViewCardItemApartComponent from "@/components/card/view.card-item-apart.component";
 import {getRequest} from "@/utils/api-calls.util";
 
-const SubContractView = (id: string) => {
+const ContractExtensionView = (id: string) => {
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
     const router = useRouter()
 
-    const url = `contract-file/${id}`
+    const url = `contract-extensions/${id}`
     const navigateToLogin = () => {
         return router.push('/login')
     }
@@ -49,6 +49,7 @@ const SubContractView = (id: string) => {
                                 <ViewCardItemApartComponent
                                     data={[
                                         { label: 'Title', value: data?.title },
+                                        { label: 'Amount', value: data?.amount },
                                         { label: 'Description', value: data?.description },
                                         {
                                             label: 'File',
@@ -60,7 +61,7 @@ const SubContractView = (id: string) => {
                                             ) : 'No file available'
                                         },
                                     ]}
-                                    titleA={`Contract File`}
+                                    titleA={`Contract Extensions`}
                                     titleB={` ${data?.title} `}
                                 />
                             </div>
@@ -70,4 +71,4 @@ const SubContractView = (id: string) => {
     );
 };
 
-export default SubContractView;
+export default ContractExtensionView;

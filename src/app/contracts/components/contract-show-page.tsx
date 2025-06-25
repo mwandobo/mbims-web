@@ -13,6 +13,7 @@ import {showConfirmationModal} from "@/utils/show-alert-dialog";
 import SubContract from "@/app/contracts/fragments/sub-contract";
 import {ButtonComponent} from "@/components/button/button.component";
 import ContractFile from "@/app/contracts/fragments/contract-file";
+import ContractExtension from "@/app/contracts/fragments/contract-extension";
 
 export default function ContractShowPage({contractId}: { contractId: string }) {
 
@@ -74,6 +75,10 @@ export default function ContractShowPage({contractId}: { contractId: string }) {
         />,
         <SubContract
             key={'sub-contract'}
+            contract_id={id}
+        />,
+        <ContractExtension
+            key={'contract-extensions'}
             contract_id={id}
         />,
     ];
@@ -147,6 +152,7 @@ export default function ContractShowPage({contractId}: { contractId: string }) {
                                         [
                                             "Contract Files",
                                             "Sub Contracts",
+                                            "Contract Extensions",
                                         ]
                                     }
                                     nodes={
