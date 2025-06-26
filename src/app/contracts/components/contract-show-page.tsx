@@ -75,11 +75,11 @@ export default function ContractShowPage({contractId}: { contractId: string }) {
         />,
         <SubContract
             key={'sub-contract'}
-            contract_id={id}
+            contract={data}
         />,
         <ContractExtension
             key={'contract-extensions'}
-            contract_id={id}
+            contract={data}
         />,
     ];
 

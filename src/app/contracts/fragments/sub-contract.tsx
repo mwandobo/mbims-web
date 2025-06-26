@@ -7,12 +7,12 @@ import {usePageDataHook} from "@/hooks/page-render-hooks/use-page-data.hook";
 import SubContractView from "@/app/contracts/fragments/sub-contract-view";
 
 interface Props {
-    contract_id?: any
+    contract?: any
     isHideAdd?: boolean
 }
 
 function SubContract({
-                         contract_id,
+                         contract,
                          isHideAdd
                      }: Props) {
 
@@ -42,7 +42,8 @@ function SubContract({
             value: '',
             required: true,
             isError: false,
-            errorMessage: ''
+            errorMessage: '',
+            minDate: contract?.startDate
         },
         {
             name: 'endDate',
@@ -51,7 +52,9 @@ function SubContract({
             value: '',
             required: true,
             isError: false,
-            errorMessage: ''
+            errorMessage: '',
+            maxDate: contract?.endDate
+
         },
         {
             name: 'description',
@@ -95,13 +98,18 @@ function SubContract({
             value: '',
             required: true,
             isError: false,
-            errorMessage: ''
+            errorMessage: '',
+            minDate: contract.startDate,
         },
         {
             id: 'endDate',
             numeric: false,
             disablePadding: false,
             label: 'End Date',
+            maxDate: contract.endDate,
+            required: true,
+            isError: false,
+            errorMessage: '',
         },
         {
             id: 'status',
@@ -111,7 +119,7 @@ function SubContract({
         },
     ]
 
-    const url = `contracts/${contract_id}/sub-contracts`
+    const url = `contracts/${contract?.id}/sub-contracts`
 
     const {
         loading,

@@ -7,15 +7,14 @@ import {usePageDataHook} from "@/hooks/page-render-hooks/use-page-data.hook";
 import ContractExtensionView from "@/app/contracts/fragments/contract-extension-view";
 
 interface Props {
-    contract_id?: any
+    contract?: any
     isHideAdd?: boolean
 }
 
 function ContractExtension({
-                         contract_id,
+                         contract,
                          isHideAdd
                      }: Props) {
-
     const formInputs = [
         {
             name: 'title',
@@ -42,7 +41,8 @@ function ContractExtension({
             value: '',
             required: true,
             isError: false,
-            errorMessage: ''
+            errorMessage: '',
+            minDate: contract?.endDate
         },
         {
             name: 'description',
@@ -83,6 +83,7 @@ function ContractExtension({
             numeric: false,
             disablePadding: false,
             label: 'Extended Date',
+            required: true,
         },
         {
             id: 'status',
@@ -92,7 +93,7 @@ function ContractExtension({
         },
     ]
 
-    const url = `contracts/${contract_id}/extensions`
+    const url = `contracts/${contract?.id}/extensions`
 
     const {
         loading,
