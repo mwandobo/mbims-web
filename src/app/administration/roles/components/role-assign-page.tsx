@@ -54,7 +54,7 @@ const createPermissionCheckData = (permissions: any[], rolePermissions: any[]) =
 
 export default function RolesAssignPage({roleAssignId}: { roleAssignId: string }) {
 
-    const id = {roleAssignId}
+    const id = roleAssignId
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
     const router = useRouter()

@@ -15,7 +15,7 @@ export default function RoleShowPage({roleId}: { roleId: string }) {
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
     const router = useRouter()
-    const id = {roleId}
+    const id = roleId
 
     const navigate = () => router.push(`/administration/roles/assign/${id}`)
 

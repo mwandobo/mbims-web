@@ -15,7 +15,7 @@ export default function LicenceShowPage({licenceId}: { licenceId: string }) {
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
     const [refresh, setRefresh] = useState(false)
-    const id = { licenceId }
+    const id = licenceId
     const router = useRouter()
 
     const url = `licences/${id}`

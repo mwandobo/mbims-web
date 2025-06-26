@@ -14,7 +14,7 @@ import {getRequest} from "@/utils/api-calls.util";
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
 
-    const id = {employeeId}
+    const id = employeeId
 
     const url = `users/${id}`
     const navigateToLogin = () => {

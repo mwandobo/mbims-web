@@ -14,9 +14,7 @@ export default function SupplierShowPage({supplierId}: { supplierId: string }) {
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
 
-    const id = {
-        supplierId
-    }
+    const id =  supplierId
 
     const url = `suppliers/${id}`
     const navigateToLogin = () => {
