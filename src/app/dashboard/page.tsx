@@ -4,6 +4,7 @@
 import { Card, Col, Row, Statistic, Table, Typography } from 'antd';
 import { Bar, Pie, Line } from '@ant-design/charts';
 import React from 'react';
+import ProtectedRoute from "@/components/authentication/protected-route";
 
 const { Title, Text } = Typography;
 
@@ -56,6 +57,8 @@ const DashboardPage = () => {
     ];
 
     return (
+        <ProtectedRoute>
+
         <div className="dashboard-container">
             <Title level={2}>Contract & License Management Dashboard</Title>
 
@@ -177,6 +180,10 @@ const DashboardPage = () => {
                 />
             </Card>
         </div>
+        </ProtectedRoute>
+
+
+
     );
 };
 

@@ -27,7 +27,6 @@ function Contract() {
             optionDataKey: 'name',
             required: true,
             isError: false,
-            isRemoved: true,
             errorMessage: '',
             controlled_by: 'contract-group',
             control: 'supplier'
