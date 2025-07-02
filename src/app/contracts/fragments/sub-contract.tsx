@@ -80,6 +80,12 @@ function SubContract({
 
     const columns = [
         {
+            id: 'reference_no',
+            numeric: false,
+            disablePadding: false,
+            label: 'Serial No',
+        },
+        {
             id: 'title',
             numeric: false,
             disablePadding: false,
