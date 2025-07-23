@@ -8,6 +8,7 @@ import ProtectedRoute from "@/components/authentication/protected-route";
 import {checkPermissions} from "@/utils/check-permissions";
 import AccessDeniedComponent from "@/components/status/access-denied.component";
 import DashboardStatsFragment from "@/app/dashboard/fragments/dashboard-stats.fragment";
+import DashboardActivityFragment from "@/app/dashboard/fragments/dashboard-activity.fragment";
 
 const { Title, Text } = Typography;
 
@@ -35,12 +36,6 @@ const DashboardPage = () => {
         { month: 'Jun', contracts: 6, licenses: 5 },
     ];
 
-    const recentActivities = [
-        { id: 1, type: 'Contract', action: 'Renewed', entity: 'ABC Corp', date: '2023-06-15', user: 'John Doe' },
-        { id: 2, type: 'License', action: 'Approved', entity: 'XYZ Ltd', date: '2023-06-14', user: 'Jane Smith' },
-        { id: 3, type: 'Contract', action: 'Created', entity: 'Global Inc', date: '2023-06-12', user: 'Mike Johnson' },
-        { id: 4, type: 'License', action: 'Expired', entity: 'Tech Solutions', date: '2023-06-10', user: 'System' },
-    ];
 
     const departmentDistribution = [
         { department: 'Finance', contracts: 28, licenses: 12 },
@@ -61,7 +56,10 @@ const DashboardPage = () => {
         <div className="dashboard-container">
             <Title level={2}>Contract & License Management Dashboard</Title>
 
-            <DashboardStatsFragment />
+            {checkPermissions('dashboard_stats_card_read') && <DashboardStatsFragment /> }
+            {checkPermissions('dashboard_activities_read') && <DashboardActivityFragment /> }
+
+
 
 
 
@@ -134,25 +132,10 @@ const DashboardPage = () => {
             {/*</Row>*/}
 
             {/* Recent Activities */}
-            <Card title="Recent Activities" style={{ marginTop: 16 }}>
-                <Table
-                    columns={[
-                        { title: 'Type', dataIndex: 'type', key: 'type' },
-                        { title: 'Action', dataIndex: 'action', key: 'action' },
-                        { title: 'Entity', dataIndex: 'entity', key: 'entity' },
-                        { title: 'Date', dataIndex: 'date', key: 'date' },
-                        { title: 'User', dataIndex: 'user', key: 'user' },
-                    ]}
-                    dataSource={recentActivities}
-                    size="small"
-                    pagination={false}
-                />
-            </Card>
+
+            {/*<DashboardActivityFragment />*/}
         </div>
         </ProtectedRoute>
-
-
-
     );
 };
 
