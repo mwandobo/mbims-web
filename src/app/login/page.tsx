@@ -49,45 +49,12 @@ export default function LoginPage() {
                     const role = user?.role
                     const permissions = role?.permissions
 
-
-                    // const {
-                    //     permissions,
-                    //     approvals,
-                    //     sys_approvals,
-                    //     approved_items,
-                    //     notifications,
-                    // } =response?.data
-
-
-                    // if (Number(user.is_otp_verified) === 0) {
-                    //     router.push(`/verify-otp/${user.id}`)
-                    //     return;
-                    // }
-                    //
-                    // if (Number(user.is_password_changed) === 0) {
-                    //     router.push(`/change-password/${user.id}`)
-                    //     return;
-                    // }
-                    //
-                    // const notificationPayload = {
-                    //     count: notifications.filter((note: any) => !note.is_read).length,
-                    //     notifications: notifications,
-                    // };
-                    //
-                    // dispatch({type: "UPDATE_NOTIFICATION_BODY", payload: notificationPayload});
-                    // dispatch({type: 'SET_CURRENT_USER', payload: user})
-
-                    // dispatch
                     if (setValueLocalStorage('token', token) &&
                         setValueLocalStorage('user', JSON.stringify(user)) &&
                         setValueLocalStorage('system_permissions', JSON.stringify(permissions))
-                        // setValueLocalStorage('permissions', JSON.stringify(permissions)) &&
-                        // setValueLocalStorage('approvals', JSON.stringify(approvals)) &&
-                        // setValueLocalStorage('sys_approvals', JSON.stringify(sys_approvals)) &&
-                        // setValueLocalStorage('approved_items', JSON.stringify(approved_items)) &&
-                        // setValueLocalStorage("notificationBody", JSON.stringify(notificationPayload))
                     ) {
                         setLoading(!loading)
+                        dispatch({ type: "SET_CURRENT_USER", payload: user }) // 👈 this is the key fix
                         router.push('/')
                     } else {
                         alert('error setting value to local storage')

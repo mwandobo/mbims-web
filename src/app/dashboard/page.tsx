@@ -5,6 +5,8 @@ import { Card, Col, Row, Statistic, Table, Typography } from 'antd';
 import { Bar, Pie, Line } from '@ant-design/charts';
 import React from 'react';
 import ProtectedRoute from "@/components/authentication/protected-route";
+import {checkPermissions} from "@/utils/check-permissions";
+import AccessDeniedComponent from "@/components/status/access-denied.component";
 
 const { Title, Text } = Typography;
 
@@ -56,8 +58,14 @@ const DashboardPage = () => {
         { department: 'HR', contracts: 19, licenses: 22 },
     ];
 
+    if(!checkPermissions('dashboard_read')) {
+        return <AccessDeniedComponent />
+    }
+
     return (
-        <ProtectedRoute>
+        <ProtectedRoute
+            permission={'dashboard_read'}
+        >
 
         <div className="dashboard-container">
             <Title level={2}>Contract & License Management Dashboard</Title>

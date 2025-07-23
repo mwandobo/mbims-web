@@ -1,16 +1,16 @@
 import { getValueFromLocalStorage } from "@/utils/local-storage.util";
 
 export const checkPermissions = (permission: string) => {
-    const permissionsJson = getValueFromLocalStorage('system_permissions');
 
     if (!permission) {
         // If no permission string is provided, allow access by default
         return true;
     }
 
+    const permissionsJson = getValueFromLocalStorage('system_permissions');
     if (!permissionsJson) {
         // If permissions are not collected or not found, allow access by default
-        return true;
+        return false;
     }
 
     let permissions: any[] = [];
@@ -18,12 +18,12 @@ export const checkPermissions = (permission: string) => {
         permissions = JSON.parse(permissionsJson);
     } catch (error) {
         // In case JSON parsing fails, allow access by default
-        return true;
+        return false;
     }
 
     if (!Array.isArray(permissions) || permissions.length === 0) {
         // If permissions is not an array or is empty, allow access by default
-        return true;
+        return false;
     }
 
     // Check if the permission exists

@@ -73,6 +73,12 @@ const items: ISidebarItem[] = [
         icon: Book,
     },
     {
+        name: 'Policies',
+        path: '/policy',
+        permission: 'policy_read',
+        icon: Book,
+    },
+    {
         name: 'Reports',
         path: '/report',
         icon: FolderKanban,
