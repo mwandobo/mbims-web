@@ -19,41 +19,15 @@ function Employees({
 
     const _deptFormInputs = [
         {
-            name: 'firstName',
+            name: 'name',
             type: 'text',
-            label: 'First Name',
+            label: 'Name',
             value: '',
             required: true,
             isError: false,
             errorMessage: ''
         },
-        {
-            name: 'middleName',
-            type: 'text',
-            label: 'Middle Name',
-            value: '',
-            required: true,
-            isError: false,
-            errorMessage: ''
-        },
-        {
-            name: 'lastName',
-            type: 'text',
-            label: 'Last Name',
-            value: '',
-            required: true,
-            isError: false,
-            errorMessage: ''
-        },
-        {
-            name: 'phone',
-            type: 'text',
-            label: 'Phone',
-            value: '',
-            required: true,
-            isError: false,
-            errorMessage: ''
-        },
+
         {
             name: 'email',
             type: 'text',
@@ -85,40 +59,19 @@ function Employees({
             isError: false,
             errorMessage: ''
         },
-        {
-            name: 'dateOfBirth',
-            type: 'date',
-            label: 'Date of Birth',
-            value: '',
-            required: true,
-            isError: false,
-            errorMessage: ''
-        }
     ]
     const _columns = [
         {
-            id: 'fullName',
+            id: 'name',
             numeric: false,
             disablePadding: false,
             label: 'Employee Name',
-        },
-        {
-            id: 'phone',
-            numeric: false,
-            disablePadding: false,
-            label: 'Phone',
         },
         {
             id: 'email',
             numeric: false,
             disablePadding: false,
             label: 'Email',
-        },
-        {
-            id: 'dateOfBirth',
-            numeric: false,
-            disablePadding: false,
-            label: 'Date Of Birth',
         },
         {
             id: 'departmentName',
@@ -164,6 +117,7 @@ function Employees({
                             <>
                                 <PageHeader
                                     handleClick={handleClick}
+                                    isHideAdd={true}
                                     links={[{ name: 'Employees / List', linkTo: '/administration/employees', permission: '' }]}
                                     subHeader={subHeader}
 
