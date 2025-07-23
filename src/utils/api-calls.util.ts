@@ -1,9 +1,8 @@
 import axios from 'axios';
 import {getValueFromLocalStorage} from "@/utils/local-storage.util";
 // export const baseURL = 'https://sportpesa.ema.co.tz/backend/api/';
-// export const baseURL = 'http://legal.spp.tz/backend/api/';
-export const baseURL = 'http://localhost:8001/api/';
-export const nextBaseURL = 'http://localhost:3000';
+export const baseURL = 'http://legal.spp.tz/backend/api/';
+// export const baseURL = 'http://localhost:8001/api/';
 
 console.log('base url',process.env.NEXT_PUBLIC_BASE_URL);
 
