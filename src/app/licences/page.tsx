@@ -4,7 +4,7 @@ import ProtectedRoute from '@/components/authentication/protected-route'
 import PageHeader from '@/components/header/page-header'
 import React from 'react'
 import {usePageDataHook} from "@/hooks/page-render-hooks/use-page-data.hook";
-import {checkPermissions} from "@/utils/check-permissions";
+
 function Contract() {
     const permission = 'licence'
 
@@ -151,24 +151,19 @@ function Contract() {
         isMaintainViewNavigationForV1: true
     })
     return (
-        <ProtectedRoute>
-            <>{
-                !checkPermissions(`${permission}_read`) ? <p>You are not authorized</p> : <>
-                    {
-                        loading ? <p>Loading...</p>
-                            :
-                            <>
-                                <PageHeader
-                                    handleClick={handleClick}
-                                    links={[{ name: 'Licence / List', linkTo: '/licence', permission: '' }]}
-                                />
-                                {tabular()}
-                                {createdForm('md')}
-                            </>
-                    }
-                </>
-            }
-            </>
+        <ProtectedRoute
+            permission={`${permission}_read`}
+            isLoading={loading}
+        >
+
+            <PageHeader
+                handleClick={handleClick}
+                links={[{name: 'Licence / List', linkTo: '/licence', permission: ''}]}
+                permission={`${permission}_create`}
+            />
+            {tabular()}
+            {createdForm('md')}
+
         </ProtectedRoute>
     )
 }

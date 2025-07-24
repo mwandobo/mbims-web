@@ -43,8 +43,7 @@ const PageHeader = ({
 
     const _showAddButton = () => {
 
-        console.log('permission', permission)
-        console.log('checkPermissions(permission)', checkPermissions(permission))
+        console.log('(permission)', checkPermissions(permission))
         if( !isShowPage && !isHideAdd && checkPermissions(permission)){
             return true
         }

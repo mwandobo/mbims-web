@@ -4,17 +4,17 @@ import ProtectedRoute from '@/components/authentication/protected-route'
 import PageHeader from '@/components/header/page-header'
 import React from 'react'
 import {usePageDataHook} from "@/hooks/page-render-hooks/use-page-data.hook";
-import {checkPermissions} from "@/utils/check-permissions";
 
 interface Props {
     parent_id?: string
     subHeader?: string
 
 }
-function Clients({
-    subHeader
 
-}: Props) {
+function Clients({
+                     subHeader
+
+                 }: Props) {
 
     const _deptFormInputs = [
         {
@@ -82,30 +82,23 @@ function Clients({
         viewUrl: '/administration/clients/',
         state_properties: [],
         permission: permission,
-        isApiV2:true,
-        isMaintainViewNavigationForV1:true
+        isApiV2: true,
+        isMaintainViewNavigationForV1: true
     })
     return (
-        <ProtectedRoute>
-            <>{
-                !checkPermissions(`${permission}_read`) ? <p>You are not authorized</p> : <>
-                    {
-                        loading ? <p>Loading...</p>
-                            :
-                            <>
-                                <PageHeader
-                                    handleClick={handleClick}
-                                    links={[{ name: 'Clients / List', linkTo: '/administration/clients', permission: '' }]}
-                                    subHeader={subHeader}
+        <ProtectedRoute
+            permission={`${permission}_read`}
+            isLoading={loading}
+        >
+            <PageHeader
+                handleClick={handleClick}
+                links={[{name: 'Clients / List', linkTo: '/administration/clients', permission: ''}]}
+                subHeader={subHeader}
+                permission={`${permission}_create`}
+            />
+            {tabular()}
+            {createdForm()}
 
-                                />
-                                {tabular()}
-                                {createdForm()}
-                            </>
-                    }
-                </>
-            }
-            </>
         </ProtectedRoute>
     )
 }

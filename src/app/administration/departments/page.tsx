@@ -4,7 +4,6 @@ import ProtectedRoute from '@/components/authentication/protected-route'
 import PageHeader from '@/components/header/page-header'
 import React from 'react'
 import {usePageDataHook} from "@/hooks/page-render-hooks/use-page-data.hook";
-import {checkPermissions} from "@/utils/check-permissions";
 
 const deptFormInputs = [
     {
@@ -61,29 +60,29 @@ function Departments() {
         viewUrl: '/administration/departments/',
         state_properties: [],
         permission: permission,
-        isApiV2:true,
+        isApiV2: true,
         isMaintainViewNavigationForV1: true
     })
 
     return (
-        <ProtectedRoute>
-            <>{
-                !checkPermissions(`${permission}_read`) ? <p>You are not authorized</p> : <>
-                    {loading ? <p>Loading...</p>
-                        :
-                        <>
-                            <PageHeader
-                                handleClick={handleClick}
-                                links={[
-                                    { name: 'Departments / List', linkTo: '/administration/departments', permission: permission, isClickable: true },
-                                ]} />
-                            {tabular()}
-                            {createdForm()}
-                        </>
-                    }
-                </>
-            }
-            </>
+        <ProtectedRoute
+            permission={`${permission}_read`}
+            isLoading={loading}
+
+        >
+            <PageHeader
+                handleClick={handleClick}
+                permission={`${permission}_create`}
+                links={[
+                    {
+                        name: 'Departments / List',
+                        linkTo: '/administration/departments',
+                        permission: permission,
+                        isClickable: true
+                    },
+                ]}/>
+            {tabular()}
+            {createdForm()}
 
         </ProtectedRoute>
     )

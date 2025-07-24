@@ -3,6 +3,7 @@
 import React, { ReactNode } from 'react';
 import {CheckCircle2, Ellipsis} from 'lucide-react';
 import {ButtonComponent} from "@/components/button/button.component";
+import {checkPermissions} from "@/utils/check-permissions";
 
 type Props = {
     data: any[];
@@ -42,7 +43,7 @@ const ViewCardComponent = ({
 
                     </h3>
 
-                    {showAssignButton && (
+                    {showAssignButton && checkPermissions('role_assign') && (
                         <ButtonComponent
                             name={'Assign'}
                             onClick={assignButtonCallBack}
