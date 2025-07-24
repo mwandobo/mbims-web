@@ -10,27 +10,6 @@ import MuiCheckbox from "@/components/inputs/mui-checkbox";
 import {CheckCircle2} from "lucide-react";
 import {getRequest, postRequest} from "@/utils/api-calls.util";
 import {ButtonComponent} from "@/components/button/button.component";
-import {getValueFromLocalStorage} from "@/utils/local-storage.util";
-
-const groupPermissions = (permissions: any[]) => {
-    const grouped = permissions.reduce((acc: any, permission: any) => {
-        if (!acc[permission.group]) {
-            acc[permission.group] = [];
-        }
-        acc[permission.group].push({
-            ...permission,
-            checked: false, // default unchecked
-        });
-        return acc;
-    }, {});
-
-    return Object.keys(grouped).map(groupName => ({
-        name: groupName,
-        checked: false,
-        permissions: grouped[groupName]
-    }));
-};
-
 
 const createPermissionCheckData = (allPermissions: any[], rolePermissions: any[]) => {
     const assignedIds = rolePermissions.map((perm: any) => perm.id);
@@ -62,12 +41,9 @@ const createPermissionCheckAll = (allPermissions: any[], rolePermissions: any[])
     return allPermissions.every((perm: any) => rolePermissionIds.includes(perm.id));
 };
 
-
 export default function RolesAssignPage({roleAssignId}: { roleAssignId: string }) {
-
     const id = roleAssignId
     const permission = 'role'
-
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
     const router = useRouter()
@@ -156,7 +132,6 @@ export default function RolesAssignPage({roleAssignId}: { roleAssignId: string }
             console.error('An error occurred:', error);
         }
     }
-
 
     useEffect(() => {
         const fetchData = async () => {
