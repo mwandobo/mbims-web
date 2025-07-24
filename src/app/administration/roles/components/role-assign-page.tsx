@@ -10,6 +10,7 @@ import MuiCheckbox from "@/components/inputs/mui-checkbox";
 import {CheckCircle2} from "lucide-react";
 import {getRequest, postRequest} from "@/utils/api-calls.util";
 import {ButtonComponent} from "@/components/button/button.component";
+import {getValueFromLocalStorage} from "@/utils/local-storage.util";
 
 const groupPermissions = (permissions: any[]) => {
     const grouped = permissions.reduce((acc: any, permission: any) => {
@@ -31,24 +32,34 @@ const groupPermissions = (permissions: any[]) => {
 };
 
 
-const createPermissionCheckData = (permissions: any[], rolePermissions: any[]) => {
+const createPermissionCheckData = (allPermissions: any[], rolePermissions: any[]) => {
+    const assignedIds = rolePermissions.map((perm: any) => perm.id);
 
-    console.log('permissions', permissions)
-    const groupedPermissions = groupPermissions(permissions);
+    const grouped = allPermissions.reduce((acc: any, permission: any) => {
+        if (!acc[permission.group]) acc[permission.group] = [];
+        acc[permission.group].push({
+            ...permission,
+            checked: assignedIds.includes(permission.id)  // Mark as checked if user has it
+        });
+        return acc;
+    }, {});
 
+    const groups = Object.keys(grouped).map(groupName => {
+        const groupPermissions = grouped[groupName];
+        const allChecked = groupPermissions.every((perm: any) => perm.checked);
+        return {
+            name: groupName,
+            checked: allChecked,
+            permissions: groupPermissions
+        };
+    });
 
-    // return groupedPermissions.map(group => ({
-    //     ...group,
-    //     checked: group.permissions.every((perm: any) =>
-    //         rolePermissions.some((assignedPerm: any) => Number(assignedPerm.id) === Number(perm.id))
-    //     ),
-    //     permissions: group.permissions.map(perm => ({
-    //         ...perm,
-    //         checked: !!rolePermissions.find((assignedPerm: any) => Number(assignedPerm.id) === Number(perm.id))
-    //     }))
-    // }));
+    return groups;
+};
 
-    return groupedPermissions
+const createPermissionCheckAll = (allPermissions: any[], rolePermissions: any[]): boolean => {
+    const rolePermissionIds = rolePermissions.map((perm: any) => perm.id);
+    return allPermissions.every((perm: any) => rolePermissionIds.includes(perm.id));
 };
 
 
@@ -61,9 +72,7 @@ export default function RolesAssignPage({roleAssignId}: { roleAssignId: string }
     const [loading, setLoading] = useState(false)
     const router = useRouter()
     const [checkAll, setCheckAll] = useState(false);
-    // const [groups, setGroups] = useState<any[]>(createPermissionCheckData(data?.allPermissions, data?.rolePermissions));
     const [groups, setGroups] = useState<any[]>([]);
-
 
     const handleCheck = (event: any, from?: string) => {
         const value = event?.target?.value;
@@ -84,7 +93,6 @@ export default function RolesAssignPage({roleAssignId}: { roleAssignId: string }
             const groupId = array_strin[1]
 
             if (groupName === 'group') {
-
                 updatedGrops = groups.map((group: any) => {
                     if (group.name === groupId) {
                         let updatedPerms = group.permissions.map((perm: any) => {
@@ -97,13 +105,13 @@ export default function RolesAssignPage({roleAssignId}: { roleAssignId: string }
                 const checkA = updatedGrops.every((per: any) => per.checked === true)
                 setCheckAll(checkA)
             }
+
             if (groupName === 'perm') {
                 updatedGrops = groups.map((group: any) => {
                     let updatedPerms = group.permissions.map((perm: any) => {
                         if (perm.id === groupId) {
                             return {...perm, checked: !perm.checked}
                         }
-
                         return perm;
                     });
 
@@ -115,7 +123,6 @@ export default function RolesAssignPage({roleAssignId}: { roleAssignId: string }
 
         setGroups(updatedGrops)
     }
-
 
     const createPermissionPayload = () => {
         const selectedPermissions: number[] = [];
@@ -158,7 +165,8 @@ export default function RolesAssignPage({roleAssignId}: { roleAssignId: string }
 
             if ([200, 201].includes(res.status)) {
                 setData(res.data)
-                setGroups(createPermissionCheckData(res?.data?.allPermissions, res.data?.routePermissions))
+                setGroups(createPermissionCheckData(res?.data?.allPermissions, res?.data?.rolePermissions))
+                setCheckAll(createPermissionCheckAll(res?.data?.allPermissions,res?.data?.rolePermissions ))
                 setLoading(false)
             }
         };
@@ -171,7 +179,6 @@ export default function RolesAssignPage({roleAssignId}: { roleAssignId: string }
             permission={`${permission}_assign`}
             isLoading={loading}
         >
-
                         <PageHeader
                             links={[
                                 {name: 'Role', linkTo: '/roles', permission: 'roles', isClickable: true},
@@ -241,9 +248,7 @@ export default function RolesAssignPage({roleAssignId}: { roleAssignId: string }
                                                 ))
                                             }
 
-
                                         </div>
-
 
                                         <div className="flex justify-end mt-2">
                                             <ButtonComponent name={'save'}
