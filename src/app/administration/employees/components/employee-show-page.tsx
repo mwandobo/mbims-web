@@ -7,6 +7,7 @@ import PageHeader from "@/components/header/page-header";
 import {useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
 import {getRequest} from "@/utils/api-calls.util";
+import {Check, CheckCircle2, X} from "lucide-react";
 
 export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
     const permission = 'employee'
@@ -65,6 +66,7 @@ export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
                         {label: 'Email', value: data?.email},
                         {label: 'Department', value: data?.departmentName},
                         {label: 'Role', value: data?.roleName},
+                        {label: 'Can Receive Notification', value: data?.canReceiveEmail ? <Check strokeWidth={6} size={20}  className={'text-green-900'} /> : <X strokeWidth={6} size={20}  className={'text-red-900'}/>  },
                     ]}
                     titleA="Employee"
                     titleB={data.name}
