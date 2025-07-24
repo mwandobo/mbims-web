@@ -4,7 +4,6 @@ import ProtectedRoute from '@/components/authentication/protected-route'
 import PageHeader from '@/components/header/page-header'
 import React from 'react'
 import {usePageDataHook} from "@/hooks/page-render-hooks/use-page-data.hook";
-import SubContractView from "@/app/contracts/fragments/sub-contract-view";
 import ContractFileView from "@/app/contracts/fragments/contract-file-view";
 
 interface Props {
@@ -13,9 +12,9 @@ interface Props {
 }
 
 function ContractFile({
-                         contract_id,
-                         isHideAdd
-                     }: Props) {
+                          contract_id,
+                          isHideAdd
+                      }: Props) {
 
     const formInputs = [
         {
@@ -64,6 +63,7 @@ function ContractFile({
     ]
 
     const url = `contracts/${contract_id}/files`
+    const permission = 'contract_file'
 
     const {
         loading,
@@ -81,26 +81,26 @@ function ContractFile({
         isHideShow: false,
         isApiV2: true,
         isFormData: true,
-        sliderComponent: ContractFileView
+        sliderComponent: ContractFileView,
+        permission
     })
 
     return (
-        <ProtectedRoute>
-            {
-                loading ? <p>Loading...</p>
-                    :
-                    <>
-                        <PageHeader
-                            handleClick={handleClick}
-                            subHeader='Contract Files / List'
-                            links={[{name: 'Contract Files', linkTo: `/contracts/`}]}
-                            isHideAdd={isHideAdd}
-                        />
+        <ProtectedRoute
+            permission={`${permission}_read`}
+            isLoading={loading}
+        >
+            <PageHeader
+                handleClick={handleClick}
+                subHeader='Contract Files / List'
+                links={[{name: 'Contract Files', linkTo: `/contracts/`}]}
+                isHideAdd={isHideAdd}
+                permission={`${permission}_create`}
+            />
 
-                        {tabular()}
-                        {createdForm()}
-                    </>
-            }
+            {tabular()}
+            {createdForm()}
+
         </ProtectedRoute>
     )
 }

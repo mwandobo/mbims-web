@@ -12,9 +12,9 @@ interface Props {
 }
 
 function ContractExtension({
-                         contract,
-                         isHideAdd
-                     }: Props) {
+                               contract,
+                               isHideAdd
+                           }: Props) {
     const formInputs = [
         {
             name: 'title',
@@ -94,6 +94,7 @@ function ContractExtension({
     ]
 
     const url = `contracts/${contract?.id}/extensions`
+    const permission = 'contract_extension'
 
     const {
         loading,
@@ -111,26 +112,25 @@ function ContractExtension({
         isHideShow: false,
         isApiV2: true,
         isFormData: true,
-        sliderComponent: ContractExtensionView
+        sliderComponent: ContractExtensionView,
+        permission
     })
 
     return (
-        <ProtectedRoute>
-            {
-                loading ? <p>Loading...</p>
-                    :
-                    <>
-                        <PageHeader
-                            handleClick={handleClick}
-                            subHeader='Contract Extensions / List'
-                            links={[{name: 'Contract Extensions', linkTo: `/contracts/`}]}
-                            isHideAdd={isHideAdd}
-                        />
+        <ProtectedRoute
+            permission={`${permission}_read`}
+            isLoading={loading}
+        >
+            <PageHeader
+                handleClick={handleClick}
+                subHeader='Contract Extensions / List'
+                links={[{name: 'Contract Extensions', linkTo: `/contracts/`}]}
+                isHideAdd={isHideAdd}
+                permission={`${permission}_create`}
+            />
 
-                        {tabular()}
-                        {createdForm()}
-                    </>
-            }
+            {tabular()}
+            {createdForm()}
         </ProtectedRoute>
     )
 }

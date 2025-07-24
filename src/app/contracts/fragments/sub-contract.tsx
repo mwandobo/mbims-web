@@ -126,6 +126,7 @@ function SubContract({
     ]
 
     const url = `contracts/${contract?.id}/sub-contracts`
+    const permission = 'sub_contract'
 
     const {
         loading,
@@ -143,26 +144,25 @@ function SubContract({
         isHideShow: false,
         isApiV2: true,
         isFormData: true,
-        sliderComponent: SubContractView
+        sliderComponent: SubContractView,
+        permission
     })
 
     return (
-        <ProtectedRoute>
-            {
-                loading ? <p>Loading...</p>
-                    :
-                    <>
-                        <PageHeader
-                            handleClick={handleClick}
-                            subHeader='Sub Contracts / List'
-                            links={[{name: 'Sub Contracts', linkTo: `/contracts/`}]}
-                            isHideAdd={isHideAdd}
-                        />
+        <ProtectedRoute
+            permission={`${permission}_read`}
+            isLoading={loading}
+        >
+            <PageHeader
+                handleClick={handleClick}
+                subHeader='Sub Contracts / List'
+                links={[{name: 'Sub Contracts', linkTo: `/contracts/`}]}
+                isHideAdd={isHideAdd}
+                permission={`${permission}_create`}
+            />
 
-                        {tabular()}
-                        {createdForm()}
-                    </>
-            }
+            {tabular()}
+            {createdForm()}
         </ProtectedRoute>
     )
 }
