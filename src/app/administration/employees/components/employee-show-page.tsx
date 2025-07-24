@@ -4,13 +4,13 @@ import ProtectedRoute from "@/components/authentication/protected-route";
 import MuiCardComponent from "@/components/card/mui-card.component";
 import ViewCardComponent from "@/components/card/view.card.component";
 import PageHeader from "@/components/header/page-header";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import {useRouter} from "next/navigation";
+import {useEffect, useState} from "react";
 import {getRequest} from "@/utils/api-calls.util";
 
-    export default function EmployeeShowPage({ employeeId }: { employeeId: string }) {
-
-        const router = useRouter()
+export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
+    const permission = 'employee'
+    const router = useRouter()
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
 
@@ -47,32 +47,31 @@ import {getRequest} from "@/utils/api-calls.util";
 
     return (
 
-        <ProtectedRoute>
-            {
-                loading ? <p>Loading...</p>
-                    :
-                    <>
-                        <PageHeader
-                            links={[
-                                { name: 'Employee', linkTo: '/admnistration/employees', permission: 'employees', isClickable: true },
-                                { name: 'Show', linkTo: '/admnistration/employees/show', permission: '' },]}
-                            isShowPage={true}
-                        />
-                        <MuiCardComponent>
-                            <ViewCardComponent
-                                data={[
-                                    { label: 'Employee Name', value: data.name },
-                                    { label: 'Email', value: data?.email },
-                                    { label: 'Department', value: data?.departmentName },
-                                    { label: 'Role', value: data?.roleName },
-                                ]}
-                                titleA="Employee"
-                                titleB={data.name}
-                            />
+        <ProtectedRoute
+            permission={`${permission}_read`}
+            isLoading={loading}
+        >
 
-                        </MuiCardComponent>
-                    </>
-            }
+            <PageHeader
+                links={[
+                    {name: 'Employee', linkTo: '/admnistration/employees', permission: 'employees', isClickable: true},
+                    {name: 'Show', linkTo: '/admnistration/employees/show', permission: ''},]}
+                isShowPage={true}
+            />
+            <MuiCardComponent>
+                <ViewCardComponent
+                    data={[
+                        {label: 'Employee Name', value: data.name},
+                        {label: 'Email', value: data?.email},
+                        {label: 'Department', value: data?.departmentName},
+                        {label: 'Role', value: data?.roleName},
+                    ]}
+                    titleA="Employee"
+                    titleB={data.name}
+                />
+
+            </MuiCardComponent>
+
         </ProtectedRoute>
 
     );

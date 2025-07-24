@@ -9,7 +9,8 @@ import {useRouter} from "next/navigation";
 import {getRequest} from "@/utils/api-calls.util";
 
 
-export default function DepartmentShowPage({ departmentId }: { departmentId: string }) {
+export default function DepartmentShowPage({departmentId}: { departmentId: string }) {
+    const permission = 'department'
 
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
@@ -43,32 +44,33 @@ export default function DepartmentShowPage({ departmentId }: { departmentId: str
     }, [])
 
     return (
-
-        <ProtectedRoute>
-            {
-                loading ? <p>Loading...</p>
-                    :
-                    <>
-                        <PageHeader
-                            links={[
-                                { name: 'Department', linkTo: '/administration/departments', permission: 'departments', isClickable: true },
-                                { name: 'Show', linkTo: '', permission: '' }
-                            ]}
-                            isShowPage={true}
-                        />
-                        <MuiCardComponent>
-                            <div className="mb-3">
-                                <ViewCardComponent
-                                    data={[
-                                        { label: 'Department Name', value: data?.name },
-                                    ]}
-                                    titleA={`Department`}
-                                    titleB={` ${data?.name} `}
-                                />
-                            </div>
-                        </MuiCardComponent>
-                    </>
-            }
+        <ProtectedRoute
+            permission={`${permission}_read`}
+            isLoading={loading}
+        >
+            <PageHeader
+                links={[
+                    {
+                        name: 'Department',
+                        linkTo: '/administration/departments',
+                        permission: 'departments',
+                        isClickable: true
+                    },
+                    {name: 'Show', linkTo: '', permission: ''}
+                ]}
+                isShowPage={true}
+            />
+            <MuiCardComponent>
+                <div className="mb-3">
+                    <ViewCardComponent
+                        data={[
+                            {label: 'Department Name', value: data?.name},
+                        ]}
+                        titleA={`Department`}
+                        titleB={` ${data?.name} `}
+                    />
+                </div>
+            </MuiCardComponent>
         </ProtectedRoute>
     );
 };

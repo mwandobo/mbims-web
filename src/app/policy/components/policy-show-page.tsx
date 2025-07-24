@@ -6,12 +6,11 @@ import ViewCardComponent from "@/components/card/view.card.component";
 import PageHeader from "@/components/header/page-header";
 import React, {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
-import {CheckCircle2} from "lucide-react";
 import {getRequest} from "@/utils/api-calls.util";
-import {showConfirmationModal} from "@/utils/show-alert-dialog";
-import {ButtonComponent} from "@/components/button/button.component";
 
 export default function PolicyShowPage({policyId}: { policyId: string }) {
+    const permission = 'policy'
+
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
     const [refresh, setRefresh] = useState(false)
@@ -55,44 +54,41 @@ export default function PolicyShowPage({policyId}: { policyId: string }) {
     };
 
     return (
-        <ProtectedRoute>
-            {
-                loading ? <p>Loading...</p>
-                    :
-                    <>
-                        <PageHeader
-                            links={[
-                                {name: 'Policies', linkTo: '/policies', permission: 'policies', isClickable: true},
-                                {name: 'Show', linkTo: '/', permission: ''},
-                            ]}
-                            isShowPage={true}
-                        />
-                        <MuiCardComponent>
-                            <ViewCardComponent
-                                data={[
-                                    {label: 'Policy Title', value: data?.title},
-                                    {label:  "Supplier Name", value: data?.supplierName},
-                                    {label: 'Department Name', value: data?.departmentName},
-                                    {label: 'Start Date', value: data.startDate},
-                                    {label: 'End Date', value: data.endDate},
-                                    {label: 'Status', value: data.status},
-                                    {
-                                        label: 'Policy File',
-                                        value: data?.fileUrl ? (
-                                            <a href={data?.fileUrl} target="_blank" rel="noopener noreferrer"
-                                               className="text-blue-600 border-b border-gray-300 underline underline-offset-3">
-                                                View File
-                                            </a>
-                                        ) : 'No file available'
-                                    },
+        <ProtectedRoute
+            permission={`${permission}_read`}
+            isLoading={loading}
+        >
+            <PageHeader
+                links={[
+                    {name: 'Policies', linkTo: '/policies', permission: 'policies', isClickable: true},
+                    {name: 'Show', linkTo: '/', permission: ''},
+                ]}
+                isShowPage={true}
+            />
+            <MuiCardComponent>
+                <ViewCardComponent
+                    data={[
+                        {label: 'Policy Title', value: data?.title},
+                        {label: "Supplier Name", value: data?.supplierName},
+                        {label: 'Department Name', value: data?.departmentName},
+                        {label: 'Start Date', value: data.startDate},
+                        {label: 'End Date', value: data.endDate},
+                        {label: 'Status', value: data.status},
+                        {
+                            label: 'Policy File',
+                            value: data?.fileUrl ? (
+                                <a href={data?.fileUrl} target="_blank" rel="noopener noreferrer"
+                                   className="text-blue-600 border-b border-gray-300 underline underline-offset-3">
+                                    View File
+                                </a>
+                            ) : 'No file available'
+                        },
 
-                                ]}
-                                titleA="Policy"
-                                titleB={data?.title}
-                            />
-                        </MuiCardComponent>
-                    </>
-            }
+                    ]}
+                    titleA="Policy"
+                    titleB={data?.title}
+                />
+            </MuiCardComponent>
         </ProtectedRoute>
     );
 };

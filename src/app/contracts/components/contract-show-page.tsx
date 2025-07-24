@@ -16,6 +16,7 @@ import ContractFile from "@/app/contracts/fragments/contract-file";
 import ContractExtension from "@/app/contracts/fragments/contract-extension";
 
 export default function ContractShowPage({contractId}: { contractId: string }) {
+    const permission = 'contract'
 
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
@@ -105,67 +106,64 @@ export default function ContractShowPage({contractId}: { contractId: string }) {
     }
 
     return (
-        <ProtectedRoute>
-            {
-                loading ? <p>Loading...</p>
-                    :
-                    <>
-                        <PageHeader
-                            links={[
-                                {name: 'Contracts', linkTo: '/contracts', permission: 'contracts', isClickable: true},
-                                {name: 'Show', linkTo: '/', permission: ''},
-                            ]}
-                            isShowPage={true}
-                        />
-                        <MuiCardComponent>
-                            <ViewCardComponent
-                                data={[
-                                    {label: 'Contract Title', value: data?.title},
-                                    {label: 'Contract Amount', value: data?.amount},
-                                    {label: 'Contract Group', value: data?.group},
-                                    {
-                                        label: data?.group === 'client' ? 'Client Name' : "Supplier Name",
-                                        value: data?.supplierName
-                                    },
-                                    {label: 'Department Name', value: data?.departmentName},
-                                    {label: 'Status', value: data.status},
-                                    {label: 'Start Date', value: data.startDate},
-                                    {label: 'End Date', value: data.endDate},
-                                    {label: 'Extended Date', value: data.farthestExtendedDate ?? '---'},
-                                    {label: 'Extended Amount', value: data.totalExtensionAmount },
-                                    {label: 'Total Amount', value: Number(data?.amount) + Number(data.totalExtensionAmount) },
-                                    {
-                                        label: 'Contract File',
-                                        value: data?.fileUrl ? (
-                                            <a href={data?.fileUrl} target="_blank" rel="noopener noreferrer"
-                                               className="text-blue-600 border-b border-gray-300 underline underline-offset-3">
-                                                View File
-                                            </a>
-                                        ) : 'No file available'
-                                    },
+        <ProtectedRoute
+            permission={`${permission}_read`}
+            isLoading={loading}
+        >
+            <PageHeader
+                links={[
+                    {name: 'Contracts', linkTo: '/contracts', permission: 'contracts', isClickable: true},
+                    {name: 'Show', linkTo: '/', permission: ''},
+                ]}
+                isShowPage={true}
+            />
+            <MuiCardComponent>
+                <ViewCardComponent
+                    data={[
+                        {label: 'Contract Title', value: data?.title},
+                        {label: 'Contract Amount', value: data?.amount},
+                        {label: 'Contract Group', value: data?.group},
+                        {
+                            label: data?.group === 'client' ? 'Client Name' : "Supplier Name",
+                            value: data?.supplierName
+                        },
+                        {label: 'Department Name', value: data?.departmentName},
+                        {label: 'Status', value: data.status},
+                        {label: 'Start Date', value: data.startDate},
+                        {label: 'End Date', value: data.endDate},
+                        {label: 'Extended Date', value: data.farthestExtendedDate ?? '---'},
+                        {label: 'Extended Amount', value: data.totalExtensionAmount},
+                        {label: 'Total Amount', value: Number(data?.amount) + Number(data.totalExtensionAmount)},
+                        {
+                            label: 'Contract File',
+                            value: data?.fileUrl ? (
+                                <a href={data?.fileUrl} target="_blank" rel="noopener noreferrer"
+                                   className="text-blue-600 border-b border-gray-300 underline underline-offset-3">
+                                    View File
+                                </a>
+                            ) : 'No file available'
+                        },
 
-                                ]}
-                                titleA="Contract"
-                                titleB={data?.title}
-                            />
+                    ]}
+                    titleA="Contract"
+                    titleB={data?.title}
+                />
 
-                            <div className={'mt-3 px-4'}>
-                                <MuiTab
-                                    columns={
-                                        [
-                                            "Contract Files",
-                                            "Sub Contracts",
-                                            "Contract Extensions",
-                                        ]
-                                    }
-                                    nodes={
-                                        nodes // Show all nodes when condition is true
-                                    }
-                                />
-                            </div>
-                        </MuiCardComponent>
-                    </>
-            }
+                <div className={'mt-3 px-4'}>
+                    <MuiTab
+                        columns={
+                            [
+                                "Contract Files",
+                                "Sub Contracts",
+                                "Contract Extensions",
+                            ]
+                        }
+                        nodes={
+                            nodes // Show all nodes when condition is true
+                        }
+                    />
+                </div>
+            </MuiCardComponent>
         </ProtectedRoute>
     );
 };

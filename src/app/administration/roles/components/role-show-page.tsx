@@ -16,6 +16,7 @@ export default function RoleShowPage({roleId}: { roleId: string }) {
     const [loading, setLoading] = useState(false)
     const router = useRouter()
     const id = roleId
+    const permission = 'role'
 
     const navigate = () => router.push(`/administration/roles/assign/${id}`)
 
@@ -34,11 +35,11 @@ export default function RoleShowPage({roleId}: { roleId: string }) {
 
     return (
 
-        <ProtectedRoute>
-            {
-                loading ? <p>Loading...</p>
-                    :
-                    <>
+        <ProtectedRoute
+            permission={`${permission}_read`}
+            isLoading={loading}
+        >
+
                         <PageHeader
                             links={[
                                 { name: 'Role', linkTo: '/roles', permission: 'roles', isClickable: true },
@@ -69,8 +70,7 @@ export default function RoleShowPage({roleId}: { roleId: string }) {
                                 </div>
                             </div>
                         </MuiCardComponent>
-                    </>
-            }
+
         </ProtectedRoute>
     );
 };

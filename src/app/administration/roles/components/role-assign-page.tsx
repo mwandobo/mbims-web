@@ -55,6 +55,8 @@ const createPermissionCheckData = (permissions: any[], rolePermissions: any[]) =
 export default function RolesAssignPage({roleAssignId}: { roleAssignId: string }) {
 
     const id = roleAssignId
+    const permission = 'role'
+
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
     const router = useRouter()
@@ -165,11 +167,11 @@ export default function RolesAssignPage({roleAssignId}: { roleAssignId: string }
 
     return (
 
-        <ProtectedRoute>
-            {
-                loading ? <p>Loading...</p>
-                    :
-                    <>
+        <ProtectedRoute
+            permission={`${permission}_assign`}
+            isLoading={loading}
+        >
+
                         <PageHeader
                             links={[
                                 {name: 'Role', linkTo: '/roles', permission: 'roles', isClickable: true},
@@ -262,8 +264,6 @@ export default function RolesAssignPage({roleAssignId}: { roleAssignId: string }
                                 </div>
                             </div>
                         </MuiCardComponent>
-                    </>
-            }
         </ProtectedRoute>
     );
 };

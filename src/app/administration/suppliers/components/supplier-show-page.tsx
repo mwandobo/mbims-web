@@ -9,7 +9,7 @@ import {useEffect, useState} from "react";
 import {getRequest} from "@/utils/api-calls.util";
 
 export default function SupplierShowPage({supplierId}: { supplierId: string }) {
-
+    const permission = 'supplier'
     const router = useRouter()
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
@@ -47,11 +47,11 @@ export default function SupplierShowPage({supplierId}: { supplierId: string }) {
 
     return (
 
-        <ProtectedRoute>
-            {
-                loading ? <p>Loading...</p>
-                    :
-                    <>
+        <ProtectedRoute
+            permission={`${permission}_read`}
+            isLoading={loading}
+        >
+
                         <PageHeader
                             links={[
                                 {
@@ -77,8 +77,6 @@ export default function SupplierShowPage({supplierId}: { supplierId: string }) {
                             />
 
                         </MuiCardComponent>
-                    </>
-            }
         </ProtectedRoute>
 
     );

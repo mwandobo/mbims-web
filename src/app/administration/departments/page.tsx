@@ -68,7 +68,6 @@ function Departments() {
         <ProtectedRoute
             permission={`${permission}_read`}
             isLoading={loading}
-
         >
             <PageHeader
                 handleClick={handleClick}

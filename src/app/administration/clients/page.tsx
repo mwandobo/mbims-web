@@ -8,12 +8,10 @@ import {usePageDataHook} from "@/hooks/page-render-hooks/use-page-data.hook";
 interface Props {
     parent_id?: string
     subHeader?: string
-
 }
 
 function Clients({
                      subHeader
-
                  }: Props) {
 
     const _deptFormInputs = [

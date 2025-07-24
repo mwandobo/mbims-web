@@ -1,15 +1,16 @@
 // src/components/ClientShowPage.tsx
 "use client"
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import {useRouter} from "next/navigation";
+import {useEffect, useState} from "react";
 import ProtectedRoute from "@/components/authentication/protected-route";
 import MuiCardComponent from "@/components/card/mui-card.component";
 import ViewCardComponent from "@/components/card/view.card.component";
 import PageHeader from "@/components/header/page-header";
-import { getRequest } from "@/utils/api-calls.util";
+import {getRequest} from "@/utils/api-calls.util";
 
-export default function ClientShowPage({ clientId }: { clientId: string }) {
+export default function ClientShowPage({clientId}: { clientId: string }) {
+    const permission = 'client'
     const router = useRouter();
     const [data, setData] = useState<any>([]);
     const [loading, setLoading] = useState(false);
@@ -40,31 +41,28 @@ export default function ClientShowPage({ clientId }: { clientId: string }) {
     }, [clientId]);
 
     return (
-        <ProtectedRoute>
-            {loading ? (
-                <p>Loading...</p>
-            ) : (
-                <>
-                    <PageHeader
-                        links={[
-                            { name: "Clients", linkTo: "/administration/suppliers", permission: "client", isClickable: true },
-                            { name: "Show", linkTo: "/administration/suppliers/show", permission: "" },
-                        ]}
-                        isShowPage={true}
-                    />
-                    <MuiCardComponent>
-                        <ViewCardComponent
-                            data={[
-                                { label: "Client Name", value: data.name },
-                                { label: "Phone", value: data?.phone },
-                                { label: "Email", value: data?.email },
-                            ]}
-                            titleA="Client"
-                            titleB={data.name}
-                        />
-                    </MuiCardComponent>
-                </>
-            )}
+        <ProtectedRoute
+            permission={`${permission}_read`}
+            isLoading={loading}
+        >
+            <PageHeader
+                links={[
+                    {name: "Clients", linkTo: "/administration/suppliers", permission: "client", isClickable: true},
+                    {name: "Show", linkTo: "/administration/suppliers/show", permission: ""},
+                ]}
+                isShowPage={true}
+            />
+            <MuiCardComponent>
+                <ViewCardComponent
+                    data={[
+                        {label: "Client Name", value: data.name},
+                        {label: "Phone", value: data?.phone},
+                        {label: "Email", value: data?.email},
+                    ]}
+                    titleA="Client"
+                    titleB={data.name}
+                />
+            </MuiCardComponent>
         </ProtectedRoute>
     );
 }

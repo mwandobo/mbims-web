@@ -155,7 +155,6 @@ function Contract() {
             permission={`${permission}_read`}
             isLoading={loading}
         >
-
             <PageHeader
                 handleClick={handleClick}
                 links={[{name: 'Licence / List', linkTo: '/licence', permission: ''}]}
