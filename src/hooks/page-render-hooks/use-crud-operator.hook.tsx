@@ -95,8 +95,11 @@ export const useCrudOperatorHook = (
     }
 
     const populateFormForEdit = (payload: any) => {
+
+
+        console.log('payload in edit', payload);
         const newModalBodyArray = modalBodyArray.map((item: any) => {
-            let objKeyValue;
+            let objKeyValue: any;
 
             // // Parse dates for specific fields
             if (item.name === 'dateOfBirth') {
@@ -105,54 +108,10 @@ export const useCrudOperatorHook = (
                 objKeyValue = payload[item.name];
             }
 
-            // Maintain the 'value' while updating 'isRemoved' property for 'item_id'
-            if (item.name === 'item_id' && Number(payload['resource_type_id']) === 29) {
-                return {...item, isRemoved: false, value: objKeyValue};
+            if (item.type === 'file') {
+                item.required = false;
             }
 
-            // Maintain the 'value' while updating 'isRemoved' property for 'quantity'
-            if (item.name === 'quantity' && Number(payload['resource_type_id']) === 29) {
-                return {...item, isRemoved: false, value: objKeyValue};
-            }
-
-            // Maintain the 'value' while updating 'isRemoved' for 'personnel_id' when resource_type_id is 23
-            if (item.name === 'personnel_id' && Number(payload['resource_type_id']) === 23) {
-                return {...item, isRemoved: false, value: objKeyValue};
-            }
-
-            // Maintain the 'value' while updating 'isRemoved' for 'service_id' when resource_type_id is 30
-            if (item.name === 'service_id' && Number(payload['resource_type_id']) === 30) {
-                return {...item, isRemoved: false, value: objKeyValue};
-            }
-            if (item.name === 'amount') {
-                const value = objKeyValue?.props?.amount
-                return {...item, value};
-            }
-
-            // If 'from' is 'sale-quotation', set 'isRemoved: false' for 'sale_rfq_id' and 'item_ids'
-            if (  from === 'quotation' &&
-                (
-                    item.name === 'request_for_quotation_id' ||
-                    item.name === 'supplier_id'
-                )) {
-                return {...item, isRemoved: true};
-            }
-
-            if (  from === 'sale-quotation'    &&
-                (
-                    item.name === 'sale_rfq_id' ||
-                    item.name === 'item_ids'
-                )) {
-                return {...item, isRemoved: true};
-            }
-
-            if ( from === 'invoices' &&
-                (
-                    item.name === 'type' ||
-                    item.name === 'purchase_order_id'
-                )) {
-                return {...item, isRemoved: true,};
-            }
 
             // Return the new item with updated value
             return {...item, value: objKeyValue};

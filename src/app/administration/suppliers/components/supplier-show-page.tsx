@@ -69,7 +69,6 @@ export default function SupplierShowPage({supplierId}: { supplierId: string }) {
                                     {label: 'Supplier Name', value: data.fullName},
                                     {label: 'Phone', value: data?.phone},
                                     {label: 'Email', value: data?.email},
-                                    {label: 'Birth Date', value: data?.dateOfBirth},
                                     // { label: 'Status', value: StatusCreatorHelperActive(passedData?.status) },
 
                                 ]}

@@ -45,16 +45,6 @@ function Employees({
             isError: false,
             errorMessage: ''
         },
-
-        {
-            name: 'dateOfBirth',
-            type: 'date',
-            label: 'Date of Birth',
-            value: '',
-            required: true,
-            isError: false,
-            errorMessage: ''
-        }
     ]
     const _columns = [
         {
@@ -74,12 +64,6 @@ function Employees({
             numeric: false,
             disablePadding: false,
             label: 'Email',
-        },
-        {
-            id: 'dateOfBirth',
-            numeric: false,
-            disablePadding: false,
-            label: 'Date Of Birth',
         },
     ]
 

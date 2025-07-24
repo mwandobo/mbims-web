@@ -58,7 +58,6 @@ export default function ClientShowPage({ clientId }: { clientId: string }) {
                                 { label: "Client Name", value: data.name },
                                 { label: "Phone", value: data?.phone },
                                 { label: "Email", value: data?.email },
-                                { label: "Birth Date", value: data?.dateOfBirth },
                             ]}
                             titleA="Client"
                             titleB={data.name}

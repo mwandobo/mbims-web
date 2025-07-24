@@ -67,8 +67,7 @@ const MuiSelect = ({
     }
   }, [optionsUrlData]);
 
-
-  console.log('value in select', value)
+  const normalizedValue = String(value || '');
 
   return (
     <>
@@ -104,7 +103,8 @@ const MuiSelect = ({
         <Select
           labelId={`${label}-select-label`}
           id={`${label}-select`}
-          value={value}
+
+          value={normalizedValue}
           label={label}
           onChange={onChange}
           disabled={isDisabled}
