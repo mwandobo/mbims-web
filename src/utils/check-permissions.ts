@@ -4,7 +4,7 @@ export const checkPermissions = (permission: string) => {
 
     if (!permission) {
         // If no permission string is provided, allow access by default
-        return true;
+        return false;
     }
 
     const permissionsJson = getValueFromLocalStorage('system_permissions');

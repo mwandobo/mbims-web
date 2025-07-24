@@ -4,10 +4,12 @@ import {useGlobalContextHook} from "@/hooks/useGlobalContextHook";
 import MuiBreadcrumbs from "@/components/breadcumb/mui-breadcumb";
 import {ButtonComponent} from "@/components/button/button.component";
 import BackButtonComponent from "@/components/button/back-button.component";
+import {checkPermissions} from "@/utils/check-permissions";
 
 interface Props {
     handleClick?: (type: string) => void
     links?: any[]
+    permission?: string
     isShowPage?: boolean
     showrefresh?: boolean
     isHideAdd?: boolean
@@ -30,6 +32,7 @@ const PageHeader = ({
                         isHideAdd,
                         subHeader,
                         isSmallButton,
+                        permission,
                         ButtonDownloadComponent
                     }: Props) => {
     const {dispatch} = useGlobalContextHook();
@@ -37,6 +40,16 @@ const PageHeader = ({
     const handleFilters = () =>{
         dispatch({type: "UPDATE_APPLY_FILTERS", payload: filter})
     }
+
+    const _showAddButton = () => {
+
+        console.log('permission', permission)
+        console.log('checkPermissions(permission)', checkPermissions(permission))
+        if( !isShowPage && !isHideAdd && checkPermissions(permission)){
+            return true
+        }
+    }
+
 
     return (<div className='flex justify-between items-center p-1'>
             <>
@@ -75,8 +88,7 @@ const PageHeader = ({
                     <BackButtonComponent/>
                 }
 
-                {!isShowPage && !isShowPage && !isHideAdd &&
-
+                {_showAddButton() &&
                     < div className=''>
                         <ButtonComponent
                             name='Add'

@@ -4,7 +4,7 @@ import ProtectedRoute from '@/components/authentication/protected-route'
 import PageHeader from '@/components/header/page-header'
 import React from 'react'
 import {usePageDataHook} from "@/hooks/page-render-hooks/use-page-data.hook";
-import {checkPermissions} from "@/utils/check-permissions";
+
 function Contract() {
     const permission = 'contract'
 
@@ -32,7 +32,7 @@ function Contract() {
             type: 'select-local',
             label: 'Select Group',
             value: '',
-            optionsUrlData: [{label: 'Suppliers', value: 'supplier'},{label: 'Clients', value: 'client'}],
+            optionsUrlData: [{label: 'Suppliers', value: 'supplier'}, {label: 'Clients', value: 'client'}],
             optionDataKey: 'departments',
             required: true,
             isError: false,
@@ -200,24 +200,17 @@ function Contract() {
         isMaintainViewNavigationForV1: true
     })
     return (
-        <ProtectedRoute>
-            <>{
-                !checkPermissions(`${permission}_read`) ? <p>You are not authorized</p> : <>
-                    {
-                        loading ? <p>Loading...</p>
-                            :
-                            <>
-                                <PageHeader
-                                    handleClick={handleClick}
-                                    links={[{ name: 'Contracts / List', linkTo: '/contracts', permission: '' }]}
-                                />
-                                {tabular()}
-                                {createdForm('md')}
-                            </>
-                    }
-                </>
-            }
-            </>
+        <ProtectedRoute
+            permission={`${permission}_read`}
+            isLoading={loading}
+        >
+            <PageHeader
+                handleClick={handleClick}
+                links={[{name: 'Contracts / List', linkTo: '/contracts', permission: ''}]}
+                permission={`${permission}_create`}
+            />
+            {tabular()}
+            {createdForm('md')}
         </ProtectedRoute>
     )
 }

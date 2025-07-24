@@ -4,15 +4,19 @@ import { useRouter } from 'next/navigation';
 import { Suspense, useEffect } from 'react';
 import {getValueFromLocalStorage} from "@/utils/local-storage.util";
 import {checkPermissions} from "@/utils/check-permissions";
+import AccessDeniedComponent from "@/components/status/access-denied.component";
+import LoadingComponent from "@/components/status/loading.component";
 
 interface Props {
   children: React.ReactNode
   permission?: string
+  isLoading?: boolean
 }
 
 const ProtectedRoute = ({
   children,
-  permission
+  permission,
+                          isLoading
 }: Props) => {
   const router = useRouter();
   const token = getValueFromLocalStorage('token');
@@ -24,12 +28,19 @@ const ProtectedRoute = ({
     }
   }, [token]);
 
-  return <>
+  if(isLoading){
+    return  <LoadingComponent />
 
+  }
+
+  return <>
     <Suspense fallback={<div>Loading...</div>}>
       <>
         {
-          checkPermissions(permission) && <>{children}</>
+          !checkPermissions(permission) ?
+              <AccessDeniedComponent />
+              :
+              <>{children}</>
         }
       </>
     </Suspense></>;

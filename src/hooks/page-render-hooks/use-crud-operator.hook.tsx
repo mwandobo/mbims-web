@@ -95,9 +95,6 @@ export const useCrudOperatorHook = (
     }
 
     const populateFormForEdit = (payload: any) => {
-
-
-        console.log('payload in edit', payload);
         const newModalBodyArray = modalBodyArray.map((item: any) => {
             let objKeyValue: any;
 
@@ -111,7 +108,6 @@ export const useCrudOperatorHook = (
             if (item.type === 'file') {
                 item.required = false;
             }
-
 
             // Return the new item with updated value
             return {...item, value: objKeyValue};
@@ -147,7 +143,6 @@ export const useCrudOperatorHook = (
                 return {...item, isRemoved: false,};
             }
 
-
             return {...item, value: ''};
         });
 
@@ -157,7 +152,6 @@ export const useCrudOperatorHook = (
 
     useEffect(() => {
         setModalBodyArray(formInputData)
-
     }, [...state_properties])
 
     const handleNotificationPayload = (type: string) => {
@@ -170,7 +164,6 @@ export const useCrudOperatorHook = (
     const handleCloseSlideOver = () => {
         setIsSideOverOpen(!isSideOverOpened)
     }
-
 
     const handleClick = (type: string, payload?: any) => {
         const insertIdBeforeQueryParams = (url: string, id: string | number) => {
