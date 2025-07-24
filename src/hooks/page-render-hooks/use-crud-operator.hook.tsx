@@ -97,8 +97,6 @@ export const useCrudOperatorHook = (
     const populateFormForEdit = (payload: any) => {
         const newModalBodyArray = modalBodyArray.map((item: any) => {
             let objKeyValue: any;
-
-            // // Parse dates for specific fields
             if (item.name === 'dateOfBirth') {
                 objKeyValue = parseDate(payload[item.name]);
             } else {
@@ -109,7 +107,10 @@ export const useCrudOperatorHook = (
                 item.required = false;
             }
 
-            // Return the new item with updated value
+            if (item.controlled_by && payload[item.name] ) {
+                item.isRemoved = false;
+            }
+
             return {...item, value: objKeyValue};
         });
 
