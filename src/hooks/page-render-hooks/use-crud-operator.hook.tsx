@@ -1,7 +1,7 @@
 "use client"
 
 import {useRouter} from "next/navigation"
-import React, {ReactNode, useEffect, useState} from "react"
+import {ReactNode, useEffect, useState} from "react"
 import {setValueLocalStorage} from "@/utils/local-storage.util";
 import {useGlobalContextHook} from "@/hooks/useGlobalContextHook";
 import {useCrudFormCreatorHook} from "@/hooks/page-render-hooks/use-form-creator.hook";
@@ -87,7 +87,7 @@ export const useCrudOperatorHook = (
     } = useCrudFormCreatorHook(formPayload)
 
     // TO DO bypass the
-     const parseDate = (value: any) => {
+    const parseDate = (value: any) => {
         const dateArray = value.split('-')
         const newDate = `${dateArray[1]}-${dateArray[0]}-${dateArray[2]}`
 
@@ -95,9 +95,15 @@ export const useCrudOperatorHook = (
     }
 
     const populateFormForEdit = (payload: any) => {
+        console.log('payload to edit', payload );
+
         const newModalBodyArray = modalBodyArray.map((item: any) => {
             let objKeyValue: any;
-            if (item.name === 'dateOfBirth') {
+            if(item.name === 'canReceiveEmail'){
+                objKeyValue = payload[item.name] === true ? 1: 0;
+            }
+
+           else if (item.name === 'dateOfBirth') {
                 objKeyValue = parseDate(payload[item.name]);
             } else {
                 objKeyValue = payload[item.name];
@@ -107,7 +113,7 @@ export const useCrudOperatorHook = (
                 item.required = false;
             }
 
-            if (item.controlled_by && payload[item.name] ) {
+            if (item.controlled_by && payload[item.name] != null) {
                 item.isRemoved = false;
             }
 
@@ -117,10 +123,11 @@ export const useCrudOperatorHook = (
         setModalBodyArray(newModalBodyArray);
     };
 
+
     const clearFormForCreate = () => {
         const newModalBodyArray = modalBodyArray.map((item: any) => {
 
-            if (  from === 'quotation' &&
+            if (from === 'quotation' &&
                 (
                     item.name === 'request_for_quotation_id' ||
                     item.name === 'supplier_id'
@@ -128,7 +135,7 @@ export const useCrudOperatorHook = (
                 return {...item, isRemoved: false};
             }
 
-            if (  from === 'sale-quotation'    &&
+            if (from === 'sale-quotation' &&
                 (
                     item.name === 'sale_rfq_id' ||
                     item.name === 'item_ids'
@@ -136,7 +143,7 @@ export const useCrudOperatorHook = (
                 return {...item, isRemoved: false};
             }
 
-            if ( from === 'invoices' &&
+            if (from === 'invoices' &&
                 (
                     item.name === 'type' ||
                     item.name === 'purchase_order_id'
@@ -238,12 +245,12 @@ export const useCrudOperatorHook = (
 
                 if (selectedViewCard === 'goal') {
                     callBackFunction('goal/show', payload?.id);
-                } else if (['outcome', 'goal/show' ].includes(selectedViewCard) ) {
+                } else if (['outcome', 'goal/show'].includes(selectedViewCard)) {
                     callBackFunction('outcome/show', payload?.id);
-                // } else if (selectedViewCard === 'output') {
-                } else if (['output', 'outcome/show' ].includes(selectedViewCard) ) {
+                    // } else if (selectedViewCard === 'output') {
+                } else if (['output', 'outcome/show'].includes(selectedViewCard)) {
                     callBackFunction('output/show', payload?.id);
-                } else if (['activity', 'output/show' ].includes(selectedViewCard) ) {
+                } else if (['activity', 'output/show'].includes(selectedViewCard)) {
                     callBackFunction('activity/show', payload?.id);
                 }
             } else {

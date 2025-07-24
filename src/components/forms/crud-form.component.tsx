@@ -172,6 +172,7 @@ const CrudFormComponent = ({
                                                         from={item.name}
                                                         label={item.label}
                                                         options={item.options}
+                                                        value={item.value}   // <-- Pass the current value here!
                                                     />
                                                 )}
                                             </div>

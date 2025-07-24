@@ -8,13 +8,11 @@ import {usePageDataHook} from "@/hooks/page-render-hooks/use-page-data.hook";
 interface Props {
     parent_id?: string
     subHeader?: string
-
 }
 
 function Employees({
                        parent_id,
                        subHeader
-
                    }: Props) {
 
     const _deptFormInputs = [
@@ -31,21 +29,31 @@ function Employees({
             name: 'department_id',
             type: 'select',
             label: 'Department',
-            value: parent_id,
+            value: '',
             optionsUrlData: `/fetch-data/departments`,
             optionDataKey: 'name',
             required: true,
             isError: false,
             errorMessage: ''
         },
+
         {
             name: 'role_id',
             type: 'select',
             label: 'Role',
-            value: parent_id,
+            value: '',
             optionsUrlData: `/fetch-data/roles`,
             optionDataKey: 'name',
             required: true,
+            isError: false,
+            errorMessage: ''
+        },
+        {
+            name: 'canReceiveEmail',
+            type: 'radio',
+            options: [{label: "No" ,value:  0, default: true}, {label:  'YES', value: 1},],
+            label: 'Should Receive Email',
+            value: parent_id,
             isError: false,
             errorMessage: ''
         },
