@@ -27,16 +27,6 @@ function Employees({
             isError: false,
             errorMessage: ''
         },
-
-        {
-            name: 'email',
-            type: 'text',
-            label: 'Email',
-            value: '',
-            required: true,
-            isError: false,
-            errorMessage: ''
-        },
         {
             name: 'department_id',
             type: 'select',

@@ -67,6 +67,9 @@ const MuiSelect = ({
     }
   }, [optionsUrlData]);
 
+
+  console.log('value in select', value)
+
   return (
     <>
       {error && <p className="text-red-400 mb-2" style={{fontSize: '12px'}}>{error}</p>

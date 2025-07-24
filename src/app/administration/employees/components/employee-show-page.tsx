@@ -61,17 +61,13 @@ import {getRequest} from "@/utils/api-calls.util";
                         <MuiCardComponent>
                             <ViewCardComponent
                                 data={[
-                                    { label: 'Employee Name', value: data.fullName },
-                                    { label: 'Phone', value: data?.phone },
+                                    { label: 'Employee Name', value: data.name },
                                     { label: 'Email', value: data?.email },
                                     { label: 'Department', value: data?.departmentName },
                                     { label: 'Role', value: data?.roleName },
-                                    { label: 'Birth Date', value: data?.dateOfBirth },
-                                    // { label: 'Status', value: StatusCreatorHelperActive(passedData?.status) },
-
                                 ]}
                                 titleA="Employee"
-                                titleB={data.fullName}
+                                titleB={data.name}
                             />
 
                         </MuiCardComponent>
