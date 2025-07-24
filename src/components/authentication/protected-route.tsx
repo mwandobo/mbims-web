@@ -37,7 +37,7 @@ const ProtectedRoute = ({
     <Suspense fallback={<div>Loading...</div>}>
       <>
         {
-          !checkPermissions(permission) ?
+          permission && !checkPermissions(permission)  ?
               <AccessDeniedComponent />
               :
               <>{children}</>

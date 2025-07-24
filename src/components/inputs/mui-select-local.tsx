@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent} from '@mui/material';
+import React from 'react';
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 
 interface Props {
     handleChange: (event: any, from: string, control_for: string, control_type?: string) => void
@@ -39,11 +39,9 @@ const MuiSelectLocal = ({
                             control_type
                         }: Props) => {
 
-
     const onChange = (event: SelectChangeEvent) => {
-        return handleChange(event, from, control_for, control_type)
+        return handleChange(event, from, control_for, control_type);
     };
-
 
     const body = (passed_label?: string) => {
         return (
@@ -52,9 +50,10 @@ const MuiSelectLocal = ({
 
                 <FormControl
                     fullWidth
+                    variant="outlined"
                     sx={{
                         "& .MuiOutlinedInput-root": isSmall
-                            ? { height: "35px", fontSize: "12px", padding: "6px" }
+                            ? { height: "35px", fontSize: "12px" }
                             : {},
                         "& .MuiInputLabel-root": isSmall
                             ? { fontSize: "12px" }
@@ -69,22 +68,25 @@ const MuiSelectLocal = ({
                 >
                     {labelStyle !== "row" && (
                         <InputLabel
-                            id={`${passed_label}-select-label`}
+                            id={`${from}-label`}
+                            shrink={true}
                             sx={{
-                                display: "flex",
-                                justifyContent: "center",
-                                marginTop: "-5px",
-                                color: "black",
+                                backgroundColor: 'white',
+                                px: 1,
+                                color: 'black',
                                 fontSize: isSmall ? "12px" : "16px",
+                                '&.Mui-focused': {
+                                    color: 'black',
+                                },
                             }}
                         >
                             {isRequired ? (
                                 <span style={{ display: "flex", alignItems: "center" }}>
-                                {passed_label}{" "}
-                                    <span style={{ color: "red", marginLeft: "4px", fontSize: isSmall ? "12px" : "16px" }}>
-                                    *
+                                    {passed_label}{" "}
+                                    <span style={{ color: "red", marginLeft: "4px" }}>
+                                        *
+                                    </span>
                                 </span>
-                            </span>
                             ) : (
                                 passed_label
                             )}
@@ -92,19 +94,24 @@ const MuiSelectLocal = ({
                     )}
 
                     <Select
-                        labelId={`${passed_label}-select-label`}
-                        id={`${passed_label}-select`}
+                        labelId={`${from}-label`}
+                        id={`${from}-select`}
                         value={value}
-                        label={passed_label && passed_label}
+                        label={labelStyle !== "row" ? passed_label : undefined}
                         onChange={onChange}
                         disabled={isDisabled}
                         required={isRequired}
-                        size="medium"
+                        size={isSmall ? "small" : "medium"}
                         sx={{
                             marginBottom: "20px",
                             height: isSmall ? "35px" : "auto",
                             fontSize: isSmall ? "12px" : "16px",
+                            '& .MuiSelect-select': {
+                                paddingTop: isSmall ? '8px' : '14px',
+                                paddingBottom: isSmall ? '8px' : '14px',
+                            }
                         }}
+                        displayEmpty
                     >
                         {optionsUrlData &&
                             optionsUrlData.length > 0 &&

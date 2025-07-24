@@ -52,7 +52,6 @@ export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
             permission={`${permission}_read`}
             isLoading={loading}
         >
-
             <PageHeader
                 links={[
                     {name: 'Employee', linkTo: '/admnistration/employees', permission: 'employees', isClickable: true},

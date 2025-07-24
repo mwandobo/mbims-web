@@ -1,8 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, MenuItem, Select, InputLabel, FormControl } from '@mui/material'
 import { getRequest, postRequest } from '@/utils/api-calls.util'
+import MuiSelect from "@/components/inputs/mui-select";
+import MuiSelectLocal from "@/components/inputs/mui-select-local";
+import {ButtonComponent} from "@/components/button/button.component";
+import {PlusCircle} from "lucide-react";
 
 const cronOptions = [
     { label: 'Every 5 seconds', value: '*/5 * * * * *' },  // every 5 seconds
@@ -32,34 +36,82 @@ export default function NotificationSettings() {
         setLoading(false)
     }
 
+    const handleChange = (e: any) =>{
+        setCron(e.target.value)
+    }
+
     return (
-        <div className="max-w-xl mx-auto p-6 border rounded">
-            <h2 className="text-xl font-semibold mb-4">Contract Notification Schedule</h2>
+        <div className="w-1/2 p-6 border rounded text-gray-800">
+            <h2 className="text-xl font-semibold mb-4 ">Contract Notification Schedule</h2>
+            <div className="mb-2">
+                <p className="inline-block bg-gray-100 px-2 py-2 rounded text-xl">
+                    Current Schedule: {cronOptions.find(item => item.value === cron)?.label}
+                </p>
+            </div>
 
-            <FormControl fullWidth>
-                <InputLabel id="cron-select-label">Notification Frequency</InputLabel>
-                <Select
-                    labelId="cron-select-label"
-                    value={cron}
-                    onChange={(e) => setCron(e.target.value)}
+            <div className={'ps-24'}>
+
+                <FormControl fullWidth sx={{
+                    // This margin pushes the whole component down to make space for the label
+                    marginTop: '16px',
+                    // This prevents the label from being cut off
+                    '& .MuiInputLabel-root': {
+                        position: 'absolute',
+                        top: '-8px', // This lifts the label up
+                        left: '8px',
+                        backgroundColor: 'white', // Prevents text overlap
+                        padding: '0 4px', // Gives the label some breathing room
+                        fontSize: '1.5rem' // Makes the label smaller when not focused
+                    },
+                    // Styles for the select itself
+                    '& .MuiOutlinedInput-root': {
+                        paddingTop: '10px',
+                        paddingBottom: '10px',
+                        fontSize: '0.875rem'
+                    }
+                }}>
+                    <InputLabel id="cron-select-label">Notification Frequency</InputLabel>
+                    <Select
+                        labelId="cron-select-label"
+                        value={cron}
+                        onChange={(e) => setCron(e.target.value)}
+                        sx={{
+                            '& .MuiSelect-select': {
+                                padding: '8px 32px 8px 14px' // top right bottom left
+                            }
+                        }}
+                    >
+                        {cronOptions.map((opt) => (
+                            <MenuItem key={opt.value} value={opt.value}>
+                                {opt.label}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+
+            </div>
+
+
+
+
+            <div className={'flex justify-end mt-2'}>
+                <ButtonComponent
+                    name='Save'
+                    onClick={save}
+                    rounded={'md'}
+                    padding={'p-1'}
+                    shadow={'shadow-md'}
+                    bg_color={'bg-gray-50'}
+                    hover={'hover:bg-gray-200 hover:border-gray-400'}
+                    hover_text={'hover:text-gray-900 hover:font-semibold'}
+                    border={'border border-gray-300'}
+                    text_color={'text-gray-700'}
                 >
-                    {cronOptions.map((opt) => (
-                        <MenuItem key={opt.value} value={opt.value}>
-                            {opt.label}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
+                    <PlusCircle size={18}/>
+                </ButtonComponent>
+            </div>
 
-            <Button
-                className="mt-4"
-                variant="contained"
-                color="primary"
-                onClick={save}
-                disabled={loading}
-            >
-                Save
-            </Button>
+
         </div>
     )
 }
