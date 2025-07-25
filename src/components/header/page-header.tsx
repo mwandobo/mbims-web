@@ -49,7 +49,6 @@ const PageHeader = ({
         }
     }
 
-
     return (<div className='flex justify-between items-center p-1'>
             <>
                 {subHeader ?
@@ -105,7 +104,6 @@ const PageHeader = ({
                         </ButtonComponent>
                     </div>
                 }
-
             </div>
         </div>
     )

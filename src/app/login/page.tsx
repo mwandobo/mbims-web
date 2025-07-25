@@ -48,6 +48,7 @@ export default function LoginPage() {
                     const user = response?.data?.user
                     const role = user?.role
                     const permissions = role?.permissions
+                    const notifications = response.data.notifications
 
                     if (setValueLocalStorage('token', token) &&
                         setValueLocalStorage('user', JSON.stringify(user)) &&
@@ -55,6 +56,8 @@ export default function LoginPage() {
                     ) {
                         setLoading(!loading)
                         dispatch({ type: "SET_CURRENT_USER", payload: user }) // 👈 this is the key fix
+                        dispatch({type: "UPDATE_NOTIFICATION_BODY", payload: notifications});
+
                         router.push('/')
                     } else {
                         alert('error setting value to local storage')

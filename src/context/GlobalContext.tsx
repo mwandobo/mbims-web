@@ -184,6 +184,7 @@ export const updateContextReducer = (state: State, action: Action): State => {
                 isSideBarHidden: action.payload
             };
         case 'UPDATE_NOTIFICATION_BODY':
+            setValueLocalStorage('notificationBody', JSON.stringify(action.payload))
             return {
                 ...state,
                 notificationBody: action.payload

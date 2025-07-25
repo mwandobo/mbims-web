@@ -17,7 +17,7 @@ const NotificationComponent = () => {
     const token = getValueFromLocalStorage("token");
 
     const {notificationBody} = state;
-    const numberOfNotifications = notificationBody?.count;
+    const numberOfNotifications = notificationBody?.total;
     const notes = notificationBody?.notifications;
 
     useEffect(() => {
@@ -154,7 +154,7 @@ const NotificationComponent = () => {
                     numberOfNotifications > 0 && 'animate-pulse border border-gray-200'
                 }`}
             >
-                <Bell className={'text-gray-500 '}/>
+                <Bell className={'text-gray-800 '}/>
                 <span
                     className={
                         'ps-4 -mt-2 text-xs text-red-400 font-semibold'
@@ -165,7 +165,7 @@ const NotificationComponent = () => {
             </button>
             <div className={'bg-red-200'}>
                 <DropdownComponent name={'Notifications'} toggleOpen={toggleIsDropdownOpen} isOpen={isDropdownOpen}>
-                    <div className={'w-full flex flex-col text-xs'}>
+                    <div className={'w-full flex flex-col text-xs text-gray-800'}>
                         <div className={'flex justify-between items-center mb-2'}>
                             <h3 className={'font-medium text-sm'}>Notifications</h3>
 
