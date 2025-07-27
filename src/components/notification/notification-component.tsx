@@ -68,9 +68,8 @@ const NotificationComponent = () => {
             const response = await deleteRequest(`notifications/${note?.id}`);
             if (response.status === 200) {
                 const newNotes = notes.filter((note, _index) => Number(_index) !== Number(index))
-
-                console.log('newNotes.length', newNotes.length)
                 handleNotificationDispatch(newNotes)
+                ToastComponent({text:'Deleted Successfully'})
             }
         } catch (error) {
             console.error("Error fetching notifications:", error);

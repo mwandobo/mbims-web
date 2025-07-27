@@ -122,12 +122,12 @@ const items: ISidebarItem[] = [
             },
         ]
     },
-    {
-        name: 'Settings',
-        path: '/settings',
-        permission: 'settings_read',
-        icon: Settings ,
-    },
+    // {
+    //     name: 'Settings',
+    //     path: '/settings',
+    //     permission: 'settings_read',
+    //     icon: Settings ,
+    // },
 ]
 
 function Sidebar() {
