@@ -55,8 +55,17 @@ export default function LoginPage() {
                         setValueLocalStorage('system_permissions', JSON.stringify(permissions))
                     ) {
                         setLoading(!loading)
-                        dispatch({ type: "SET_CURRENT_USER", payload: user }) // 👈 this is the key fix
-                        dispatch({type: "UPDATE_NOTIFICATION_BODY", payload: notifications});
+                        dispatch({ type: "SET_CURRENT_USER", payload: user })
+
+                        console.log(' notifications.filter((note: any) => !note.isRead).length',  notifications.filter((note: any) => !note.isRead).length)
+
+                        const notificationPayload = {
+                            count: notifications.filter((note: any) => !note.isRead).length,
+                            notifications: notifications,
+                        };
+
+                        // 👈 this is the key fix
+                        dispatch({type: "UPDATE_NOTIFICATION_BODY", payload: notificationPayload});
 
                         router.push('/')
                     } else {

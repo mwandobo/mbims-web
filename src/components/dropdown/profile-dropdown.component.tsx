@@ -27,7 +27,8 @@ const ProfileDropdown = ({
     };
 
     const onclick = (path) => {
-            router.push(path)
+        router.replace(path)
+            // router.push(path);
     }
 
     const iconSize = useMemo(() => window.innerWidth >= 768 ? 15 : 30, []);
@@ -59,13 +60,13 @@ const ProfileDropdown = ({
             {isOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-20">
                     <button
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         onClick={() => onclick('profile')}
                     >
                         Profile
                     </button>
                     <button
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         onClick={() => onclick('settings')}
                     >
                         Settings

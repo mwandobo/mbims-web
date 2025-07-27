@@ -17,7 +17,7 @@ const NotificationComponent = () => {
     const token = getValueFromLocalStorage("token");
 
     const {notificationBody} = state;
-    const numberOfNotifications = notificationBody?.total;
+    const numberOfNotifications = notificationBody?.count;
     const notes = notificationBody?.notifications;
 
     useEffect(() => {
@@ -35,24 +35,23 @@ const NotificationComponent = () => {
 
     const handleNotificationDispatch = (notifications: any[]) => {
         const notificationPayload = {
-            count: notifications.filter((note: any) => !note.is_read).length,
+            count: notifications.filter((note: any) => !note.isRead).length,
             notifications: notifications,
         };
 
         // // Update state and local storage
         dispatch({type: "UPDATE_NOTIFICATION_BODY", payload: notificationPayload});
-        setValueLocalStorage("notificationBody", JSON.stringify(notificationPayload));
     }
 
     const toggleExpand = async (index: number) => {
         setExpandedNotification(expandedNotification === index ? null : index);
         const note = notes[index]// Toggle expanded state
 
-        if (!note?.is_read) {
+        if (!note?.isRead) {
             try {
                 const updatedNotification = await getRequest(`notifications/${note?.id}/read`, token);
                 if (updatedNotification.status === 200) {
-                    notes[index] = {...note, is_read: true}
+                    notes[index] = {...note, isRead: true}
                     handleNotificationDispatch(notes)
                 }
             } catch (error) {
@@ -66,9 +65,11 @@ const NotificationComponent = () => {
         const note = notes[index]// Toggle expanded state
 
         try {
-            const updatedNotification = await deleteRequest(`notifications/${note?.id}`);
-            if (updatedNotification.status === 200) {
+            const response = await deleteRequest(`notifications/${note?.id}`);
+            if (response.status === 200) {
                 const newNotes = notes.filter((note, _index) => Number(_index) !== Number(index))
+
+                console.log('newNotes.length', newNotes.length)
                 handleNotificationDispatch(newNotes)
             }
         } catch (error) {
@@ -81,7 +82,7 @@ const NotificationComponent = () => {
             const updatedNotificationResult = await getRequest(`notifications/read-all`);
             if (updatedNotificationResult.status === 200) {
                 const newNotes = notes.map(note => {
-                    return {...note, is_read: true}
+                    return {...note, isRead: true}
                 })
                 handleNotificationDispatch(newNotes)
             }
@@ -103,8 +104,8 @@ const NotificationComponent = () => {
 
 
     const handleViewClick = (notificationBody: any) => {
-        const {redirect_url, group, state_redirect_url, for_id} = notificationBody
-        if (!redirect_url) {
+        const {redirectUrl, group, state_redirect_url, for_id} = notificationBody
+        if (!redirectUrl) {
             return ToastComponent({
                 type: 'error',
                 text: 'Something went Wrong. Data not Available'
@@ -142,7 +143,7 @@ const NotificationComponent = () => {
             }
         }
 
-        router.push(redirect_url)
+        router.push(redirectUrl)
         setIsDropdownOpen(false);
     }
 
@@ -176,7 +177,6 @@ const NotificationComponent = () => {
                                     <Trash size={14} strokeWidth={3} className={'text-red-400'}/>
                                 </button>
                                 <button
-
                                     onClick={handleReadAll}
                                 >
                                     <MailOpen size={14} strokeWidth={3} className={'text-gray-600'}/>
@@ -187,13 +187,13 @@ const NotificationComponent = () => {
                             {notes && notes?.map((note, index) => (
                                 <div
                                     key={index}
-                                    className={`flex flex-col ${index % 2 === 0 ? 'bg-white ' : 'bg-gray-100'} p-2 mb-1 ${!note.is_read && 'text-xs font-semibold'}`}
+                                    className={`flex flex-col ${index % 2 === 0 ? 'bg-white ' : 'bg-gray-100'} p-2 mb-1 ${!note.isRead && 'text-xs font-semibold'}`}
                                     onClick={() => toggleExpand(index)} // Expand row on click
                                 >
                                     {/* Main row */}
                                     <div className={'flex justify-between'}>
                                         <div className="flex items-center">
-                                            {!note.is_read ?
+                                            {!note.isRead ?
                                                 <Circle size={6} className={'text-red-500 me-1'} strokeWidth={6}/> :
                                                 <p className={'ms-2'}></p>
                                             }
