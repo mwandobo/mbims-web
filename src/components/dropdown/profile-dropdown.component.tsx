@@ -1,6 +1,7 @@
 import { CircleUserRound} from 'lucide-react';
 import {useState, useRef, useEffect, useMemo} from 'react';
 import {useRouter} from "next/navigation";
+import {checkPermissions} from "@/utils/check-permissions";
 
 interface Props {
     name: string,
@@ -59,18 +60,25 @@ const ProfileDropdown = ({
             {/* Dropdown Menu */}
             {isOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-20">
-                    <button
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => onclick('profile')}
-                    >
-                        Profile
-                    </button>
-                    <button
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => onclick('settings')}
-                    >
-                        Settings
-                    </button>
+                    {checkPermissions('activity_logs_read') &&
+                        <button
+                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            onClick={() => onclick('activities')}
+                        >
+                            Activities
+                        </button>
+                    }
+
+                    {checkPermissions('settings_read') &&
+                        <button
+                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            onClick={() => onclick('settings')}
+                        >
+                            Settings
+                        </button>
+                    }
+
+
                     <button
                         onClick={handleLogout} // Handle Logout Logic
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
