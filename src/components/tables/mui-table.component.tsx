@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useEffect} from 'react';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,6 +13,7 @@ import Paper from '@mui/material/Paper';
 import {visuallyHidden} from '@mui/utils';
 import {ButtonComponent} from "@/components/button/button.component";
 import {Search} from "lucide-react";
+import {getValueFromLocalStorage, setValueLocalStorage} from "@/utils/local-storage.util";
 
 type Order = 'asc' | 'desc';
 
@@ -93,22 +95,21 @@ interface Props {
 }
 
 export default function MuiTableComponent({
-                                     columns,
-                                     data,
-                                     from,
-                                     rowsPerPage,
-                                     page,
-                                     updateRowsPerPage,
-                                     updatePage,
-                                     updateFilterKey,
-                                     totalRecords,
-    filterKey
-                                 }: Props) {
+                                              columns,
+                                              data,
+                                              from,
+                                              rowsPerPage,
+                                              page,
+                                              updateRowsPerPage,
+                                              updatePage,
+                                              updateFilterKey,
+                                              totalRecords,
+                                              filterKey
+                                          }: Props) {
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<number>(-1); // Changed to use column index
     const [selected, setSelected] = React.useState<readonly number[]>([]);
     const [searchKey, setSearchKey] = React.useState('');
-
 
 
     const handleRequestSort = (
@@ -122,6 +123,16 @@ export default function MuiTableComponent({
 
     const handleChangePage = (event: unknown, newPage: number) => {
         updatePage(++newPage)
+    };
+
+    const handleSearchChange = (value: any) => {
+        setSearchKey(value)
+        setValueLocalStorage('search-key', value)
+
+        console.log('value.length', value.length)
+        if(value.length === 0){
+            updateFilterKey('')
+        }
     };
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -143,6 +154,11 @@ export default function MuiTableComponent({
 
     }, [data, order, orderBy, page, rowsPerPage]);
 
+    useEffect(() => {
+        const searchKey = getValueFromLocalStorage('search-key');
+        setSearchKey(searchKey)
+    }, [])
+
     return (
         <Box sx={{width: '100%', marginTop: '10px'}}>
             <div className={'flex w-full justify-end mb-2'}>
@@ -156,9 +172,10 @@ export default function MuiTableComponent({
                             borderRadius: '4px',
                             border: '1px solid #ccc',
                             flex: 1,
+                            color: 'black'
                         }}
                         value={searchKey}
-                        onChange={(e) => setSearchKey(e.target.value)}
+                        onChange={(e) => handleSearchChange(e.target.value)}
                     />
 
                     <ButtonComponent
@@ -235,7 +252,7 @@ export default function MuiTableComponent({
                     component="div"
                     count={totalRecords ?? data.length}
                     rowsPerPage={rowsPerPage}
-                    page={(page -1)}
+                    page={(page - 1)}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />}
