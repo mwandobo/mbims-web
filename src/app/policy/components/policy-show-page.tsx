@@ -69,10 +69,11 @@ export default function PolicyShowPage({policyId}: { policyId: string }) {
                 <ViewCardComponent
                     data={[
                         {label: 'Policy Title', value: data?.title},
-                        {label: "Supplier Name", value: data?.supplierName},
+                        {label: "Policy Owner", value: data?.owner},
                         {label: 'Department Name', value: data?.departmentName},
-                        {label: 'Start Date', value: data.startDate},
-                        {label: 'End Date', value: data.endDate},
+                        {label: 'Issuance Date', value: data.issuanceDate},
+                        {label: 'Approval Date', value: data.approvalDate},
+                        {label: 'Next Renewal Date', value: data.nextRenewalDate},
                         {label: 'Status', value: data.status},
                         {
                             label: 'Policy File',

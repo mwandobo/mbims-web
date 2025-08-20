@@ -19,17 +19,13 @@ function Policy() {
             errorMessage: ''
         },
         {
-            name: 'supplier_id',
-            type: 'select',
-            label: `Select Supplier`,
+            name: 'owner',
+            type: 'text',
+            label: "Policy Owner",
             value: '',
-            optionsUrlData: `fetch-data/suppliers`,
-            optionDataKey: 'name',
             required: true,
             isError: false,
-            errorMessage: '',
-            controlled_by: 'contract-group',
-            control: 'supplier'
+            errorMessage: ''
         },
         {
             name: 'department_id',
@@ -44,18 +40,27 @@ function Policy() {
             control_for: ''
         },
         {
-            name: 'startDate',
+            name: 'approvalDate',
             type: 'date',
-            label: 'Start Date',
+            label: 'Approval Date',
             value: '',
             required: true,
             isError: false,
             errorMessage: ''
         },
         {
-            name: 'endDate',
+            name: 'issuanceDate',
             type: 'date',
-            label: 'End Date',
+            label: 'Issuance Date',
+            value: '',
+            required: true,
+            isError: false,
+            errorMessage: ''
+        },
+        {
+            name: 'nextRenewalDate',
+            type: 'date',
+            label: 'Next Renewal Date',
             value: '',
             required: true,
             isError: false,
@@ -96,10 +101,10 @@ function Policy() {
             label: 'Policy Title',
         },
         {
-            id: 'supplierName',
+            id: 'owner',
             numeric: false,
             disablePadding: false,
-            label: 'Supplier Name',
+            label: 'Policy Owner',
         },
         {
             id: 'departmentName',
@@ -110,19 +115,25 @@ function Policy() {
             errorMessage: ''
         },
         {
-            id: 'startDate',
+            id: 'approvalDate',
             type: 'date',
-            label: 'Start Date',
+            label: 'Approval Date',
             value: '',
             required: true,
             isError: false,
             errorMessage: ''
         },
         {
-            id: 'endDate',
+            id: 'issuanceDate',
             numeric: false,
             disablePadding: false,
-            label: 'End Date',
+            label: 'Issuance Date',
+        },
+        {
+            id: 'nextRenewalDate',
+            numeric: false,
+            disablePadding: false,
+            label: 'Next Renewal Date',
         },
         {
             id: 'status',
