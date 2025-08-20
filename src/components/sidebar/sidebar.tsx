@@ -102,18 +102,25 @@ const items: ISidebarItem[] = [
                 permission: 'employee_read',
                 icon: User
             },
+
             {
-                name: 'Suppliers',
-                path: '/administration/suppliers',
-                permission: 'supplier_read',
-                icon: Users,
+                name: 'Parties',
+                path: '/administration/parties',
+                permission: 'party_read',
+                icon: RollerCoaster
             },
-            {
-                name: 'Clients',
-                path: '/administration/clients',
-                permission: 'client_read',
-                icon: Users,
-            },
+            // {
+            //     name: 'Suppliers',
+            //     path: '/administration/suppliers',
+            //     permission: 'supplier_read',
+            //     icon: Users,
+            // },
+            // {
+            //     name: 'Clients',
+            //     path: '/administration/clients',
+            //     permission: 'client_read',
+            //     icon: Users,
+            // },
             {
                 name: 'Roles',
                 path: '/administration/roles',
