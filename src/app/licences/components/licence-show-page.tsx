@@ -102,10 +102,11 @@ export default function LicenceShowPage({licenceId}: { licenceId: string }) {
                 <ViewCardComponent
                     data={[
                         {label: 'Licence Title', value: data?.title},
-                        {label: "Supplier Name", value: data?.supplierName},
+                        {label: 'Type of Business', value: data?.typeOfBusiness},
+                        {label: 'Operators Name', value: data?.operatorName},
+                        {label: 'licence Number', value: data?.licenceNumber},
                         {label: 'Department Name', value: data?.departmentName},
-                        {label: 'Start Date', value: data.startDate},
-                        {label: 'End Date', value: data.endDate},
+                        {label: 'Issuance Date', value: data.issuanceDate},
                         {label: 'Status', value: data.status},
                         {
                             label: 'Licence File',

@@ -122,11 +122,7 @@ export default function ContractShowPage({contractId}: { contractId: string }) {
                     data={[
                         {label: 'Contract Title', value: data?.title},
                         {label: 'Contract Amount', value: data?.amount},
-                        {label: 'Contract Group', value: data?.group},
-                        {
-                            label: data?.group === 'client' ? 'Client Name' : "Supplier Name",
-                            value: data?.supplierName
-                        },
+                        { label: "Name of Party", value: data?.partyName },
                         {label: 'Department Name', value: data?.departmentName},
                         {label: 'Status', value: data.status},
                         {label: 'Start Date', value: data.startDate},

@@ -18,19 +18,49 @@ function Contract() {
             isError: false,
             errorMessage: ''
         },
+
         {
-            name: 'supplier_id',
-            type: 'select',
-            label: `Select Supplier`,
+            name: 'typeOfBusiness',
+            type: 'text',
+            label: 'Type Of Business',
             value: '',
-            optionsUrlData: `fetch-data/suppliers`,
-            optionDataKey: 'name',
             required: true,
             isError: false,
-            errorMessage: '',
-            controlled_by: 'contract-group',
-            control: 'supplier'
+            errorMessage: ''
         },
+        {
+            name: 'licenceNumber',
+            type: 'text',
+            label: 'Licence Number',
+            value: '',
+            required: true,
+            isError: false,
+            errorMessage: ''
+        },
+        {
+            name: 'operatorName',
+            type: 'text',
+            label: 'Operator Name',
+            value: '',
+            required: true,
+            isError: false,
+            errorMessage: ''
+        },
+
+
+        // {
+        //     name: 'supplier_id',
+        //     type: 'select',
+        //     label: `Select Supplier`,
+        //     value: '',
+        //     optionsUrlData: `fetch-data/suppliers`,
+        //     optionDataKey: 'name',
+        //     required: true,
+        //     isError: false,
+        //     errorMessage: '',
+        //     controlled_by: 'contract-group',
+        //     control: 'supplier'
+        // },
         {
             name: 'department_id',
             type: 'select',
@@ -44,23 +74,23 @@ function Contract() {
             control_for: ''
         },
         {
-            name: 'startDate',
+            name: 'issuanceDate',
             type: 'date',
-            label: 'Start Date',
+            label: 'Issuance Date',
             value: '',
             required: true,
             isError: false,
             errorMessage: ''
         },
-        {
-            name: 'endDate',
-            type: 'date',
-            label: 'End Date',
-            value: '',
-            required: true,
-            isError: false,
-            errorMessage: ''
-        },
+        // {
+        //     name: 'endDate',
+        //     type: 'date',
+        //     label: 'End Date',
+        //     value: '',
+        //     required: true,
+        //     isError: false,
+        //     errorMessage: ''
+        // },
         {
             name: 'description',
             type: 'textArea',
@@ -96,10 +126,26 @@ function Contract() {
             label: 'Licence Title',
         },
         {
-            id: 'supplierName',
+            id: 'typeOfBusiness',
             numeric: false,
             disablePadding: false,
-            label: 'Supplier Name',
+            label: 'Type Of Business',
+        },
+        {
+            id: 'licenceNumber',
+            label: 'Licence Number',
+            value: '',
+            required: true,
+            isError: false,
+            errorMessage: ''
+        },
+        {
+            id: 'operatorName',
+            label: 'Operator Name',
+            value: '',
+            required: true,
+            isError: false,
+            errorMessage: ''
         },
         {
             id: 'departmentName',
@@ -110,19 +156,13 @@ function Contract() {
             errorMessage: ''
         },
         {
-            id: 'startDate',
+            id: 'issuanceDate',
             type: 'date',
-            label: 'Start Date',
+            label: 'Issuance Date',
             value: '',
             required: true,
             isError: false,
             errorMessage: ''
-        },
-        {
-            id: 'endDate',
-            numeric: false,
-            disablePadding: false,
-            label: 'End Date',
         },
         {
             id: 'status',
