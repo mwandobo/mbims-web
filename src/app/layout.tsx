@@ -11,10 +11,11 @@ import Footer from "@/components/footer/footer.component";
 import Header from "@/components/header/header.component";
 import Sidebar from "@/components/sidebar/sidebar";
 import {PermissionsProvider} from "@/context/permission-provider";
+import AuthenticatedApp from "@/components/authentication/authenticated-app";
 const inter = Inter({subsets: ["latin"]});
 
 export const metadata: Metadata = {
-    title: "Contract Management System",
+    title: "MCB Internal Management System",
     description: "The Software System to Manage Projects",
     icons: {
         icon: [
@@ -37,6 +38,7 @@ export default function RootLayout({children}: Props) {
         <html lang="en">
         <body className={`${inter.className} `}>
         <div className="bg-gray-200 ">
+            <AuthenticatedApp>
             <HydrationZustand>
                 <GlobalContextProvider>
                     {/*<PermissionsProvider>*/}
@@ -57,6 +59,7 @@ export default function RootLayout({children}: Props) {
                     {/*</PermissionsProvider>*/}
                 </GlobalContextProvider>
             </HydrationZustand>
+    </AuthenticatedApp>
         </div>
         {/* </div> */}
         </body>
