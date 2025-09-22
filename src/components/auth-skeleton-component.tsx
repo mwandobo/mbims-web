@@ -31,7 +31,7 @@ function AuthSkeletonComponent({children, loading, subtitle, title}: Props) {
                     {/* Left Section */}
                     <div className="relative h-full ps-4 pt-4 pb-4 flex flex-col">
                         {/* Logo - top left */}
-                        <img src="/logo.png" alt="Logo" className="h-16 w-24 object-contain absolute top-4 left-4"/>
+                        <img src="/logo1.png" alt="Logo" className="h-16 w-24 object-contain absolute top-4 left-4"/>
 
                         {/* Centered Content */}
                         <div className="flex flex-1 flex-col justify-center items-center mt-16">

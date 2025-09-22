@@ -36,7 +36,7 @@ export default function RootLayout({children}: Props) {
 
     return (
         <html lang="en">
-        <body className={`${inter.className} `}>
+        <body >
         <div className="bg-gray-200 ">
             <AuthenticatedApp>
             <HydrationZustand>

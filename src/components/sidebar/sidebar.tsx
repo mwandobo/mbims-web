@@ -29,7 +29,7 @@ import {
     Store,
     BookKey,
     ShieldEllipsis,
-    CalendarDays, Calendar, Proportions, BookOpenCheck
+    CalendarDays, Calendar, Proportions, BookOpenCheck, ArrowLeftRight
 } from 'lucide-react'
 import React from 'react'
 import SidebarItem from './item'
@@ -79,11 +79,17 @@ const items: ISidebarItem[] = [
         icon: Book,
     },
     {
-        name: 'Reports',
-        path: '/report',
-        icon: FolderKanban,
-        permission: 'report_read',
+        name: 'Compare Excel',
+        path: '/compare-excel',
+        icon: ArrowLeftRight,
+        permission: 'compare_excel_read',
     },
+    // {
+    //     name: 'Reports',
+    //     path: '/report',
+    //     icon: FolderKanban,
+    //     permission: 'report_read',
+    // },
     {
         name: 'Administration',
         path: '/administration',

@@ -1,8 +1,11 @@
 import axios from "axios";
 import { getValueFromLocalStorage } from "@/utils/local-storage.util";
 
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL as string;
+
+
 const index = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_BASE_URL as string,
+    baseURL
 });
 
 export const config = (isFormData?: boolean) => {
@@ -23,4 +26,4 @@ const postRequest = <T>(url: string, data: any, isFormData?: boolean) =>
 const putRequest = <T>(url: string, data: any) => index.patch<T>(url, data, config());
 const deleteRequest = <T>(url: string) => index.delete<T>(url, config());
 
-export { getRequest, postRequest, putRequest, deleteRequest };
+export { getRequest, postRequest, putRequest, deleteRequest, baseURL};
