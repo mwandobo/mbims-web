@@ -21,7 +21,7 @@ const DashboardPage = () => {
             permission={'dashboard_read'}
         >
         <div className="dashboard-container">
-            <Title level={2}>Contract & License Management Dashboard</Title>
+            <Title level={2}>MCB Internal Management System Dashboard</Title>
             {checkPermissions('dashboard_stats_card_read') && <DashboardStatsFragment /> }
             {/*{checkPermissions('dashboard_activities_read') && <DashboardActivityFragment /> }*/}
 
