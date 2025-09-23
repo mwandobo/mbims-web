@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { usePageDataHook } from "@/hooks/page-render-hooks/use-page-data.hook";
 import ProtectedRoute from '@/components/authentication/protected-route'
 import PageHeader from '@/components/header/page-header'
 import { baseURL } from "@/utils/api-calls.util";
@@ -17,31 +16,6 @@ function ExcelCompare() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<'summary' | 'matches' | 'missing1' | 'missing2'>('summary');
-
-    const projectInputs = [
-        // ... your existing form inputs
-    ];
-
-    const _columns = [
-        // ... your existing columns
-    ];
-
-    const {
-        loading: pageLoading,
-        handleClick,
-    } = usePageDataHook({
-        columns: _columns,
-        formInputs: projectInputs,
-        url: 'contracts',
-        modalTitle: 'Contract',
-        viewUrl: '/contracts/',
-        state_properties: [],
-        permission: permission,
-        from: "contracts",
-        isApiV2: true,
-        isFormData: true,
-        isMaintainViewNavigationForV1: true
-    });
 
     const handleCompare = async () => {
         if (!file1 || !file2) {
@@ -285,10 +259,9 @@ function ExcelCompare() {
     return (
         <ProtectedRoute
             permission={`${permission}_read`}
-            isLoading={pageLoading}
+            isLoading={loading}
         >
             <PageHeader
-                handleClick={handleClick}
                 subHeader={"Excel Compare"}
                 permission={`${permission}_create`}
                 isHideAdd={true}
