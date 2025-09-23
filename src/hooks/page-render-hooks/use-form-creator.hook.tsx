@@ -192,15 +192,15 @@ export const useCrudFormCreatorHook = ({
             let response;
             const token = getValueFromLocalStorage('token')
             if (httpMethod === 'delete') {
-                response = await deleteRequest<any>(url, token)
+                response = await deleteRequest<any>(url)
             } else {
                 if (validator()) {
                     let _formData = itHasCustomForm && !add_price ? getValueFromLocalStorage('customFormData') : formData
                     if (httpMethod === 'post') {
-                        response = await postRequest<any>(url, _formData, token, isFormData)
+                        response = await postRequest<any>(url, _formData, isFormData)
                     }
                     if (httpMethod === 'put') {
-                        response = await putRequest<any>(url, _formData, token)
+                        response = await putRequest<any>(url, _formData)
                     }
                 }
             }

@@ -60,24 +60,24 @@ const items: ISidebarItem[] = [
         icon: LayoutDashboard,
         permission: 'dashboard_read'
     },
-    {
-        name: 'Contracts',
-        path: '/contracts',
-        icon: FolderOpenDot,
-        permission: 'contract_read',
-    },
-    {
-        name: 'Licences',
-        path: '/licences',
-        permission: 'licence_read',
-        icon: Book,
-    },
-    {
-        name: 'Policies',
-        path: '/policy',
-        permission: 'policy_read',
-        icon: Book,
-    },
+    // {
+    //     name: 'Contracts',
+    //     path: '/contracts',
+    //     icon: FolderOpenDot,
+    //     permission: 'contract_read',
+    // },
+    // {
+    //     name: 'Licences',
+    //     path: '/licences',
+    //     permission: 'licence_read',
+    //     icon: Book,
+    // },
+    // {
+    //     name: 'Policies',
+    //     path: '/policy',
+    //     permission: 'policy_read',
+    //     icon: Book,
+    // },
     {
         name: 'Compare Excel',
         path: '/compare-excel',
@@ -103,18 +103,24 @@ const items: ISidebarItem[] = [
                 icon: Table
             },
             {
+                name: 'Positions',
+                path: '/administration/positions',
+                permission: 'position_read',
+                icon: Table
+            },
+            {
                 name: 'Employees',
                 path: '/administration/employees',
                 permission: 'employee_read',
                 icon: User
             },
 
-            {
-                name: 'Parties',
-                path: '/administration/parties',
-                permission: 'party_read',
-                icon: RollerCoaster
-            },
+            // {
+            //     name: 'Parties',
+            //     path: '/administration/parties',
+            //     permission: 'party_read',
+            //     icon: RollerCoaster
+            // },
             // {
             //     name: 'Suppliers',
             //     path: '/administration/suppliers',
