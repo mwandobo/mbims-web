@@ -183,7 +183,7 @@ const CrudFormComponent = ({
                             }
                         </div>
                         :
-                        <p>{modalBodyString}</p>
+                        <p className={'text-gray-700'}>{modalBodyString}</p>
                 }
             </>
             < div className="flex justify-end mt-4">
