@@ -114,30 +114,37 @@ const items: ISidebarItem[] = [
                 permission: 'employee_read',
                 icon: User
             },
-
-            // {
-            //     name: 'Parties',
-            //     path: '/administration/parties',
-            //     permission: 'party_read',
-            //     icon: RollerCoaster
-            // },
-            // {
-            //     name: 'Suppliers',
-            //     path: '/administration/suppliers',
-            //     permission: 'supplier_read',
-            //     icon: Users,
-            // },
-            // {
-            //     name: 'Clients',
-            //     path: '/administration/clients',
-            //     permission: 'client_read',
-            //     icon: Users,
-            // },
             {
                 name: 'Roles',
                 path: '/administration/roles',
                 permission: 'role_read',
                 icon: RollerCoaster
+            },
+        ]
+    },
+    {
+        name: 'Asset Management',
+        path: '/asset-management',
+        permission: 'asset_management_read',
+        icon: ShieldEllipsis ,
+        items: [
+            {
+                name: 'Asset Categories',
+                path: '/asset-management/asset-category',
+                permission: 'asset_category_read',
+                icon: Table
+            },
+            {
+                name: 'Assets',
+                path: '/asset-management/asset',
+                permission: 'asset_read',
+                icon: Table
+            },
+            {
+                name: 'Asset Request',
+                path: '/asset-management/asset-request',
+                permission: 'asset_request_read',
+                icon: User
             },
         ]
     },

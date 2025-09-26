@@ -213,7 +213,7 @@ export const useCrudFormCreatorHook = ({
 
         } catch (error) {
             setIsDisabled(false)
-            const text = error?.response?.data?.error ?? error?.response?.data?.message
+            const text = error?.response?.data?.message?? error?.response?.data?.error
             Swal.fire({
                 title: 'Error Occured!',
                 text,
