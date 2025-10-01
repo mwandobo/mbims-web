@@ -45,7 +45,7 @@ const CrudButtonsComponent = ({
             </ButtonComponent>
         }
 
-        {checkPermissions(`${permission ? `${permission}_delete` : ""}`) &&
+        {checkPermissions(`${permission ? `${permission}_delete` : ""}`) && !hide_delete &&
             <ButtonComponent
                 name='Delete'
                 onClick={() => handleClick && handleClick('delete', input)}
@@ -61,7 +61,7 @@ const CrudButtonsComponent = ({
             </ButtonComponent>
         }
 
-        {checkPermissions(`${permission ? `${permission}_update` : ""}`) &&
+        {checkPermissions(`${permission ? `${permission}_update` : ""}`) && !hide_edit &&
             <ButtonComponent
                 name='Edit'
                 onClick={() => handleClick && handleClick('edit', input)}

@@ -49,12 +49,12 @@ const RequestedItemView = (payload: any) => {
                             <ViewCardItemApartComponent
                                 data={[
                                     { label: 'Asset Name', value: data?.assetName },
+                                    { label: 'Category Name', value: data?.categoryName },
                                 ]}
                                 titleA={`Requested Asset`}
                                 titleB={` ${data?.assetName} `}
                             />
                         </div>
-
                     </>
             }
         </ProtectedRoute>

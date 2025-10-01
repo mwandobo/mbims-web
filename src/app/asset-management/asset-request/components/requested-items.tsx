@@ -7,23 +7,45 @@ import {usePageDataHook} from "@/hooks/page-render-hooks/use-page-data.hook";
 import RequestedItemView from "@/app/asset-management/asset-request/components/requested-item-view";
 
 const formInputs = [
+    // {
+    //     name: 'name',
+    //     type: 'text',
+    //     label: 'Name',
+    //     value: '',
+    //     required: true,
+    //     isError: false,
+    //     errorMessage: '',
+    // },
     {
-        name: 'name',
-        type: 'text',
-        label: 'Name',
+        name: 'category_id',
+        type: 'select',
+        label: 'Categories',
         value: '',
+        optionsUrlData: "fetch-data/asset-categories",
+        optionDataKey: 'name',
         required: true,
         isError: false,
-        errorMessage: '',
+        errorMessage: ''
     },
+    // {
+    //     name: 'description',
+    //     type: 'textArea',
+    //     label: 'Description',
+    //     value: '',
+    //     isError: false,
+    //     errorMessage: ''
+    // }
     {
-        name: 'description',
-        type: 'textArea',
-        label: 'Description',
+        name: 'asset_ids',
+        type: 'multi-select',
+        label: 'Assets',
         value: '',
+        optionsUrlData:"fetch-data/assets-by-categories",
+        optionDataKey: 'name',
+        required: true,
         isError: false,
         errorMessage: ''
-    }
+    },
 ]
 
 const columns = [
@@ -32,6 +54,12 @@ const columns = [
         numeric: false,
         disablePadding: false,
         label: 'Asset Name',
+    },
+    {
+        id: 'categoryName',
+        numeric: false,
+        disablePadding: false,
+        label: 'Category Name',
     },
 
 ]
@@ -59,7 +87,8 @@ function RequestedItems({id, permission}: Props) {
         state_properties: [],
         permission: permission,
         isApiV2: true,
-        sliderComponent:RequestedItemView
+        sliderComponent:RequestedItemView,
+        isHideEdit: true
     })
 
     return (
@@ -71,7 +100,7 @@ function RequestedItems({id, permission}: Props) {
                 handleClick={handleClick}
                 permission={`${permission}_create`}
                 subHeader={"Requested Assets"}
-                isHideAdd={true}
+                isHideAdd={false}
             />
             {tabular()}
             {createdForm()}
