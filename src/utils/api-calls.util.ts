@@ -10,9 +10,6 @@ const index = axios.create({
 
 export const config = (isFormData?: boolean) => {
     const _token = getValueFromLocalStorage("token");
-
-    console.log('isFormData', isFormData)
-
     return {
         headers: {
             "Content-Type": isFormData ? "multipart/form-data" : "application/json",

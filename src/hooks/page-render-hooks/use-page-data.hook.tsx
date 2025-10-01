@@ -95,7 +95,9 @@ export const usePageDataHook = ({
     const {
         handleClick,
         createdForm,
-        isStateChanged
+        isStateChanged,
+        isModalOpen,
+        setIsModalOpen
     } = useCrudOperatorHook({
         formInputData: isShowAddPriceButton ? addPriceFormInputData : formInputs,
         isShowAddPriceButton,
@@ -201,5 +203,7 @@ export const usePageDataHook = ({
         rowsPerPage,
         updatePage,
         updateRowsPerPage,
+        isModalOpen,
+        setIsModalOpen
     }
 }

@@ -10,6 +10,7 @@ import FileInputComponent from "@/components/inputs/file-input.component";
 import MuiSelectLocal from "@/components/inputs/mui-select-local";
 import {getValueFromLocalStorage} from "@/utils/local-storage.util";
 import {ButtonComponent} from "@/components/button/button.component";
+import MuiMultiSelectSelect from "@/components/inputs/mui-multiselect.component";
 
 interface Props {
     isModalOpen: boolean,
@@ -144,6 +145,26 @@ const CrudFormComponent = ({
                                                         isRequired={item.required}
                                                     />
                                                 )}
+
+                                                {item?.type === 'multi-select' && (
+                                                    <MuiMultiSelectSelect
+                                                        handleChange={handleInputChange}
+                                                        from={item?.name}
+                                                        label={item?.label}
+                                                        optionsUrlData={item.optionsUrlData}
+                                                        optionDataKey={item.optionDataKey}
+                                                        control={item.control}
+                                                        control_id={item.control_id}
+                                                        control_for={item.control_for}
+                                                        control_type={item.control_type}
+                                                        value={item.value}
+                                                        error={item.errorMessage}
+                                                        isDisabled={isDisabled}
+                                                        isRequired={item.required}
+                                                    />
+                                                )}
+
+
                                                 {item?.type === 'date' && (
                                                     <MuiDate
                                                         handleDateChange={handleInputChange}

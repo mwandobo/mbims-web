@@ -101,7 +101,7 @@ const ViewCardComponent = ({
                     </div>
                 ))}
             </div>
-            <div className='flex justify-end w-full'>
+            <div className=''>
                 {OptionalElement && OptionalElement}
             </div>
 

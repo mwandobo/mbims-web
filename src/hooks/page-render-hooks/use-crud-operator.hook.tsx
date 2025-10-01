@@ -222,6 +222,7 @@ export const useCrudOperatorHook = (
         if (type.toLowerCase() === 'show') {
             handleNotificationPayload('show');
             if (sliderComponent) {
+                console.log('payload', payload)
                 dispatch({
                     type: 'UPDATE_SLIDE_OVER_CONTENT',
                     payload: {
@@ -271,5 +272,7 @@ export const useCrudOperatorHook = (
         handleClick,
         createdForm,
         isStateChanged,
+        isModalOpen,
+        setIsModalOpen
     }
 }

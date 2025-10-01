@@ -43,7 +43,7 @@ export default function RootLayout({children}: Props) {
                     <div className={'flex flex-col'}>
                         <div className={'flex w-full flex-col'}>
                             <Header/>
-                            <div className={'flex flex-col md:flex-row w-full'}>
+                            <div className={'flex flex-col md:flex-row w-full text-gray-600'}>
                                 <Sidebar/>
                                 <MainComponentWrapper>
                                     {children}
