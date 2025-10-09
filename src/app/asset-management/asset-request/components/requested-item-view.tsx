@@ -39,7 +39,6 @@ const RequestedItemView = (payload: any) => {
     }, [id])
 
     return (
-
         <ProtectedRoute>
             {
                 loading ? <p>Loading...</p>
