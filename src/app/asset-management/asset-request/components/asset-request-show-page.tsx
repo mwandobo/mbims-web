@@ -8,6 +8,10 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getRequest } from "@/utils/api-calls.util";
 import RequestedItems from "@/app/asset-management/asset-request/components/requested-items";
+import {ButtonComponent} from "@/components/button/button.component";
+import {CheckCircle2} from "lucide-react";
+import {useApprovalsAndButtonsHook} from "@/hooks/useApprovalAndButtons.hook";
+import {ASSET_REQUEST_APPROVAL} from "@/utils/constants";
 
 export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
     const permission = "position";
@@ -20,6 +24,19 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
     const navigateToLogin = () => {
         return router.push("/login");
     };
+
+    const {
+        isNeedApprove,
+        isLastLevel,
+        latestApproveStatus,
+        approvalsAndButtonsWrapper,
+    } = useApprovalsAndButtonsHook({
+        approval_slug: ASSET_REQUEST_APPROVAL,
+        from: ASSET_REQUEST_APPROVAL,
+        from_id: id,
+        approvalStatus: data?.approvalStatus,
+        hasApprovalMode: data?.hasApprovalMode
+    })
 
     useEffect(() => {
         const fetchData = async () => {
@@ -42,6 +59,28 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
         fetchData();
     }, []);
 
+    const buttonsBody = () => {
+        return <>
+            {data?.status === 'pending' &&
+                <ButtonComponent
+                    name={'Send Asset'}
+                    onClick={() => {
+                    }}
+                    rounded={'md'}
+                    padding={'p-3'}
+                    shadow={'shadow-md'}
+                    bg_color={'bg-gray-50'}
+                    hover={'hover:bg-gray-200 hover:border-gray-400'}
+                    hover_text={'hover:text-gray-900 hover:font-semibold'}
+                    border={'border border-gray-300'}
+                    text_color={'text-gray-700'}
+                >
+                    <CheckCircle2 size={13}/>
+                </ButtonComponent>
+            }
+        </>
+    }
+
     return (
         <ProtectedRoute permission={`${permission}_read`} isLoading={loading}>
             <PageHeader
@@ -61,15 +100,20 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
                 <ViewCardComponent
                     data={[
                         { label: "Request Name", value: data?.name },
+                        { label: "Status", value: data?.status },
                         { label: "Description", value: data?.description },
                     ]}
                     titleA="Asset Request"
                     titleB={data?.name}
+                    OptionalElement={approvalsAndButtonsWrapper({buttonBody: buttonsBody()})}
+
                 />
-                <div className={'border border-gray-200 my-4'}>
-                    <RequestedItems id={id} permission={permission} />
-                </div>
+
             </MuiCardComponent>
+
+            {/*<div className={'border border-gray-200 my-4'}>*/}
+            {/*    <RequestedItems id={id} permission={permission} />*/}
+            {/*</div>*/}
         </ProtectedRoute>
     );
 }
