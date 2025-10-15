@@ -22,6 +22,7 @@ interface Props {
     shouldApprove?: boolean;
     currentLevelId?: string;
     entityId?: string;
+    onAfterApprove?: () => Promise<void> | void; // ✅ new
 }
 
 export const useApprovalsAndButtonsHook = ({
@@ -34,16 +35,10 @@ export const useApprovalsAndButtonsHook = ({
                                                entityId,
     shouldApprove,
     isMyLevelApproved,
-    currentLevelId
+    currentLevelId,
+                                               onAfterApprove
                                            }: Props) => {
-    const [isNeedApprove, setIsNeedApprove] = useState(false);
-    const [isApproved, setIsApproved] = useState(false);
-    const [canApprove, setCanApprove] = useState(false);
-    const [isLastLevel, setIsLastLevel] = useState(false);
-    const [refresh, setIsrefresh] = useState(false);
-    const [approveStatus, setApproveStatus] = useState('');
-    const [latestApproveStatus, setLatestApproveStatus] = useState('');
-    const {dispatch, state} = useGlobalContextHook()
+    // const {dispatch, state} = useGlobalContextHook()
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalTitle, setModalTitle] = useState("");
     const [remark, setRemark] = useState('');
@@ -61,14 +56,9 @@ export const useApprovalsAndButtonsHook = ({
         type?: string;
     }
 
-    console.log('entityId', entityId);
-    console.log('currentLevelId', currentLevelId);
-
     const approve = async () => {
         const approveUrl = 'approval-actions';
 
-        console.log('entityId', entityId);
-        console.log('currentLevelId', currentLevelId);
        const payload = {
             action: modalTitle === "approve" ? "APPROVED" : "REJECTED",
             entityId: entityId ?? "",
@@ -84,10 +74,10 @@ export const useApprovalsAndButtonsHook = ({
         return await postRequest(approveUrl, payload);;
     };
 
-    const callBack = () => {
-        setIsrefresh(prev => !prev); // Trigger a re-render by toggling the refresh state
-        return null;
-    };
+    // const callBack = () => {
+    //     setIsrefresh(prev => !prev); // Trigger a re-render by toggling the refresh state
+    //     return null;
+    // };
 
     const handleApproval = (type: string) => {
         setModalTitle(type);
@@ -108,13 +98,15 @@ export const useApprovalsAndButtonsHook = ({
         if ([200, 201].includes(response.status)) {
             setIsModalOpen(false);
             setRemark('');
-            callBack();
-
             await Swal.fire({
                 title: `${modalTitle}`,
                 text: `${modalTitle} successfully`,
                 icon: "success"
             });
+
+            if (typeof onAfterApprove === "function") {
+                await onAfterApprove();
+            }
         }
     }
 
@@ -203,12 +195,9 @@ export const useApprovalsAndButtonsHook = ({
 
     }
 
-    const approval_url = `approval/approved-items/by-item?from=${from}&&from_id=${from_id}`
-
     interface ApprovalsAndButtonsProps {
         buttonBody?: ReactNode,
     }
-
 
     const approvalsAndButtonsWrapper = ({buttonBody}: ApprovalsAndButtonsProps) => {
         return (
@@ -229,16 +218,8 @@ export const useApprovalsAndButtonsHook = ({
     }
 
     return {
-        isApproved,
-        canApprove,
-        isNeedApprove,
         approve,
-        callBack,
-        isLastLevel,
-        approveStatus,
         isMyLevelApproved,
-        latestApproveStatus,
         approvalsAndButtonsWrapper,
-        refresh
     };
 };

@@ -25,6 +25,24 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
         return router.push("/login");
     };
 
+    const fetchData = async () => {
+        setLoading(true);
+        if (id) {
+            try {
+                const res = await getRequest(url);
+                if (res && res.status === 200) {
+                    setData(res.data);
+                }
+            } catch (error: any) {
+                if (error?.code === "ERR_NETWORK") {
+                    navigateToLogin();
+                }
+            } finally {
+                setLoading(false);
+            }
+        }
+    };
+
     const {
         approvalsAndButtonsWrapper,
     } = useApprovalsAndButtonsHook({
@@ -36,29 +54,15 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
         shouldApprove: data?.hasApprovalMode,
         isMyLevelApproved: data?.isMyLevelApproved,
         currentLevelId: data?.currentLevelId,
-        entityId:id
+        entityId:id,
+        onAfterApprove: fetchData, // ✅ re-fetch data after approval
     })
 
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            if (id) {
-                try {
-                    const res = await getRequest(url);
-                    if (res && res.status === 200) {
-                        setData(res.data);
-                    }
-                } catch (error: any) {
-                    if (error?.code === "ERR_NETWORK") {
-                        navigateToLogin();
-                    }
-                } finally {
-                    setLoading(false);
-                }
-            }
-        };
         fetchData();
     }, []);
+
+
 
     const buttonsBody = () => {
         return <>
