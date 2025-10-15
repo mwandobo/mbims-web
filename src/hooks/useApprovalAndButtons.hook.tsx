@@ -54,9 +54,6 @@ export const useApprovalsAndButtonsHook = ({
         type?: string;
     }
 
-    console.log('has Approval Mode', hasApprovalMode)
-    console.log('approvalStatus', approvalStatus)
-
     const approve = async (body: ApproveProps) => {
         const approveUrl = 'approval/approve';
         body = {...body, approval_level_id: ''};
@@ -65,7 +62,6 @@ export const useApprovalsAndButtonsHook = ({
             setIsrefresh(!refresh); // Trigger a re-render by toggling the refresh state
             dispatch({type: "UPDATE_VIEW_ITEM_REFRESH_AFTER_APPROVAL"})
         }
-
         return response;
     };
 
