@@ -8,8 +8,8 @@ import MuiSelect from "@/components/inputs/mui-select";
 import MuiMultiSelectSelect from "@/components/inputs/mui-multiselect.component";
 import { ButtonComponent } from "@/components/button/button.component";
 import { PlusCircle, X } from "lucide-react";
-import PopupModal from "@/components/modal/popup-modal"; // ✅ import your modal
-
+import PopupModal from "@/components/modal/popup-modal";
+import {postRequest} from "@/utils/api-calls.util"; // ✅ import your modal
 
 interface Props {
     parent_id?: string
@@ -27,7 +27,6 @@ function AssetRequest({ parent_id, subHeader }: Props) {
             numeric: false,
             disablePadding: false,
             label: 'Request Name',
-            // width: '30%',
 
         },
         {
@@ -35,7 +34,6 @@ function AssetRequest({ parent_id, subHeader }: Props) {
             numeric: false,
             disablePadding: false,
             label: 'Date',
-            // width: '64%',
         },
     ]
 
@@ -45,6 +43,7 @@ function AssetRequest({ parent_id, subHeader }: Props) {
         tabular,
         isModalOpen,
         setIsModalOpen,
+        refresh
     } = usePageDataHook({
         columns: columns,
         formInputs: [],
@@ -54,13 +53,16 @@ function AssetRequest({ parent_id, subHeader }: Props) {
         state_properties: [],
         permission: permission,
         isApiV2: true,
-        isMaintainViewNavigationForV1: true
+        isMaintainViewNavigationForV1: true,
+        isHideEdit: true,
     })
 
     // local state
     const [categories, setCategories] = useState<any[]>([])
     const [assets, setAssets] = useState<any[]>([])
     const [items, setItems] = useState<any[]>([])
+    const [assetOptionsUrl, setAssetOptionsUrl] = useState<string>("fetch-data/assets-by-categories");
+
 
     useEffect(() => {
         fetch('/fetch-data/asset-categories')
@@ -78,14 +80,14 @@ function AssetRequest({ parent_id, subHeader }: Props) {
         setItems([...items, { category_id: '', asset_id: '', quantity: 1 }])
     }
 
-    // 🔑 unified handleChange
     const handleChange = (event: any, from?: string, control_for?: string, index?: number) => {
         const value = event?.target ? event.target.value : event
         const updated = [...items]
 
         if (from === "Asset Category" && index !== undefined) {
             updated[index].category_id = value
-            fetchAssets(value)
+            // 👇 dynamically update URL for assets
+            setAssetOptionsUrl(`fetch-data/assets-by-categories?categoryId=${value}`)
         }
 
         if (from === "Asset" && index !== undefined) {
@@ -99,20 +101,35 @@ function AssetRequest({ parent_id, subHeader }: Props) {
         setItems(items.filter((_, i) => i !== index))
     }
 
-    const handleClose = () => {
-        setIsModalOpen(false)
-        setItems([]) // optional: reset items when closing
-    }
+    const handleClose = () => setIsModalOpen(false);
+
+    useEffect(() => {
+        if (isModalOpen) {
+            // When modal opens, show one initial row
+            if (items.length === 0) {
+                setItems([{ category_id: '', asset_id: '', quantity: 1 }]);
+            }
+        } else {
+            // When modal closes, clear items
+            setItems([]);
+        }
+    }, [isModalOpen]);
 
     const handleSubmit = async () => {
         const payload = {
             name: "Main Request",
             description: "Main Request Description",
-            asset_ids: items.flatMap(i => i.asset_id), // 👈 flatten nested arrays
-        }
+            asset_ids: items.flatMap(i => i.asset_id),
+        };
 
-        handleClose()
-    }
+        const response = await postRequest('asset-requests', payload)
+
+        if([200, 201].includes(response.status)) {
+            await refresh();
+            handleClose();
+            setTimeout(() => setItems([]), 300);
+        }
+    };
 
     return (
         <ProtectedRoute
@@ -133,7 +150,7 @@ function AssetRequest({ parent_id, subHeader }: Props) {
                 isOpen={isModalOpen}
                 onClose={handleClose}
                 title="Create Asset Request"
-                size="md"
+                size="sm"
                 onSaveButtonName="Save"
             >
                 {/* Dynamic items */}
@@ -156,7 +173,7 @@ function AssetRequest({ parent_id, subHeader }: Props) {
                             handleChange={(e, from, control_for) => handleChange(e, "Asset", control_for, index)}
                             from="Asset"
                             label="Asset"
-                            optionsUrlData="fetch-data/assets-by-categories"
+                            optionsUrlData={assetOptionsUrl}  // 👈 dynamic URL here
                             optionDataKey="name"
                             value={item.asset_id}
                             isDisabled={false}

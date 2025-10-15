@@ -151,45 +151,53 @@ export const usePageDataHook = ({
         }
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoading(true)
+    // ⬇️ Move fetchData OUTSIDE useEffect
+    const fetchData = async () => {
+        try {
+            setLoading(true);
 
-                const parsedUrl = ensureURL(url, baseURL);
+            const parsedUrl = ensureURL(url, baseURL);
+            parsedUrl.searchParams.set('page', page.toString());
+            parsedUrl.searchParams.set('limit', rowsPerPage.toString());
 
-                // Update/add new query parameters
-                parsedUrl.searchParams.set('page', page.toString());
-                parsedUrl.searchParams.set('limit', rowsPerPage.toString());
-                if (filterKey) {
-                    parsedUrl.searchParams.set('q', filterKey);
-                } else {
-                    parsedUrl.searchParams.delete('q'); // remove if empty
-                }
+            if (filterKey) {
+                parsedUrl.searchParams.set('q', filterKey);
+            } else {
+                parsedUrl.searchParams.delete('q');
+            }
 
-                const finalUrl = parsedUrl.toString();
-                const res = await getRequest(finalUrl)
-                if (res.status === 200) {
-                    setData(res.data?.data)
-                    if (res.data?.pagination?.total) {
-                        setTotalRecords(res.data?.pagination?.total)
-                    }
-                    setLoading(false)
-                }
+            const finalUrl = parsedUrl.toString();
+            const res = await getRequest(finalUrl);
 
-            } catch (error: any) {
-                if (error?.code === "ERR_NETWORK") {
-                    navigateToLogin()
+            if (res.status === 200) {
+                // @ts-ignore
+                setData(res.data?.data);
+                // @ts-ignore
+                if (res.data?.pagination?.total) {
+                    // @ts-ignore
+                    setTotalRecords(res.data?.pagination?.total);
                 }
             }
-        };
 
-        if (tableData?.length > 0) {
-            setData(tableData)
-        } else {
-            fetchData()
+            setLoading(false);
+        } catch (error: any) {
+            if (error?.code === "ERR_NETWORK") {
+                navigateToLogin();
+            } else {
+                console.error("❌ Fetch error:", error);
+                setLoading(false);
+            }
         }
-    }, [rowsPerPage, filterKey, page, url, isStateChanged])
+    };
+
+// ⬇️ useEffect now just calls fetchData()
+    useEffect(() => {
+        if (tableData?.length > 0) {
+            setData(tableData);
+        } else {
+            fetchData();
+        }
+    }, [rowsPerPage, filterKey, page, url, isStateChanged]);
 
     return {
         loading,
@@ -204,6 +212,7 @@ export const usePageDataHook = ({
         updatePage,
         updateRowsPerPage,
         isModalOpen,
-        setIsModalOpen
+        setIsModalOpen,
+        refresh: fetchData // ✅ add this line
     }
 }
