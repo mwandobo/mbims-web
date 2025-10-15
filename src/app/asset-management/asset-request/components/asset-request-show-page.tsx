@@ -26,16 +26,17 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
     };
 
     const {
-        isNeedApprove,
-        isLastLevel,
-        latestApproveStatus,
         approvalsAndButtonsWrapper,
     } = useApprovalsAndButtonsHook({
         approval_slug: ASSET_REQUEST_APPROVAL,
         from: ASSET_REQUEST_APPROVAL,
         from_id: id,
         approvalStatus: data?.approvalStatus,
-        hasApprovalMode: data?.hasApprovalMode
+        hasApprovalMode: data?.hasApprovalMode,
+        shouldApprove: data?.hasApprovalMode,
+        isMyLevelApproved: data?.isMyLevelApproved,
+        currentLevelId: data?.currentLevelId,
+        entityId:id
     })
 
     useEffect(() => {

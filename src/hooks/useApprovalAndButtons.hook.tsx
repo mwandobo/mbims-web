@@ -17,7 +17,11 @@ interface Props {
     from_id: string;
     parent?: string;
     approvalStatus?: string;
-    hasApprovalMode?: boolean
+    hasApprovalMode?: boolean;
+    isMyLevelApproved?: boolean;
+    shouldApprove?: boolean;
+    currentLevelId?: string;
+    entityId?: string;
 }
 
 export const useApprovalsAndButtonsHook = ({
@@ -26,11 +30,14 @@ export const useApprovalsAndButtonsHook = ({
                                                from_id,
                                                parent,
                                                hasApprovalMode,
-                                               approvalStatus
+                                               approvalStatus,
+                                               entityId,
+    shouldApprove,
+    isMyLevelApproved,
+    currentLevelId
                                            }: Props) => {
     const [isNeedApprove, setIsNeedApprove] = useState(false);
     const [isApproved, setIsApproved] = useState(false);
-    const [isMyLevelApproved, setIsMyLevelApproved] = useState(false);
     const [canApprove, setCanApprove] = useState(false);
     const [isLastLevel, setIsLastLevel] = useState(false);
     const [refresh, setIsrefresh] = useState(false);
@@ -54,11 +61,23 @@ export const useApprovalsAndButtonsHook = ({
         type?: string;
     }
 
-    const approve = async (body: ApproveProps) => {
-        const approveUrl = 'approval/approve';
-        body = {...body, approval_level_id: ''};
-        const response = await postRequest(approveUrl, body);
-        if (response.status === 200) {
+    console.log('entityId', entityId);
+    console.log('currentLevelId', currentLevelId);
+
+    const approve = async () => {
+        const approveUrl = 'approval-actions';
+
+        console.log('entityId', entityId);
+        console.log('currentLevelId', currentLevelId);
+       const payload = {
+            action: modalTitle === "approve" ? "APPROVED" : "REJECTED",
+            entityId: entityId ?? "",
+            description: remark,
+            approvalLevelId:currentLevelId ?? "",
+        }
+
+        const response = await postRequest(approveUrl, payload);
+        if ([200, 201].includes(response.status)) {
             setIsrefresh(!refresh); // Trigger a re-render by toggling the refresh state
             dispatch({type: "UPDATE_VIEW_ITEM_REFRESH_AFTER_APPROVAL"})
         }
@@ -84,26 +103,15 @@ export const useApprovalsAndButtonsHook = ({
     }
 
     const handleSubmit = async () => {
-        const payload = {
-            from,
-            from_id,
-            remark,
-            type: modalTitle
-        };
-
-        const response = await approve(payload);
+        const response = await approve();
         if (response && response.status === 200) {
             setIsModalOpen(false);
             setRemark('');
             callBack();
 
-            let approvedItems = JSON.parse(getValueFromLocalStorage('approved_items')) || [];
-            approvedItems.push(response.data);
-            setValueLocalStorage('approved_items', JSON.stringify(approvedItems));
-
             await Swal.fire({
-                title: `Project ${modalTitle}`,
-                text: `Project ${modalTitle} successfully`,
+                title: `${modalTitle}`,
+                text: `${modalTitle} successfully`,
                 icon: "success"
             });
         }
@@ -111,11 +119,26 @@ export const useApprovalsAndButtonsHook = ({
 
     const renderApprovalStatus = (approvalStatus: string) => {
         if (approvalStatus && approvalStatus === 'PENDING') {
+            if(!shouldApprove){
+                return <div className={"flex w-full justify-between"}>
+                    <p className={'w-full'}> <span className='text-xs p-1 bg-gray-200 '>Waiting For Approval</span> </p>
+                    <p className={'flex w-full justify-end'}> <span className='text-xs p-1 bg-gray-200 '>Waiting For Complete Approval</span> </p>
+                </div>
+            }
+
+            if(!isMyLevelApproved){
+                return <div className={"flex w-full justify-between"}>
+                    <p className={'w-full'}>
+                        <span className='text-xs p-1 bg-gray-200 '>Waiting For Your Approval</span>
+                    </p>
+                    {renderApprovalButtons()}
+                </div>
+            }
+
             return <div className={"flex w-full justify-between"}>
-                <p className={'w-full'}>
-                    <span className='text-xs p-1 bg-gray-200 '>Waiting For Approval</span>
-                </p>
-                {renderApprovalButtons()}
+                <p className={'w-full'}><span className='text-xs p-1 bg-gray-200 '>Approved</span></p>
+                {/*{renderApprovalButtons()}*/}
+                <p className={'w-full flex justify-end'}>  <span className='text-xs p-1 bg-gray-200 '>Waiting For Further Approval</span> </p>
             </div>
         }
 
