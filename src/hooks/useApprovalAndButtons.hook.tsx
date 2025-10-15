@@ -76,12 +76,12 @@ export const useApprovalsAndButtonsHook = ({
             approvalLevelId:currentLevelId ?? "",
         }
 
-        const response = await postRequest(approveUrl, payload);
-        if ([200, 201].includes(response.status)) {
-            setIsrefresh(!refresh); // Trigger a re-render by toggling the refresh state
-            dispatch({type: "UPDATE_VIEW_ITEM_REFRESH_AFTER_APPROVAL"})
-        }
-        return response;
+        // const response = await postRequest(approveUrl, payload);
+        // if ([200, 201].includes(response.status)) {
+        //     setIsrefresh(!refresh); // Trigger a re-render by toggling the refresh state
+        //     dispatch({type: "UPDATE_VIEW_ITEM_REFRESH_AFTER_APPROVAL"})
+        // }
+        return await postRequest(approveUrl, payload);;
     };
 
     const callBack = () => {
@@ -104,7 +104,8 @@ export const useApprovalsAndButtonsHook = ({
 
     const handleSubmit = async () => {
         const response = await approve();
-        if (response && response.status === 200) {
+
+        if ([200, 201].includes(response.status)) {
             setIsModalOpen(false);
             setRemark('');
             callBack();
@@ -145,7 +146,7 @@ export const useApprovalsAndButtonsHook = ({
         switch (approvalStatus) {
             case 'APPROVED':
                 return <span className='bg-green-100 p-2 rounded-sm'>Approved</span>
-            case 'DISAPPROVED':
+            case 'REJECTED':
                 return <span className='bg-red-100 p-2 rounded-sm'>Disapproved</span>
             default:
                 return <span className='text-xs p-1 bg-gray-200'>Waiting For Approval</span>
