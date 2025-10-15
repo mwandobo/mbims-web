@@ -62,8 +62,6 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
         fetchData();
     }, []);
 
-
-
     const buttonsBody = () => {
         return <>
             {data?.status === 'pending' &&
@@ -111,14 +109,13 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
                     titleA="Asset Request"
                     titleB={data?.name}
                     OptionalElement={approvalsAndButtonsWrapper({buttonBody: buttonsBody()})}
-
                 />
 
             </MuiCardComponent>
 
-            {/*<div className={'border border-gray-200 my-4'}>*/}
-            {/*    <RequestedItems id={id} permission={permission} />*/}
-            {/*</div>*/}
+            <div className={'border border-gray-200 my-4'}>
+                <RequestedItems id={id} permission={permission} />
+            </div>
         </ProtectedRoute>
     );
 }
