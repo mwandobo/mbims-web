@@ -11,7 +11,7 @@ interface TextFieldComponentProps {
     from: string;
     errorMessage?: string;
     layout?: "row" | "column" | "none";
-    size?: "xs" | "sm" | "md" | "lg";
+    inputSize?: string;
     onChange: (e: any, from: string) => void;
 }
 
@@ -26,7 +26,7 @@ const TextFieldComponent = ({
                                 type,
                                 from,
                                 layout = "none",
-                                size = "md",
+                                inputSize = "md",
                             }: TextFieldComponentProps) => {
     /** 🔹 Render red asterisk for required fields */
     const renderRequiredAsterisk = () => (
@@ -35,7 +35,7 @@ const TextFieldComponent = ({
 
     /** 🔹 Get label text size based on `size` prop */
     const getLabelClass = () => {
-        switch (size) {
+        switch (inputSize) {
             case "xs":
                 return "text-lg";
             case "sm":
@@ -45,13 +45,13 @@ const TextFieldComponent = ({
             case "lg":
                 return "text-4xl";
             default:
-                return "text-base";
+                return "text-xl";
         }
     };
 
     /** 🔹 Get input height (visual size) based on `size` prop */
     const getInputHeight = () => {
-        switch (size) {
+        switch (inputSize) {
             case "xs":
                 return 32;
             case "sm":
@@ -66,7 +66,7 @@ const TextFieldComponent = ({
     };
 
     const getInputFontSize = () => {
-        switch (size) {
+        switch (inputSize) {
             case "xs":
                 return "1rem"; // 12px
             case "sm":
@@ -76,7 +76,7 @@ const TextFieldComponent = ({
             case "lg":
                 return "2rem"; // 16px// 16px
             default:
-                return "1rem"; // ~15px
+                return "1.4rem"; // ~15px
         }
     };
 

@@ -81,7 +81,8 @@ function Asset({
         state_properties: [],
         permission: permission,
         isApiV2: true,
-        isMaintainViewNavigationForV1: true
+        isMaintainViewNavigationForV1: true,
+        inputSize: ''
     })
     return (
         <ProtectedRoute

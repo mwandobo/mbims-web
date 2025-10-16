@@ -21,7 +21,8 @@ interface Props {
     itHasCustomForm?: boolean
     customForm?: ReactNode;
     isShowAddPriceButton?: boolean,
-    isFormData?: boolean
+    isFormData?: boolean,
+    inputSize?: string
 }
 
 export const useCrudOperatorHook = (
@@ -40,7 +41,8 @@ export const useCrudOperatorHook = (
         isShowAddPriceButton,
         emailNotificationBody: incomingEmailNotificationBody,
         isApiV2,
-        isMaintainViewNavigationForV1
+        isMaintainViewNavigationForV1,
+        inputSize
     }: Props
 ) => {
     const router = useRouter()
@@ -78,7 +80,8 @@ export const useCrudOperatorHook = (
         itHasCustomForm: itHasCustomForm,
         customForm: customForm,
         isShowAddPriceButton,
-        isFormData
+        isFormData,
+        inputSize
     }
 
     const {

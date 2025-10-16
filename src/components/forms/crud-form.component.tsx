@@ -28,6 +28,7 @@ interface Props {
     onSaveButtonName?: string
     handleSubmit: () => void,
     isShowAddPriceButton?: boolean,
+    inputSize: string
 }
 
 const CrudFormComponent = ({
@@ -45,6 +46,7 @@ const CrudFormComponent = ({
                                handleSubmit,
                                itHasCustomForm,
                                customForm,
+                               inputSize
                            }: Props) => {
     const add_price = getValueFromLocalStorage('add-price')
 
@@ -97,7 +99,7 @@ const CrudFormComponent = ({
                                                         layout={item.layout}
                                                         isRequired={item.required}
                                                         isDisabled={item.isDisabled}
-                                                        size={size}
+                                                        inputSize={inputSize}
                                                     />
                                                 )}
                                                 {item?.type === 'file' && (
@@ -186,6 +188,7 @@ const CrudFormComponent = ({
                                                         from={item?.name}
                                                         label={item?.label}
                                                         value={item.value}
+                                                        inputSize={inputSize}
                                                     />
                                                 )}
 

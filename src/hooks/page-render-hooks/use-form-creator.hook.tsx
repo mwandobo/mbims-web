@@ -23,6 +23,7 @@ interface Props {
     state_properties: any[]
     isMultipart?: boolean,
     isFormData?: boolean
+    inputSize?: string
 }
 
 export const useCrudFormCreatorHook = ({
@@ -41,7 +42,8 @@ export const useCrudFormCreatorHook = ({
                                            state_properties = [],
                                            isShowAddPriceButton,
                                            from,
-                                           isFormData
+                                           isFormData,
+    inputSize
                                        }: Props) => {
     const createPayload = (body: any[]) => {
         const payload: any = {};
@@ -245,6 +247,7 @@ export const useCrudFormCreatorHook = ({
             formInputs={formInputs}
             handleInputChange={handleInputChange}
             size={size}
+            inputSize={inputSize}
             isDisabled={isDisabled}
             modalBodyString={modalBodyString}
             onSaveButtonName={onSaveButtonName}

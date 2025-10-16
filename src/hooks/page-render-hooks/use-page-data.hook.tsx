@@ -35,7 +35,8 @@ interface Props {
     customForm?: ReactNode;
     isFormData?: boolean,
     sliderComponent?: any,
-    tablePaginationType?: 'front-end' | 'back-end'
+    tablePaginationType?: 'front-end' | 'back-end',
+    inputSize?: string
 }
 
 export const usePageDataHook = ({
@@ -64,7 +65,8 @@ export const usePageDataHook = ({
                                 isMaintainViewNavigationForV1,
                                 approval_slug,
                                 sliderComponent,
-                                tablePaginationType = 'back-end'
+                                tablePaginationType = 'back-end',
+    inputSize,
                             }: Props
 ) => {
     const [loading, setLoading] = useState(false)
@@ -113,7 +115,8 @@ export const usePageDataHook = ({
         itHasCustomForm: itHasCustomForm,
         customForm: customForm,
         isFormData,
-        sliderComponent
+        sliderComponent,
+        inputSize
     })
 
     const {tabular} = usePopulateTableHook({
