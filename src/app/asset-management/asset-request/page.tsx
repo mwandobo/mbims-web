@@ -9,7 +9,8 @@ import MuiMultiSelectSelect from "@/components/inputs/mui-multiselect.component"
 import { ButtonComponent } from "@/components/button/button.component";
 import { PlusCircle, X } from "lucide-react";
 import PopupModal from "@/components/modal/popup-modal";
-import {postRequest} from "@/utils/api-calls.util"; // ✅ import your modal
+import {getRequest, postRequest} from "@/utils/api-calls.util";
+import MuiSelectLocal from "@/components/inputs/mui-select-local"; // ✅ import your modal
 
 interface Props {
     parent_id?: string
@@ -39,7 +40,6 @@ function AssetRequest({ parent_id, subHeader }: Props) {
 
     const {
         loading,
-        handleClick,
         tabular,
         isModalOpen,
         setIsModalOpen,
@@ -59,22 +59,28 @@ function AssetRequest({ parent_id, subHeader }: Props) {
 
     // local state
     const [categories, setCategories] = useState<any[]>([])
-    const [assets, setAssets] = useState<any[]>([])
     const [items, setItems] = useState<any[]>([])
     const [assetOptionsUrl, setAssetOptionsUrl] = useState<string>("fetch-data/assets-by-categories");
 
-
     useEffect(() => {
-        fetch('/fetch-data/asset-categories')
-            .then(res => res.json())
-            .then(data => setCategories(data))
-    }, [])
+   getRequest('/fetch-data/asset-categories')
+            .then((res) => res.data as any)
+            .then((data ) => {
+                const formatted = data.map((cat: any) => ({
+                    value: cat.id,
+                    label: cat.name,
+                }));
+                setCategories(formatted);
+            });
+    }, []);
 
-    const fetchAssets = async (categoryId: string) => {
-        const res = await fetch(`/fetch-data/assets-by-categories?category_id=${categoryId}`)
-        const data = await res.json()
-        setAssets(data)
-    }
+    // ✅ Get filtered category options for each row
+    const getFilteredCategories = (index: number) => {
+        const selectedCategoryIds = items.map((i) => i.category_id).filter(Boolean);
+        return categories.filter(
+            (cat) => !selectedCategoryIds.includes(cat.value) || cat.value === items[index].category_id
+        );
+    };
 
     const addItem = () => {
         setItems([...items, { category_id: '', asset_id: '', quantity: 1 }])
@@ -101,19 +107,29 @@ function AssetRequest({ parent_id, subHeader }: Props) {
         setItems(items.filter((_, i) => i !== index))
     }
 
-    const handleClose = () => setIsModalOpen(false);
+    const handleClose = () => {
+        setItems([]);
+        setIsModalOpen(false);
+    }
 
-    useEffect(() => {
-        if (isModalOpen) {
-            // When modal opens, show one initial row
-            if (items.length === 0) {
-                setItems([{ category_id: '', asset_id: '', quantity: 1 }]);
-            }
-        } else {
-            // When modal closes, clear items
-            setItems([]);
+    // useEffect(() => {
+    //     if (isModalOpen) {
+    //         // When modal opens, show one initial row
+    //         if (items.length === 0) {
+    //             setItems([{ category_id: '', asset_id: '', quantity: 1 }]);
+    //         }
+    //     } else {
+    //         // When modal closes, clear items
+    //         setItems([]);
+    //     }
+    // }, [isModalOpen]);
+
+    const handleOpenModal = () =>{
+        setIsModalOpen(true);
+        if (items.length === 0) {
+            setItems([{ category_id: '', asset_id: '', quantity: 1 }]);
         }
-    }, [isModalOpen]);
+    }
 
     const handleSubmit = async () => {
         const payload = {
@@ -137,7 +153,7 @@ function AssetRequest({ parent_id, subHeader }: Props) {
             isLoading={loading}
         >
             <PageHeader
-                handleClick={handleClick}
+                handleClick={handleOpenModal}
                 links={[{ name: 'Asset Requests / List', linkTo: '/asset-management/asset-request', permission: '' }]}
                 subHeader={subHeader}
                 permission={`${permission}_create`}
@@ -157,11 +173,22 @@ function AssetRequest({ parent_id, subHeader }: Props) {
                 {items.map((item, index) => (
                     <div key={index} className="flex gap-2 mb-2">
                         {/* Category */}
-                        <MuiSelect
+                        {/*<MuiSelect*/}
+                        {/*    handleChange={(e, from, control_for) => handleChange(e, "Asset Category", control_for, index)}*/}
+                        {/*    from="Asset Category"*/}
+                        {/*    label="Asset Category"*/}
+                        {/*    optionsUrlData="fetch-data/asset-categories"*/}
+                        {/*    optionDataKey="name"*/}
+                        {/*    value={item.category_id}*/}
+                        {/*    isDisabled={false}*/}
+                        {/*    isRequired*/}
+                        {/*/>*/}
+
+                        <MuiSelectLocal
                             handleChange={(e, from, control_for) => handleChange(e, "Asset Category", control_for, index)}
                             from="Asset Category"
                             label="Asset Category"
-                            optionsUrlData="fetch-data/asset-categories"
+                            optionsUrlData={getFilteredCategories(index)}
                             optionDataKey="name"
                             value={item.category_id}
                             isDisabled={false}
