@@ -7,15 +7,6 @@ import {usePageDataHook} from "@/hooks/page-render-hooks/use-page-data.hook";
 import RequestedItemView from "@/app/asset-management/asset-request/components/requested-item-view";
 
 const formInputs = [
-    // {
-    //     name: 'name',
-    //     type: 'text',
-    //     label: 'Name',
-    //     value: '',
-    //     required: true,
-    //     isError: false,
-    //     errorMessage: '',
-    // },
     {
         name: 'category_id',
         type: 'select',
@@ -25,26 +16,21 @@ const formInputs = [
         optionDataKey: 'name',
         required: true,
         isError: false,
-        errorMessage: ''
+        errorMessage: '',
+        control_for: 'assets',
+        control_type: 'update-url'
     },
-    // {
-    //     name: 'description',
-    //     type: 'textArea',
-    //     label: 'Description',
-    //     value: '',
-    //     isError: false,
-    //     errorMessage: ''
-    // }
     {
-        name: 'asset_ids',
-        type: 'multi-select',
+        name: 'asset_id',
+        type: 'select',
         label: 'Assets',
         value: '',
         optionsUrlData:"fetch-data/assets-by-categories",
         optionDataKey: 'name',
         required: true,
         isError: false,
-        errorMessage: ''
+        errorMessage: '',
+        control: 'assets'
     },
 ]
 

@@ -100,7 +100,7 @@ export const useCrudFormCreatorHook = ({
                 try {
                     selectUrl = new URL(input.optionsUrlData);
                 } catch (error) {
-                    selectUrl = new URL(`api/${input.optionsUrlData}`, baseURL);
+                    selectUrl = new URL(`${input.optionsUrlData}`, baseURL);
                 }
 
                 selectUrl.searchParams.set('type', value);
