@@ -44,7 +44,7 @@ const TextArea = ({
             <InputLabel
                 id={`${label}-select-label`}
                 style={{
-                    fontSize: '16px',
+                    fontSize: '12px',
                     color: 'black'
                 }}
             >

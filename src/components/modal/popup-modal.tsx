@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 
 interface Props {
     isOpen: boolean;
-    size?: 'sm' | 'md' | 'lg';
+    size?: 'xs' | 'sm' | 'md' | 'lg';
     onClose: () => void;
     onSaveButtonName: string;
     title: string;
@@ -24,11 +24,13 @@ const PopupModal = ({
                 return 'w-full md:w-3/4';
             case 'lg':
                 return 'w-full md:w-full';
-            case 'sm':
+            case 'sm': return 'w-full md:w-1/2';
+            case 'xs': return 'w-full md:w-1/4';
             default:
                 return 'w-full md:w-1/2';
         }
     };
+
 
     if (!isOpen) return null;
 
@@ -64,7 +66,7 @@ const PopupModal = ({
                     )}
 
                     <div className="p-6">
-                        <h3 className="text-md90 font-medium text-gray-900">{title}</h3>
+                        <h3 className="text-2xl font-bold text-gray-700 mb-12 w-full flex justify-center">{title}</h3>
                         {children}
                     </div>
                 </div>

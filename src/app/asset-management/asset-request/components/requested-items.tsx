@@ -89,7 +89,7 @@ function RequestedItems({id, permission}: Props) {
                 isHideAdd={false}
             />
             {tabular()}
-            {createdForm()}
+            {createdForm( 'xs')}
 
         </ProtectedRoute>
     )

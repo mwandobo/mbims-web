@@ -24,7 +24,7 @@ interface Props {
     handleInputChange?: (e: any, from?: any, control_for?: string, control_type?: string) => void
     isDisabled?: boolean
     modalBodyString?: string
-    size?: 'sm' | 'md' | 'lg';
+    size?: 'xs'|'sm' | 'md' | 'lg';
     onSaveButtonName?: string
     handleSubmit: () => void,
     isShowAddPriceButton?: boolean,
@@ -55,7 +55,7 @@ const CrudFormComponent = ({
         if (size === "lg") {
             return 3
         }
-        if (size === "sm") {
+        if ( ['xs', 'sm'].includes(size)) {
             return 1
         }
         return 1
@@ -94,8 +94,10 @@ const CrudFormComponent = ({
                                                         onChange={handleInputChange}
                                                         isError={item.isError}
                                                         errorMessage={item.errorMessage}
+                                                        layout={item.layout}
                                                         isRequired={item.required}
                                                         isDisabled={item.isDisabled}
+                                                        size={size}
                                                     />
                                                 )}
                                                 {item?.type === 'file' && (

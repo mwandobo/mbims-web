@@ -232,11 +232,9 @@ export const useCrudFormCreatorHook = ({
     useEffect(() => {
         setFormInputs(createFormInputs())
         setFormData(createPayload(modalBodyArray));
-
     }, [modalBodyArray, ...state_properties])
 
     const createdForm = (size?: any) => {
-
         return < CrudFormComponent
             isModalOpen={isModalOpen}
             onCloseModal={onCloseModal}

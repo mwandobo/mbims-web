@@ -20,6 +20,7 @@ function Asset({
             name: 'name',
             type: 'text',
             label: 'Request Title',
+            layout: 'column',
             value: '',
             required: true,
             isError: false,
