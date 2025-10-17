@@ -55,7 +55,7 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
         isMyLevelApproved: data?.isMyLevelApproved,
         currentLevelId: data?.currentLevelId,
         entityId:id,
-        onAfterApprove: fetchData, // ✅ re-fetch data after approval
+        onAfterApprove: fetchData, // ✅ re-fetch data after approvals
     })
 
     useEffect(() => {

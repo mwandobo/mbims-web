@@ -122,7 +122,7 @@ export const useApprovalsAndButtonsHookV1 = ({
                         setCanApprove(true);
                     }
                 } catch (error) {
-                    console.error("Error fetching approval status:", error);
+                    console.error("Error fetching approvals status:", error);
                 }
             }
 
@@ -166,7 +166,7 @@ export const useApprovalsAndButtonsHookV1 = ({
     }
 
     const approve = async (body: ApproveProps) => {
-        const approveUrl = 'approval/approve';
+        const approveUrl = 'approvals/approve';
         const {current_level} = getApprovalLevel();
 
         if (current_level) {

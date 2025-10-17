@@ -29,7 +29,7 @@ import {
     Store,
     BookKey,
     ShieldEllipsis,
-    CalendarDays, Calendar, Proportions, BookOpenCheck, ArrowLeftRight
+    CalendarDays, Calendar, Proportions, BookOpenCheck, ArrowLeftRight, Terminal
 } from 'lucide-react'
 import React from 'react'
 import SidebarItem from './item'
@@ -119,6 +119,12 @@ const items: ISidebarItem[] = [
                 path: '/administration/roles',
                 permission: 'role_read',
                 icon: RollerCoaster
+            },
+            {
+                name: 'Approvals',
+                path: '/administration/approvals',
+                permission: 'approval_read',
+                icon: Terminal
             },
         ]
     },

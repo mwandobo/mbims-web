@@ -57,7 +57,7 @@ export const useApprovalsAndButtonsHook = ({
     }
 
     const approve = async () => {
-        const approveUrl = 'approval-actions';
+        const approveUrl = 'approvals-actions';
 
        const payload = {
             action: modalTitle === "approve" ? "APPROVED" : "REJECTED",

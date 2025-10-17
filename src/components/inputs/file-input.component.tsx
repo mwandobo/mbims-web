@@ -11,8 +11,8 @@ interface FileFieldProps {
     type?: string;
     from: string;
     errorMessage?: string;
-    layout?: "row" | "column" | "none" | null;
-    inputSize?: "xs" | "sm" | "md" | "lg";
+    layout?: string;
+    inputSize?: string;
     onChange: (e: any, from: string) => void;
 }
 
