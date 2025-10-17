@@ -19,7 +19,6 @@ export default function ApprovalShowPage({approvalId}: { approvalId: string }) {
 
     const url = `user-approvals/${id}`
 
-
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
@@ -40,7 +39,6 @@ export default function ApprovalShowPage({approvalId}: { approvalId: string }) {
                     }).then(() => setLoading(false))
 
                     console.log(error);
-
                 }
             }
         };
@@ -48,7 +46,6 @@ export default function ApprovalShowPage({approvalId}: { approvalId: string }) {
     }, [])
 
     return (
-
         <ProtectedRoute
             permission={`${permission}_read`}
             isLoading={loading}
@@ -73,4 +70,3 @@ export default function ApprovalShowPage({approvalId}: { approvalId: string }) {
         </ProtectedRoute>
     );
 };
-
