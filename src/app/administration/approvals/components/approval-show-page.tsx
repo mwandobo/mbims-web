@@ -8,6 +8,8 @@ import {useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
 import {getRequest} from "@/utils/api-calls.util";
 import Swal from "sweetalert2";
+import RequestedItems from "@/app/asset-management/asset-request/components/requested-items";
+import ApprovalLevel from "@/app/administration/approvals/components/approval-level";
 
 export default function ApprovalShowPage({approvalId}: { approvalId: string }) {
     const permission = 'approval'
@@ -67,6 +69,10 @@ export default function ApprovalShowPage({approvalId}: { approvalId: string }) {
                     titleB={data.name}
                 />
             </MuiCardComponent>
+
+            <div className={'border border-gray-200 my-4'}>
+                <ApprovalLevel id={id} permission={permission} />
+            </div>
         </ProtectedRoute>
     );
 };
