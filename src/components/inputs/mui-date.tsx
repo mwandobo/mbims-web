@@ -11,8 +11,8 @@ interface Props {
     label?: string;
     value?: string;
     isDisabled?: boolean;
-    inputSize?: "xs" | "sm" | "md" | "lg";
-    layout?: "row" | "column" | "none";
+    inputSize?: string;
+    layout?: string;
     isRequired?: boolean;
     minDate?: string;
     maxDate?: string;
@@ -57,8 +57,6 @@ export default function MuiDate({
                 return 48;
         }
     };
-
-    console.log('input size', inputSize);
 
     const getFontSize = () => {
         switch (inputSize) {
@@ -105,60 +103,6 @@ export default function MuiDate({
         isRequired ? (
             <span style={{ color: "red", marginLeft: "4px" }}>*</span>
         ) : null;
-
-    /** ✅ Corrected styles (targeting nested input properly) */
-    // const renderDatePicker = (passedLabel?: string) => (
-    //     <LocalizationProvider dateAdapter={AdapterDayjs}>
-    //         <DatePicker
-    //             label={passedLabel}
-    //             format="DD-MM-YYYY"
-    //             disabled={isDisabled}
-    //             value={parseDate(value)}
-    //             onChange={onChange}
-    //             minDate={parseDate(minDate)}
-    //             maxDate={parseDate(maxDate)}
-    //             defaultValue={parseDate(defaultValue)}
-    //             slots={{
-    //                 textField: (params) => (
-    //                     <TextField
-    //                         {...params}
-    //                         fullWidth
-    //                         disabled={isDisabled}
-    //                         InputProps={{
-    //                             ...params.InputProps,
-    //                             sx: {
-    //                                 '& .MuiInputBase-input': {
-    //                                     fontSize: getFontSize(),
-    //                                     height: getInputHeight() - 16,
-    //                                     padding: "8px 10px",
-    //                                     color: "black",
-    //                                 },
-    //                             },
-    //                         }}
-    //                         InputLabelProps={{
-    //                             ...params.InputLabelProps,
-    //                             sx: {
-    //                                 fontSize: getLabelFontSize(),
-    //                                 color: "black",
-    //                             },
-    //                         }}
-    //                         sx={{
-    //                             '& .MuiOutlinedInput-root': {
-    //                                 height: getInputHeight(),
-    //                                 '& fieldset': { borderColor: "#d1d1d1" },
-    //                                 '&:hover fieldset': { borderColor: "rgb(24, 118, 209)" },
-    //                                 '&.Mui-focused fieldset': { borderColor: "rgb(24, 118, 209)" },
-    //                             },
-    //                             '& .MuiSvgIcon-root': {
-    //                                 fontSize: inputSize === "xs" ? 18 : inputSize === "sm" ? 20 : 24,
-    //                             },
-    //                         }}
-    //                     />
-    //                 ),
-    //             }}
-    //         />
-    //     </LocalizationProvider>
-    // );
 
     const renderDatePicker = (passedLabel?: string) => (
             <LocalizationProvider dateAdapter={AdapterDayjs}>

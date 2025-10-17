@@ -46,6 +46,17 @@ function AssetRequest({
             layout: 'column',
         },
 
+        {
+            name: 'file',
+            type: 'file',
+            label: "Upload File",
+            value: '',
+            placeholder: "upload file",
+            required: true,
+            isError: false,
+            errorMessage: '',
+        },
+
 
 
 
@@ -95,7 +106,7 @@ function AssetRequest({
         permission: permission,
         isApiV2: true,
         isMaintainViewNavigationForV1: true,
-        inputSize: 'sm'
+        inputSize: 'xs'
     })
     return (
         <ProtectedRoute

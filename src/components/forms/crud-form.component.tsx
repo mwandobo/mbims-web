@@ -112,6 +112,8 @@ const CrudFormComponent = ({
                                                         onChange={handleInputChange}
                                                         isError={item.isError}
                                                         errorMessage={item.errorMessage}
+                                                        layout={item.layout}
+                                                        inputSize={inputSize}
                                                     />
                                                 )}
 

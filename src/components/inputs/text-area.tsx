@@ -73,7 +73,7 @@ const TextArea = ({
                     id={`${label}-select-label`}
                     style={{
                         fontSize: labelSize,
-                        color: 'rgb(55, 65, 81)', // gray-700 in RGB
+                        color: 'black', // gray-700 in RGB
                         marginBottom: '4px',
                         fontWeight: '500',
                     }}
