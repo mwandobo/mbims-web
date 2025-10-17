@@ -35,31 +35,6 @@ function AssetRequest({
             isError: false,
             errorMessage: ''
         },
-        {
-            name: 'endDate',
-            type: 'date',
-            label: 'End Date',
-            value: '',
-            required: true,
-            isError: false,
-            errorMessage: '',
-            layout: 'column',
-        },
-
-        {
-            name: 'file',
-            type: 'file',
-            label: "Upload File",
-            value: '',
-            placeholder: "upload file",
-            required: true,
-            isError: false,
-            errorMessage: '',
-        },
-
-
-
-
     ]
     const _columns = [
         {

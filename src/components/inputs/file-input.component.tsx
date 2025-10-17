@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Input, Button } from "@mui/material";
 
@@ -12,7 +11,7 @@ interface FileFieldProps {
     type?: string;
     from: string;
     errorMessage?: string;
-    layout?: "row" | "column" | "none";
+    layout?: "row" | "column" | "none" | null;
     inputSize?: "xs" | "sm" | "md" | "lg";
     onChange: (e: any, from: string) => void;
 }
@@ -21,7 +20,7 @@ const FileInputComponent = ({
                                 onChange,
                                 label,
                                 from,
-                                layout = "none",
+                                layout,
                                 inputSize = "md",
                                 isDisabled,
                                 isRequired,
@@ -29,12 +28,16 @@ const FileInputComponent = ({
                             }: FileFieldProps) => {
     const [fileName, setFileName] = useState<string>("");
 
+    /** 🔹 Normalize layout — default to 'column' if missing or null */
+    const effectiveLayout =
+        layout === "row" || layout === "none" ? layout : "column";
+
     /** 🔹 Render red asterisk for required fields */
     const renderRequiredAsterisk = () => (
         <span style={{ color: "red", marginLeft: "4px" }}>*</span>
     );
 
-    /** 🔹 Tailwind label size based on `inputSize` */
+    /** 🔹 Label size based on `inputSize` */
     const getLabelClass = () => {
         switch (inputSize) {
             case "xs": return "text-lg";
@@ -56,28 +59,29 @@ const FileInputComponent = ({
         }
     };
 
-    /** 🔹 Input font size for file name */
+    /** 🔹 Font size for filename */
     const getInputFontSize = () => {
         switch (inputSize) {
-            case "xs": return "1.125rem";
-            case "sm": return "1.25rem";
-            case "md": return "1.4rem";
-            case "lg": return ".25rem";
+            case "xs": return "0.9rem";
+            case "sm": return "1rem";
+            case "md": return "1.1rem";
+            case "lg": return "1.25rem";
             default: return "1rem";
         }
     };
 
-    /** 🔹 Input font size for file name */
+    /** 🔹 Font size for Browse button */
     const getButtonSize = () => {
         switch (inputSize) {
-            case "xs": return "0.123rem";
-            case "sm": return "1rem";
+            case "xs": return "0.7rem";
+            case "sm": return "0.85rem";
             case "md": return "1rem";
-            case "lg": return "1rem";
+            case "lg": return "1.1rem";
             default: return "1rem";
         }
     };
 
+    /** 🔹 Handle file selection */
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) setFileName(file.name);
@@ -87,15 +91,13 @@ const FileInputComponent = ({
     return (
         <div
             className={
-                layout === "row"
+                effectiveLayout === "row"
                     ? "flex items-center gap-4 mb-4"
-                    : layout === "column" || layout === "none"
-                        ? "flex flex-col mb-4"
-                        : "mb-4"
+                    : "flex flex-col mb-4"
             }
         >
             {/* Label for row/column layout */}
-            {(layout === "row" || layout === "column") && label && (
+            {(effectiveLayout === "row" || effectiveLayout === "column") && label && (
                 <label className={`text-black ${getLabelClass()} flex items-center`}>
                     {label}
                     {isRequired && renderRequiredAsterisk()}
@@ -122,36 +124,37 @@ const FileInputComponent = ({
                     }}
                 />
 
+                {/* Custom styled visible container */}
                 <div
                     className="border rounded px-3 flex items-center justify-between"
                     style={{
                         height: getInputHeight(),
-                        fontSize: getInputFontSize(), // 🔹 dynamic font size applied here
-                        color: 'rgb(55, 65, 81)', // gray-700 in RGB
+                        fontSize: getInputFontSize(),
+                        color: "rgb(55, 65, 81)",
                         paddingRight: "10px",
                         backgroundColor: isDisabled ? "#f5f5f5" : "#fff",
                     }}
                 >
-    <span
-        style={{
-            fontSize: getInputFontSize(), // 🔹 make sure span inherits font size
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-        }}
-    >
-        {fileName || "No file selected"}
-    </span>
+                    <span
+                        style={{
+                            fontSize: getInputFontSize(),
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            flex: 1,
+                        }}
+                    >
+                        {fileName || "No file selected"}
+                    </span>
                     <Button
                         variant="contained"
                         component="span"
                         disabled={isDisabled}
-                        sx={{ ml: 2, fontSize: getButtonSize(), }}
+                        sx={{ ml: 2, fontSize: getButtonSize() }}
                     >
                         Browse
                     </Button>
                 </div>
-
             </div>
         </div>
     );
