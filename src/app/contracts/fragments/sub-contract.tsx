@@ -54,7 +54,6 @@ function SubContract({
             isError: false,
             errorMessage: '',
             maxDate: contract?.endDate
-
         },
         {
             name: 'description',

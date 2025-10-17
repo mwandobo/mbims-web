@@ -18,7 +18,8 @@ const formInputs = [
         isError: false,
         errorMessage: '',
         control_for: 'assets',
-        control_type: 'update-url'
+        control_type: 'update-url',
+        layout: 'column'
     },
     {
         name: 'asset_id',
@@ -30,7 +31,8 @@ const formInputs = [
         required: true,
         isError: false,
         errorMessage: '',
-        control: 'assets'
+        control: 'assets',
+        layout: 'column'
     },
 ]
 
@@ -74,7 +76,7 @@ function RequestedItems({id, permission}: Props) {
         permission: permission,
         isApiV2: true,
         sliderComponent:RequestedItemView,
-        isHideEdit: true
+        inputSize: 'sm'
     })
 
     return (

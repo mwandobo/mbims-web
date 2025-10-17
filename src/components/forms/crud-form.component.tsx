@@ -130,6 +130,8 @@ const CrudFormComponent = ({
                                                         error={item.errorMessage}
                                                         isDisabled={isDisabled}
                                                         isRequired={item.required}
+                                                        inputSize={inputSize}
+                                                        layout={item.layout}
                                                     />
                                                 )}
                                                 {item?.type === 'select-local' && (

@@ -10,7 +10,7 @@ interface Props {
     subHeader?: string
 }
 
-function Asset({
+function AssetRequest({
                    parent_id,
                    subHeader
                }: Props) {
@@ -35,6 +35,18 @@ function Asset({
             isError: false,
             errorMessage: ''
         },
+        {
+            name: 'endDate',
+            type: 'date',
+            label: 'End Date',
+            value: '',
+            required: true,
+            isError: false,
+            errorMessage: '',
+        },
+
+
+
 
     ]
     const _columns = [
@@ -82,7 +94,7 @@ function Asset({
         permission: permission,
         isApiV2: true,
         isMaintainViewNavigationForV1: true,
-        inputSize: ''
+        inputSize: 'sm'
     })
     return (
         <ProtectedRoute
@@ -102,4 +114,4 @@ function Asset({
     )
 }
 
-export default Asset
+export default AssetRequest
