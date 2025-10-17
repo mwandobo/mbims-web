@@ -181,6 +181,8 @@ const CrudFormComponent = ({
                                                         maxDate={item.maxDate}
                                                         defaultValue={item.defaultDate}
                                                         isDisabled={isDisabled}
+                                                        inputSize={inputSize}
+                                                        layout={item.layout}
                                                     />
                                                 )}
 

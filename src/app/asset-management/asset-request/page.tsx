@@ -43,6 +43,7 @@ function AssetRequest({
             required: true,
             isError: false,
             errorMessage: '',
+            layout: 'column',
         },
 
 

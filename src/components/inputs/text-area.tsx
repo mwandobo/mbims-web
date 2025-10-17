@@ -15,14 +15,15 @@ interface Props {
 
 const StyledTextareaAutosize = styled(TextareaAutosize)(({ theme }) => ({
     '&::placeholder': {
-        color: 'black',
+        color: 'rgb(55, 65, 81)', // gray-700 in RGB
         fontStyle: 'italic',
+        opacity: 0.7,
     },
     width: '100%',
     border: '2px solid #d1d1d1',
     borderRadius: '5px',
     padding: '6px 10px',
-    color: 'black',
+    color: 'rgb(55, 65, 81)', // gray-700 in RGB
     marginBottom: '10px',
     fontFamily: 'inherit',
     resize: 'vertical',
@@ -30,6 +31,7 @@ const StyledTextareaAutosize = styled(TextareaAutosize)(({ theme }) => ({
         outline: 'none',
         borderColor: 'rgb(24, 118, 209)',
     },
+    backgroundColor: 'white',
 }));
 
 const TextArea = ({
@@ -50,15 +52,15 @@ const TextArea = ({
     const getFontSizes = () => {
         switch (inputSize) {
             case 'xs':
-                return { label: '12px', text: '13px' };
+                return { label: '1.125rem', text: '13px' };
             case 'sm':
-                return { label: '13px', text: '14px' };
+                return { label: '1.25rem', text: '14px' };
             case 'md':
-                return { label: '16px', text: '17px' };
+                return { label: '1.5rem', text: '17px' };
             case 'lg':
-                return { label: '16px', text: '17px' };
+                return { label: '2.25rem', text: '17px' };
             default:
-                return { label: '14px', text: '15px' };
+                return { label: '1.5rem', text: '15px' };
         }
     };
 
@@ -71,8 +73,9 @@ const TextArea = ({
                     id={`${label}-select-label`}
                     style={{
                         fontSize: labelSize,
-                        color: 'black',
+                        color: 'rgb(55, 65, 81)', // gray-700 in RGB
                         marginBottom: '4px',
+                        fontWeight: '500',
                     }}
                 >
                     {label}
@@ -88,6 +91,7 @@ const TextArea = ({
                 style={{
                     fontSize: textSize,
                     fontWeight: '300',
+                    color: 'rgb(55, 65, 81)', // gray-700 in RGB
                 }}
             />
 
