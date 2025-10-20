@@ -54,7 +54,7 @@ const SlideOver: React.FC<SlideOverProps> = ({
                 >
                     {/* Header */}
                     <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-                        <h2 className="text-lg font-semibold">{title}</h2>
+                        <h2 className="text-xl font-semibold">{title}</h2>
                         <button
                             onClick={toggleSlideOver}
                             className="text-gray-500 hover:text-gray-800"
