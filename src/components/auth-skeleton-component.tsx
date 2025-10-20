@@ -31,7 +31,7 @@ function AuthSkeletonComponent({children, loading, subtitle, title}: Props) {
                     {/* Left Section */}
                     <div className="relative h-full ps-4 pt-4 pb-4 flex flex-col">
                         {/* Logo - top left */}
-                        <img src="/logo1.png" alt="Logo" className="h-16 w-24 object-contain absolute top-4 left-4"/>
+                        <img src="/logo.png" alt="Logo" className="h-16 w-24 object-contain absolute top-4 left-4"/>
 
                         {/* Centered Content */}
                         <div className="flex flex-1 flex-col justify-center items-center mt-16">
@@ -44,7 +44,7 @@ function AuthSkeletonComponent({children, loading, subtitle, title}: Props) {
                                     <div className="w-full">
                                         <div className="flex flex-col items-center gap-8">
                                             <h4 className="text-4xl text-black font-semibold">{title ?? subtitle}</h4>
-                                            <h4 className="text-sm font-semibold text-black">{subtitle}</h4>
+                                            <h4 className="lg font-semibold text-black">{subtitle}</h4>
                                             <div className="w-full">{children}</div>
                                         </div>
 
@@ -55,19 +55,18 @@ function AuthSkeletonComponent({children, loading, subtitle, title}: Props) {
 
                         {/* Footer */}
                         <p className="text-sm text-gray-500 mt-4">
-                            &copy; {new Date().getFullYear()} EMASUITE. All rights reserved.
+                            &copy; {new Date().getFullYear()} Mwalimu Commercial Bank. All rights reserved.
                         </p>
                     </div>
 
                     {/* Right Section */}
                     <div className=" hidden md:flex justify-center items-center py-2">
-                        <div className="h-full bg-[#0c55d7] flex flex-col gap-8 justify-center px-8 rounded-2xl">
+                        <div className="h-full bg-[#EA8336] flex flex-col gap-8 justify-center px-8 rounded-2xl">
                             <h4 className="text-start w-full text-4xl text-white">
-                                Effortlessly manage your Contracts.
+                                Mwalimu Commercial Bank Management System.
                             </h4>
                             <p className="text-start w-full text-white">
-                                Carry out Contracts Management, Licences , and Notifications Activities as you Accomplish your
-                                Purchase.
+                                Carry out Asset Management, Reconciliation , and Other Activities.
                             </p>
                             <div className="flex">
                                 <div className="rounded-md p-2 bg-white">
