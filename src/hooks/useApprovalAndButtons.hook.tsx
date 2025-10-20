@@ -33,9 +33,9 @@ export const useApprovalsAndButtonsHook = ({
                                                hasApprovalMode,
                                                approvalStatus,
                                                entityId,
-    shouldApprove,
-    isMyLevelApproved,
-    currentLevelId,
+                                               shouldApprove,
+                                               isMyLevelApproved,
+                                               currentLevelId,
                                                onAfterApprove
                                            }: Props) => {
     // const {dispatch, state} = useGlobalContextHook()
@@ -59,11 +59,11 @@ export const useApprovalsAndButtonsHook = ({
     const approve = async () => {
         const approveUrl = 'approval-actions';
 
-       const payload = {
+        const payload = {
             action: modalTitle === "approve" ? "APPROVED" : "REJECTED",
             entityId: entityId ?? "",
             description: remark,
-            approvalLevelId:currentLevelId ?? "",
+            approvalLevelId: currentLevelId ?? "",
         }
 
         // const response = await postRequest(approveUrl, payload);
@@ -71,7 +71,8 @@ export const useApprovalsAndButtonsHook = ({
         //     setIsrefresh(!refresh); // Trigger a re-render by toggling the refresh state
         //     dispatch({type: "UPDATE_VIEW_ITEM_REFRESH_AFTER_APPROVAL"})
         // }
-        return await postRequest(approveUrl, payload);;
+        return await postRequest(approveUrl, payload);
+        ;
     };
 
     // const callBack = () => {
@@ -110,38 +111,69 @@ export const useApprovalsAndButtonsHook = ({
         }
     }
 
+    const renderTreeList = () => {
+        return <div className={'flex justify-between ml-2 w-36'}>
+            <SlideOver
+                showButton={true}
+                title="Approval Trail">
+                <TreeList
+                    url={'approval-actions'}
+                />
+            </SlideOver>
+        </div>
+    }
+
     const renderApprovalStatus = (approvalStatus: string) => {
         if (approvalStatus && approvalStatus === 'PENDING') {
-            if(!shouldApprove){
-                return <div className={"flex w-full justify-between"}>
-                    <p className={'w-full'}> <span className='text-xs p-1 bg-gray-200 '>Waiting For Approval</span> </p>
-                    <p className={'flex w-full justify-end'}> <span className='text-xs p-1 bg-gray-200 '>Waiting For Complete Approval</span> </p>
+            if (!shouldApprove) {
+                return <div className={"flex w-full justify-between mt-1"}>
+                    <div className={"flex w-full justify-start"}>
+                        <p className={''}><span className='text-xs p-2 bg-gray-200 '>Waiting For Approval</span>
+                        </p>
+                        {renderTreeList()}
+                    </div>
+                    <p className={'flex w-full justify-end'}><span className='text-xs p-1 bg-gray-200 '>Waiting For Complete Approval</span>
+                    </p>
                 </div>
             }
 
-            if(!isMyLevelApproved){
+            if (!isMyLevelApproved) {
                 return <div className={"flex w-full justify-between"}>
-                    <p className={'w-full'}>
-                        <span className='text-xs p-1 bg-gray-200 '>Waiting For Your Approval</span>
-                    </p>
+                    <div className={"flex w-full justify-start items-center"}>
+                        <p className={''}>
+                            <span className='text-xs p-2 bg-gray-200 '>Waiting For Your Approval</span>
+                        </p>
+                        {renderTreeList()}
+                    </div>
                     {renderApprovalButtons()}
                 </div>
             }
 
-            return <div className={"flex w-full justify-between"}>
-                <p className={'w-full'}><span className='text-xs p-1 bg-gray-200 '>Approved</span></p>
-                {/*{renderApprovalButtons()}*/}
-                <p className={'w-full flex justify-end'}>  <span className='text-xs p-1 bg-gray-200 '>Waiting For Further Approval</span> </p>
+            return <div className={"flex w-full justify-between mt-1"}>
+                <div className={"flex w-full justify-start"}>
+                    <p className={''}><span className='text-xs p-2 bg-gray-200 '>Approved</span></p>
+                    {renderTreeList()}
+                </div>
+                <p className={'w-full flex justify-end'}><span className='text-xs p-1 bg-gray-200 '>Waiting For Further Approval</span>
+                </p>
             </div>
         }
 
         switch (approvalStatus) {
             case 'APPROVED':
-                return <span className='bg-green-100 p-2 rounded-sm'>Approved</span>
+                return <div className={"flex  justify-start"}>
+                    <span className='bg-green-100 p-2 rounded-sm'>Approved</span>
+                    {renderTreeList()}
+                </div>
             case 'REJECTED':
-                return <span className='bg-red-100 p-2 rounded-sm'>Disapproved</span>
+                return <div className={"flex justify-start"}>
+                    <span className='bg-red-100 p-2 rounded-sm'>Disapproved</span>
+                    {renderTreeList()}
+                </div>
             default:
-                return <span className='text-xs p-1 bg-gray-200'>Waiting For Approval</span>
+                return <div className={"flex justify-start"}>
+                    <span className='text-xs p-1 bg-gray-200'>Waiting For Approval</span> {renderTreeList()}
+                </div>
         }
     }
 
@@ -213,6 +245,8 @@ export const useApprovalsAndButtonsHook = ({
                     </div>
                 ) : buttonBody
                 }
+
+
             </>
         );
     }

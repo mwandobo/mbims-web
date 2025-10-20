@@ -21,7 +21,7 @@ const TreeList = ({
                 const res = await getRequest(url)
 
                 if (res.status === 200) {
-                    setData(res.data)
+                    setData(res.data?.data)
                     setLoading(false)
                 }
 

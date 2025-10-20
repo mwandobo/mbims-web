@@ -51,7 +51,7 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
         from_id: id,
         approvalStatus: data?.approvalStatus,
         hasApprovalMode: data?.hasApprovalMode,
-        shouldApprove: data?.hasApprovalMode,
+        shouldApprove: data?.shouldApprove,
         isMyLevelApproved: data?.isMyLevelApproved,
         currentLevelId: data?.currentLevelId,
         entityId:id,
