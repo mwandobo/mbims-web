@@ -1,5 +1,4 @@
-filter assets by category
 preview approval body
-style login form inputs 
-rename the footer
+manipulate approval after delete or add when approval is already done.
+
 

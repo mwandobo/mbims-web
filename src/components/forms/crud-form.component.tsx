@@ -28,7 +28,7 @@ interface Props {
     onSaveButtonName?: string
     handleSubmit: () => void,
     isShowAddPriceButton?: boolean,
-    inputSize: string
+    inputSize?: string
 }
 
 const CrudFormComponent = ({
