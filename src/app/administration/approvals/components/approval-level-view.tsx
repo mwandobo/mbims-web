@@ -48,6 +48,7 @@ const ApprovalLevelView = (payload: any) => {
                             <ViewCardItemApartComponent
                                 data={[
                                     { label: 'Level Name', value: data?.name },
+                                    { label: 'Level', value: data?.level },
                                     { label: 'Role Name', value: data?.role?.name },
                                     { label: 'Description', value: data?.description },
                                 ]}

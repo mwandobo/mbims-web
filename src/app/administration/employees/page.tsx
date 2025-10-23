@@ -23,7 +23,8 @@ function Employees({
             value: '',
             required: true,
             isError: false,
-            errorMessage: ''
+            errorMessage: '',
+            layout: 'column',
         },
         {
             name: 'department_id',
@@ -34,7 +35,8 @@ function Employees({
             optionDataKey: 'name',
             required: true,
             isError: false,
-            errorMessage: ''
+            errorMessage: '',
+            layout: 'column',
         },
 
         {
@@ -46,17 +48,19 @@ function Employees({
             optionDataKey: 'name',
             required: true,
             isError: false,
-            errorMessage: ''
+            errorMessage: '',
+            layout: 'column',
+
         },
-        {
-            name: 'canReceiveEmail',
-            type: 'radio',
-            options: [{label: "No" ,value:  0, default: true}, {label:  'YES', value: 1},],
-            label: 'Should Receive Email',
-            value: parent_id,
-            isError: false,
-            errorMessage: ''
-        },
+        // {
+        //     name: 'canReceiveEmail',
+        //     type: 'radio',
+        //     options: [{label: "No" ,value:  0, default: true}, {label:  'YES', value: 1},],
+        //     label: 'Should Receive Email',
+        //     value: parent_id,
+        //     isError: false,
+        //     errorMessage: ''
+        // },
     ]
     const _columns = [
         {
@@ -103,7 +107,8 @@ function Employees({
         permission: permission,
         emailNotificationBody: {code: 'create-employee', operation: null, id: null},
         isApiV2: true,
-        isMaintainViewNavigationForV1: true
+        isMaintainViewNavigationForV1: true,
+        inputSize: 'sm'
     })
     return (
         <ProtectedRoute
@@ -118,7 +123,7 @@ function Employees({
                 permission={`${permission}_create`}
             />
             {tabular()}
-            {createdForm('md')}
+            {createdForm('sm')}
         </ProtectedRoute>
     )
 }

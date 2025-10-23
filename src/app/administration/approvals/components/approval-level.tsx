@@ -48,17 +48,18 @@ const columns = [
         label: 'Level Name',
     },
     {
+        id: 'formattedLevel',
+        numeric: false,
+        disablePadding: false,
+        label: 'Level',
+    },
+    {
         id: 'roleName',
         numeric: false,
         disablePadding: false,
-        label: 'Role Name',
+        label: 'Role',
     },
-    {
-        id: 'description',
-        numeric: false,
-        disablePadding: false,
-        label: 'Description',
-    },
+
 ]
 
 interface Props {
@@ -84,7 +85,7 @@ function ApprovalLevel({id, permission}: Props) {
         permission: permission,
         isApiV2: true,
         sliderComponent:ApprovalLevelView,
-        inputSize: 'sm'
+        inputSize: 'xs'
     })
 
     return (
@@ -99,7 +100,7 @@ function ApprovalLevel({id, permission}: Props) {
                 isHideAdd={false}
             />
             {tabular()}
-            {createdForm( 'md')}
+            {createdForm( 'xs')}
 
         </ProtectedRoute>
     )
