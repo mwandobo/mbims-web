@@ -22,6 +22,7 @@ interface Props {
     shouldApprove?: boolean;
     currentLevelId?: string;
     entityId?: string;
+    entityCreatorId?: string;
     onAfterApprove?: () => Promise<void> | void; // ✅ new
 }
 
@@ -36,6 +37,7 @@ export const useApprovalsAndButtonsHook = ({
                                                shouldApprove,
                                                isMyLevelApproved,
                                                currentLevelId,
+                                               entityCreatorId,
                                                onAfterApprove
                                            }: Props) => {
     // const {dispatch, state} = useGlobalContextHook()
@@ -64,6 +66,7 @@ export const useApprovalsAndButtonsHook = ({
             entityId: entityId ?? "",
             description: remark,
             approvalLevelId: currentLevelId ?? "",
+            entityCreatorId: entityCreatorId ?? "",
         }
 
         // const response = await postRequest(approveUrl, payload);
