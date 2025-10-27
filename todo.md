@@ -1,10 +1,9 @@
 preview approval body
 manipulate approval after delete or add when approval is already done.
-
 What to do when an entity is disapproved
 Close buttons after approve or status is not pending
+recheck form when creation
 
 
-todo leo
-send email after approval action
+
 

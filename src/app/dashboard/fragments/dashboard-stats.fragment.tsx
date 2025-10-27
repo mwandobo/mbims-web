@@ -10,7 +10,7 @@ const DashboardStatsFragment = () => {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const response = await getRequest<any>('dashboard/contracts-stats')
+                const response = await getRequest<any>('dashboard/overall-stats')
                 if (response.status === 200) {
                     console.log('response', response.data)
                     setStats(response.data)
@@ -26,15 +26,9 @@ const DashboardStatsFragment = () => {
     }, [])
 
     const cards = [
-        { title: "Total Contracts", value: stats?.total_contracts },
-        { title: "Active Contracts", value: stats?.activeContracts },
-        { title: "Expiring Soon", value: stats?.expiringSoon },
-        { title: "Total Licenses", value: stats?.totalLicenses },
-        { title: "Active Licenses", value: stats?.activeLicenses },
-        { title: "Expired Licenses", value: stats?.expiredLicenses },
-        { title: "Total Policies", value: stats?.totalPolicies },
-        { title: "Active Policies", value: stats?.activePolicies },
-        { title: "Expired Policies", value: stats?.expiredPolicies },
+        { title: "Total Asset Categories", value: stats?.totalAssetCategories },
+        { title: "Total Assets", value: stats?.totalAssets},
+        { title: "Total Asset Request", value: stats?.totalAssetRequests },
     ]
 
     return (

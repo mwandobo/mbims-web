@@ -1,6 +1,7 @@
 import React from 'react';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import { InputLabel, styled } from '@mui/material';
+import {getLabelStyle, getTextFontSize} from "@/utils/input-styler";
 
 interface Props {
     value?: string;
@@ -49,22 +50,22 @@ const TextArea = ({
     };
 
     /** 🔹 Adjust font sizes based on `size` prop */
-    const getFontSizes = () => {
-        switch (inputSize) {
-            case 'xs':
-                return { label: '1.125rem', text: '13px' };
-            case 'sm':
-                return { label: '1.25rem', text: '14px' };
-            case 'md':
-                return { label: '1.5rem', text: '17px' };
-            case 'lg':
-                return { label: '2.25rem', text: '17px' };
-            default:
-                return { label: '1.5rem', text: '15px' };
-        }
-    };
+    // const getFontSizes = () => {
+    //     switch (inputSize) {
+    //         case 'xs':
+    //             return { label: '1.125rem', text: '13px' };
+    //         case 'sm':
+    //             return { label: '1.25rem', text: '14px' };
+    //         case 'md':
+    //             return { label: '1.5rem', text: '17px' };
+    //         case 'lg':
+    //             return { label: '2.25rem', text: '17px' };
+    //         default:
+    //             return { label: '1.5rem', text: '15px' };
+    //     }
+    // };
 
-    const { label: labelSize, text: textSize } = getFontSizes();
+    // const { label: labelSize, text: textSize } = getFontSizes();
 
     return (
         <>
@@ -72,7 +73,7 @@ const TextArea = ({
                 <InputLabel
                     id={`${label}-select-label`}
                     style={{
-                        fontSize: labelSize,
+                        fontSize: getLabelStyle(inputSize),
                         color: 'black', // gray-700 in RGB
                         marginBottom: '4px',
                         fontWeight: '500',
@@ -89,7 +90,7 @@ const TextArea = ({
                 placeholder={placeholder}
                 aria-label={`${label}-select-label`}
                 style={{
-                    fontSize: textSize,
+                    fontSize: getTextFontSize(inputSize),
                     fontWeight: '300',
                     color: 'rgb(55, 65, 81)', // gray-700 in RGB
                 }}

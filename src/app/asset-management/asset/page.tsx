@@ -23,7 +23,8 @@ function Asset({
             value: '',
             required: true,
             isError: false,
-            errorMessage: ''
+            errorMessage: '',
+            layout: 'column',
         },
         {
             name: 'category_id',
@@ -34,7 +35,8 @@ function Asset({
             optionDataKey: 'name',
             required: true,
             isError: false,
-            errorMessage: ''
+            errorMessage: '',
+            layout: 'column',
         },
         {
             name: 'description',
@@ -43,7 +45,8 @@ function Asset({
             value: '',
             required: true,
             isError: false,
-            errorMessage: ''
+            errorMessage: '',
+            layout: 'column',
         },
 
     ]

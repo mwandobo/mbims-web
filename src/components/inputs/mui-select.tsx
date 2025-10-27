@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { getRequest } from "@/utils/api-calls.util";
 import CreateOptionsForSelect from "@/utils/create-options-for-select";
+import {getInputHeight, getLabelClass, getTextFontSize} from "@/utils/input-styler";
 
 interface Props {
     handleChange: (
@@ -47,7 +48,7 @@ const MuiSelect = ({
                        control,
                        control_for,
                        control_type,
-                       inputSize = "md",
+                       inputSize = "none",
                        layout = "none",
                    }: Props) => {
     const [options, setOptions] = useState<any[]>([]);
@@ -85,54 +86,8 @@ const MuiSelect = ({
         <span style={{ color: "red", marginLeft: "4px" }}>*</span>
     );
 
-    /** 🔹 Get label text size */
-    const getLabelClass = () => {
-        switch (inputSize) {
-            case "xs":
-                return "text-lg";
-            case "sm":
-                return "text-xl";
-            case "md":
-                return "text-2xl";
-            case "lg":
-                return "text-4xl";
-            default:
-                return "text-xl";
-        }
-    };
 
     /** 🔹 Get select height */
-    const getSelectHeight = () => {
-        switch (inputSize) {
-            case "xs":
-                return 32;
-            case "sm":
-                return 40;
-            case "md":
-                return 56;
-            case "lg":
-                return 64;
-            default:
-                return 48;
-        }
-    };
-
-    /** 🔹 Get text font size */
-    const getTextFontSize = () => {
-        switch (inputSize) {
-            case "xs":
-                return "1rem";
-            case "sm":
-                return "1.3rem";
-            case "md":
-                return "1.6rem";
-            case "lg":
-                return "2rem";
-            default:
-                return "1.4rem";
-        }
-    };
-
     return (
         <div
             className={
@@ -145,7 +100,7 @@ const MuiSelect = ({
         >
             {/* External label for row/column layouts */}
             {(layout === "row" || layout === "column") && label && (
-                <label className={`text-black ${getLabelClass()} flex items-center mb-2`}>
+                <label className={`text-black ${getLabelClass(inputSize)} flex items-center mb-2`}>
                     {label}
                     {isRequired && renderRequiredAsterisk()}
                 </label>
@@ -163,7 +118,7 @@ const MuiSelect = ({
                             color: "black",
                             "&.Mui-focused": { color: "black" },
                             display: layout === "none" ? "block" : "none", // Hide internal label if external layout
-                            fontSize: getTextFontSize(),
+                            fontSize: getTextFontSize(inputSize),
                         }}
                     >
                         {label}
@@ -180,15 +135,25 @@ const MuiSelect = ({
                         required={isRequired}
                         displayEmpty
                         sx={{
-                            height: getSelectHeight(),
-                            fontSize: getTextFontSize(),
-                            color: "black",
+                            height: getInputHeight(inputSize),
+                            fontSize: getTextFontSize(inputSize),
+                            color: normalizedValue === "" ? "#747B86" : "black", // 👈 changes text color when selected
+                            "& .MuiSelect-icon": {
+                                color: "#747B86", // optional: make dropdown arrow consistent
+                            },
                             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                borderColor: "rgb(24, 118, 209)", // consistent blue
+                                borderColor: "rgb(24, 118, 209)",
                             },
                         }}
                     >
-                        <MenuItem value="" disabled>
+                        <MenuItem
+                            value=""
+                            sx={{
+                                fontSize: getTextFontSize(inputSize),
+                                color: "#747B86", // 👈 placeholder color
+                            }}
+                            disabled
+                        >
                             <em>{placeholder}</em>
                         </MenuItem>
 
@@ -199,13 +164,15 @@ const MuiSelect = ({
                                     key={option.value}
                                     value={option.value}
                                     sx={{
-                                        fontSize: getTextFontSize(),
+                                        fontSize: getTextFontSize(inputSize),
+                                        color: "black", // 👈 ensure normal text is black
                                     }}
                                 >
                                     {option.label}
                                 </MenuItem>
                             ))}
                     </Select>
+
                 </FormControl>
             </div>
         </div>

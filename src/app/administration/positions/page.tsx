@@ -23,7 +23,8 @@ function Position({
             value: '',
             required: true,
             isError: false,
-            errorMessage: ''
+            errorMessage: '',
+            layout: 'column'
         },
         {
             name: 'department_id',
@@ -34,7 +35,8 @@ function Position({
             optionDataKey: 'name',
             required: true,
             isError: false,
-            errorMessage: ''
+            errorMessage: '',
+            layout: 'column'
         },
         {
             name: 'description',
@@ -43,7 +45,8 @@ function Position({
             value: '',
             required: true,
             isError: false,
-            errorMessage: ''
+            errorMessage: '',
+            layout: 'column'
         },
 
     ]
