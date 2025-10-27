@@ -14,6 +14,7 @@ const deptFormInputs = [
         required: true,
         isError: false,
         errorMessage: '',
+        layout: 'column',
     },
     {
         name: 'description',

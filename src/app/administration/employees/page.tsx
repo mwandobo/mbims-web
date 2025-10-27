@@ -108,7 +108,6 @@ function Employees({
         emailNotificationBody: {code: 'create-employee', operation: null, id: null},
         isApiV2: true,
         isMaintainViewNavigationForV1: true,
-        inputSize: 'sm'
     })
     return (
         <ProtectedRoute

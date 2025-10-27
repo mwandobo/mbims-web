@@ -64,8 +64,8 @@ export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
                         {label: 'Employee Name', value: data.name},
                         {label: 'Email', value: data?.email},
                         {label: 'Department', value: data?.departmentName},
+                        {label: 'Position', value: data?.positionName},
                         {label: 'Role', value: data?.roleName},
-                        {label: 'Can Receive Notification', value: data?.canReceiveEmail ? <Check strokeWidth={6} size={20}  className={'text-green-900'} /> : <X strokeWidth={6} size={20}  className={'text-red-900'}/>  },
                     ]}
                     titleA="Employee"
                     titleB={data.name}

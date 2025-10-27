@@ -20,11 +20,11 @@ function AssetRequest({
             name: 'name',
             type: 'text',
             label: 'Request Title',
-            layout: 'column',
             value: '',
             required: true,
             isError: false,
-            errorMessage: ''
+            errorMessage: '',
+            layout: 'column',
         },
         {
             name: 'description',
@@ -81,7 +81,6 @@ function AssetRequest({
         permission: permission,
         isApiV2: true,
         isMaintainViewNavigationForV1: true,
-        inputSize: 'xs'
     })
     return (
         <ProtectedRoute

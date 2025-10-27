@@ -118,7 +118,6 @@ export default function LoginPage() {
                     onChange={handleChange}
                     isError={false}
                     errorMessage={''}
-                    inputSize={'xs'}
                     layout={'column'}
                 />
                 <TextFieldComponent
@@ -130,7 +129,6 @@ export default function LoginPage() {
                     isError={false}
                     type='password'
                     errorMessage={''}
-                    inputSize={'xs'}
                     layout={'column'}
                 />
                 <div className="flex flex-col items-end gap-2 mb-6 text-white">

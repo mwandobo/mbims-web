@@ -65,6 +65,7 @@ export default function DepartmentShowPage({departmentId}: { departmentId: strin
                     <ViewCardComponent
                         data={[
                             {label: 'Department Name', value: data?.name},
+                            {label: 'Description', value: data?.description},
                         ]}
                         titleA={`Department`}
                         titleB={` ${data?.name} `}

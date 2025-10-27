@@ -13,7 +13,8 @@ const deptFormInputs = [
         value: '',
         required: true,
         isError: false,
-        errorMessage: ''
+        errorMessage: '',
+        layout: 'column',
     }
 ]
 

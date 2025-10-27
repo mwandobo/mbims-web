@@ -9,11 +9,12 @@ const deptFormInputs = [
     {
         name: 'name',
         type: 'text',
-        label: 'Name',
+        label: 'Category Name',
         value: '',
         required: true,
         isError: false,
         errorMessage: '',
+        layout: 'column',
     },
     {
         name: 'description',
@@ -30,7 +31,7 @@ const columns = [
         id: 'name',
         numeric: false,
         disablePadding: false,
-        label: 'Department Name',
+        label: 'Category Name',
         width: '30%',
 
     },
@@ -56,7 +57,7 @@ function AssetCategory() {
         columns: columns,
         formInputs: deptFormInputs,
         url: 'asset-categories',
-        modalTitle: 'Department',
+        modalTitle: 'Asset Category',
         viewUrl: '/asset-management/asset-category/',
         state_properties: [],
         permission: permission,
