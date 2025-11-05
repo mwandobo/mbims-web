@@ -38,6 +38,7 @@ const formInputs = [
         isError: false,
         errorMessage: ''
     },
+
 ]
 
 const columns = [
@@ -59,7 +60,6 @@ const columns = [
         disablePadding: false,
         label: 'Role',
     },
-
 ]
 
 interface Props {
