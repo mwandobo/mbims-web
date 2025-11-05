@@ -40,9 +40,6 @@ export default function LoginPage() {
 
             try {
                 const response = await postRequest<any>('auth/login', {email, password})
-
-                // console.log('response', response)
-
                 if (response.status === 200) {
                     const token = response?.data?.access_token
                     const user = response?.data?.user
@@ -56,9 +53,6 @@ export default function LoginPage() {
                     ) {
                         setLoading(!loading)
                         dispatch({ type: "SET_CURRENT_USER", payload: user })
-
-                        console.log(' notifications.filter((note: any) => !note.isRead).length',  notifications.filter((note: any) => !note.isRead).length)
-
                         const notificationPayload = {
                             count: notifications.filter((note: any) => !note.isRead).length,
                             notifications: notifications,

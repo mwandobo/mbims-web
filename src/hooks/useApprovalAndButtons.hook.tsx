@@ -74,9 +74,6 @@ export const useApprovalsAndButtonsHook = ({
             redirectUrl: redirectUrl ? `${homeURL}/${redirectUrl}` :  "",
         }
 
-        console.log("homeURL", homeURL);
-        console.log("payload", payload);
-
         // const response = await postRequest(approveUrl, payload);
         // if ([200, 201].includes(response.status)) {
         //     setIsrefresh(!refresh); // Trigger a re-render by toggling the refresh state
