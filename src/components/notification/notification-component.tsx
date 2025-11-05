@@ -1,6 +1,6 @@
 'use client';
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Bell, Circle, MailOpen, SquareArrowOutUpRight, Trash} from 'lucide-react';
 import DropdownComponent from '@/components/dropdown/dropdown.component';
 import {useGlobalContextHook} from '@/hooks/useGlobalContextHook';
@@ -20,29 +20,14 @@ const NotificationComponent = () => {
     const token = getValueFromLocalStorage("token");
 
     const {refreshNotification, currentUser} = state;
-    // const numberOfNotifications = notificationBody?.count;
-    // const notes = notificationBody?.notifications;
-
-    // useEffect(() => {
-    //     const notificationBody = getValueFromLocalStorage('notificationBody');
-    //
-    //     if (notificationBody) {
-    //         const _notificationBody = JSON.parse(notificationBody);
-    //         dispatch({type: 'UPDATE_NOTIFICATION_BODY', payload: _notificationBody});
-    //     }
-    // }, []);
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
-
                 try {
                     const res = await getRequest('notifications')
-
                     if ( res.status === 200) {
-                        console.log('res.status', res.status)
                         // @ts-ignore
-                        console.log('res.data.data', res.data.data)
                         setNotes(res.data?.data);
                         setLoading(false)
                     }
@@ -62,29 +47,22 @@ const NotificationComponent = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    const handleNotificationDispatch = (notifications: any[]) => {
-        const notificationPayload = {
-            count: notifications.filter((note: any) => !note.isRead).length,
-            notifications: notifications,
-        };
-
-        // // Update state and local storage
-        dispatch({type: "UPDATE_NOTIFICATION_BODY", payload: notificationPayload});
-    }
-
     const toggleExpand = async (index: number) => {
         setExpandedNotification(expandedNotification === index ? null : index);
-        const note = notes[index]// Toggle expanded state
+        const note = notes[index];
 
         if (!note?.isRead) {
             try {
                 const updatedNotification = await getRequest(`notifications/${note?.id}/read`);
                 if (updatedNotification.status === 200) {
-                    notes[index] = {...note, isRead: true}
-                    handleNotificationDispatch(notes)
+                    // Create a new array so React detects the change
+                    const updatedNotes = notes.map((n, i) =>
+                        i === index ? { ...n, isRead: true } : n
+                    );
+                    setNotes(updatedNotes);
                 }
             } catch (error) {
-                console.error("Error fetching notifications:", error);
+                console.error("Error updating notification:", error);
             }
         }
     };
@@ -92,12 +70,11 @@ const NotificationComponent = () => {
     const handleDelete = async (index: number, event: any) => {
         event.stopPropagation();
         const note = notes[index]// Toggle expanded state
-
         try {
             const response = await deleteRequest(`notifications/${note?.id}`);
             if (response.status === 200) {
                 const newNotes = notes.filter((note, _index) => Number(_index) !== Number(index))
-                handleNotificationDispatch(newNotes)
+                setNotes(newNotes)
                 ToastComponent({text:'Deleted Successfully'})
             }
         } catch (error) {
@@ -112,7 +89,7 @@ const NotificationComponent = () => {
                 const newNotes = notes.map(note => {
                     return {...note, isRead: true}
                 })
-                handleNotificationDispatch(newNotes)
+                setNotes(newNotes)
             }
         } catch (error) {
             console.error("Error fetching notifications:", error);
@@ -123,13 +100,17 @@ const NotificationComponent = () => {
         try {
             const updatedNotificationResult = await getRequest(`notifications/delete-all`);
             if (updatedNotificationResult.status === 200) {
-                handleNotificationDispatch([])
+                setNotes([])
             }
         } catch (error) {
             console.error("Error fetching notifications:", error);
         }
     };
 
+    const unreadCount = useMemo(
+        () => notes.filter(note => !note.isRead).length,
+        [notes]
+    );
 
     const handleViewClick = (notificationBody: any) => {
         const {redirectUrl, group, state_redirect_url, for_id} = notificationBody
@@ -170,7 +151,6 @@ const NotificationComponent = () => {
                     break;
             }
         }
-
         router.push(redirectUrl)
         setIsDropdownOpen(false);
     }
@@ -184,7 +164,7 @@ const NotificationComponent = () => {
             <button
                 onClick={toggleIsDropdownOpen}
                 className={`flex flex-col items-center space-x-2 focus:outline-none p-2 rounded-full ${
-                    notes.length > 0 && 'animate-pulse border border-gray-200'
+                    unreadCount> 0 && 'animate-pulse border border-gray-200'
                 }`}
             >
                 <Bell className={'text-gray-800 '}/>
@@ -193,7 +173,7 @@ const NotificationComponent = () => {
                         'ps-4 -mt-2 text-xs text-red-400 font-semibold'
                     }
                 >
-                    {notes.length  > 0 ? notes.length  : ''}
+                    {unreadCount > 0 ? unreadCount : ''}
                 </span>
             </button>
             <div className={'bg-red-200'}>

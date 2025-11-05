@@ -4,6 +4,8 @@ What to do when an entity is disapproved
 Close buttons after approve or status is not pending
 recheck form when creation
 
+make sidebar navigatable 
+
 
 
 

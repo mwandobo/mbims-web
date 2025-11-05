@@ -59,7 +59,7 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
         entityCreatorId: data?.user?.id,
         entityId:id,
         onAfterApprove: fetchData,
-        redirectUrl: `asset-request/${id}`
+        redirectUrl: `asset-management/asset-request/${id}`
     })
 
     useEffect(() => {
