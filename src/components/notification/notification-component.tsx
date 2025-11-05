@@ -8,26 +8,55 @@ import {useRouter} from "next/navigation";
 import ToastComponent from "@/components/popup/toast";
 import {getValueFromLocalStorage, setValueLocalStorage} from "@/utils/local-storage.util";
 import {deleteRequest, getRequest} from "@/utils/api-calls.util";
+import LoadingComponent from "@/components/status/loading.component";
 
 const NotificationComponent = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [notes, setNotes] = useState([]);
+    const [loading, setLoading] = useState(false)
     const [expandedNotification, setExpandedNotification] = useState<number | null>(null); // Track expanded notification
     const {state, dispatch} = useGlobalContextHook();
     const router = useRouter()
     const token = getValueFromLocalStorage("token");
 
-    const {notificationBody} = state;
-    const numberOfNotifications = notificationBody?.count;
-    const notes = notificationBody?.notifications;
+    const {refreshNotification, currentUser} = state;
+    // const numberOfNotifications = notificationBody?.count;
+    // const notes = notificationBody?.notifications;
+
+    // useEffect(() => {
+    //     const notificationBody = getValueFromLocalStorage('notificationBody');
+    //
+    //     if (notificationBody) {
+    //         const _notificationBody = JSON.parse(notificationBody);
+    //         dispatch({type: 'UPDATE_NOTIFICATION_BODY', payload: _notificationBody});
+    //     }
+    // }, []);
 
     useEffect(() => {
-        const notificationBody = getValueFromLocalStorage('notificationBody');
+        const fetchData = async () => {
+            setLoading(true)
 
-        if (notificationBody) {
-            const _notificationBody = JSON.parse(notificationBody);
-            dispatch({type: 'UPDATE_NOTIFICATION_BODY', payload: _notificationBody});
-        }
-    }, []);
+                try {
+                    const res = await getRequest('notifications')
+
+                    if ( res.status === 200) {
+                        console.log('res.status', res.status)
+                        // @ts-ignore
+                        console.log('res.data.data', res.data.data)
+                        setNotes(res.data?.data);
+                        setLoading(false)
+                    }
+
+                } catch (error: any) {
+                    if (error?.code === "ERR_NETWORK") {
+                        console.log('error')
+                    }
+                }
+        };
+        fetchData()
+    }, [refreshNotification, token,currentUser ]);
+
+    console.log('notes', notes)
 
     const toggleIsDropdownOpen = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -49,7 +78,7 @@ const NotificationComponent = () => {
 
         if (!note?.isRead) {
             try {
-                const updatedNotification = await getRequest(`notifications/${note?.id}/read`, token);
+                const updatedNotification = await getRequest(`notifications/${note?.id}/read`);
                 if (updatedNotification.status === 200) {
                     notes[index] = {...note, isRead: true}
                     handleNotificationDispatch(notes)
@@ -146,12 +175,16 @@ const NotificationComponent = () => {
         setIsDropdownOpen(false);
     }
 
+    if(loading){
+        return  <LoadingComponent />
+    }
+
     return (
         <div className={''}>
             <button
                 onClick={toggleIsDropdownOpen}
                 className={`flex flex-col items-center space-x-2 focus:outline-none p-2 rounded-full ${
-                    numberOfNotifications > 0 && 'animate-pulse border border-gray-200'
+                    notes.length > 0 && 'animate-pulse border border-gray-200'
                 }`}
             >
                 <Bell className={'text-gray-800 '}/>
@@ -160,7 +193,7 @@ const NotificationComponent = () => {
                         'ps-4 -mt-2 text-xs text-red-400 font-semibold'
                     }
                 >
-                    {numberOfNotifications > 0 ? numberOfNotifications : ''}
+                    {notes.length  > 0 ? notes.length  : ''}
                 </span>
             </button>
             <div className={'bg-red-200'}>

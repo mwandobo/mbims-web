@@ -19,6 +19,8 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
     const [data, setData] = useState<any>(null);
     const [loading, setLoading] = useState(false);
 
+
+
     const id = assetId;
     const url = `asset-requests/${id}`;
     const navigateToLogin = () => {
@@ -56,7 +58,8 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
         currentLevelId: data?.currentLevelId,
         entityCreatorId: data?.user?.id,
         entityId:id,
-        onAfterApprove: fetchData, // ✅ re-fetch data after approvals
+        onAfterApprove: fetchData,
+        redirectUrl: `asset-request/${id}`
     })
 
     useEffect(() => {

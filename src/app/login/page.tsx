@@ -41,7 +41,7 @@ export default function LoginPage() {
             try {
                 const response = await postRequest<any>('auth/login', {email, password})
 
-                console.log('response', response)
+                // console.log('response', response)
 
                 if (response.status === 200) {
                     const token = response?.data?.access_token
@@ -65,7 +65,8 @@ export default function LoginPage() {
                         };
 
                         // 👈 this is the key fix
-                        dispatch({type: "UPDATE_NOTIFICATION_BODY", payload: notificationPayload});
+                        // dispatch({type: "UPDATE_NOTIFICATION_BODY", payload: notificationPayload});
+                        dispatch({type: "UPDATE_NOTIFICATION", payload: true});
 
                         router.push('/')
                     } else {

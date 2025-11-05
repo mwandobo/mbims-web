@@ -23,6 +23,7 @@ interface Props {
     currentLevelId?: string;
     entityId?: string;
     entityCreatorId?: string;
+    redirectUrl?: string;
     onAfterApprove?: () => Promise<void> | void; // ✅ new
 }
 
@@ -38,12 +39,15 @@ export const useApprovalsAndButtonsHook = ({
                                                isMyLevelApproved,
                                                currentLevelId,
                                                entityCreatorId,
+    redirectUrl,
                                                onAfterApprove
                                            }: Props) => {
     // const {dispatch, state} = useGlobalContextHook()
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalTitle, setModalTitle] = useState("");
     const [remark, setRemark] = useState('');
+    const homeURL = process.env.NEXT_PUBLIC_HOME_BASE_URL as string;
+
 
     useEffect(() => {
 
@@ -67,7 +71,11 @@ export const useApprovalsAndButtonsHook = ({
             description: remark,
             approvalLevelId: currentLevelId ?? "",
             entityCreatorId: entityCreatorId ?? "",
+            redirectUrl: redirectUrl ? `${homeURL}/${redirectUrl}` :  "",
         }
+
+        console.log("homeURL", homeURL);
+        console.log("payload", payload);
 
         // const response = await postRequest(approveUrl, payload);
         // if ([200, 201].includes(response.status)) {
@@ -75,7 +83,6 @@ export const useApprovalsAndButtonsHook = ({
         //     dispatch({type: "UPDATE_VIEW_ITEM_REFRESH_AFTER_APPROVAL"})
         // }
         return await postRequest(approveUrl, payload);
-        ;
     };
 
     // const callBack = () => {

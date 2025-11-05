@@ -85,7 +85,6 @@ function ApprovalLevel({id, permission}: Props) {
         permission: permission,
         isApiV2: true,
         sliderComponent:ApprovalLevelView,
-        inputSize: 'xs'
     })
 
     return (

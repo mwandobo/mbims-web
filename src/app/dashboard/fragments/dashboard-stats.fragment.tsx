@@ -12,7 +12,6 @@ const DashboardStatsFragment = () => {
             try {
                 const response = await getRequest<any>('dashboard/overall-stats')
                 if (response.status === 200) {
-                    console.log('response', response.data)
                     setStats(response.data)
                 } else {
                     console.error('Failed to load stats')
