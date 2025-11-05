@@ -9,6 +9,7 @@ import ToastComponent from "@/components/popup/toast";
 import {getValueFromLocalStorage, setValueLocalStorage} from "@/utils/local-storage.util";
 import {deleteRequest, getRequest} from "@/utils/api-calls.util";
 import LoadingComponent from "@/components/status/loading.component";
+import {showConfirmationModal} from "@/utils/show-alert-dialog";
 
 const NotificationComponent = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -82,6 +83,30 @@ const NotificationComponent = () => {
         }
     };
 
+    const handleDeleteAll = () => {
+        if (notes.length === 0) {
+            return ToastComponent({ type: 'info', text: 'No notifications to delete' });
+        }
+
+        showConfirmationModal({
+            title: 'Are you sure?',
+            text: 'This will permanently delete all notifications. Do you want to continue?',
+            onConfirm: async () => {
+                try {
+                    const response = await getRequest(`notifications/delete-all`);
+                    if (response.status === 200) {
+                        setNotes([]);
+                        ToastComponent({ text: 'All notifications deleted successfully' });
+                    }
+                } catch (error) {
+                    console.error('Error deleting all notifications:', error);
+                }
+            },
+            onCancel: () => console.log('User canceled delete-all'),
+        });
+    };
+
+
     const handleReadAll = async () => {
         try {
             const updatedNotificationResult = await getRequest(`notifications/read-all`);
@@ -95,17 +120,17 @@ const NotificationComponent = () => {
             console.error("Error fetching notifications:", error);
         }
     };
-
-    const handleDeleteAll = async () => {
-        try {
-            const updatedNotificationResult = await getRequest(`notifications/delete-all`);
-            if (updatedNotificationResult.status === 200) {
-                setNotes([])
-            }
-        } catch (error) {
-            console.error("Error fetching notifications:", error);
-        }
-    };
+    //
+    // const handleDeleteAll = async () => {
+    //     try {
+    //         const updatedNotificationResult = await getRequest(`notifications/delete-all`);
+    //         if (updatedNotificationResult.status === 200) {
+    //             setNotes([])
+    //         }
+    //     } catch (error) {
+    //         console.error("Error fetching notifications:", error);
+    //     }
+    // };
 
     const unreadCount = useMemo(
         () => notes.filter(note => !note.isRead).length,
