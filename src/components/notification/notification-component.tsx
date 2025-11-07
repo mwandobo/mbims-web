@@ -251,16 +251,32 @@ const NotificationComponent = () => {
                                     {expandedNotification === index && (
                                         <div className="mt-2 text-gray-700 ps-4">
                                             <p className={`border  ${index % 2 === 0 ? 'border-gray-200' : 'border-gray-300'} p-1 ps-2 rounded-md`}>{note?.description}</p>
-                                            <div className={'flex gap-3 justify-between'}>
-                                                <button onClick={() => handleViewClick(note)} style={{fontSize: '9px'}}
-                                                        className={'text-blue-500 flex gap-1 items-center'}>view <SquareArrowOutUpRight
-                                                    size={10}/></button>
-                                                <div className={'flex gap-3 justify-end'}>
-                                                    <p style={{fontSize: '9px'}}>Sender: {note?.user_name || 'Unknown'}</p>
-                                                    <p style={{fontSize: '9px'}}>Sent
-                                                        On: {note?.formatted_date || 'Unknown'}</p>
+                                            <div className="flex items-center justify-between gap-3 w-full">
+                                                {/* View Button */}
+                                                <button
+                                                    onClick={() => handleViewClick(note)}
+                                                    className="text-blue-500 flex items-center gap-1 text-[9px] hover:underline"
+                                                >
+                                                    view <SquareArrowOutUpRight size={10} />
+                                                </button>
+
+                                                {/* Sender Info */}
+                                                <div className="flex items-center gap-3 justify-end">
+                                                    {/* Sender Name with ellipsis and tooltip */}
+                                                    <p
+                                                        className="text-[9px] max-w-[100px] truncate cursor-pointer"
+                                                        title={note?.userName || 'Unknown'}
+                                                    >
+                                                        Sender: {note?.userName || 'Unknown'}
+                                                    </p>
+
+                                                    {/* Sent Date */}
+                                                    <p className="text-[9px] whitespace-nowrap">
+                                                        Sent On: {note?.formattedCreatedAt || 'Unknown'}
+                                                    </p>
                                                 </div>
                                             </div>
+
                                         </div>
                                     )}
                                 </div>
