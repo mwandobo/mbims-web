@@ -93,7 +93,7 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
             <PageHeader
                 links={[
                     {
-                        name: "Category",
+                        name: "Asset Request",
                         linkTo: "/asset-management/asset",
                         permission: "asset",
                         isClickable: true,
