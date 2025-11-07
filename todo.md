@@ -1,10 +1,10 @@
-preview approval body
-manipulate approval after delete or add when approval is already done.
-What to do when an entity is disapproved
-Close buttons after approve or status is not pending
-recheck form when creation
+preview approval body.  done
+manipulate approval after delete or add when approval is already done. done
+What to do when an entity is disapproved. done
+Close buttons after approve or status is not pending. done
+recheck form when creation. done
 
-make sidebar navigatable 
+make sidebar navigable 
 escalate level
 
 
