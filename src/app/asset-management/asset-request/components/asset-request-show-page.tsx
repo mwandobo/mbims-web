@@ -58,7 +58,10 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
         currentLevelId: data?.currentLevelId,
         entityCreatorId: data?.user?.id,
         entityId:id,
-        onAfterApprove: fetchData,
+        entityName: data?.name,
+        extraData1: data?.items ,
+
+    onAfterApprove: fetchData,
         redirectUrl: `asset-management/asset-request/${id}`
     })
 

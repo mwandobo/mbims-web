@@ -22,6 +22,8 @@ interface Props {
     shouldApprove?: boolean;
     currentLevelId?: string;
     entityId?: string;
+    entityName?: string;
+    extraData1?: any ;
     entityCreatorId?: string;
     redirectUrl?: string;
     onAfterApprove?: () => Promise<void> | void; // ✅ new
@@ -35,11 +37,13 @@ export const useApprovalsAndButtonsHook = ({
                                                hasApprovalMode,
                                                approvalStatus,
                                                entityId,
+                                               entityName,
                                                shouldApprove,
                                                isMyLevelApproved,
                                                currentLevelId,
                                                entityCreatorId,
-    redirectUrl,
+                                               redirectUrl,
+                                               extraData1,
                                                onAfterApprove
                                            }: Props) => {
     // const {dispatch, state} = useGlobalContextHook()
@@ -47,7 +51,6 @@ export const useApprovalsAndButtonsHook = ({
     const [modalTitle, setModalTitle] = useState("");
     const [remark, setRemark] = useState('');
     const homeURL = process.env.NEXT_PUBLIC_HOME_BASE_URL as string;
-
 
     useEffect(() => {
 
@@ -68,10 +71,12 @@ export const useApprovalsAndButtonsHook = ({
         const payload = {
             action: modalTitle === "approve" ? "APPROVED" : "REJECTED",
             entityId: entityId ?? "",
+            entityName: entityName ?? "",
             description: remark,
             approvalLevelId: currentLevelId ?? "",
             entityCreatorId: entityCreatorId ?? "",
-            redirectUrl: redirectUrl ? `${homeURL}/${redirectUrl}` :  "",
+            extraData1:extraData1,
+            redirectUrl: redirectUrl ? `${homeURL}/${redirectUrl}` : "",
         }
 
         // const response = await postRequest(approveUrl, payload);
