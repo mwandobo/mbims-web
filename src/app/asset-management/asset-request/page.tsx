@@ -89,8 +89,7 @@ function AssetRequest({
         >
             <PageHeader
                 handleClick={handleClick}
-                // isHideAdd={true}
-                links={[{name: 'Asset Requests / List', linkTo: '/asset-management/asset-request', permission: ''}]}
+                links={[{name: 'Asset Management / Asset Requests / List', linkTo: '/asset-management/asset-request', permission: ''}]}
                 subHeader={subHeader}
                 permission={`${permission}_create`}
             />

@@ -75,7 +75,7 @@ function AssetCategory() {
                 permission={`${permission}_create`}
                 links={[
                     {
-                        name: 'Asset Management / List',
+                        name: 'Asset Management / Asset Category / List',
                         linkTo: '/asset-management/asset-category',
                         permission: permission,
                         isClickable: true

@@ -98,7 +98,7 @@ function Asset({
             <PageHeader
                 handleClick={handleClick}
                 // isHideAdd={true}
-                links={[{name: 'Assets / List', linkTo: '/asset-management/asset', permission: ''}]}
+                links={[{name: 'Asset Management / Assets / List', linkTo: '/asset-management/asset', permission: ''}]}
                 subHeader={subHeader}
                 permission={`${permission}_create`}
             />

@@ -54,7 +54,7 @@ export default function AssetShowPage({assetId}: { assetId: string }) {
         >
             <PageHeader
                 links={[
-                    {name: 'Category', linkTo: '/asset-management/asset', permission: 'asset', isClickable: true},
+                    {name: 'Asset Management / Assets', linkTo: '/asset-management/asset', permission: 'asset', isClickable: true},
                     {name: 'Show', linkTo: '/asset-management/asset/show', permission: ''},]}
                 isShowPage={true}
             />

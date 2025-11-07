@@ -51,7 +51,7 @@ export default function AssetCategoryShowPage({assetCategoryId}: { assetCategory
             <PageHeader
                 links={[
                     {
-                        name: 'Asset Category',
+                        name: 'Asset Management / Asset Category',
                         linkTo: '/administration/asset-category',
                         permission: 'asset_category',
                         isClickable: true
