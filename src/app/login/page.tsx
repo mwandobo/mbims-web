@@ -1,14 +1,14 @@
- "use client"
+"use client"
 
 import React, {useState} from 'react'
 import {useRouter} from 'next/navigation'
 import TextFieldComponent from '@/components/inputs/text-field'
 import {useGlobalContextHook} from '@/hooks/useGlobalContextHook'
 import Swal from "sweetalert2"
-import {Ellipsis, LogIn} from "lucide-react";
- import {setValueLocalStorage} from "@/utils/local-storage.util";
- import AuthSkeletonComponent from "@/components/auth-skeleton-component";
- import {postRequest} from "@/utils/api-calls.util";
+import {LogIn} from "lucide-react";
+import {setValueLocalStorage} from "@/utils/local-storage.util";
+import AuthSkeletonComponent from "@/components/auth-skeleton-component";
+import {postRequest} from "@/utils/api-calls.util";
 
 export default function LoginPage() {
     const [email, setEmail] = useState('')
@@ -76,9 +76,12 @@ export default function LoginPage() {
                 }
 
             } catch (error) {
-                throw error.message
+                console.log('error', error)
+
+                throw error?.response?.data?.message ?? error.message
             }
         } catch (error) {
+
 
             Swal.fire({
                 title: 'Error Occured!',
