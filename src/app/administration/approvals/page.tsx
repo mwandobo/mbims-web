@@ -42,7 +42,7 @@ function Approval({
         {
             name: 'description',
             type: 'textArea',
-            label: 'Name',
+            label: 'Description',
             value: '',
             required: true,
             isError: false,
