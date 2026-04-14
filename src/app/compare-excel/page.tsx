@@ -9,7 +9,7 @@ import { ButtonComponent } from "@/components/button/button.component";
 import { CircleEqual, Upload } from "lucide-react";
 
 function ExcelCompare() {
-    const permission = 'contract'
+    const permission = 'compare_excel'
     const [file1, setFile1] = useState<File | null>(null);
     const [file2, setFile2] = useState<File | null>(null);
     const [result, setResult] = useState<any>(null);
@@ -37,7 +37,7 @@ function ExcelCompare() {
             formData.append("files", file1);
             formData.append("files", file2);
 
-            const response = await fetch(`${baseURL}compare-excel`, {
+            const response = await fetch(`${baseURL}excel/compare`, {
                 method: "POST",
                 body: formData,
                 headers: {

@@ -10,6 +10,7 @@ import {getValueFromLocalStorage, setValueLocalStorage} from "@/utils/local-stor
 import {deleteRequest, getRequest} from "@/utils/api-calls.util";
 import LoadingComponent from "@/components/status/loading.component";
 import {showConfirmationModal} from "@/utils/show-alert-dialog";
+import LoadingSmallComponent from "@/components/status/loading-small.component";
 
 const NotificationComponent = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -181,7 +182,7 @@ const NotificationComponent = () => {
     }
 
     if(loading){
-        return  <LoadingComponent />
+        return  <LoadingSmallComponent />
     }
 
     return (
