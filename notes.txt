@@ -1,0 +1,3 @@
+To add a new menu
+
+Open Components then sidebar

@@ -52,7 +52,6 @@ function AssetCategory() {
         createdForm,
         handleClick,
         tabular
-
     } = usePageDataHook({
         columns: columns,
         formInputs: deptFormInputs,

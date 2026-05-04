@@ -13,19 +13,28 @@ interface Props {
   isLoading?: boolean
 }
 
-const AuthenticatedApp = ({
-  children,
-}: Props) => {
-  const router = useRouter();
-  const token = getValueFromLocalStorage('token');
-
-  useEffect(() => {
-    if (!token) {
-      router.push('/login'); // Redirect to login page if token is not present
+const isTokenExpired = (token: string) => {
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload.exp * 1000 < Date.now();
+    } catch (e) {
+        return true; // treat invalid token as expired
     }
-  }, [token]);
+};
 
-  return <>{children}</>
+
+const AuthenticatedApp = ({ children }: { children: React.ReactNode }) => {
+    const router = useRouter();
+    const token = getValueFromLocalStorage('token');
+
+    useEffect(() => {
+        if (!token || isTokenExpired(token)) {
+            localStorage.removeItem('token'); // cleanup
+            router.push('/login');
+        }
+    }, [token]);
+
+    return <>{children}</>;
 };
 
 export default AuthenticatedApp;

@@ -29,8 +29,11 @@ export default function AssetCategoryShowPage({assetCategoryId}: { assetCategory
                 setLoading(true)
                 const res = await getRequest(url)
 
+                console.log('res', res)
+
                 if (res.status === 200) {
                     setData(res.data)
+                    console.log('res.data', res.data)
                     setLoading(false)
                 }
 
