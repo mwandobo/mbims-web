@@ -1,3 +1,8 @@
 To add a new menu
 
 Open Components then sidebar
+Add the menu there following the structure
+Open app folder
+Create a folder for that feature
+
+

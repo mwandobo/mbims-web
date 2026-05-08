@@ -29,7 +29,12 @@ export default function DepartmentShowPage({departmentId}: { departmentId: strin
                 setLoading(true)
                 const res = await getRequest(url)
 
+                console.log('res', res)
+
+
                 if (res.status === 200) {
+                    console.log('res.data', res.data)
+
                     setData(res.data)
                     setLoading(false)
                 }

@@ -43,8 +43,6 @@ const NotificationComponent = () => {
         fetchData()
     }, [refreshNotification, token,currentUser ]);
 
-    console.log('notes', notes)
-
     const toggleIsDropdownOpen = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };

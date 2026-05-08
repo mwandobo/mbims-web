@@ -6,3 +6,4 @@ recheck form when creation. done
 make sidebar navigable. done
 
 Recheck login process
+repopulate select on edit
