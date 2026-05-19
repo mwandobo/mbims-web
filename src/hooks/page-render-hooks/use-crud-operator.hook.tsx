@@ -97,38 +97,7 @@ export const useCrudOperatorHook = (
         return value
     }
 
-    // const populateFormForEdit = (payload: any) => {
-    //     console.log('payload to edit', payload );
-
-    //     const newModalBodyArray = modalBodyArray.map((item: any) => {
-    //         let objKeyValue: any;
-    //         if(item.name === 'canReceiveEmail'){
-    //             objKeyValue = payload[item.name] === true ? 1: 0;
-    //         }
-
-    //        else if (item.name === 'dateOfBirth') {
-    //             objKeyValue = parseDate(payload[item.name]);
-    //         } else {
-    //             objKeyValue = payload[item.name];
-    //         }
-
-    //         if (item.type === 'file') {
-    //             item.required = false;
-    //         }
-
-    //         if (item.controlled_by && payload[item.name] != null) {
-    //             item.isRemoved = false;
-    //         }
-
-    //         return {...item, value: objKeyValue};
-    //     });
-
-    //     setModalBodyArray(newModalBodyArray);
-    // };
-
     const populateFormForEdit = (payload: any) => {
-    console.log('payload to edit', payload);
-
     const newModalBodyArray = modalBodyArray.map((item: any) => {
         let newValue = payload[item.name];
 
@@ -152,7 +121,6 @@ export const useCrudOperatorHook = (
         };
     });
 
-    console.log("Updated formInputs for edit:", newModalBodyArray);
     setModalBodyArray(newModalBodyArray);
 };
 
@@ -255,7 +223,6 @@ export const useCrudOperatorHook = (
         if (type.toLowerCase() === 'show') {
             handleNotificationPayload('show');
             if (sliderComponent) {
-                console.log('payload', payload)
                 dispatch({
                     type: 'UPDATE_SLIDE_OVER_CONTENT',
                     payload: {
