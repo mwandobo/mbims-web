@@ -97,34 +97,64 @@ export const useCrudOperatorHook = (
         return value
     }
 
+    // const populateFormForEdit = (payload: any) => {
+    //     console.log('payload to edit', payload );
+
+    //     const newModalBodyArray = modalBodyArray.map((item: any) => {
+    //         let objKeyValue: any;
+    //         if(item.name === 'canReceiveEmail'){
+    //             objKeyValue = payload[item.name] === true ? 1: 0;
+    //         }
+
+    //        else if (item.name === 'dateOfBirth') {
+    //             objKeyValue = parseDate(payload[item.name]);
+    //         } else {
+    //             objKeyValue = payload[item.name];
+    //         }
+
+    //         if (item.type === 'file') {
+    //             item.required = false;
+    //         }
+
+    //         if (item.controlled_by && payload[item.name] != null) {
+    //             item.isRemoved = false;
+    //         }
+
+    //         return {...item, value: objKeyValue};
+    //     });
+
+    //     setModalBodyArray(newModalBodyArray);
+    // };
+
     const populateFormForEdit = (payload: any) => {
-        console.log('payload to edit', payload );
+    console.log('payload to edit', payload);
 
-        const newModalBodyArray = modalBodyArray.map((item: any) => {
-            let objKeyValue: any;
-            if(item.name === 'canReceiveEmail'){
-                objKeyValue = payload[item.name] === true ? 1: 0;
-            }
+    const newModalBodyArray = modalBodyArray.map((item: any) => {
+        let newValue = payload[item.name];
 
-           else if (item.name === 'dateOfBirth') {
-                objKeyValue = parseDate(payload[item.name]);
-            } else {
-                objKeyValue = payload[item.name];
-            }
+        // Special handling for department_id
+        if (item.name === 'department_id') {
+            newValue = payload.department_id || payload.department?.id || payload.id;
+        }
 
-            if (item.type === 'file') {
-                item.required = false;
-            }
+        if (item.name === 'dateOfBirth') {
+            newValue = payload[item.name];
+        }
 
-            if (item.controlled_by && payload[item.name] != null) {
-                item.isRemoved = false;
-            }
+        if (item.type === 'file') {
+            item.required = false;
+        }
 
-            return {...item, value: objKeyValue};
-        });
+        return {
+            ...item,
+            value: newValue !== undefined ? newValue : '',
+            errorMessage: ''
+        };
+    });
 
-        setModalBodyArray(newModalBodyArray);
-    };
+    console.log("Updated formInputs for edit:", newModalBodyArray);
+    setModalBodyArray(newModalBodyArray);
+};
 
 
     const clearFormForCreate = () => {
