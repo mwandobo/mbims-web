@@ -101,9 +101,12 @@ export const useCrudOperatorHook = (
     const newModalBodyArray = modalBodyArray.map((item: any) => {
         let newValue = payload[item.name];
 
-        // Special handling for department_id
         if (item.name === 'department_id') {
-            newValue = payload.department_id || payload.department?.id || payload.id;
+            newValue = payload.department?.id;
+        }
+
+        if (item.name === 'roleId') {
+            newValue = payload.roleId;
         }
 
         if (item.name === 'dateOfBirth') {

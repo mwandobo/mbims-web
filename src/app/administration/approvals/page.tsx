@@ -58,7 +58,7 @@ function Approval({
             label: 'Approval Name',
         },
         {
-            id: 'sysApproval',
+            id: 'sysApprovalName',
             numeric: false,
             disablePadding: false,
             label: 'System Approval',

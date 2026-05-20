@@ -49,7 +49,7 @@ const columns = [
         label: 'Level Name',
     },
     {
-        id: 'formattedLevel',
+        id: 'level',
         numeric: false,
         disablePadding: false,
         label: 'Level',
@@ -85,6 +85,8 @@ function ApprovalLevel({id, permission}: Props) {
         permission: permission,
         isApiV2: true,
         sliderComponent:ApprovalLevelView,
+        isHideDelete:false,
+        isHideEdit:false,
     })
 
     return (
@@ -97,6 +99,7 @@ function ApprovalLevel({id, permission}: Props) {
                 permission={`${permission}_create`}
                 subHeader={"Approval Level"}
                 isHideAdd={false}
+                
             />
             {tabular()}
             {createdForm( 'xs')}
