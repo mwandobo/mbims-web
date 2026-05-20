@@ -1,10 +1,10 @@
 "use client"
 
-import {useRouter} from "next/navigation"
-import {ReactNode, useEffect, useState} from "react"
-import {setValueLocalStorage} from "@/utils/local-storage.util";
-import {useGlobalContextHook} from "@/hooks/useGlobalContextHook";
-import {useCrudFormCreatorHook} from "@/hooks/page-render-hooks/use-form-creator.hook";
+import { useRouter } from "next/navigation"
+import { ReactNode, useEffect, useState } from "react"
+import { setValueLocalStorage } from "@/utils/local-storage.util";
+import { useGlobalContextHook } from "@/hooks/useGlobalContextHook";
+import { useCrudFormCreatorHook } from "@/hooks/page-render-hooks/use-form-creator.hook";
 
 interface Props {
     formInputData: any[],
@@ -57,7 +57,7 @@ export const useCrudOperatorHook = (
     const [emailNotificationBody, setEmailNotificationBody] = useState(incomingEmailNotificationBody)
     const [isButtonDisabled, setIsButtonDisabled] = useState(false)
     const [isForm, setIsForm] = useState(true)
-    const {state, dispatch} = useGlobalContextHook()
+    const { state, dispatch } = useGlobalContextHook()
     const onCloseModal = () => setIsModalOpen(false)
     const [isSideOverOpened, setIsSideOverOpen] = useState(false)
 
@@ -98,34 +98,37 @@ export const useCrudOperatorHook = (
     }
 
     const populateFormForEdit = (payload: any) => {
-    const newModalBodyArray = modalBodyArray.map((item: any) => {
-        let newValue = payload[item.name];
+        const newModalBodyArray = modalBodyArray.map((item: any) => {
+            let newValue = payload[item.name];
 
-        if (item.name === 'department_id') {
-            newValue = payload.department?.id;
-        }
+            if (item.name === 'department_id') {
+                newValue = payload.department?.id;
+            }
 
-        if (item.name === 'roleId') {
-            newValue = payload.roleId;
-        }
+            if (item.name === 'roleId') {
+                newValue = payload.roleId;
+            }
+            if (item.name === 'asset_category_id') {
+                newValue = payload.assetCategoryId;
+            }
 
-        if (item.name === 'dateOfBirth') {
-            newValue = payload[item.name];
-        }
+            if (item.name === 'dateOfBirth') {
+                newValue = payload[item.name];
+            }
 
-        if (item.type === 'file') {
-            item.required = false;
-        }
+            if (item.type === 'file') {
+                item.required = false;
+            }
 
-        return {
-            ...item,
-            value: newValue !== undefined ? newValue : '',
-            errorMessage: ''
-        };
-    });
+            return {
+                ...item,
+                value: newValue !== undefined ? newValue : '',
+                errorMessage: ''
+            };
+        });
 
-    setModalBodyArray(newModalBodyArray);
-};
+        setModalBodyArray(newModalBodyArray);
+    };
 
 
     const clearFormForCreate = () => {
@@ -136,7 +139,7 @@ export const useCrudOperatorHook = (
                     item.name === 'request_for_quotation_id' ||
                     item.name === 'supplier_id'
                 )) {
-                return {...item, isRemoved: false};
+                return { ...item, isRemoved: false };
             }
 
             if (from === 'sale-quotation' &&
@@ -144,7 +147,7 @@ export const useCrudOperatorHook = (
                     item.name === 'sale_rfq_id' ||
                     item.name === 'item_ids'
                 )) {
-                return {...item, isRemoved: false};
+                return { ...item, isRemoved: false };
             }
 
             if (from === 'invoices' &&
@@ -152,10 +155,10 @@ export const useCrudOperatorHook = (
                     item.name === 'type' ||
                     item.name === 'purchase_order_id'
                 )) {
-                return {...item, isRemoved: false,};
+                return { ...item, isRemoved: false, };
             }
 
-            return {...item, value: ''};
+            return { ...item, value: '' };
         });
 
         setModalBodyArray(newModalBodyArray);
@@ -168,7 +171,7 @@ export const useCrudOperatorHook = (
 
     const handleNotificationPayload = (type: string) => {
         if (emailNotificationBody && Object.keys(emailNotificationBody).length > 0) {
-            const newEmailNotificationBody = {...emailNotificationBody, operation: type}
+            const newEmailNotificationBody = { ...emailNotificationBody, operation: type }
             setEmailNotificationBody(newEmailNotificationBody)
         }
     }
@@ -239,8 +242,8 @@ export const useCrudOperatorHook = (
             }
 
             if (isApiV2 && !isMaintainViewNavigationForV1) {
-                dispatch({type: 'SET_SUB_VIEW_ITEM', payload: {id: payload?.id, from}});
-                setValueLocalStorage('sub_view_item', JSON.stringify({id: payload?.id, from}));
+                dispatch({ type: 'SET_SUB_VIEW_ITEM', payload: { id: payload?.id, from } });
+                setValueLocalStorage('sub_view_item', JSON.stringify({ id: payload?.id, from }));
                 return;
             }
 

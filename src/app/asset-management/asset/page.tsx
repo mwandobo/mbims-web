@@ -27,7 +27,7 @@ function Asset({
             layout: 'column',
         },
         {
-            name: 'category_id',
+            name: 'asset_category_id',
             type: 'select',
             label: 'Asset Category',
             value: '',
@@ -58,7 +58,7 @@ function Asset({
             label: 'Asset Name',
         },
         {
-            id: 'categoryName',
+            id: 'assetCategoryName',
             numeric: false,
             disablePadding: false,
             label: 'Category',
