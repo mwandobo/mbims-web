@@ -29,7 +29,8 @@ import {
     Store,
     BookKey,
     ShieldEllipsis,
-    CalendarDays, Calendar, Proportions, BookOpenCheck, ArrowLeftRight, Terminal
+    CalendarDays, Calendar, Proportions, BookOpenCheck, ArrowLeftRight, Terminal,
+    Scale
 } from 'lucide-react'
 import React from 'react'
 import SidebarItem from './item'
@@ -154,6 +155,14 @@ const items: ISidebarItem[] = [
             },
         ]
     },
+
+     {
+        name: 'Performance Management',
+        path: '/performance-management',
+        permission: 'performance_read',
+        icon: Scale 
+    },
+
     // {
     //     name: 'Settings',
     //     path: '/settings',
