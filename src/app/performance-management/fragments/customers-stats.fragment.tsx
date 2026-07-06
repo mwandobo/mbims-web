@@ -11,7 +11,10 @@ const CustomerStatsFragment = () => {
     const fetchStats = async () => {
       try {
         const response = await getRequest<any>('performances/customer-stats')
+
+        console.log('Customer stats response:', response)
         if (response.status === 200) {
+console.log('Customer stats data:', response.data)
           setStats(response.data)
         } else {
           console.error('Failed to load stats')
@@ -25,9 +28,9 @@ const CustomerStatsFragment = () => {
   }, [])
 
   const cards = [
-    { title: "Total Customers", value: stats?.totalCustomers },
-    { title: "Total Individual Customers", value: stats?.totalIndividualCustomers },
-    { title: "Total Corporate Customers", value: stats?.totalCorporateCustomers },
+    { title: "Total Customers", value: stats?.totalAllCustomers, attrs: stats?.allCustomersAttrs  },
+    { title: "Total Individual Customers", value: stats?.totalIndividualCustomers, attrs: stats?.individualCustomersAttrs },
+    { title: "Total Corporate Customers", value: stats?.totalCorporateCustomers, attrs: stats?.corporateCustomersAttrs },
   ]
 
   return (
@@ -93,7 +96,7 @@ const CustomerStatsFragment = () => {
                     <p className="font-semibold text-green-800">Active</p>
                   </div>
                   <p className="font-bold text-green-900">
-                    {card.value?.toLocaleString() || 0}
+                    {card.attrs?.active?.toLocaleString() || 0}
                   </p>
                 </div>
 
@@ -106,7 +109,7 @@ const CustomerStatsFragment = () => {
                     <p className="font-semibold text-red-800">Closed</p>
                   </div>
                   <p className="font-bold text-red-900">
-                    {card.value?.toLocaleString() || 0}
+                    {card.attrs?.closed?.toLocaleString() || 0}
                   </p>
                 </div>
 
@@ -119,7 +122,7 @@ const CustomerStatsFragment = () => {
                     <p className="font-semibold text-yellow-800">Dormant</p>
                   </div>
                   <p className="font-bold text-yellow-900">
-                    {card.value?.toLocaleString() || 0}
+                    {card.attrs?.dormant?.toLocaleString() || 0}
                   </p>
                 </div>
 
