@@ -163,6 +163,13 @@ const items: ISidebarItem[] = [
         icon: Scale 
     },
 
+        {
+        name: 'Customers',
+        path: '/customer',
+        permission: 'customer_read',
+        icon: Users 
+    },
+
     // {
     //     name: 'Settings',
     //     path: '/settings',
