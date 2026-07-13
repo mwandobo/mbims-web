@@ -9,15 +9,15 @@ import {useRouter} from "next/navigation";
 import {getRequest} from "@/utils/api-calls.util";
 
 
-export default function DepartmentShowPage({departmentId}: { departmentId: string }) {
-    const permission = 'department'
+export default function CustomerShowPage({customerId}: { customerId: string }) {
+    const permission = 'customer'
 
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
     const router = useRouter()
 
 
-    const url = `departments/${departmentId}`
+    const url = `customers/${customerId}`
     const navigateToLogin = () => {
         return router.push('/login')
     }
@@ -56,9 +56,9 @@ export default function DepartmentShowPage({departmentId}: { departmentId: strin
             <PageHeader
                 links={[
                     {
-                        name: 'Department',
-                        linkTo: '/administration/departments',
-                        permission: 'departments',
+                        name: 'Customers',
+                        linkTo: '/administration/customers',
+                        permission: 'customers',
                         isClickable: true
                     },
                     {name: 'Show', linkTo: '', permission: ''}
@@ -69,10 +69,30 @@ export default function DepartmentShowPage({departmentId}: { departmentId: strin
                 <div className="mb-3">
                     <ViewCardComponent
                         data={[
-                            {label: 'Department Name', value: data?.name},
-                            {label: 'Description', value: data?.description},
+                            {label: 'Customer Name', value: data?.name},
+                            {label: 'Sex', value: data?.sex},
+                            {label: 'Birth Date', value: data?.dateOfBirth},
+                            {label: 'Marital Status', value: data?.maritalStatus},
+                            {label: 'Mobile Number', value: data?.phoneNumber},
+                            {label: 'Email', value: data?.email},
+                            {label: 'Birth Location', value: data?.birthRegion},
+                            {label: 'Customer Type', value: data?.customerType},
+                            {label: 'Nationality', value: data?.nationality},
+                            {label: 'Region', value: data?.region},
+                            {label: 'District', value: data?.district},
+                            {label: 'Ward', value: data?.ward},
+                            {label: 'Citizenship', value: data?.citizenship},
+                            {label: 'Residency', value: data?.residency},
+                            {label: 'Profession', value: data?.profession},
+                            {label: 'Employment Status', value: data?.employmentStatus},
+                            {label: 'Number of Dependents', value: data?.numberDependants},
+                            {label: 'Education Level', value: data?.educationLevel},
+                            {label: 'Identification Type', value: data?.identificationType},
+                            {label: 'Identification Number', value: data?.identificationNumber},
+                            {label: 'ID Issuance Date', value: data?.idIssuanceDate},
+                            {label: 'ID Expiration Date', value: data?.idExpirationDate},
                         ]}
-                        titleA={`Department`}
+                        titleA={`Customer`}
                         titleB={` ${data?.name} `}
                     />
                 </div>

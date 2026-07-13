@@ -35,11 +35,19 @@ const columns = [
         width: '30%',
 
     },
-    {
-        id: 'dateOfBirth',
+     {
+        id: 'customerType',
         numeric: false,
         disablePadding: false,
-        label: 'Birthdate',
+        label: 'Customer Type',
+        width: '30%',
+
+    },
+    {
+        id: 'createdAt',
+        numeric: false,
+        disablePadding: false,
+        label: 'Date',
         width: '64%',
     },
 ]
@@ -58,11 +66,13 @@ function Customers() {
         formInputs: deptFormInputs,
         url: 'customers',
         modalTitle: 'Customer',
-        viewUrl: '/customers/',
+        viewUrl: '/customer/',
         state_properties: [],
         permission: permission,
         isApiV2: true,
-        isMaintainViewNavigationForV1: true
+        isMaintainViewNavigationForV1: true,
+        isHideDelete: true,
+        isHideEdit: true,
     })
 
     return (

@@ -7,3 +7,5 @@ make sidebar navigable. done
 
 Recheck login process
 repopulate select on edit
+remove sort icon in action column
+table expand when number of rows are increased

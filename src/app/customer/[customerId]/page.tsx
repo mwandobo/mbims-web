@@ -1,7 +1,7 @@
-import DepartmentShowPage from "@/app/administration/departments/components/department-show-page";
+import CustomerShowPage from "../components/customer-show-page";
 
-export default async function Page({ params }: { params: Promise <{ departmentId: string } >}) {
-    const { departmentId } = await params;
+export default async function Page({ params }: { params: Promise <{ customerId: string } >}) {
+    const { customerId } = await params;
 
-    return <DepartmentShowPage departmentId={departmentId} />;
+    return <CustomerShowPage customerId={customerId} />;
 }
