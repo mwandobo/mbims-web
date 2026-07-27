@@ -115,6 +115,12 @@ const items: ISidebarItem[] = [
                 permission: 'employee_read',
                 icon: User
             },
+              {
+                name: 'Units',
+                path: '/administration/units',
+                permission: 'unit_read',
+                icon: User
+            },
             {
                 name: 'Roles',
                 path: '/administration/roles',
@@ -167,6 +173,12 @@ const items: ISidebarItem[] = [
         name: 'Customers',
         path: '/customer',
         permission: 'customer_read',
+        icon: Users 
+    },
+          {
+        name: 'Transactions',
+        path: '/transaction',
+        permission: 'transaction_read',
         icon: Users 
     },
 

@@ -10,7 +10,7 @@ interface Props {
     subHeader?: string
 }
 
-function Employees({
+function Users({
                        parent_id,
                        subHeader
                    }: Props) {
@@ -27,19 +27,6 @@ function Employees({
             layout: 'column',
         },
         {
-            name: 'department_id',
-            type: 'select',
-            label: 'Department',
-            value: '',
-            optionsUrlData: `/fetch-data/departments`,
-            optionDataKey: 'name',
-            required: true,
-            isError: false,
-            errorMessage: '',
-            layout: 'column',
-        },
-
-        {
             name: 'role_id',
             type: 'select',
             label: 'Role',
@@ -50,8 +37,8 @@ function Employees({
             isError: false,
             errorMessage: '',
             layout: 'column',
-
         },
+        
         // {
         //     name: 'canReceiveEmail',
         //     type: 'radio',
@@ -67,30 +54,30 @@ function Employees({
             id: 'name',
             numeric: false,
             disablePadding: false,
-            label: 'Employee Name',
+            label: 'User Name',
         },
         {
-            id: 'createdAt',
+            id: 'email',
             numeric: false,
             disablePadding: false,
-            label: 'Date Joined',
+            label: 'Email',
         },
         {
-            id: 'gender',
+            id: 'departmentName',
             numeric: false,
             disablePadding: false,
-            label: 'Gender',
+            label: 'Department',
         },
         {
-            id: 'id',
+            id: 'roleName',
             numeric: false,
             disablePadding: false,
-            label: 'Code',
+            label: 'Role',
         },
     ]
 
-    const permission = 'employee'
-    const url = `administration/employees`
+    const permission = 'user'
+    const url = `/users`
 
     const {
         loading,
@@ -101,15 +88,13 @@ function Employees({
         columns: _columns,
         formInputs: _deptFormInputs,
         url: url,
-        modalTitle: 'Employee',
-        viewUrl: '/administration/employees/',
+        modalTitle: 'User',
+        viewUrl: '/administration/users/',
         state_properties: [],
         permission: permission,
-        emailNotificationBody: {code: 'create-employee', operation: null, id: null},
+        emailNotificationBody: {code: 'create-user', operation: null, id: null},
         isApiV2: true,
         isMaintainViewNavigationForV1: true,
-        isHideDelete: true,
-        isHideEdit: true,
     })
     return (
         <ProtectedRoute
@@ -119,7 +104,7 @@ function Employees({
             <PageHeader
                 handleClick={handleClick}
                 isHideAdd={true}
-                links={[{name: 'Employees / List', linkTo: '/administration/employees', permission: ''}]}
+                links={[{name: 'Users / List', linkTo: '/administration/users', permission: ''}]}
                 subHeader={subHeader}
                 permission={`${permission}_create`}
             />
@@ -129,4 +114,4 @@ function Employees({
     )
 }
 
-export default Employees
+export default Users

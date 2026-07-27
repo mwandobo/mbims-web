@@ -17,7 +17,7 @@ export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
 
     const id = employeeId
 
-    const url = `administration/employees/${id}`
+    const url = `users/${id}`
     const navigateToLogin = () => {
         return router.push('/login')
     }
@@ -54,7 +54,7 @@ export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
         >
             <PageHeader
                 links={[
-                    {name: 'Employee', linkTo: '/admnistration/employees', permission: 'employee', isClickable: true},
+                    {name: 'Employee', linkTo: '/admnistration/employees', permission: 'employees', isClickable: true},
                     {name: 'Show', linkTo: '/admnistration/employees/show', permission: ''},]}
                 isShowPage={true}
             />
@@ -63,8 +63,9 @@ export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
                     data={[
                         {label: 'Employee Name', value: data.name},
                         {label: 'Email', value: data?.email},
-                        {label: 'Date Joined', value: data?.createdAt},
-                        {label: 'Gender', value: data?.gender},
+                        {label: 'Department', value: data?.departmentName},
+                        {label: 'Position', value: data?.positionName},
+                        {label: 'Role', value: data?.roleName},
                     ]}
                     titleA="Employee"
                     titleB={data.name}
