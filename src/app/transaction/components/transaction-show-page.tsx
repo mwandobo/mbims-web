@@ -69,28 +69,13 @@ export default function TransactionShowPage({transactionId}: { transactionId: st
                 <div className="mb-3">
                     <ViewCardComponent
                         data={[
-                            {label: 'Customer Name', value: data?.name},
-                            {label: 'Sex', value: data?.sex},
-                            {label: 'Birth Date', value: data?.dateOfBirth},
-                            {label: 'Marital Status', value: data?.maritalStatus},
-                            {label: 'Mobile Number', value: data?.phoneNumber},
-                            {label: 'Email', value: data?.email},
-                            {label: 'Birth Location', value: data?.birthRegion},
-                            {label: 'Customer Type', value: data?.customerType},
-                            {label: 'Nationality', value: data?.nationality},
-                            {label: 'Region', value: data?.region},
-                            {label: 'District', value: data?.district},
-                            {label: 'Ward', value: data?.ward},
-                            {label: 'Citizenship', value: data?.citizenship},
-                            {label: 'Residency', value: data?.residency},
-                            {label: 'Profession', value: data?.profession},
-                            {label: 'Employment Status', value: data?.employmentStatus},
-                            {label: 'Number of Dependents', value: data?.numberDependants},
-                            {label: 'Education Level', value: data?.educationLevel},
-                            {label: 'Identification Type', value: data?.identificationType},
-                            {label: 'Identification Number', value: data?.identificationNumber},
-                            {label: 'ID Issuance Date', value: data?.idIssuanceDate},
-                            {label: 'ID Expiration Date', value: data?.idExpirationDate},
+                            {label: 'Customer Name', value: data?.customerName},
+                            {label: 'Transaction Date', value: data?.transactionDate},
+                            {label: 'Transaction Type', value: data?.transactionType},
+                            {label: 'Transaction Channel', value: data?.transactionChannelType},
+                            {label: 'Justification', value: data?.justification},
+                            {label: 'Product Name', value: data?.productName},
+                            {label: 'Unit', value: data?.unitId},
                         ]}
                         titleA={`Customer`}
                         titleB={` ${data?.name} `}

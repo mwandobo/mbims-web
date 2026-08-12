@@ -28,26 +28,29 @@ const deptFormInputs = [
 
 const columns = [
     {
-        id: 'name',
+        id: 'customerName',
         numeric: false,
         disablePadding: false,
         label: 'Customer Name',
-        width: '30%',
-
     },
      {
-        id: 'customerType',
+        id: 'transactionDate',
         numeric: false,
         disablePadding: false,
-        label: 'Customer Type',
-        width: '30%',
+        label: 'Transaction Date',
     },
-    {
-        id: 'createdAt',
+
+      {
+        id: 'transactionType',
         numeric: false,
         disablePadding: false,
-        label: 'Date',
-        width: '64%',
+        label: 'Transaction Type',
+    },
+      {
+        id: 'transactionChannelType',
+        numeric: false,
+        disablePadding: false,
+        label: 'Transaction Channel',
     },
 ]
 

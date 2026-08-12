@@ -136,7 +136,9 @@ export default function RolesAssignPage({roleAssignId}: { roleAssignId: string }
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
-            const res = await getRequest(`roles/permissions/${id}`)
+            // const res = await getRequest(`roles/permissions/${id}`)
+
+            const res: any = await getRequest(`roles/permissions/${id}`)
 
             if ([200, 201].includes(res.status)) {
                 setData(res.data)

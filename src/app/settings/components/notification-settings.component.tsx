@@ -27,7 +27,7 @@ export default function NotificationSettings() {
 
     useEffect(() => {
         getRequest('settings/cron')
-            .then((res) => setSavedCron(res.data.cron))
+                .then((res: any) => setSavedCron(res.data.cron))
             .catch(() => {
             })
     }, [])
