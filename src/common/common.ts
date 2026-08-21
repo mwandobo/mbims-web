@@ -1,0 +1,1 @@
+ const charSize = 18;

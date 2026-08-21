@@ -27,7 +27,7 @@ function Position({
             layout: 'column'
         },
         {
-            name: 'department_id',
+            name: 'departmentId',
             type: 'select',
             label: 'Department',
             value: '',
@@ -108,4 +108,5 @@ function Position({
     )
 }
 
+// @ts-ignore
 export default Position

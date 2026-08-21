@@ -62,9 +62,15 @@ export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
                 <ViewCardComponent
                     data={[
                         {label: 'Employee Name', value: data.name},
+                        {label: 'Staff No', value: data?.staffNo},
                         {label: 'Email', value: data?.email},
+                        {label: 'Phone', value: data?.mobilePhone},
                         {label: 'Date Joined', value: data?.createdAt},
                         {label: 'Gender', value: data?.gender},
+                        {label: 'Unit', value: data?.unitName ?? '---'},
+                        {label: 'Gender', value: data?.gender},
+                        {label: 'Department', value: data?.departmentName ?? '---'},
+                        {label: 'Position', value: data?.positionName ?? '---'},
                     ]}
                     titleA="Employee"
                     titleB={data.name}

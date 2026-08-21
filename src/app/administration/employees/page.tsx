@@ -17,50 +17,93 @@ function Employees({
 
     const _deptFormInputs = [
         {
-            name: 'name',
+            name: 'firstName',
             type: 'text',
-            label: 'Name',
+            label: 'First Name',
+            value: '',
+            required: false,
+            isError: false,
+            errorMessage: '',
+            layout: 'column',
+        },
+        //middle name here
+        {
+            name: 'middleName',
+            type: 'text',
+            label: 'Middle Name',
+            value: '',
+            required: false,
+            isError: false,
+            errorMessage: '',
+            layout: 'column',
+        },
+        {
+            name: 'lastName',
+            type: 'text',
+            label: 'Last Name',
+            value: '',
+            required: false,
+            isError: false,
+            errorMessage: '',
+            layout: 'column',
+        },
+        {
+            name: 'email',
+            type: 'text',
+            label: 'Email',
             value: '',
             required: true,
             isError: false,
             errorMessage: '',
             layout: 'column',
         },
+          {
+            name: 'mobilePhone',
+            type: 'text',
+            label: 'Phone',
+            value: '',
+            required: false,
+            isError: false,
+            errorMessage: '',
+            layout: 'column',
+        },
         {
-            name: 'department_id',
+            name: 'departmentId',
             type: 'select',
             label: 'Department',
             value: '',
             optionsUrlData: `/fetch-data/departments`,
             optionDataKey: 'name',
-            required: true,
+            required: false,
             isError: false,
             errorMessage: '',
             layout: 'column',
         },
-
         {
-            name: 'role_id',
+            name: 'positionId',
             type: 'select',
-            label: 'Role',
+            label: 'Position',
             value: '',
-            optionsUrlData: `/fetch-data/roles`,
+            optionsUrlData: `/fetch-data/positions`,
             optionDataKey: 'name',
-            required: true,
+            required: false,
             isError: false,
             errorMessage: '',
             layout: 'column',
-
         },
-        // {
-        //     name: 'canReceiveEmail',
-        //     type: 'radio',
-        //     options: [{label: "No" ,value:  0, default: true}, {label:  'YES', value: 1},],
-        //     label: 'Should Receive Email',
-        //     value: parent_id,
-        //     isError: false,
-        //     errorMessage: ''
-        // },
+          {
+            name: 'unitId',
+            type: 'select',
+            label: 'Unit',
+            value: '',
+            optionsUrlData: `/fetch-data/units`,
+            optionDataKey: 'name',
+            required: false,
+            isError: false,
+            errorMessage: '',
+            layout: 'column',
+        },
+
     ]
     const _columns = [
         {
@@ -69,24 +112,33 @@ function Employees({
             disablePadding: false,
             label: 'Employee Name',
         },
+          {
+            id: 'staffNo',
+            numeric: false,
+            disablePadding: false,
+            label: 'Staff No',
+        },
+         {
+            id: 'email',
+            numeric: false,
+            disablePadding: false,
+            label: 'Email',
+        },
+
+         {
+            id: 'mobilePhone',
+            numeric: false,
+            disablePadding: false,
+            label: 'Phone',
+        },
+
         {
             id: 'createdAt',
             numeric: false,
             disablePadding: false,
             label: 'Date Joined',
         },
-        {
-            id: 'gender',
-            numeric: false,
-            disablePadding: false,
-            label: 'Gender',
-        },
-        {
-            id: 'id',
-            numeric: false,
-            disablePadding: false,
-            label: 'Code',
-        },
+ 
     ]
 
     const permission = 'employee'
@@ -109,7 +161,6 @@ function Employees({
         isApiV2: true,
         isMaintainViewNavigationForV1: true,
         isHideDelete: true,
-        isHideEdit: true,
     })
     return (
         <ProtectedRoute
@@ -124,7 +175,7 @@ function Employees({
                 permission={`${permission}_create`}
             />
             {tabular()}
-            {createdForm('sm')}
+            {createdForm('md')}
         </ProtectedRoute>
     )
 }

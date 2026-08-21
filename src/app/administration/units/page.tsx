@@ -17,7 +17,7 @@ const deptFormInputs = [
         layout: 'column',
     },
     {
-        name: 'manager',
+        name: 'managerId',
         type: 'select',
         label: 'Manager',
         value: '',
@@ -58,7 +58,7 @@ const columns = [
 
     },
     {
-        id: 'manager',
+        id: 'managerName',
         numeric: false,
         disablePadding: false,
         label: 'Manager',
