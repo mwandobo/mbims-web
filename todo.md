@@ -16,3 +16,5 @@ Intoduction to Settings
 
 Notification Body On Empty Notifications.
 Transaction Data Refactor.
+empty table dont show a table
+
