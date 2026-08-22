@@ -61,36 +61,12 @@ const items: ISidebarItem[] = [
         icon: LayoutDashboard,
         permission: 'dashboard_read'
     },
-    // {
-    //     name: 'Contracts',
-    //     path: '/contracts',
-    //     icon: FolderOpenDot,
-    //     permission: 'contract_read',
-    // },
-    // {
-    //     name: 'Licences',
-    //     path: '/licences',
-    //     permission: 'licence_read',
-    //     icon: Book,
-    // },
-    // {
-    //     name: 'Policies',
-    //     path: '/policy',
-    //     permission: 'policy_read',
-    //     icon: Book,
-    // },
     {
         name: 'Compare Excel',
         path: '/compare-excel',
         icon: ArrowLeftRight,
         permission: 'compare_excel_read',
     },
-    // {
-    //     name: 'Reports',
-    //     path: '/report',
-    //     icon: FolderKanban,
-    //     permission: 'report_read',
-    // },
     {
         name: 'Administration',
         path: '/administration',
@@ -181,13 +157,6 @@ const items: ISidebarItem[] = [
         permission: 'transaction_read',
         icon: Users 
     },
-
-    // {
-    //     name: 'Settings',
-    //     path: '/settings',
-    //     permission: 'settings_read',
-    //     icon: Settings ,
-    // },
 ]
 
 function Sidebar() {
@@ -195,7 +164,7 @@ function Sidebar() {
     const { isSideBarHidden} = state;
 
     return (
-            <div className={`${isSideBarHidden ? 'hidden': 'block'} md:flex w-full md:w-1/4 md:border-e border-gray-200 h-[86vh]`}>
+            <div className={`${isSideBarHidden ? 'hidden': 'block'} md:flex w-full md:w-1/2 lg:w-1/4 md:border-e border-gray-200 h-[86vh]`}>
             <div className='h-full w-full'>
                 <div className='bg-white px-2 h-full w-full'>
                     <hr className='bg-gray-200'/>
