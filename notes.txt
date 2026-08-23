@@ -12,3 +12,18 @@ when edit is not populating just check below
 use-crud-operator-hook
 update below method
 populateFormForEdit
+
+
+
+when creating a button with confirmation use the following util
+  showConfirmationModal
+  use like below
+
+      const handleSubmit = () => {
+          showConfirmationModal({
+              title: 'Are You Sure?',
+              text: `Are You Sure You Want To Close Project: ${data?.name}?`,
+              onConfirm: onSave,  // Action to perform on confirmation
+              onCancel: () => console.log('User canceled the action'), // Optional cancel action
+          });
+      };

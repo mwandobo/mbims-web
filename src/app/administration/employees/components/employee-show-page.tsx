@@ -5,15 +5,19 @@ import MuiCardComponent from "@/components/card/mui-card.component";
 import ViewCardComponent from "@/components/card/view.card.component";
 import PageHeader from "@/components/header/page-header";
 import {useRouter} from "next/navigation";
-import {useEffect, useState} from "react";
-import {getRequest} from "@/utils/api-calls.util";
+import React, {useEffect, useState} from "react";
+import {getRequest, postRequest} from "@/utils/api-calls.util";
 import {Check, CheckCircle2, X} from "lucide-react";
+import {ButtonComponent} from "@/components/button/button.component";
+import {showConfirmationModal} from "@/utils/show-alert-dialog";
 
 export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
     const permission = 'employee'
     const router = useRouter()
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
+    const [refresh, setRefresh] = useState(false)
+
 
     const id = employeeId
 
@@ -43,7 +47,28 @@ export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
             }
         };
         fetchData()
-    }, [])
+    }, [refresh])
+
+
+    const onSave = async () => {
+        try {
+            const res = await postRequest(`${url}/share-credential`, {});
+            if (data && res.status === 200) {
+                setRefresh(!refresh);
+            }
+        } catch (error: any) {
+            console.log(error);
+        }
+    };
+
+    const handleSubmit = () => {
+        showConfirmationModal({
+            title: 'Are You Sure?',
+            text: `Are You Sure You Want Share Credentials with: ${data?.name}?`,
+            onConfirm: onSave,  // Action to perform on confirmation
+            onCancel: () => console.log('User canceled the action'), // Optional cancel action
+        });
+    };
 
 
     return (
@@ -59,6 +84,25 @@ export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
                 isShowPage={true}
             />
             <MuiCardComponent>
+                { data.email &&
+                    <div>
+                        <ButtonComponent
+                            name={`${data.isCredentialShared? "Resend Credentials" : "Share Credentials"}`}
+                            onClick={handleSubmit}
+                            rounded={'md'}
+                            padding={'p-3'}
+                            shadow={'shadow-md'}
+                            bg_color={'bg-gray-50'}
+                            hover={'hover:bg-gray-200 hover:border-gray-400'}
+                            hover_text={'hover:text-gray-900 hover:font-semibold'}
+                            border={'border border-gray-300'}
+                            text_color={'text-gray-700'}
+                        >
+                            <CheckCircle2 size={13}/>
+                        </ButtonComponent>
+                    </div>
+                }
+
                 <ViewCardComponent
                     data={[
                         {label: 'Employee Name', value: data.name},
@@ -75,11 +119,8 @@ export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
                     titleA="Employee"
                     titleB={data.name}
                 />
-
             </MuiCardComponent>
-
         </ProtectedRoute>
-
     );
 };
 

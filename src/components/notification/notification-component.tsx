@@ -119,17 +119,7 @@ const NotificationComponent = () => {
             console.error("Error fetching notifications:", error);
         }
     };
-    //
-    // const handleDeleteAll = async () => {
-    //     try {
-    //         const updatedNotificationResult = await getRequest(`notifications/delete-all`);
-    //         if (updatedNotificationResult.status === 200) {
-    //             setNotes([])
-    //         }
-    //     } catch (error) {
-    //         console.error("Error fetching notifications:", error);
-    //     }
-    // };
+
 
     const unreadCount = useMemo(
         () => notes.filter(note => !note.isRead).length,

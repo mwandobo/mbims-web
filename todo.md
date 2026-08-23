@@ -17,4 +17,11 @@ Intoduction to Settings
 Notification Body On Empty Notifications.
 Transaction Data Refactor.
 empty table dont show a table
+after sort pagination reset sort
+pagination dont work
+populate edit refact
+
+backen error handling
+in notification filter notifications to be displayed
+button loading in view 
 
