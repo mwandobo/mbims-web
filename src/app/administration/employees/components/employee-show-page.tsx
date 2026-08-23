@@ -10,6 +10,7 @@ import {getRequest, postRequest} from "@/utils/api-calls.util";
 import {Check, CheckCircle2, X} from "lucide-react";
 import {ButtonComponent} from "@/components/button/button.component";
 import {showConfirmationModal} from "@/utils/show-alert-dialog";
+import {checkPermissions} from "@/utils/check-permissions";
 
 export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
     const permission = 'employee'
@@ -70,7 +71,6 @@ export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
         });
     };
 
-
     return (
 
         <ProtectedRoute
@@ -84,10 +84,11 @@ export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
                 isShowPage={true}
             />
             <MuiCardComponent>
-                { data.email &&
+
+                {data.email && checkPermissions(`${permission}_share_credential`) && (
                     <div>
                         <ButtonComponent
-                            name={`${data.isCredentialShared? "Resend Credentials" : "Share Credentials"}`}
+                            name={`${data.isCredentialShared ? "Resend Credentials" : "Share Credentials"}`}
                             onClick={handleSubmit}
                             rounded={'md'}
                             padding={'p-3'}
@@ -101,7 +102,7 @@ export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
                             <CheckCircle2 size={13}/>
                         </ButtonComponent>
                     </div>
-                }
+                )}
 
                 <ViewCardComponent
                     data={[
