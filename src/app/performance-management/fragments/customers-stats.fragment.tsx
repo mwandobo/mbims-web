@@ -43,36 +43,7 @@ console.log('Customer stats data:', response.data)
           lg={8}    // 3 per row
           xl={8}    // 3 per row
           xxl={8}   // 3 per row
-          key={index}              >
-          {/*<Card>*/}
-          {/*    <Statistic title={card.title} value={card.value} />*/}
-          {/*</Card>*/}
-
-          {/* <div className="h-48  border border-gray-300 rounded-lg shadow-md p-2">
-                        <div className="h-full flex">
-                            <div className="flex flex-col justify-center gap-8 h-full w-full">
-                                <p className="text-2xl font-semibold">{card.title}</p>
-                                <p className="text-3xl font-bold">{card.value?.toLocaleString() || 0}</p>
-                            </div>
-                            <div className="flex flex-col justify-start h-full w-full bg-gray-100 p-2 rounded-lg">
-                                <div className="flex bg-green-100 ">
-                                    <p className="font-semibold">Active</p>
-                                    <p className="font-bold">{card.value?.toLocaleString() || 0}</p>
-                                </div>
-                                <div className="flex bg-red-100 ">
-                                    <p className="font-semibold">Closed</p>
-                                    <p className="font-bold">{card.value?.toLocaleString() || 0}</p>
-                                </div>
-                                 <div className="flex bg-yellow-100 ">
-                                    <p className="font-semibold">Dormant</p>
-                                    <p className="font-bold">{card.value?.toLocaleString() || 0}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div> */}
-
-
-
+          key={index}>
           <div className="h-48 border border-gray-300 rounded-lg shadow-md p-2">
             <div className="h-full flex">
 

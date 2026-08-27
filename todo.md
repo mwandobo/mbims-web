@@ -21,7 +21,7 @@ after sort pagination reset sort
 pagination dont work
 populate edit refact
 
-backen error handling
+backend errors showing in front end without beautfy handling
 in notification filter notifications to be displayed
 button loading in view 
 
