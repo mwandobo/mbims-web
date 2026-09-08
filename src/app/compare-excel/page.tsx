@@ -8,7 +8,11 @@ import { getValueFromLocalStorage } from "@/utils/local-storage.util";
 import { ButtonComponent } from "@/components/button/button.component";
 import { CircleEqual, Upload } from "lucide-react";
 
-function ExcelCompare() {
+interface ExcelCompareProps {
+    onComparisonComplete?: (result: any) => void;
+}
+
+function ExcelCompare({ onComparisonComplete }: ExcelCompareProps) {
     const permission = 'compare_excel'
     const [file1, setFile1] = useState<File | null>(null);
     const [file2, setFile2] = useState<File | null>(null);
@@ -52,6 +56,7 @@ function ExcelCompare() {
             const resultData = await response.json();
             setResult(resultData);
             setActiveTab('summary');
+            onComparisonComplete?.(resultData);
         } catch (err: any) {
             setError(err.message || "Failed to compare files");
             console.error("Comparison error:", err);
@@ -261,16 +266,10 @@ function ExcelCompare() {
             permission={`${permission}_read`}
             isLoading={loading}
         >
-            <PageHeader
-                subHeader={"Excel Compare"}
-                permission={`${permission}_create`}
-                isHideAdd={true}
-            />
-
-            <div className="p-6 space-y-6 text-gray-700">
+            <div className="px-6 space-y-6 text-gray-700">
                 {/* Header */}
                 <div className="text-center">
-                    <h1 className="text-3xl font-bold text-gray-800 mb-2">Excel File Comparison</h1>
+                    <h1 className="text-3xl font-bold text-gray-800 mb-2">Reconciliation By Comparing Two Files</h1>
                     <p className="text-gray-600">Compare two Excel files and identify matching and missing records</p>
                 </div>
 

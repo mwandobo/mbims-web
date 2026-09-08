@@ -157,6 +157,12 @@ const items: ISidebarItem[] = [
         permission: 'transaction_read',
         icon: Users 
     },
+    {
+        name: 'Reconciliation',
+        path: '/reconciliation',
+        icon: ArrowLeftRight,
+        permission: 'reconciliation_read',
+    },
 ]
 
 // function Sidebar() {

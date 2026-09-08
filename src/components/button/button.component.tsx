@@ -12,6 +12,7 @@ interface Props {
     type?: "button" | "submit" | "reset"
     variant?: "contained" | "text" | "outlined" | undefined
     isDisabled?: boolean
+    isLoading?: boolean
     disabled?: boolean
     isClickable?: boolean
     isEndIcon?: boolean
@@ -24,6 +25,7 @@ interface Props {
 
 }
 
+
 export function ButtonComponent({
                                    name,
                                    onClick,
@@ -33,7 +35,8 @@ export function ButtonComponent({
                                    hover = 'hover:bg-gray-900',
                                    hover_text = 'white',
                                    variant = 'contained',
-                                   isDisabled,
+                                   isDisabled =false,
+                                   isLoading,
                                    type = 'button',
                                    isClickable = true,
                                    disabled=false,
@@ -46,32 +49,40 @@ export function ButtonComponent({
                                    isSmallButton,
 
                                }: Props) {
+
+
+    const buttonStateRender =() => {
+        if(isLoading) return <CircularProgress size={20}/>
+
+        return (
+            <div className={`flex gap-1 ${text_color} ${!isDisabled && hover_text} px-1 h-5 items-center`}>
+                {isEndIcon ?
+                    <>
+                        {name}
+                        {children}
+
+                    </> :
+                    <>
+                        {children}
+                        {name}
+                    </>
+                }
+
+            </div>
+        )
+    }
+
     return (
         <button
             type={type}
-            className={`${bg_color} ${text_color} ${border} text-xs ${!disabled && hover}  ${shadow}  ${padding && padding} ${rounded && `rounded-${rounded}`}`}
+            className={`${bg_color} ${text_color} ${border} text-xs ${!isDisabled && hover}  ${shadow}  ${padding && padding} ${rounded && `rounded-${rounded}`}`}
             onClick={onClick}
             style={{
                 fontSize: isSmallButton && "8px"
             }}
-            disabled={disabled}
+            disabled={isDisabled}
         >
-            {isDisabled ? <CircularProgress size={20}/> :
-                <div className={`flex gap-1 ${text_color} ${!disabled && hover_text} px-1 h-5 items-center`}>
-                    {isEndIcon ?
-                        <>
-                            {name}
-                            {children}
-
-                        </> :
-                        <>
-                            {children}
-                            {name}
-                        </>
-                    }
-
-                </div>
-            }
+            {buttonStateRender() }
         </button>
     )
 }

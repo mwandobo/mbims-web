@@ -27,3 +27,6 @@ when creating a button with confirmation use the following util
               onCancel: () => console.log('User canceled the action'), // Optional cancel action
           });
       };
+
+ To run pm2 in the server use the command below
+ pm2 start node_modules/next/dist/bin/next --name "mbims-web" -- start

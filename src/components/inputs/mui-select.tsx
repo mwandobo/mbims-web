@@ -55,13 +55,13 @@ const MuiSelect = ({
 
     // ==================== LOGGING DEFAULT VALUE ====================
     useEffect(() => {
-        console.log(`[MuiSelect] ${label || from} - Current Value:`, {
-            value: value,
-            normalizedValue: String(value || ""),
-            type: typeof value,
-            from: from,
-            control_for: control_for,
-        });
+        // console.log(`[MuiSelect] ${label || from} - Current Value:`, {
+        //     value: value,
+        //     normalizedValue: String(value || ""),
+        //     type: typeof value,
+        //     from: from,
+        //     control_for: control_for,
+        // });
     }, [value, label, from, control_for]);
     // ============================================================
 
