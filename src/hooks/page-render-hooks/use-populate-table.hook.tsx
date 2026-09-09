@@ -1,8 +1,8 @@
-
 import MuiTableFrontEndPagination from "@/components/tables/mui-table-front-end-pagination";
 import MuiTableComponent from "@/components/tables/mui-table.component";
 import CrudButtonsComponent from "@/components/crud-operator-buttons";
 import FormattedMoney from "@/components/money-format.component";
+import {PageMetaDataType} from "@/common/types";
 
 interface Props {
     columns: any[]
@@ -25,31 +25,34 @@ interface Props {
     updateRowsPerPage: (rowsPerPage: number) => void
     updateFilterKey: (filterKey: string) => void
     tablePaginationType?: string
+    pageMetadata?: PageMetaDataType
+
 
 }
 
 export const usePopulateTableHook = ({
-                                     columns,
-                                     data,
-                                     handleClick,
-                                     show_assign,
-                                     permission,
-                                     isHideShow,
-                                     isHideDelete,
-                                     isHideEdit,
-                                     isHideActions,
-                                     isShowAddPriceButton,
-                                     approval_slug,
-                                     from,
-                                     page,
-                                     rowsPerPage,
-                                     updatePage,
-                                     updateRowsPerPage,
-                                     filterKey,
-                                     updateFilterKey,
-                                     totalRecords,
-                                     tablePaginationType
-                                 }: Props) => {
+                                         columns,
+                                         data,
+                                         handleClick,
+                                         show_assign,
+                                         permission,
+                                         isHideShow,
+                                         isHideDelete,
+                                         isHideEdit,
+                                         isHideActions,
+                                         isShowAddPriceButton,
+                                         approval_slug,
+                                         from,
+                                         page,
+                                         rowsPerPage,
+                                         updatePage,
+                                         updateRowsPerPage,
+                                         filterKey,
+                                         updateFilterKey,
+                                         totalRecords,
+                                         tablePaginationType,
+                                         pageMetadata,
+                                     }: Props) => {
 
 
     const createRowHeader = () => {
@@ -183,17 +186,18 @@ export const usePopulateTableHook = ({
                         columns={createRowHeader()}
                     /> :
 
-                <MuiTableComponent
-                    data={createRowData()}
-                    columns={createRowHeader()}
-                    page={page}
-                    rowsPerPage={rowsPerPage}
-                    updatePage={updatePage}
-                    updateRowsPerPage={updateRowsPerPage}
-                    filterKey={filterKey}
-                    updateFilterKey={updateFilterKey}
-                    totalRecords={totalRecords}
-                />
+                    <MuiTableComponent
+                        data={createRowData()}
+                        columns={createRowHeader()}
+                        page={page}
+                        rowsPerPage={rowsPerPage}
+                        updatePage={updatePage}
+                        updateRowsPerPage={updateRowsPerPage}
+                        filterKey={filterKey}
+                        updateFilterKey={updateFilterKey}
+                        totalRecords={totalRecords}
+                        pageMetadata={pageMetadata}
+                    />
 
             }
             </div>

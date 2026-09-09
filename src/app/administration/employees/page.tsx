@@ -161,6 +161,10 @@ function Employees({
         isApiV2: true,
         isMaintainViewNavigationForV1: true,
         isHideDelete: true,
+        pageMetadata:{
+            title: 'employee',
+            searchKeySlug: 'employee',
+        }
     })
     return (
         <ProtectedRoute

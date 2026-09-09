@@ -6,6 +6,7 @@ import {useRouter} from "next/navigation";
 import {useCrudOperatorHook} from "@/hooks/page-render-hooks/use-crud-operator.hook";
 import {usePopulateTableHook} from "@/hooks/page-render-hooks/use-populate-table.hook";
 import {baseURL, getRequest} from "@/utils/api-calls.util";
+import {PageMetaDataType} from "@/common/types";
 
 interface Props {
     columns?: any[]
@@ -36,38 +37,41 @@ interface Props {
     isFormData?: boolean,
     sliderComponent?: any,
     tablePaginationType?: 'front-end' | 'back-end',
-    inputSize?: string
+    inputSize?: string,
+    pageMetadata?: PageMetaDataType
+
 }
 
 export const usePageDataHook = ({
-                                columns,
-                                formInputs,
-                                url,
-                                modalTitle,
-                                viewUrl,
-                                state_properties,
-                                callBackFunction,
-                                addPriceFormInputData,
-                                itHasCustomForm,
-                                customForm,
-                                isFormData,
-                                show_assign,
-                                permission,
-                                isHideShow,
-                                isHideDelete,
-                                isHideEdit,
-                                isShowAddPriceButton,
-                                emailNotificationBody,
-                                isHideActions,
-                                tableData,
-                                from,
-                                isApiV2,
-                                isMaintainViewNavigationForV1,
-                                approval_slug,
-                                sliderComponent,
-                                tablePaginationType = 'back-end',
-    inputSize,
-                            }: Props
+                                    columns,
+                                    formInputs,
+                                    url,
+                                    modalTitle,
+                                    viewUrl,
+                                    state_properties,
+                                    callBackFunction,
+                                    addPriceFormInputData,
+                                    itHasCustomForm,
+                                    customForm,
+                                    isFormData,
+                                    show_assign,
+                                    permission,
+                                    isHideShow,
+                                    isHideDelete,
+                                    isHideEdit,
+                                    isShowAddPriceButton,
+                                    emailNotificationBody,
+                                    isHideActions,
+                                    tableData,
+                                    from,
+                                    isApiV2,
+                                    isMaintainViewNavigationForV1,
+                                    approval_slug,
+                                    sliderComponent,
+                                    tablePaginationType = 'back-end',
+                                    pageMetadata,
+                                    inputSize,
+                                }: Props
 ) => {
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState<any[]>([])
@@ -139,7 +143,8 @@ export const usePageDataHook = ({
         updatePage,
         updateFilterKey,
         totalRecords,
-        tablePaginationType
+        tablePaginationType,
+        pageMetadata
     })
 
     const ensureURL = (url: string, baseURL: string) => {

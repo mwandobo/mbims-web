@@ -14,6 +14,7 @@ import {visuallyHidden} from '@mui/utils';
 import {ButtonComponent} from "@/components/button/button.component";
 import {Search} from "lucide-react";
 import {getValueFromLocalStorage, setValueLocalStorage} from "@/utils/local-storage.util";
+import {PageMetaDataType} from "@/common/types";
 
 type Order = 'asc' | 'desc';
 
@@ -92,6 +93,7 @@ interface Props {
     updatePage: (page: number) => void
     updateRowsPerPage: (rowsPerPage: number) => void
     updateFilterKey: (filterKey: string) => void
+    pageMetadata?: PageMetaDataType
 }
 
 export default function MuiTableComponent({
@@ -104,7 +106,8 @@ export default function MuiTableComponent({
                                               updatePage,
                                               updateFilterKey,
                                               totalRecords,
-                                              filterKey
+                                              filterKey,
+                                              pageMetadata
                                           }: Props) {
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<number>(-1); // Changed to use column index
@@ -128,9 +131,8 @@ export default function MuiTableComponent({
     const handleSearchChange = (value: any) => {
         setSearchKey(value)
         setValueLocalStorage('search-key', value)
-
-        console.log('value.length', value.length)
-        if(value.length === 0){
+        setValueLocalStorage('search-key-slug',  `${pageMetadata?.title}-${value}`);
+        if (value.length === 0) {
             updateFilterKey('')
         }
     };
@@ -155,8 +157,35 @@ export default function MuiTableComponent({
     }, [data, order, orderBy, page, rowsPerPage]);
 
     useEffect(() => {
-        const searchKey = getValueFromLocalStorage('search-key');
-        setSearchKey(searchKey)
+
+        if (pageMetadata?.title) {
+            const searchKeySlug = getValueFromLocalStorage('search-key-slug').toString();
+            if (!searchKeySlug) {
+                setValueLocalStorage('search-key', "")
+                setSearchKey('')
+
+            } else {
+                const splittedSearchKey = searchKeySlug.split('-')
+                const searchPageTitle = splittedSearchKey[0];
+
+                console.log('searchKeySlug', searchKeySlug )
+                console.log('splittedSearchKey', splittedSearchKey )
+                console.log('seach value searchPageTitle', searchPageTitle )
+                console.log('seach value pageMetadata', pageMetadata.title)
+                console.log('seach value', searchPageTitle === pageMetadata.title)
+
+                if (searchPageTitle === pageMetadata.title) {
+                    const searchKey = getValueFromLocalStorage('search-key');
+                    setSearchKey(searchKey)
+                }
+            }
+        } else {
+            console.log('i am in the else as it should be')
+            setSearchKey('')
+            setValueLocalStorage('search-key', "")
+
+        }
+
     }, [])
 
     return (

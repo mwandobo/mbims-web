@@ -42,6 +42,11 @@ interface filterBody {
     items: { name: string, value:string }[]
 }
 
+interface pageListData {
+    pageTitle: string,
+    pageSearchKeySlug: any
+}
+
 type State = {
     currentUser: CurrentUserProps | null;
     evaluationForm

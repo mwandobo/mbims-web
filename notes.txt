@@ -30,3 +30,40 @@ when creating a button with confirmation use the following util
 
  To run pm2 in the server use the command below
  pm2 start node_modules/next/dist/bin/next --name "mbims-web" -- start
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  if(pageMetadata?.title){
+             setSearchKey(value)
+
+             const searchKeySlug = getValueFromLocalStorage('search-key-slug').toString();
+
+             console.log(searchKeySlug);
+
+             if(!searchKeySlug){
+                 setValueLocalStorage('search-key', "")
+             } else {
+                 setValueLocalStorage('search-key', value)
+                 setValueLocalStorage('search-key-slug', `${pageMetadata?.title}-${value}`)
+                 if(value.length === 0){
+                     updateFilterKey('')
+                 }
+
+
+             }
+
+
+         }
