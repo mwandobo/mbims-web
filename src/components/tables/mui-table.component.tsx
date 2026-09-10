@@ -25,14 +25,24 @@ interface EnhancedTableProps {
     orderBy: number;
     rowCount: number;
     columns: any[];
+    sortBy?: string;
+    sortDirection?: Order;
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-    const {order, orderBy, onRequestSort, columns} = props;
+    const {
+        order,
+        orderBy,
+        onRequestSort,
+        columns,
+        sortBy,
+        sortDirection,
+    } = props;
 
     const createSortHandler = (property: number) => (event: React.MouseEvent<unknown>) => {
         onRequestSort(event, property);
     };
+
 
     return (
         <TableHead>
@@ -55,7 +65,8 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                         key={index}
                         align={headCell.numeric ? 'right' : 'left'}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
-                        sortDirection={orderBy === index ? order : false}
+                        // sortDirection={orderBy === index ? order : false}
+                        sortDirection={sortBy === headCell.id ? sortDirection : false}
                         style={{
                             borderLeft: '1px solid #a8a6a6',
                             width: headCell.width,
@@ -64,14 +75,14 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                         }}
                     >
                         <TableSortLabel
-                            active={orderBy === index}
-                            direction={orderBy === index ? order : 'asc'}
+                            active={sortBy === headCell.id}
+                            direction={sortBy === headCell.id ? (sortDirection || 'asc') : 'asc'}
                             onClick={createSortHandler(index)}
                         >
                             {headCell.label}
-                            {orderBy === index ? (
+                            {sortBy === headCell.id ? (
                                 <Box component="span" sx={visuallyHidden}>
-                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                    {sortDirection === 'desc' ? 'sorted descending' : 'sorted ascending'}
                                 </Box>
                             ) : null}
                         </TableSortLabel>
@@ -93,8 +104,15 @@ interface Props {
     updatePage: (page: number) => void
     updateRowsPerPage: (rowsPerPage: number) => void
     updateFilterKey: (filterKey: string) => void
+    sortBy?: string;
+    sortDirection?: 'asc' | 'desc';
+    onSortChange?: (sortBy: string, direction: 'asc' | 'desc') => void;
     pageMetadata?: PageMetaDataType
 }
+
+
+
+
 
 export default function MuiTableComponent({
                                               columns,
@@ -107,6 +125,9 @@ export default function MuiTableComponent({
                                               updateFilterKey,
                                               totalRecords,
                                               filterKey,
+                                              sortBy,
+                                              sortDirection,
+                                              onSortChange,
                                               pageMetadata
                                           }: Props) {
     const [order, setOrder] = React.useState<Order>('asc');
@@ -114,19 +135,24 @@ export default function MuiTableComponent({
     const [selected, setSelected] = React.useState<readonly number[]>([]);
     const [searchKey, setSearchKey] = React.useState('');
 
-
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
-        property: number,
+        propertyIndex: number,
     ) => {
-        const isAsc = orderBy === property && order === 'asc';
+        const column = columns[propertyIndex];
+        if (!column?.id) return; // column must have an `id` (field name)
+
+
+
+        const isAsc = sortBy === column.id && sortDirection === 'asc';
+        const newDirection: Order = isAsc ? 'desc' : 'asc';
 
         console.log('isAsc', isAsc);
-        console.log('property', property);
+        console.log('newDirection', newDirection);
 
 
-        setOrder(isAsc ? 'desc' : 'asc');
-        setOrderBy(property);
+        // Notify parent → parent will call API with new sort
+        onSortChange?.(column.id, newDirection);
     };
 
     const handleChangePage = (event: unknown, newPage: number) => {
@@ -136,7 +162,7 @@ export default function MuiTableComponent({
     const handleSearchChange = (value: any) => {
         setSearchKey(value)
         setValueLocalStorage('search-key', value)
-        setValueLocalStorage('search-key-slug',  `${pageMetadata?.title}-${value}`);
+        setValueLocalStorage('search-key-slug', `${pageMetadata?.title}-${value}`);
         if (value.length === 0) {
             updateFilterKey('')
         }
@@ -148,18 +174,7 @@ export default function MuiTableComponent({
 
     const isSelected = (index: number) => selected.indexOf(index) !== -1;
 
-    const visibleRows = React.useMemo(() => {
-        return [...data].sort((a, b) => {
-            const valueA = String(a[orderBy] || '').toLowerCase();
-            const valueB = String(b[orderBy] || '').toLowerCase();
-
-            if (order === 'desc') {
-                return valueB.localeCompare(valueA);
-            }
-            return valueA.localeCompare(valueB);
-        });
-
-    }, [data, order, orderBy, page, rowsPerPage]);
+    const visibleRows = data;
 
     useEffect(() => {
 
@@ -236,6 +251,8 @@ export default function MuiTableComponent({
                             onRequestSort={handleRequestSort}
                             rowCount={data.length}
                             columns={columns}
+                            sortBy={sortBy}
+                            sortDirection={sortDirection}
                         />
                         <TableBody>
                             {visibleRows.map((row, index) => (

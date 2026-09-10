@@ -81,6 +81,14 @@ export const usePageDataHook = ({
     const [totalRecords, setTotalRecords] = React.useState(0);
     const [filterKey, setFilterKey] = useState('');
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [sortBy, setSortBy] = useState('id');
+    const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+
+    const handleSortChange = (field: string, direction: 'asc' | 'desc') => {
+        setSortBy(field);
+        setSortDirection(direction);
+        setPage(1); // reset page when sort changes
+    };
 
     const router = useRouter()
     const navigateToLogin = () => {
@@ -146,7 +154,10 @@ export const usePageDataHook = ({
         updateFilterKey,
         totalRecords,
         tablePaginationType,
-        pageMetadata
+        pageMetadata,
+        sortBy,
+        sortDirection,
+        onSortChange: handleSortChange,
     })
 
     const ensureURL = (url: string, baseURL: string) => {
@@ -161,77 +172,6 @@ export const usePageDataHook = ({
         }
     };
 
-    // const fetchData = async () => {
-    //     try {
-    //         setLoading(true);
-    //
-    //         const parsedUrl = ensureURL(url, baseURL);
-    //         parsedUrl.searchParams.set('page', page.toString());
-    //         parsedUrl.searchParams.set('limit', rowsPerPage.toString());
-    //
-    //         if (filterKey) {
-    //             parsedUrl.searchParams.set('q', filterKey);
-    //         } else {
-    //             parsedUrl.searchParams.delete('q');
-    //         }
-    //
-    //         const finalUrl = parsedUrl.toString();
-    //         const res = await getRequest(finalUrl);
-    //
-    //
-    //
-    //         // Success
-    //         if (res.status === 200) {
-    //             // @ts-ignore
-    //             setData(res.data?.data ?? []);
-    //             // @ts-ignore
-    //             setTotalRecords(res.data?.pagination?.total ?? 0);
-    //         }
-    //         // Explicit status checks (in case getRequest does not throw)
-    //         else if (res.status === 401 || res.status === 403) {
-    //             navigateToLogin();
-    //         } else {
-    //             console.error("Unexpected status:", res.status, res);
-    //         }
-    //
-    //     } catch (error: any) {
-    //
-    //         // Network error
-    //         if (error?.code === "ERR_NETWORK") {
-    //
-    //             Swal.fire({
-    //                 title: 'Network Error!',
-    //                 text: 'Problem With Network Connection!',
-    //                 icon: 'error',
-    //             // }).then(() => setLoading(false))
-    //             })
-    //         }
-    //
-    //         // Axios-style error (most common)
-    //         const status = error?.response?.status;
-    //         if (status === 401 || status === 403) {
-    //             // Unauthorized or Forbidden → go to login
-    //             navigateToLogin();
-    //             return;
-    //         }
-    //
-    //         // Other errors
-    //         console.error("❌ Fetch error:", {
-    //             message: error.message,
-    //             status: status,
-    //             data: error?.response?.data,
-    //         });
-    //
-    //         // Optional: show toast/notification here
-    //         // toast.error(error?.response?.data?.message || "Something went wrong");
-    //
-    //     }
-    //
-    //     // finally {
-    //     //     setLoading(false);   // always stop loading
-    //     // }
-    // };
-
 
     const fetchData = async () => {
         try {
@@ -240,6 +180,8 @@ export const usePageDataHook = ({
             const parsedUrl = ensureURL(url, baseURL);
             parsedUrl.searchParams.set('page', page.toString());
             parsedUrl.searchParams.set('limit', rowsPerPage.toString());
+            parsedUrl.searchParams.set('sortBy', sortBy);
+            parsedUrl.searchParams.set('direction', sortDirection.toUpperCase());
 
             if (filterKey) {
                 parsedUrl.searchParams.set('q', filterKey);
@@ -300,7 +242,7 @@ export const usePageDataHook = ({
         } else {
             fetchData();
         }
-    }, [rowsPerPage, filterKey, page, url, isStateChanged]);
+    }, [rowsPerPage, filterKey, page, url, isStateChanged, sortBy, sortDirection]);
 
     return {
         loading,

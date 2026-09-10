@@ -26,6 +26,9 @@ interface Props {
     updateFilterKey: (filterKey: string) => void
     tablePaginationType?: string
     pageMetadata?: PageMetaDataType
+    sortBy?: string
+    sortDirection?: 'asc' | 'desc'
+    onSortChange?: (sortBy: string, direction: 'asc' | 'desc') => void
 
 
 }
@@ -51,7 +54,11 @@ export const usePopulateTableHook = ({
                                          updateFilterKey,
                                          totalRecords,
                                          tablePaginationType,
+
                                          pageMetadata,
+                                         sortBy,
+                                         sortDirection,
+                                         onSortChange,
                                      }: Props) => {
 
 
@@ -197,6 +204,9 @@ export const usePopulateTableHook = ({
                         updateFilterKey={updateFilterKey}
                         totalRecords={totalRecords}
                         pageMetadata={pageMetadata}
+                        sortBy={sortBy}
+                        sortDirection={sortDirection}
+                        onSortChange={onSortChange}
                     />
 
             }
