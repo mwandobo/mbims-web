@@ -7,6 +7,8 @@ import {useCrudOperatorHook} from "@/hooks/page-render-hooks/use-crud-operator.h
 import {usePopulateTableHook} from "@/hooks/page-render-hooks/use-populate-table.hook";
 import {baseURL, getRequest} from "@/utils/api-calls.util";
 import {PageMetaDataType} from "@/common/types";
+import ToastComponent from "@/components/popup/toast";
+import Swal from "sweetalert2";
 
 interface Props {
     columns?: any[]
@@ -159,7 +161,78 @@ export const usePageDataHook = ({
         }
     };
 
-    // ⬇️ Move fetchData OUTSIDE useEffect
+    // const fetchData = async () => {
+    //     try {
+    //         setLoading(true);
+    //
+    //         const parsedUrl = ensureURL(url, baseURL);
+    //         parsedUrl.searchParams.set('page', page.toString());
+    //         parsedUrl.searchParams.set('limit', rowsPerPage.toString());
+    //
+    //         if (filterKey) {
+    //             parsedUrl.searchParams.set('q', filterKey);
+    //         } else {
+    //             parsedUrl.searchParams.delete('q');
+    //         }
+    //
+    //         const finalUrl = parsedUrl.toString();
+    //         const res = await getRequest(finalUrl);
+    //
+    //
+    //
+    //         // Success
+    //         if (res.status === 200) {
+    //             // @ts-ignore
+    //             setData(res.data?.data ?? []);
+    //             // @ts-ignore
+    //             setTotalRecords(res.data?.pagination?.total ?? 0);
+    //         }
+    //         // Explicit status checks (in case getRequest does not throw)
+    //         else if (res.status === 401 || res.status === 403) {
+    //             navigateToLogin();
+    //         } else {
+    //             console.error("Unexpected status:", res.status, res);
+    //         }
+    //
+    //     } catch (error: any) {
+    //
+    //         // Network error
+    //         if (error?.code === "ERR_NETWORK") {
+    //
+    //             Swal.fire({
+    //                 title: 'Network Error!',
+    //                 text: 'Problem With Network Connection!',
+    //                 icon: 'error',
+    //             // }).then(() => setLoading(false))
+    //             })
+    //         }
+    //
+    //         // Axios-style error (most common)
+    //         const status = error?.response?.status;
+    //         if (status === 401 || status === 403) {
+    //             // Unauthorized or Forbidden → go to login
+    //             navigateToLogin();
+    //             return;
+    //         }
+    //
+    //         // Other errors
+    //         console.error("❌ Fetch error:", {
+    //             message: error.message,
+    //             status: status,
+    //             data: error?.response?.data,
+    //         });
+    //
+    //         // Optional: show toast/notification here
+    //         // toast.error(error?.response?.data?.message || "Something went wrong");
+    //
+    //     }
+    //
+    //     // finally {
+    //     //     setLoading(false);   // always stop loading
+    //     // }
+    // };
+
+
     const fetchData = async () => {
         try {
             setLoading(true);
@@ -179,22 +252,44 @@ export const usePageDataHook = ({
 
             if (res.status === 200) {
                 // @ts-ignore
-                setData(res.data?.data);
+                setData(res.data?.data ?? []);
                 // @ts-ignore
-                if (res.data?.pagination?.total) {
-                    // @ts-ignore
-                    setTotalRecords(res.data?.pagination?.total);
-                }
-            }
-
-            setLoading(false);
-        } catch (error: any) {
-            if (error?.code === "ERR_NETWORK") {
+                setTotalRecords(res.data?.pagination?.total ?? 0);
+            } else if (res.status === 401 || res.status === 403) {
                 navigateToLogin();
             } else {
-                console.error("❌ Fetch error:", error);
-                setLoading(false);
+                console.error("Unexpected status:", res.status, res);
             }
+
+        } catch (error: any) {
+            // Network error
+            if (error?.code === "ERR_NETWORK") {
+                // Prevent multiple Swals
+                if (!Swal.isVisible()) {
+                    Swal.fire({
+                        title: 'Network Error!',
+                        text: 'Problem With Network Connection!',
+                        icon: 'error',
+                    });
+                }
+                return;
+            }
+
+            const status = error?.response?.status;
+
+            if (status === 401 || status === 403) {
+                navigateToLogin();
+                return;
+            }
+
+            console.error("❌ Fetch error:", {
+                message: error.message,
+                status,
+                data: error?.response?.data,
+            });
+
+        } finally {
+            setLoading(false);
         }
     };
 
