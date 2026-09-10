@@ -208,7 +208,6 @@ export const usePopulateTableHook = ({
                         sortDirection={sortDirection}
                         onSortChange={onSortChange}
                     />
-
             }
             </div>
         )

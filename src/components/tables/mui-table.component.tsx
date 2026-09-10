@@ -110,10 +110,6 @@ interface Props {
     pageMetadata?: PageMetaDataType
 }
 
-
-
-
-
 export default function MuiTableComponent({
                                               columns,
                                               data,

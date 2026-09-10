@@ -7,7 +7,6 @@ import {useCrudOperatorHook} from "@/hooks/page-render-hooks/use-crud-operator.h
 import {usePopulateTableHook} from "@/hooks/page-render-hooks/use-populate-table.hook";
 import {baseURL, getRequest} from "@/utils/api-calls.util";
 import {PageMetaDataType} from "@/common/types";
-import ToastComponent from "@/components/popup/toast";
 import Swal from "sweetalert2";
 
 interface Props {
@@ -101,7 +100,7 @@ export const usePageDataHook = ({
 
     const updateRowsPerPage = (rowsPerPage: number) => {
         setRowsPerPage(rowsPerPage);
-        setPage(0);
+        setPage(1);
     };
 
     const updateFilterKey = (filterKey: string) => {
@@ -179,7 +178,7 @@ export const usePageDataHook = ({
 
             const parsedUrl = ensureURL(url, baseURL);
             parsedUrl.searchParams.set('page', page.toString());
-            parsedUrl.searchParams.set('limit', rowsPerPage.toString());
+            parsedUrl.searchParams.set('size', rowsPerPage.toString());
             parsedUrl.searchParams.set('sortBy', sortBy);
             parsedUrl.searchParams.set('direction', sortDirection.toUpperCase());
 
