@@ -66,7 +66,7 @@ const columns = [
     },
 ]
 
-function Departments() {
+function Unit() {
     const permission = 'unit'
 
     const {
@@ -84,7 +84,10 @@ function Departments() {
         state_properties: [],
         permission: permission,
         isApiV2: true,
-        isMaintainViewNavigationForV1: true
+        isMaintainViewNavigationForV1: true,
+        pageMetadata:{
+            title: 'unit',
+        }
     })
 
     return (
@@ -110,4 +113,4 @@ function Departments() {
     )
 }
 
-export default Departments
+export default Unit

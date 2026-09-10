@@ -171,7 +171,6 @@ export const usePageDataHook = ({
         }
     };
 
-
     const fetchData = async () => {
         try {
             setLoading(true);

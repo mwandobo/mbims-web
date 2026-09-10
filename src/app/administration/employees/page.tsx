@@ -163,7 +163,6 @@ function Employees({
         isHideDelete: true,
         pageMetadata:{
             title: 'employee',
-            searchKeySlug: 'employee',
         }
     })
     return (
