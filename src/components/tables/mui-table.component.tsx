@@ -120,6 +120,11 @@ export default function MuiTableComponent({
         property: number,
     ) => {
         const isAsc = orderBy === property && order === 'asc';
+
+        console.log('isAsc', isAsc);
+        console.log('property', property);
+
+
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
     };
@@ -165,14 +170,8 @@ export default function MuiTableComponent({
                 setSearchKey('')
 
             } else {
-                const splittedSearchKey = searchKeySlug.split('-')
-                const searchPageTitle = splittedSearchKey[0];
-
-                console.log('searchKeySlug', searchKeySlug )
-                console.log('splittedSearchKey', splittedSearchKey )
-                console.log('seach value searchPageTitle', searchPageTitle )
-                console.log('seach value pageMetadata', pageMetadata.title)
-                console.log('seach value', searchPageTitle === pageMetadata.title)
+                const splitSearchKey = searchKeySlug.split('-')
+                const searchPageTitle = splitSearchKey[0];
 
                 if (searchPageTitle === pageMetadata.title) {
                     const searchKey = getValueFromLocalStorage('search-key');
@@ -180,10 +179,8 @@ export default function MuiTableComponent({
                 }
             }
         } else {
-            console.log('i am in the else as it should be')
             setSearchKey('')
             setValueLocalStorage('search-key', "")
-
         }
 
     }, [])
