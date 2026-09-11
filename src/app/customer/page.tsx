@@ -73,6 +73,9 @@ function Customers() {
         isMaintainViewNavigationForV1: true,
         isHideDelete: true,
         isHideEdit: true,
+        pageMetadata:{
+            title: 'customer',
+        }
     })
 
     return (

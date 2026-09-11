@@ -182,9 +182,9 @@ export const usePageDataHook = ({
             parsedUrl.searchParams.set('direction', sortDirection.toUpperCase());
 
             if (filterKey) {
-                parsedUrl.searchParams.set('q', filterKey);
+                parsedUrl.searchParams.set('search', filterKey);
             } else {
-                parsedUrl.searchParams.delete('q');
+                parsedUrl.searchParams.delete('search');
             }
 
             const finalUrl = parsedUrl.toString();

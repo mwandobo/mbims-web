@@ -25,5 +25,5 @@ backend errors showing in front end without beautfy handling
 in notification filter notifications to be displayed
 button loading in view 
 the word put in search keyboard dont disapea
-
+send email in background
 

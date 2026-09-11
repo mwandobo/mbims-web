@@ -62,10 +62,7 @@ function Departments() {
         state_properties: [],
         permission: permission,
         isApiV2: true,
-        isMaintainViewNavigationForV1: true,
-        pageMetadata:{
-            title: 'department',
-        }
+        isMaintainViewNavigationForV1: true
     })
 
     return (

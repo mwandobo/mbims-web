@@ -91,7 +91,6 @@ function Position({
         isMaintainViewNavigationForV1: true,
         pageMetadata:{
             title: 'position',
-            searchKeySlug: 'position',
         }
     })
     return (

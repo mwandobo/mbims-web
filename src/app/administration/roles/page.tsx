@@ -48,7 +48,10 @@ function Roles() {
         show_assign: true,
         isApiV2: true,
         isMaintainViewNavigationForV1: true,
-        permission: permission
+        permission: permission,
+        pageMetadata:{
+            title: 'role',
+        }
     })
 
     return (

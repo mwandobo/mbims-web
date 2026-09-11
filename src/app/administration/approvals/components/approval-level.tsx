@@ -87,6 +87,9 @@ function ApprovalLevel({id, permission}: Props) {
         sliderComponent:ApprovalLevelView,
         isHideDelete:false,
         isHideEdit:false,
+        pageMetadata:{
+            title: 'approval_level',
+        }
     })
 
     return (
