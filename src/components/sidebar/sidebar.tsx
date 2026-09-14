@@ -165,32 +165,6 @@ const items: ISidebarItem[] = [
     },
 ]
 
-// function Sidebar() {
-//     const {state} = useGlobalContextHook()
-//     const { isSideBarHidden} = state;
-//
-//     return (
-//             <div className={`${isSideBarHidden ? 'hidden': 'block'} md:flex w-full md:w-1/4 lg:w-1/8 md:border-e border-gray-200 h-[86vh]`}>
-//             <div className='h-full w-full'>
-//                 <div className='bg-white px-2 h-full w-full'>
-//                     <hr className='bg-gray-200'/>
-//                     <div className="flex-col h-full w-full pt-10 pb-4 pe-4 overflow-auto scrollbar-thin">
-//                         {
-//                             items.map(item =>
-//                                     checkPermissions(item?.permission) && (
-//                                         <SidebarItem key={item.path} item={item}/>
-//                                     )
-//                             )
-//                         }
-//                     </div>
-//                  </div>
-//             </div>
-//         </div>
-//     )
-// }
-
-
-
 function Sidebar() {
     const { state } = useGlobalContextHook();
     const { isSideBarHidden } = state;

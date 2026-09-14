@@ -26,6 +26,7 @@ interface Props {
     updateFilterKey: (filterKey: string) => void
     tablePaginationType?: string
     pageMetadata?: PageMetaDataType
+    viewUrl?: string
     sortBy?: string
     sortDirection?: 'asc' | 'desc'
     onSortChange?: (sortBy: string, direction: 'asc' | 'desc') => void
@@ -59,6 +60,7 @@ export const usePopulateTableHook = ({
                                          sortBy,
                                          sortDirection,
                                          onSortChange,
+                                         viewUrl
                                      }: Props) => {
 
 
@@ -172,6 +174,7 @@ export const usePopulateTableHook = ({
                         show_assign={show_assign}
                         isShowAddPriceButton={isShowAddPriceButton}
                         permission={permission}
+                        viewHref={viewUrl ? `${viewUrl}/${obj.id}` : undefined}
                         hide_view={isHideShow}
                         hide_edit={isHideEdit === undefined ? hideButton() : isHideEdit}
                         hide_delete={isHideDelete === undefined ? hideButton() : isHideDelete}

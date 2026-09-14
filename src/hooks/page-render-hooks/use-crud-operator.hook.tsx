@@ -181,6 +181,7 @@ export const useCrudOperatorHook = (
     }
 
     const handleClick = (type: string, payload?: any) => {
+
         const insertIdBeforeQueryParams = (url: string, id: string | number) => {
             const [baseUrl, queryParams] = url.split('?');
             return queryParams ? `${baseUrl}/${id}?${queryParams}` : `${baseUrl}/${id}`;

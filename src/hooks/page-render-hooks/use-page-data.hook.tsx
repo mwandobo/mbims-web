@@ -156,6 +156,7 @@ export const usePageDataHook = ({
         pageMetadata,
         sortBy,
         sortDirection,
+        viewUrl:viewUrl,
         onSortChange: handleSortChange,
     })
 

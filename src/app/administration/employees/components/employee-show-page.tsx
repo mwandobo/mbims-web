@@ -17,6 +17,7 @@ export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
     const router = useRouter()
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
+    const [buttonLoading, setButtonLoading] = useState(false)
     const [refresh, setRefresh] = useState(false)
 
 
@@ -55,6 +56,7 @@ export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
         try {
             const res = await postRequest(`${url}/share-credential`, {});
             if (data && res.status === 200) {
+                setButtonLoading(false)
                 setRefresh(!refresh);
             }
         } catch (error: any) {
@@ -63,11 +65,12 @@ export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
     };
 
     const handleSubmit = () => {
+        setButtonLoading(true)
         showConfirmationModal({
             title: 'Are You Sure?',
             text: `Are You Sure You Want Share Credentials with: ${data?.name}?`,
             onConfirm: onSave,  // Action to perform on confirmation
-            onCancel: () => console.log('User canceled the action'), // Optional cancel action
+            onCancel: () =>setButtonLoading(false), // Optional cancel action
         });
     };
 
@@ -98,6 +101,8 @@ export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
                             hover_text={'hover:text-gray-900 hover:font-semibold'}
                             border={'border border-gray-300'}
                             text_color={'text-gray-700'}
+                            isLoading={buttonLoading}
+                            isDisabled={buttonLoading}
                         >
                             <CheckCircle2 size={13}/>
                         </ButtonComponent>
