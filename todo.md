@@ -8,7 +8,7 @@ make sidebar navigable. done
 Recheck login process
 repopulate select on edit  
 remove sort icon in action column
-table expand when number of rows are increased
+table expand when number of rows are increased done
 when in view and back button is clicked no caching in frontend that is taken advantage
 Link unit with Employees
 Check user Registration and User Management

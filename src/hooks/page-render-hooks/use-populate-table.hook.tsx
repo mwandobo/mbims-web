@@ -185,20 +185,63 @@ export const usePopulateTableHook = ({
         }
         return newData
     }
+    //
+    // const tabular = () => {
+    //     return (
+    //         <div className={'w-full'}>{
+    //             tablePaginationType === 'front-end' ?
+    //                 <MuiTableFrontEndPagination
+    //
+    //                     data={createRowData()}
+    //                     columns={createRowHeader()}
+    //                 /> :
+    //
+    //                 <MuiTableComponent
+    //                     data={createRowData()}
+    //                     columns={createRowHeader()}
+    //                     page={page}
+    //                     rowsPerPage={rowsPerPage}
+    //                     updatePage={updatePage}
+    //                     updateRowsPerPage={updateRowsPerPage}
+    //                     filterKey={filterKey}
+    //                     updateFilterKey={updateFilterKey}
+    //                     totalRecords={totalRecords}
+    //                     pageMetadata={pageMetadata}
+    //                     sortBy={sortBy}
+    //                     sortDirection={sortDirection}
+    //                     onSortChange={onSortChange}
+    //                 />
+    //         }
+    //         </div>
+    //     )
+    // }
+
 
     const tabular = () => {
+        const rows = createRowData()
+        const headers = createRowHeader()
+        const isEmpty = !Array.isArray(rows) || rows.length === 0
+
+        if (isEmpty) {
+            return (
+                <div className="w-full flex flex-col items-center justify-center py-16 text-gray-500 border border-dashed border-gray-300 rounded-lg bg-gray-50">
+                    <p className="text-base font-medium text-gray-700">No data found</p>
+                    <p className="text-sm mt-1">There are no records to display.</p>
+                </div>
+            )
+        }
+
         return (
-            <div className={'w-full'}>{
-                tablePaginationType === 'front-end' ?
+            <div className="w-full">
+                {tablePaginationType === 'front-end' ? (
                     <MuiTableFrontEndPagination
-
-                        data={createRowData()}
-                        columns={createRowHeader()}
-                    /> :
-
+                        data={rows}
+                        columns={headers}
+                    />
+                ) : (
                     <MuiTableComponent
-                        data={createRowData()}
-                        columns={createRowHeader()}
+                        data={rows}
+                        columns={headers}
                         page={page}
                         rowsPerPage={rowsPerPage}
                         updatePage={updatePage}
@@ -211,7 +254,7 @@ export const usePopulateTableHook = ({
                         sortDirection={sortDirection}
                         onSortChange={onSortChange}
                     />
-            }
+                )}
             </div>
         )
     }
