@@ -172,29 +172,52 @@ export default function MuiTableComponent({
 
     const visibleRows = data;
 
+    // useEffect(() => {
+    //
+    //     if (pageMetadata?.title) {
+    //         const searchKeySlug = getValueFromLocalStorage('search-key-slug').toString();
+    //         if (!searchKeySlug) {
+    //             setValueLocalStorage('search-key', "")
+    //             setSearchKey('')
+    //
+    //         } else {
+    //             const splitSearchKey = searchKeySlug.split('-')
+    //             const searchPageTitle = splitSearchKey[0];
+    //
+    //             if (searchPageTitle === pageMetadata.title) {
+    //                 const searchKey = getValueFromLocalStorage('search-key');
+    //                 setSearchKey(searchKey)
+    //             }
+    //         }
+    //     } else {
+    //         setSearchKey('')
+    //         setValueLocalStorage('search-key', "")
+    //     }
+    //
+    // }, [])
+
     useEffect(() => {
-
         if (pageMetadata?.title) {
-            const searchKeySlug = getValueFromLocalStorage('search-key-slug').toString();
-            if (!searchKeySlug) {
-                setValueLocalStorage('search-key', "")
-                setSearchKey('')
+            const rawSlug = getValueFromLocalStorage('search-key-slug');
+            const searchKeySlug = rawSlug != null ? String(rawSlug) : '';
 
+            if (!searchKeySlug) {
+                setValueLocalStorage('search-key', '');
+                setSearchKey('');
             } else {
-                const splitSearchKey = searchKeySlug.split('-')
+                const splitSearchKey = searchKeySlug.split('-');
                 const searchPageTitle = splitSearchKey[0];
 
                 if (searchPageTitle === pageMetadata.title) {
-                    const searchKey = getValueFromLocalStorage('search-key');
-                    setSearchKey(searchKey)
+                    const rawKey = getValueFromLocalStorage('search-key');
+                    setSearchKey(rawKey != null ? String(rawKey) : '');
                 }
             }
         } else {
-            setSearchKey('')
-            setValueLocalStorage('search-key', "")
+            setSearchKey('');
+            setValueLocalStorage('search-key', '');
         }
-
-    }, [])
+    }, [pageMetadata?.title]);
 
     return (
         <Box sx={{width: '100%', marginTop: '10px'}}>
