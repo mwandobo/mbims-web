@@ -41,7 +41,7 @@ function ExcelCompare({ onComparisonComplete }: ExcelCompareProps) {
             formData.append("files", file1);
             formData.append("files", file2);
 
-            const response = await fetch(`${baseURL}excel/compare`, {
+            const response = await fetch(`${baseURL}reconciliation/compare`, {
                 method: "POST",
                 body: formData,
                 headers: {

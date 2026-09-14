@@ -12,7 +12,7 @@ import {ButtonComponent} from "@/components/button/button.component";
 import {showConfirmationModal} from "@/utils/show-alert-dialog";
 import {checkPermissions} from "@/utils/check-permissions";
 
-export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
+export default function ReconciliationShowPage({employeeId}: { employeeId: string }) {
     const permission = 'employee'
     const router = useRouter()
     const [data, setData] = useState<any>([])

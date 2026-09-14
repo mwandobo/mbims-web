@@ -10,7 +10,7 @@ interface Props {
     subHeader?: string
 }
 
-function Employees({
+function Reconciliation({
                        parent_id,
                        subHeader
                    }: Props) {
@@ -134,7 +134,7 @@ function Employees({
     ]
 
     const permission = 'reconciliation'
-    const url = `reconciliations`
+    const url = `reconciliation`
 
     const {
         loading,
@@ -172,4 +172,4 @@ function Employees({
     )
 }
 
-export default Employees
+export default Reconciliation
