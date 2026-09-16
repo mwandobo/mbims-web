@@ -6,20 +6,14 @@ import ViewCardComponent from "@/components/card/view.card.component";
 import PageHeader from "@/components/header/page-header";
 import {useRouter} from "next/navigation";
 import React, {useEffect, useState} from "react";
-import {getRequest, postRequest} from "@/utils/api-calls.util";
-import {Check, CheckCircle2, X} from "lucide-react";
-import {ButtonComponent} from "@/components/button/button.component";
-import {showConfirmationModal} from "@/utils/show-alert-dialog";
-import {checkPermissions} from "@/utils/check-permissions";
+import {getRequest} from "@/utils/api-calls.util";
+import ReconciliationItems from "@/app/reconciliation/components/reconciliation-items";
 
 export default function ReconciliationShowPage({reconciliationId}: { reconciliationId: string }) {
     const permission = 'reconciliation'
     const router = useRouter()
     const [data, setData] = useState<any>([])
     const [loading, setLoading] = useState(false)
-    const [refresh, setRefresh] = useState(false)
-
-
     const id = reconciliationId
 
     const url = `reconciliations/${id}`
@@ -48,12 +42,9 @@ export default function ReconciliationShowPage({reconciliationId}: { reconciliat
             }
         };
         fetchData()
-    }, [refresh])
-
-
+    }, [])
 
     return (
-
         <ProtectedRoute
             permission={`${permission}_read`}
             isLoading={loading}
@@ -65,21 +56,18 @@ export default function ReconciliationShowPage({reconciliationId}: { reconciliat
                 isShowPage={true}
             />
             <MuiCardComponent>
-
-
                 <ViewCardComponent
                     data={[
                         {label: 'Reconciliation Code', value: data.code},
                         {label: 'Reconciliation Date', value: data?.createdAt},
                         {label: 'Staff Name', value: data?.staffName},
                         {label: 'Reconciliation Status', value: data?.status}
-
                     ]}
                     titleA="Reconciliation"
                     titleB={data.code}
                 />
+                <ReconciliationItems id={id}/>
             </MuiCardComponent>
         </ProtectedRoute>
     );
 };
-
