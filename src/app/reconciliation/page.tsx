@@ -107,7 +107,7 @@ function Reconciliation({
     ]
     const _columns = [
         {
-            id: 'reconciliationCode',
+            id: 'code',
             numeric: false,
             disablePadding: false,
             label: 'Reconciliation Code',
@@ -125,7 +125,7 @@ function Reconciliation({
             label: 'Staff Name',
         },
          {
-            id: 'reconciliationStatus',
+            id: 'status',
             numeric: false,
             disablePadding: false,
             label: 'Reconciliation Status',
@@ -134,7 +134,7 @@ function Reconciliation({
     ]
 
     const permission = 'reconciliation'
-    const url = `reconciliation`
+    const url = `reconciliations`
 
     const {
         loading,
