@@ -1,109 +1,64 @@
 'use client'
 
-import React, { useEffect, useState } from "react";
-import { Card, Col, Row, Statistic } from "antd";
-import { getRequest } from "@/utils/api-calls.util";
+import React from "react";
+import { Col, Row, Button } from "antd";
+import { useRouter } from "next/navigation";
 
 const EmployeeDepositsStatsFragment = () => {
-  const [stats, setStats] = useState<any>(null)
+    const router = useRouter();
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const response = await getRequest<any>('performances/customer-stats')
+    // Dummy data
+    const stats = [
+        { id: 1, employeeName: "John Mwangi", totalDeposits: 2450000 },
+        { id: 2, employeeName: "Grace Wanjiku", totalDeposits: 1985000 },
+        { id: 3, employeeName: "Peter Otieno", totalDeposits: 1760000 },
+        { id: 4, employeeName: "Amina Hassan", totalDeposits: 1525000 },
+    ];
 
-        console.log('Customer stats response:', response)
-        if (response.status === 200) {
-console.log('Customer stats data:', response.data)
-          setStats(response.data)
-        } else {
-          console.error('Failed to load stats')
-        }
-      } catch (error) {
-        console.error('Error loading stats:', error)
-      }
-    }
+    const handleShowMore = () => {
+        router.push('/performances/employees');
+    };
 
-    fetchStats()
-  }, [])
-
-  const cards = [
-    { title: "Total Customers", value: stats?.totalAllCustomers, attrs: stats?.allCustomersAttrs  },
-    { title: "Total Individual Customers", value: stats?.totalIndividualCustomers, attrs: stats?.individualCustomersAttrs },
-    { title: "Total Corporate Customers", value: stats?.totalCorporateCustomers, attrs: stats?.corporateCustomersAttrs },
-  ]
-
-  return (
-    <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
-      {cards.map((card, index) => (
-        <Col
-          xs={24}   // 1 per row on mobile
-          sm={12}   // 2 per row on small screens
-          md={8}    // 3 per row
-          lg={8}    // 3 per row
-          xl={8}    // 3 per row
-          xxl={8}   // 3 per row
-          key={index}>
-          <div className="h-48 border border-gray-300 rounded-lg shadow-md p-2">
-            <div className="h-full flex">
-
-              {/* LEFT SIDE */}
-              <div className="flex flex-col justify-center gap-2 h-full w-full">
-                <p className="text-2xl font-semibold">{card.title}</p>
-                <p className="text-3xl font-bold w-full text-center -ml-8">
-                  {card.value?.toLocaleString() || 0}
-                </p>
-              </div>
-
-              {/* RIGHT SIDE */}
-              <div className="flex flex-col justify-start h-full w-full bg-gray-100 p-2 rounded-lg gap-2">
-
-                {/* ACTIVE */}
-                <div className="flex items-center justify-between bg-green-100 px-2 py-1 rounded-md">
-                  <div className="flex items-center gap-2">
-                    <span className="w-4 h-4 rounded-full bg-green-600 flex items-center justify-center">
-                      <span className="w-2 h-2 bg-white rounded-full"></span>
-                    </span>
-                    <p className="font-semibold text-green-800">Active</p>
-                  </div>
-                  <p className="font-bold text-green-900">
-                    {card.attrs?.active?.toLocaleString() || 0}
-                  </p>
-                </div>
-
-                {/* CLOSED */}
-                <div className="flex items-center justify-between bg-red-100 px-2 py-1 rounded-md">
-                  <div className="flex items-center gap-2">
-                    <span className="w-4 h-4 rounded-full bg-red-600 flex items-center justify-center">
-                      <span className="w-2 h-2 bg-white rounded-full"></span>
-                    </span>
-                    <p className="font-semibold text-red-800">Closed</p>
-                  </div>
-                  <p className="font-bold text-red-900">
-                    {card.attrs?.closed?.toLocaleString() || 0}
-                  </p>
-                </div>
-
-                {/* DORMANT */}
-                <div className="flex items-center justify-between bg-yellow-100 px-2 py-1 rounded-md">
-                  <div className="flex items-center gap-2">
-                    <span className="w-4 h-4 rounded-full bg-yellow-500 flex items-center justify-center">
-                      <span className="w-2 h-2 bg-white rounded-full"></span>
-                    </span>
-                    <p className="font-semibold text-yellow-800">Dormant</p>
-                  </div>
-                  <p className="font-bold text-yellow-900">
-                    {card.attrs?.dormant?.toLocaleString() || 0}
-                  </p>
-                </div>
-
-              </div>
+    return (
+        <div className="mb-6">
+            <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold text-gray-800">
+                    Top Employees by Deposits
+                </h2>
+                <Button type="primary" onClick={handleShowMore}>
+                    Show More
+                </Button>
             </div>
-          </div>
-        </Col>
-      ))}
-    </Row>
-  )
-}
+
+            <Row gutter={[16, 16]}>
+                {stats.map((employee) => (
+                    <Col
+                        xs={24}
+                        sm={12}
+                        md={12}
+                        lg={6}
+                        xl={6}
+                        xxl={6}
+                        key={employee.id}
+                    >
+                        <div className="h-48 border border-gray-300 rounded-lg shadow-md p-4 bg-white">
+                            <div className="h-full flex flex-col justify-center items-center gap-3">
+                                <p className="text-lg font-semibold text-gray-700 text-center line-clamp-2">
+                                    {employee.employeeName}
+                                </p>
+                                <p className="text-3xl font-bold text-center text-gray-900">
+                                    {employee.totalDeposits.toLocaleString()}
+                                </p>
+                                <p className="text-sm text-gray-500 text-center">
+                                    Amount Deposited
+                                </p>
+                            </div>
+                        </div>
+                    </Col>
+                ))}
+            </Row>
+        </div>
+    );
+};
 
 export default EmployeeDepositsStatsFragment;
