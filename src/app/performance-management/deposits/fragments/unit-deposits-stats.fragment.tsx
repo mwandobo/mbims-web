@@ -5,7 +5,7 @@ import { Col, Row, Button } from "antd";
 import { getRequest } from "@/utils/api-calls.util";
 import { useRouter } from "next/navigation";
 
-const UnitPerformanceStatsFragment = () => {
+const UnitDepositsStatsFragment = () => {
     const [stats, setStats] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
@@ -132,4 +132,4 @@ const UnitPerformanceStatsFragment = () => {
     );
 };
 
-export default UnitPerformanceStatsFragment;
+export default UnitDepositsStatsFragment;

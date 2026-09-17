@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Card, Col, Row, Statistic } from "antd";
 import { getRequest } from "@/utils/api-calls.util";
 
-const CustomerStatsFragment = () => {
+const EmployeeDepositsStatsFragment = () => {
   const [stats, setStats] = useState<any>(null)
 
   useEffect(() => {
@@ -106,4 +106,4 @@ console.log('Customer stats data:', response.data)
   )
 }
 
-export default CustomerStatsFragment;
+export default EmployeeDepositsStatsFragment;
