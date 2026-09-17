@@ -7,7 +7,8 @@ import ProtectedRoute from "@/components/authentication/protected-route";
 import { checkPermissions } from "@/utils/check-permissions";
 import AccessDeniedComponent from "@/components/status/access-denied.component";
 import CustomerStatsFragment from './fragments/customers-stats.fragment';
-import UnitPerformanceStatsFragment from "@/app/performance-management/fragments/units-stats.fragment";
+import UnitPerformanceStatsFragment
+    from "@/app/performance-management/customer-onboarding/fragments/units-stats.fragment";
 
 const { Title, Text } = Typography;
 

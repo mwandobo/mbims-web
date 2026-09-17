@@ -7,6 +7,7 @@ import {
     HardDrive,
     LayoutDashboard,
     LucideIcon,
+    CreditCard,
     NotebookPen,
     RollerCoaster,
     Settings,
@@ -138,10 +139,33 @@ const items: ISidebarItem[] = [
         ]
     },
 
+    {
+        name: 'Performance Management',
+        path: '/performance-management',
+        permission: 'performance_management_read',
+        icon: ShieldEllipsis ,
+        items: [
+            {
+                name: 'Customer Onboarding',
+                path: '/performance-management/customer-onboarding',
+                permission: 'customer_onboarding_read',
+                icon: User
+            },
+            {
+                name: 'Deposits',
+                path: '/performance-management/deposits',
+                permission: 'deposits_read',
+                icon:CreditCard
+            }
+        ]
+    },
+
+
+
      {
         name: 'Performance Management',
         path: '/performance-management',
-        permission: 'performance_read',
+        permission: 'performancee_read',
         icon: Scale 
     },
 

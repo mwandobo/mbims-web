@@ -27,7 +27,7 @@ interface Props {
     pageTitle?: string
 }
 
-const PageHeader = ({
+const CreateReconciliationComponent = ({
                         handleClick,
                         links,
                         isShowPage,
@@ -161,26 +161,26 @@ const PageHeader = ({
                     onSaveButtonName="Save"
                 >
                     {isLoading ? <LoadingComponent /> :
-                    <>
-                        <div className="h-[500px] overflow-y-auto overflow-x-hidden pr-2">
-                            <ExcelCompare onComparisonComplete={handleComparisonComplete} />
-                        </div>
-                        <div className="flex justify-end gap-3 mt-6">
-                            <ButtonComponent
-                                name="Submit"
-                                isDisabled={!isComparisonDone}          // ← disabled until comparison is done
-                                onClick={handleSubmit}
-                                rounded="md"
-                                padding="p-3"
-                                shadow="shadow-md"
-                                bg_color="bg-gray-50"
-                                hover="hover:bg-gray-200 hover:border-gray-400"
-                                hover_text="hover:text-gray-900 hover:font-semibold"
-                                border="border border-gray-300"
-                                text_color="text-gray-700"
-                            />
-                        </div>
-                    </>
+                        <>
+                            <div className="h-[500px] overflow-y-auto overflow-x-hidden pr-2">
+                                <ExcelCompare onComparisonComplete={handleComparisonComplete} />
+                            </div>
+                            <div className="flex justify-end gap-3 mt-6">
+                                <ButtonComponent
+                                    name="Submit"
+                                    isDisabled={!isComparisonDone}          // ← disabled until comparison is done
+                                    onClick={handleSubmit}
+                                    rounded="md"
+                                    padding="p-3"
+                                    shadow="shadow-md"
+                                    bg_color="bg-gray-50"
+                                    hover="hover:bg-gray-200 hover:border-gray-400"
+                                    hover_text="hover:text-gray-900 hover:font-semibold"
+                                    border="border border-gray-300"
+                                    text_color="text-gray-700"
+                                />
+                            </div>
+                        </>
                     }
                 </PopupModal>
             )}
@@ -188,4 +188,4 @@ const PageHeader = ({
     );
 }
 
-export default PageHeader
+export default CreateReconciliationComponent
