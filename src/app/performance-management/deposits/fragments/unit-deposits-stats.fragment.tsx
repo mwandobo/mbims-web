@@ -9,10 +9,8 @@ const UnitDepositsStatsFragment = () => {
 
     // Dummy data
     const stats = [
-        { id: 1, unitName: "Nairobi CBD", totalDeposits: 12500000 },
-        { id: 2, unitName: "Mombasa Branch", totalDeposits: 9800000 },
-        { id: 3, unitName: "Kisumu Unit", totalDeposits: 7650000 },
-        { id: 4, unitName: "Nakuru Branch", totalDeposits: 6420000 },
+        { id: 1, unitName: "Mlimani Branch", totalDeposits: 12500000 },
+        { id: 2, unitName: "Samora Branch", totalDeposits: 9800000 }
     ];
 
     const handleShowMore = () => {
