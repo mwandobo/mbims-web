@@ -6,24 +6,6 @@ import React from 'react'
 import {usePageDataHook} from "@/hooks/page-render-hooks/use-page-data.hook";
 
 const deptFormInputs = [
-    {
-        name: 'name',
-        type: 'text',
-        label: 'Name',
-        value: '',
-        required: true,
-        isError: false,
-        errorMessage: '',
-        layout: 'column',
-    },
-    {
-        name: 'description',
-        type: 'textArea',
-        label: 'Description',
-        value: '',
-        isError: false,
-        errorMessage: ''
-    }
 ]
 
 const columns = [
@@ -34,12 +16,17 @@ const columns = [
         label: 'Customer Name',
     },
      {
+        id: 'amount',
+        numeric: false,
+        disablePadding: false,
+        label: 'Transaction Amount',
+    },
+    {
         id: 'transactionDate',
         numeric: false,
         disablePadding: false,
         label: 'Transaction Date',
     },
-
       {
         id: 'transactionType',
         numeric: false,

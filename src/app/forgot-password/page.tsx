@@ -41,21 +41,15 @@ export default function LoginPage() {
             try {
                 const response = await postRequest<any>('auth/login', {email, password})
                 if (response.status === 200) {
-                    const user = response?.data?.user
-
-                    const passwordChanged = user?.isPasswordChanged
-
-                    if (!passwordChanged) {
-                        router.push(`/change-password/${user.id}`)
-                        return   // ← important: stop here
-                    }
-
-
                     const token = response?.data?.access_token
+                    const user = response?.data?.user
                     const role = user?.role
                     const permissions = role?.permissions
                     const notifications = response.data.notifications
 
+                    if(!user.isPasswordChange){
+                        router.push('/')
+                    }
 
                     if (setValueLocalStorage('token', token) &&
                         setValueLocalStorage('user', JSON.stringify(user)) &&
