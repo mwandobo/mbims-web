@@ -105,7 +105,7 @@ export default function LoginPage() {
 
     async function handleForgotPassword() {
         try {
-            router.push('/forgot-password')
+            router.push('/recover-password')
         } catch (error) {
             console.error('Error storing data in localStorage:', error);
         }
