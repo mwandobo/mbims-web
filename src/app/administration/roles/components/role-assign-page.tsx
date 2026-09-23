@@ -50,55 +50,168 @@ export default function RolesAssignPage({roleAssignId}: { roleAssignId: string }
     const [checkAll, setCheckAll] = useState(false);
     const [groups, setGroups] = useState<any[]>([]);
 
+    // const handleCheck = (event: any, from?: string) => {
+    //     const value = event?.target?.value;
+    //     let updatedGrops: any[] = [];
+    //
+    //     if (from === 'all') {
+    //         setCheckAll(!checkAll)
+    //
+    //         updatedGrops = groups.map((group: any) => {
+    //             let updatedPerms = group.permissions.map((perm: any) => {
+    //                 return {...perm, checked: !checkAll}
+    //             });
+    //             return {...group, checked: !checkAll, permissions: updatedPerms}
+    //         });
+    //     } else {
+    //         let array_strin: any | undefined[] = from?.split('_');
+    //         const groupName = array_strin[0]
+    //         const groupId = array_strin[1]
+    //
+    //         if (groupName === 'group') {
+    //             updatedGrops = groups.map((group: any) => {
+    //                 if (group.name === groupId) {
+    //                     let updatedPerms = group.permissions.map((perm: any) => {
+    //                         return {...perm, checked: !group.checked}
+    //                     });
+    //                     return {...group, checked: !group.checked, permissions: updatedPerms}
+    //                 }
+    //                 return group
+    //             });
+    //             const checkA = updatedGrops.every((per: any) => per.checked === true)
+    //             setCheckAll(checkA)
+    //         }
+    //
+    //         if (groupName === 'perm') {
+    //             updatedGrops = groups.map((group: any) => {
+    //                 let updatedPerms = group.permissions.map((perm: any) => {
+    //                     if (perm.id === groupId) {
+    //                         return {...perm, checked: !perm.checked}
+    //                     }
+    //                     return perm;
+    //                 });
+    //
+    //                 const checkg = updatedPerms.every((per: any) => per.checked === true)
+    //                 return {...group, checked: checkg, permissions: updatedPerms}
+    //             });
+    //         }
+    //     }
+    //
+    //     setGroups(updatedGrops)
+    // }
+
+
+    // const handleCheck = (event: any, from?: string) => {
+    //     if (!from) return;
+    //
+    //     let updatedGroups: any[] = [];
+    //
+    //     if (from === 'all') {
+    //         setCheckAll(!checkAll);
+    //
+    //         updatedGroups = groups.map((group: any) => {
+    //             const updatedPerms = group.permissions.map((perm: any) => ({
+    //                 ...perm,
+    //                 checked: !checkAll,
+    //             }));
+    //             return { ...group, checked: !checkAll, permissions: updatedPerms };
+    //         });
+    //     } else {
+    //         // Take only the first "_" as separator
+    //         const separatorIndex = from.indexOf('_');
+    //         const type = from.substring(0, separatorIndex);      // "group" | "perm"
+    //         const id = from.substring(separatorIndex + 1);       // full name or permission id
+    //
+    //         if (type === 'group') {
+    //             updatedGroups = groups.map((group: any) => {
+    //                 if (group.name === id) {
+    //                     const updatedPerms = group.permissions.map((perm: any) => ({
+    //                         ...perm,
+    //                         checked: !group.checked,
+    //                     }));
+    //                     return { ...group, checked: !group.checked, permissions: updatedPerms };
+    //                 }
+    //                 return group;
+    //             });
+    //             setCheckAll(updatedGroups.every((g: any) => g.checked));
+    //         }
+    //
+    //         if (type === 'perm') {
+    //             updatedGroups = groups.map((group: any) => {
+    //                 const updatedPerms = group.permissions.map((perm: any) => {
+    //                     if (String(perm.id) === String(id)) {
+    //                         return { ...perm, checked: !perm.checked };
+    //                     }
+    //                     return perm;
+    //                 });
+    //                 const allChecked = updatedPerms.every((p: any) => p.checked);
+    //                 return { ...group, checked: allChecked, permissions: updatedPerms };
+    //             });
+    //             setCheckAll(updatedGroups.every((g: any) => g.checked));
+    //         }
+    //     }
+    //
+    //     setGroups(updatedGroups);
+    // };
+
+
     const handleCheck = (event: any, from?: string) => {
-        const value = event?.target?.value;
-        let updatedGrops: any[] = [];
+        if (!from) return;
+
+        let updatedGroups: any[] = [];
 
         if (from === 'all') {
-            setCheckAll(!checkAll)
+            const next = !checkAll;
+            setCheckAll(next);
 
-            updatedGrops = groups.map((group: any) => {
-                let updatedPerms = group.permissions.map((perm: any) => {
-                    return {...perm, checked: !checkAll}
-                });
-                return {...group, checked: !checkAll, permissions: updatedPerms}
-            });
+            updatedGroups = groups.map((group: any) => ({
+                ...group,
+                checked: next,
+                permissions: group.permissions.map((perm: any) => ({
+                    ...perm,
+                    checked: next,
+                })),
+            }));
         } else {
-            let array_strin: any | undefined[] = from?.split('_');
-            const groupName = array_strin[0]
-            const groupId = array_strin[1]
+            const [type, id] = from.split('::');
 
-            if (groupName === 'group') {
-                updatedGrops = groups.map((group: any) => {
-                    if (group.name === groupId) {
-                        let updatedPerms = group.permissions.map((perm: any) => {
-                            return {...perm, checked: !group.checked}
-                        });
-                        return {...group, checked: !group.checked, permissions: updatedPerms}
-                    }
-                    return group
+            if (type === 'group') {
+                updatedGroups = groups.map((group: any) => {
+                    if (group.name !== id) return group;
+
+                    const next = !group.checked;
+                    return {
+                        ...group,
+                        checked: next,
+                        permissions: group.permissions.map((perm: any) => ({
+                            ...perm,
+                            checked: next,
+                        })),
+                    };
                 });
-                const checkA = updatedGrops.every((per: any) => per.checked === true)
-                setCheckAll(checkA)
+                setCheckAll(updatedGroups.every((g: any) => g.checked));
             }
 
-            if (groupName === 'perm') {
-                updatedGrops = groups.map((group: any) => {
-                    let updatedPerms = group.permissions.map((perm: any) => {
-                        if (perm.id === groupId) {
-                            return {...perm, checked: !perm.checked}
-                        }
-                        return perm;
+            if (type === 'perm') {
+                updatedGroups = groups.map((group: any) => {
+                    const updatedPerms = group.permissions.map((perm: any) => {
+                        if (String(perm.id) !== String(id)) return perm;
+                        return { ...perm, checked: !perm.checked };
                     });
-
-                    const checkg = updatedPerms.every((per: any) => per.checked === true)
-                    return {...group, checked: checkg, permissions: updatedPerms}
+                    return {
+                        ...group,
+                        checked: updatedPerms.every((p: any) => p.checked),
+                        permissions: updatedPerms,
+                    };
                 });
+                setCheckAll(updatedGroups.every((g: any) => g.checked));
             }
         }
 
-        setGroups(updatedGrops)
-    }
+        setGroups(updatedGroups);
+    };
+
+
 
     const createPermissionPayload = () => {
         const selectedPermissions: number[] = [];
@@ -204,7 +317,7 @@ export default function RolesAssignPage({roleAssignId}: { roleAssignId: string }
                                                             <MuiCheckbox
                                                                 handleChange={handleCheck}
                                                                 label={group.name}
-                                                                from={`group_${group.name}`}
+                                                                from={`group::${group.name}`}
                                                                 checked={group.checked}
                                                             />
                                                         </div>
@@ -216,7 +329,7 @@ export default function RolesAssignPage({roleAssignId}: { roleAssignId: string }
                                                                     key={permission.id}
                                                                     handleChange={handleCheck}
                                                                     label={permission.name}
-                                                                    from={`perm_${permission.id}`}
+                                                                    from={`perm::${permission.id}`}
                                                                     checked={permission.checked}
                                                                 />
                                                             ))}
