@@ -42,7 +42,7 @@ function Header() {
             {/* Logo + toggle (only for small screens) */}
             <div className={`flex items-center md:ps-8`}>
                 <button onClick={toggleSideBar} className="me-3 md:hidden">
-                    {isSideBarHidden ?<Menu size={32} strokeWidth={2}/>  : <X size={32} strokeWidth={2}/> }
+                    {isSideBarHidden ?<Menu size={32} strokeWidth={2} className={'text-gray-400'}/>  : <X size={32} strokeWidth={2}/> }
                 </button>
                 <img src="/logo.png" alt="logo" className="h-10 w-auto"/>
             </div>

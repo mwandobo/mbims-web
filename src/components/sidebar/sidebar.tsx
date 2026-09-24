@@ -31,7 +31,7 @@ import {
     BookKey,
     ShieldEllipsis,
     CalendarDays, Calendar, Proportions, BookOpenCheck, ArrowLeftRight, Terminal,
-    Scale, LandPlot
+    Scale, LandPlot, Menu, X, Maximize2, ArrowLeftFromLine
 } from 'lucide-react'
 import React from 'react'
 import SidebarItem from './item'
@@ -218,8 +218,13 @@ const items: ISidebarItem[] = [
 ]
 
 function Sidebar() {
-    const { state } = useGlobalContextHook();
+    const {state, dispatch} = useGlobalContextHook()
     const { isSideBarHidden } = state;
+
+
+    const toggleSideBar = () => {
+        dispatch({type: "UPDATE_HIDE_SIDEBAR", payload: !isSideBarHidden})
+    }
 
     return (
         <div
@@ -235,8 +240,12 @@ function Sidebar() {
             `}
         >
             <div className="h-full w-full">
+                <div className={`ms-4 mt-4 -mb-8`}>
+                    <button onClick={toggleSideBar} className=" mt-2  md:hidden "><ArrowLeftFromLine   size={32} className={`text-gray-400`} strokeWidth={2}/>  </button>
+                </div>
+
                 <div className="bg-white px-2 h-full w-full">
-                    <hr className="bg-gray-200" />
+                    <hr className="hidden md:block bg-gray-200" />
                     <div className="flex flex-col h-full w-full pt-10 pb-4 pe-4 overflow-y-auto overflow-x-hidden scrollbar-thin">
                         {items.map(
                             (item) =>
