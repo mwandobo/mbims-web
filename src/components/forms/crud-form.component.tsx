@@ -231,6 +231,7 @@ const CrudFormComponent = ({
                     hover_text={'hover:text-gray-900 hover:font-semibold'}
                     border={'border border-gray-300'}
                     text_color={'text-gray-700'}
+                    type={'submit'}
                 >
                     {!isDisabled && <CheckCircle2 size={13}/>}
                 </ButtonComponent>

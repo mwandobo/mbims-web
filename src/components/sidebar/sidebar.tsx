@@ -31,7 +31,7 @@ import {
     BookKey,
     ShieldEllipsis,
     CalendarDays, Calendar, Proportions, BookOpenCheck, ArrowLeftRight, Terminal,
-    Scale
+    Scale, LandPlot
 } from 'lucide-react'
 import React from 'react'
 import SidebarItem from './item'
@@ -156,13 +156,41 @@ const items: ISidebarItem[] = [
                 path: '/performance-management/deposits',
                 permission: 'deposits_read',
                 icon:CreditCard
+            },
+            {
+                name: 'Performance',
+                path: '/performance-management/performance',
+                permission: 'performance_read',
+                icon: LandPlot
             }
+        ]
+    },
+    {
+        name: 'Performance ',
+        path: '/performance',
+        permission: 'performance_read',
+        icon: ShieldEllipsis ,
+        items: [
+            {
+                name: 'Unit Performance',
+                path: '/performance/unit-performance',
+                permission: 'unit_performance',
+                icon: User
+            },
+            {
+                name: 'Individual Performance',
+                path: '/performance/individual-performance',
+                permission: 'individual_performance',
+                icon: User
+            },
+
         ]
     },
 
 
 
-     {
+
+    {
         name: 'Performance Management',
         path: '/performance-management',
         permission: 'performancee_read',

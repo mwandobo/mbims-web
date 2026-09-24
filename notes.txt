@@ -35,17 +35,6 @@ when creating a button with confirmation use the following util
 
 
 
-
-
-
-
-
-
-
-
-
-
-
   if(pageMetadata?.title){
              setSearchKey(value)
 
