@@ -8,7 +8,7 @@ import RequestedItemView from "@/app/asset-management/asset-request/components/r
 
 const formInputs = [
     {
-        name: 'category_id',
+        name: 'categoryId',
         type: 'select',
         label: 'Categories',
         value: '',
@@ -22,7 +22,7 @@ const formInputs = [
         layout: 'column'
     },
     {
-        name: 'asset_id',
+        name: 'assetId',
         type: 'select',
         label: 'Assets',
         value: '',
@@ -58,7 +58,7 @@ interface Props {
 }
 
 function RequestedItems({id, permission}: Props) {
-    const url = `/requested-assets?requestId=${id}`
+    const url = `/requested-items?requestId=${id}`
 
     const {
         loading,

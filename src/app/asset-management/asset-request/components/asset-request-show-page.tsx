@@ -96,9 +96,9 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
 
     const buttonsBody = () => {
         return <>
-            {data?.status === 'pending' &&
+            {data?.status === 0 &&
                 <ButtonComponent
-                    name={'Send Asset'}
+                    name={'Submit Request'}
                     onClick={handleSubmit}
                     rounded={'md'}
                     padding={'p-3'}
@@ -131,6 +131,7 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
             />
 
             <MuiCardComponent>
+                {buttonsBody()}
                 <ViewCardComponent
                     data={[
                         { label: "Request Name", value: data?.name },
@@ -139,7 +140,7 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
                     ]}
                     titleA="Asset Request"
                     titleB={data?.name}
-                    OptionalElement={approvalsAndButtonsWrapper({buttonBody: buttonsBody()})}
+                    OptionalElement={approvalsAndButtonsWrapper({})}
                 />
 
             </MuiCardComponent>

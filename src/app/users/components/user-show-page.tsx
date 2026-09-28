@@ -9,7 +9,7 @@ import {useEffect, useState} from "react";
 import {getRequest} from "@/utils/api-calls.util";
 import {Check, CheckCircle2, X} from "lucide-react";
 
-export default function EmployeeShowPage({employeeId}: { employeeId: string }) {
+export default function UserShowPage({employeeId}: { employeeId: string }) {
     const permission = 'employee'
     const router = useRouter()
     const [data, setData] = useState<any>([])
