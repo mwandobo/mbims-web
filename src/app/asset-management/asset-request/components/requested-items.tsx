@@ -26,7 +26,7 @@ const formInputs = [
         type: 'select',
         label: 'Assets',
         value: '',
-        optionsUrlData:"fetch-data/assets-by-categories",
+        optionsUrlData:"fetch-data/assets-by-asset-categories",
         optionDataKey: 'name',
         required: true,
         isError: false,

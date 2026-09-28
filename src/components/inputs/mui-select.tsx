@@ -53,17 +53,17 @@ const MuiSelect = ({
 }: Props) => {
     const [options, setOptions] = useState<any[]>([]);
 
-    // ==================== LOGGING DEFAULT VALUE ====================
-    useEffect(() => {
-        // console.log(`[MuiSelect] ${label || from} - Current Value:`, {
-        //     value: value,
-        //     normalizedValue: String(value || ""),
-        //     type: typeof value,
-        //     from: from,
-        //     control_for: control_for,
-        // });
-    }, [value, label, from, control_for]);
-    // ============================================================
+    // // ==================== LOGGING DEFAULT VALUE ====================
+    // useEffect(() => {
+    //     // console.log(`[MuiSelect] ${label || from} - Current Value:`, {
+    //     //     value: value,
+    //     //     normalizedValue: String(value || ""),
+    //     //     type: typeof value,
+    //     //     from: from,
+    //     //     control_for: control_for,
+    //     // });
+    // }, [value, label, from, control_for]);
+    // // ============================================================
 
     const onChange = (event: SelectChangeEvent) => {
         return handleChange(event, from, control_for, control_type);

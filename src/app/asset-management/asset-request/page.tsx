@@ -44,19 +44,19 @@ function AssetRequest({
             label: 'Request Title',
         },
         {
-            id: 'formattedCreatedAt',
+            id: 'createdAt',
             numeric: false,
             disablePadding: false,
             label: 'Date',
         },
         {
-            id: 'createdBy',
+            id: 'createdByName',
             numeric: false,
             disablePadding: false,
             label: 'Requested By',
         },
         {
-            id: 'status',
+            id: 'statusLabel',
             numeric: false,
             disablePadding: false,
             label: 'Status',
