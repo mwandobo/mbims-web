@@ -69,12 +69,13 @@ const columns = [
 ]
 
 interface Props {
-    id?: string,
+    requestId?: string,
+    isShowButtons: boolean,
     permission: string,
 }
 
-function RequestedItems({id, permission}: Props) {
-    const url = `/requested-items?requestId=${id}`
+function RequestedItems({requestId, permission, isShowButtons}: Props) {
+    const url = `/requested-items?requestId=${requestId}`
 
     const {
         loading,
@@ -92,7 +93,9 @@ function RequestedItems({id, permission}: Props) {
         permission: permission,
         isApiV2: true,
         sliderComponent:RequestedItemView,
-        inputSize: 'sm'
+        inputSize: 'sm',
+        isHideDelete: !isShowButtons,
+        isHideEdit: !isShowButtons,
     })
 
     return (
@@ -104,7 +107,7 @@ function RequestedItems({id, permission}: Props) {
                 handleClick={handleClick}
                 permission={`${permission}_create`}
                 subHeader={"Requested Assets"}
-                isHideAdd={false}
+                isHideAdd={!isShowButtons}
             />
             {tabular()}
             {createdForm( 'xs')}

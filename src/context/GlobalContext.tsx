@@ -53,6 +53,7 @@ type State = {
     selectedSubSidebarItem: string
     inEvaluation: boolean
     refreshNotification: boolean
+    isPageStateChange: boolean
     isSideBarHidden: boolean
     viewItemRefreshAfterApproval: boolean
     viewedItem
@@ -112,6 +113,7 @@ const initialState: State = {
     inEvaluation: false,
     refreshNotification: false,
     isSideBarHidden: false,
+    isPageStateChange: false,
     slideOverContent: initialSlideOverContent,
     filterBody: initialFilteringBody,
     planningItem: initialPlanningItem,
@@ -130,6 +132,12 @@ export const updateContextReducer = (state: State, action: Action): State => {
             return {
                 ...state,
                 currentUser: action.payload
+            };
+
+        case 'UPDATE_PAGE_STATE':
+            return {
+                ...state,
+                isPageStateChange: !state.isPageStateChange
             };
 
         case 'UPDATE_EVALUATION_FORM':

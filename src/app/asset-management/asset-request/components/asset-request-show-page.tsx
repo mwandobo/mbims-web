@@ -14,6 +14,7 @@ import {useApprovalsAndButtonsHook} from "@/hooks/useApprovalAndButtons.hook";
 import {ASSET_REQUEST_APPROVAL} from "@/utils/constants";
 import ToastComponent from "@/components/popup/toast";
 import {showConfirmationModal} from "@/utils/show-alert-dialog";
+import {useGlobalContextHook} from "@/hooks/useGlobalContextHook";
 
 export default function AssetRequestShowPage({assetId}: { assetId: string }) {
     const permission = "position";
@@ -21,6 +22,8 @@ export default function AssetRequestShowPage({assetId}: { assetId: string }) {
     const [data, setData] = useState<any>(null);
     const [loading, setLoading] = useState(false);
     const id = assetId;
+    const {dispatch, state} = useGlobalContextHook()
+
     const url = `asset-requests/${id}`;
     const navigateToLogin = () => {
         return router.push("/login");
@@ -91,11 +94,17 @@ export default function AssetRequestShowPage({assetId}: { assetId: string }) {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [state.isPageStateChange]);
 
     const buttonsBody = () => {
+        const showButton = () => {
+            if (data?.status <= 0 && data?.requestedItemsQuantity > 0) {
+                return true;
+            }
+            return false;
+        };
         return <>
-            {data?.status === 0 &&
+            {showButton() &&
                 <ButtonComponent
                     name={'Submit Request'}
                     onClick={handleSubmit}
@@ -130,22 +139,25 @@ export default function AssetRequestShowPage({assetId}: { assetId: string }) {
             />
 
             <MuiCardComponent>
-                {buttonsBody()}
                 <ViewCardComponent
                     data={[
                         {label: "Request Name", value: data?.name},
-                        {label: "Status", value: data?.status},
+                        {label: "Status", value: data?.statusLabel},
                         {label: "Description", value: data?.description},
                     ]}
                     titleA="Asset Request"
                     titleB={data?.name}
-                    OptionalElement={approvalsAndButtonsWrapper({})}
+                    OptionalElement={ data?.status >0 && approvalsAndButtonsWrapper({})}
                 />
+
 
             </MuiCardComponent>
 
             <div className={'border border-gray-200 my-4'}>
-                <RequestedItems id={id} permission={permission}/>
+                <RequestedItems requestId={id} permission={permission} isShowButtons={data?.status <=0}/>
+            </div>
+            <div className={'flex justify-end w-full'}>
+                {buttonsBody()}
             </div>
         </ProtectedRoute>
     );

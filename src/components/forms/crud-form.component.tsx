@@ -62,10 +62,6 @@ const CrudFormComponent = ({
         }
         return 1
     }
-
-    console.log('formInputs', formInputs)
-
-
     return <PopupModal
         isOpen={isModalOpen}
         onSaveButtonName={'Save'}

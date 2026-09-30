@@ -306,7 +306,7 @@ export const useApprovalsAndButtonsHookV1 = ({
                                 showButton={isNeedApprove}
                                 title="Approval Trail">
                                 <TreeList
-                                    url={approval_url}
+                                    searchKey={approval_url}
                                 />
                             </SlideOver>
                         </div>

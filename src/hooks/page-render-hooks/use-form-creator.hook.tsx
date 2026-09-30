@@ -4,6 +4,7 @@ import ToastComponent from "@/components/popup/toast";
 import CrudFormComponent from "@/components/forms/crud-form.component";
 import {baseURL, deleteRequest, postRequest, putRequest} from "@/utils/api-calls.util";
 import {getValueFromLocalStorage} from "@/utils/local-storage.util";
+import {useGlobalContextHook} from "@/hooks/useGlobalContextHook";
 
 interface Props {
     isModalOpen: boolean
@@ -45,6 +46,8 @@ export const useCrudFormCreatorHook = ({
                                            isFormData,
     inputSize
                                        }: Props) => {
+    const {dispatch, state} = useGlobalContextHook()
+
     const createPayload = (body: any[]) => {
         const payload: any = {};
         body?.forEach((input) => {
@@ -208,6 +211,7 @@ export const useCrudFormCreatorHook = ({
             }
             if ([200, 201].includes(response?.status)) {
                 ToastComponent({text: response?.data?.message ?? "Operation Went Successfully", duration: 1000})
+                dispatch({type: "UPDATE_PAGE_STATE"})
                 setIsStateChanged(!isStateChanged)
                 closeModel()
             }
