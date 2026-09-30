@@ -222,7 +222,13 @@ export default function MuiTableComponent({
     return (
         <Box sx={{width: '100%', marginTop: '10px'}}>
             <div className={'flex w-full justify-end mb-2'}>
-                <div className={'flex w-1/4 gap-2'}>
+                <form
+                    className="flex w-1/4 gap-2"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        updateFilterKey(searchKey);
+                    }}
+                >
                     <input
                         type="text"
                         placeholder="Search..."
@@ -236,24 +242,30 @@ export default function MuiTableComponent({
                         }}
                         value={searchKey}
                         onChange={(e) => handleSearchChange(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                updateFilterKey(searchKey);
+                            }
+                        }}
                     />
 
                     <ButtonComponent
-                        name={'Search'}
-                        onClick={() => updateFilterKey(searchKey)}
-                        rounded={'md'}
-                        padding={'p-3'}
-                        shadow={'shadow-md'}
-                        bg_color={'bg-gray-50'}
-                        hover={'hover:bg-gray-200 hover:border-gray-400'}
-                        hover_text={'hover:text-gray-900 hover:font-semibold'}
-                        border={'border border-gray-300'}
-                        text_color={'text-gray-700'}
+                        type="submit"
+                        name="Search"
+                        // onClick is no longer needed
+                        rounded="md"
+                        padding="p-3"
+                        shadow="shadow-md"
+                        bg_color="bg-gray-50"
+                        hover="hover:bg-gray-200 hover:border-gray-400"
+                        hover_text="hover:text-gray-900 hover:font-semibold"
+                        border="border border-gray-300"
+                        text_color="text-gray-700"
                     >
-                        <Search size={13}/>
+                        <Search size={13} />
                     </ButtonComponent>
-
-                </div>
+                </form>
 
             </div>
             <Paper sx={{width: '100%', mb: 2}}>
@@ -273,39 +285,91 @@ export default function MuiTableComponent({
                             sortBy={sortBy}
                             sortDirection={sortDirection}
                         />
+                        {/*<TableBody>*/}
+                        {/*    {visibleRows.map((row, index) => (*/}
+                        {/*        <TableRow*/}
+                        {/*            hover*/}
+                        {/*            role="checkbox"*/}
+                        {/*            aria-checked={isSelected(index)}*/}
+                        {/*            tabIndex={-1}*/}
+                        {/*            key={index}*/}
+                        {/*            selected={isSelected(index)}*/}
+                        {/*            sx={{padding: '50px'}}*/}
+                        {/*        >*/}
+                        {/*            <TableCell*/}
+                        {/*                component="th"*/}
+                        {/*                id={`enhanced-table-checkbox-${index}`}*/}
+                        {/*                scope="row"*/}
+                        {/*                sx={{marginRight: "1px solid black"}}*/}
+                        {/*            >*/}
+                        {/*                {(page - 1) * rowsPerPage + index + 1}*/}
+                        {/*            </TableCell>*/}
+                        {/*            {row.map((cell, cellIndex) => (*/}
+                        {/*                <TableCell*/}
+                        {/*                    key={cellIndex}*/}
+                        {/*                    padding="normal"*/}
+                        {/*                    style={{*/}
+                        {/*                        borderLeft: '1px solid #d1d1d1',*/}
+                        {/*                        fontSize: "12px"*/}
+                        {/*                    }}*/}
+                        {/*                >*/}
+                        {/*                    {cell}*/}
+                        {/*                </TableCell>*/}
+                        {/*            ))}*/}
+                        {/*        </TableRow>*/}
+                        {/*    ))}*/}
+                        {/*</TableBody>*/}
+
                         <TableBody>
-                            {visibleRows.map((row, index) => (
-                                <TableRow
-                                    hover
-                                    role="checkbox"
-                                    aria-checked={isSelected(index)}
-                                    tabIndex={-1}
-                                    key={index}
-                                    selected={isSelected(index)}
-                                    sx={{padding: '50px'}}
-                                >
-                                    <TableCell
-                                        component="th"
-                                        id={`enhanced-table-checkbox-${index}`}
-                                        scope="row"
-                                        sx={{marginRight: "1px solid black"}}
+                            {visibleRows.length > 0 ? (
+                                visibleRows.map((row, index) => (
+                                    <TableRow
+                                        hover
+                                        role="checkbox"
+                                        aria-checked={isSelected(index)}
+                                        tabIndex={-1}
+                                        key={index}
+                                        selected={isSelected(index)}
+                                        sx={{ padding: '50px' }}
                                     >
-                                        {(page - 1) * rowsPerPage + index + 1}
-                                    </TableCell>
-                                    {row.map((cell, cellIndex) => (
                                         <TableCell
-                                            key={cellIndex}
-                                            padding="normal"
-                                            style={{
-                                                borderLeft: '1px solid #d1d1d1',
-                                                fontSize: "12px"
-                                            }}
+                                            component="th"
+                                            id={`enhanced-table-checkbox-${index}`}
+                                            scope="row"
+                                            sx={{ marginRight: "1px solid black" }}
                                         >
-                                            {cell}
+                                            {(page - 1) * rowsPerPage + index + 1}
                                         </TableCell>
-                                    ))}
+                                        {row.map((cell, cellIndex) => (
+                                            <TableCell
+                                                key={cellIndex}
+                                                padding="normal"
+                                                style={{
+                                                    borderLeft: '1px solid #d1d1d1',
+                                                    fontSize: "12px"
+                                                }}
+                                            >
+                                                {cell}
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell
+                                        colSpan={columns.length + 1} // +1 for the S/N column
+                                        align="center"
+                                        style={{
+                                            padding: '40px 16px',
+                                            color: '#6b7280',
+                                            fontSize: '14px',
+                                            fontStyle: 'italic'
+                                        }}
+                                    >
+                                        No data available
+                                    </TableCell>
                                 </TableRow>
-                            ))}
+                            )}
                         </TableBody>
                     </Table>
                 </TableContainer>

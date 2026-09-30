@@ -11,7 +11,7 @@ const RequestedItemView = (payload: any) => {
     const [loading, setLoading] = useState(false)
     const router = useRouter()
     const id = payload?.id
-    const url = `requested-assets/${id}`
+    const url = `requested-items/${id}`
     const navigateToLogin = () => {
         return router.push('/login')
     }
@@ -49,6 +49,7 @@ const RequestedItemView = (payload: any) => {
                                 data={[
                                     { label: 'Asset Name', value: data?.assetName },
                                     { label: 'Category Name', value: data?.categoryName },
+                                    { label: 'Quantity', value: data?.quantity },
                                 ]}
                                 titleA={`Requested Asset`}
                                 titleB={` ${data?.assetName} `}

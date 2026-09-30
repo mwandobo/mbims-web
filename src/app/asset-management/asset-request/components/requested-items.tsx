@@ -34,6 +34,16 @@ const formInputs = [
         control: 'assets',
         layout: 'column'
     },
+    {
+        name: 'quantity',
+        type: 'text',
+        label: 'Quantity',
+        value: '1',
+        required: true,
+        isError: false,
+        errorMessage: '',
+        layout: 'column',
+    },
 ]
 
 const columns = [
@@ -48,6 +58,12 @@ const columns = [
         numeric: false,
         disablePadding: false,
         label: 'Category Name',
+    },
+    {
+        id: 'quantity',
+        numeric: false,
+        disablePadding: false,
+        label: 'Quantity',
     },
 
 ]

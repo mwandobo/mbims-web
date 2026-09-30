@@ -34,6 +34,8 @@ const TextFieldComponent = ({
         <span style={{ color: "red", marginLeft: "4px" }}>*</span>
     );
 
+    console.log('value', value)
+
     return (
         <div
             className={

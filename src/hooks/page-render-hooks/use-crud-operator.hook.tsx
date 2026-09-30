@@ -131,35 +131,22 @@ export const useCrudOperatorHook = (
     };
 
 
+    // const clearFormForCreate = () => {
+    //     const newModalBodyArray = modalBodyArray.map((item: any) => {
+    //
+    //         return { ...item, value: '' };
+    //     });
+    //
+    //     setModalBodyArray(newModalBodyArray);
+    // };
+
     const clearFormForCreate = () => {
-        const newModalBodyArray = modalBodyArray.map((item: any) => {
-
-            if (from === 'quotation' &&
-                (
-                    item.name === 'request_for_quotation_id' ||
-                    item.name === 'supplier_id'
-                )) {
-                return { ...item, isRemoved: false };
-            }
-
-            if (from === 'sale-quotation' &&
-                (
-                    item.name === 'sale_rfq_id' ||
-                    item.name === 'item_ids'
-                )) {
-                return { ...item, isRemoved: false };
-            }
-
-            if (from === 'invoices' &&
-                (
-                    item.name === 'type' ||
-                    item.name === 'purchase_order_id'
-                )) {
-                return { ...item, isRemoved: false, };
-            }
-
-            return { ...item, value: '' };
-        });
+        const newModalBodyArray = formInputData.map((item: any) => ({
+            ...item,
+            value: item.value ?? '',   // keep the default if it exists
+            errorMessage: '',
+            isError: false
+        }));
 
         setModalBodyArray(newModalBodyArray);
     };
