@@ -4,9 +4,9 @@ import ProtectedRoute from "@/components/authentication/protected-route";
 import MuiCardComponent from "@/components/card/mui-card.component";
 import ViewCardComponent from "@/components/card/view.card.component";
 import PageHeader from "@/components/header/page-header";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { getRequest } from "@/utils/api-calls.util";
+import {useRouter} from "next/navigation";
+import {useEffect, useState} from "react";
+import {getRequest} from "@/utils/api-calls.util";
 import RequestedItems from "@/app/asset-management/asset-request/components/requested-items";
 import {ButtonComponent} from "@/components/button/button.component";
 import {CheckCircle2} from "lucide-react";
@@ -15,7 +15,7 @@ import {ASSET_REQUEST_APPROVAL} from "@/utils/constants";
 import ToastComponent from "@/components/popup/toast";
 import {showConfirmationModal} from "@/utils/show-alert-dialog";
 
-export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
+export default function AssetRequestShowPage({assetId}: { assetId: string }) {
     const permission = "position";
     const router = useRouter();
     const [data, setData] = useState<any>(null);
@@ -31,13 +31,13 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
             setLoading(true);
             const res = await getRequest(`${url}/submit`);
             if (res && res.status === 200) {
-                ToastComponent({ type: 'success', text: 'Asset Request submitted successfully' });
+                ToastComponent({type: 'success', text: 'Asset Request submitted successfully'});
                 await fetchData(); // refresh data
                 router.refresh(); // refresh Next.js route data (if using App Router)
             }
         } catch (error: any) {
             const text = error?.response?.data?.message ?? error?.response?.data?.error;
-            ToastComponent({ type: 'error', text: text ?? 'Something went wrong' });
+            ToastComponent({type: 'error', text: text ?? 'Something went wrong'});
         } finally {
             setLoading(false);
         }
@@ -81,12 +81,11 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
         shouldApprove: data?.shouldApprove,
         isMyLevelApproved: data?.isMyLevelApproved,
         currentLevelId: data?.currentLevelId,
-        entityCreatorId: data?.user?.id,
-        entityId:id,
+        entityCreatorId: data?.createdById,
+        entityId: id,
         entityName: data?.name,
-        extraData1: data?.items ,
-
-    onAfterApprove: fetchData,
+        extraData1: data?.items,
+        onAfterApprove: fetchData,
         redirectUrl: `asset-management/asset-request/${id}`
     })
 
@@ -125,7 +124,7 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
                         permission: "asset",
                         isClickable: true,
                     },
-                    { name: "Show", linkTo: "/asset-management/asset/show", permission: "" },
+                    {name: "Show", linkTo: "/asset-management/asset/show", permission: ""},
                 ]}
                 isShowPage={true}
             />
@@ -134,9 +133,9 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
                 {buttonsBody()}
                 <ViewCardComponent
                     data={[
-                        { label: "Request Name", value: data?.name },
-                        { label: "Status", value: data?.status },
-                        { label: "Description", value: data?.description },
+                        {label: "Request Name", value: data?.name},
+                        {label: "Status", value: data?.status},
+                        {label: "Description", value: data?.description},
                     ]}
                     titleA="Asset Request"
                     titleB={data?.name}
@@ -146,7 +145,7 @@ export default function AssetRequestShowPage({ assetId }: { assetId: string }) {
             </MuiCardComponent>
 
             <div className={'border border-gray-200 my-4'}>
-                <RequestedItems id={id} permission={permission} />
+                <RequestedItems id={id} permission={permission}/>
             </div>
         </ProtectedRoute>
     );

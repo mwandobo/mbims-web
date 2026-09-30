@@ -34,7 +34,7 @@ const formInputs = [
         type: 'textArea',
         label: 'Description',
         value: '',
-        required: true,
+        required: false,
         isError: false,
         errorMessage: ''
     },
