@@ -15,6 +15,7 @@ import {ASSET_REQUEST_APPROVAL} from "@/utils/constants";
 import ToastComponent from "@/components/popup/toast";
 import {showConfirmationModal} from "@/utils/show-alert-dialog";
 import {useGlobalContextHook} from "@/hooks/useGlobalContextHook";
+import {useApprovalsAndButtonsHookV1} from "@/hooks/useApprovalAndButtons.hook.v01";
 
 export default function AssetRequestShowPage({assetId}: { assetId: string }) {
     const permission = "position";
@@ -86,7 +87,7 @@ export default function AssetRequestShowPage({assetId}: { assetId: string }) {
         currentLevelId: data?.currentLevelId,
         entityCreatorId: data?.createdById,
         entityId: id,
-        entityName: data?.name,
+        entityName: data?.entityName,
         extraData1: data?.items,
         onAfterApprove: fetchData,
         redirectUrl: `asset-management/asset-request/${id}`

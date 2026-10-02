@@ -2,10 +2,8 @@
 
 import React, {ReactNode, useEffect, useState} from 'react';
 import Swal from "sweetalert2";
-import {useGlobalContextHook} from "@/hooks/useGlobalContextHook";
 import SlideOver from "@/components/slide-over/slide-over.component";
 import TreeList from "@/components/list/tree-list.component";
-import {getValueFromLocalStorage, setValueLocalStorage} from "@/utils/local-storage.util";
 import {getRequest, postRequest} from "@/utils/api-calls.util";
 import {ButtonComponent} from "@/components/button/button.component";
 import CrudFormComponent from "@/components/forms/crud-form.component";
@@ -46,7 +44,6 @@ export const useApprovalsAndButtonsHook = ({
                                                extraData1,
                                                onAfterApprove
                                            }: Props) => {
-    // const {dispatch, state} = useGlobalContextHook()
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalTitle, setModalTitle] = useState("");
     const [remark, setRemark] = useState('');
@@ -79,18 +76,8 @@ export const useApprovalsAndButtonsHook = ({
             redirectUrl: redirectUrl ? `${homeURL}/${redirectUrl}` : "",
         }
 
-        // const response = await postRequest(approveUrl, payload);
-        // if ([200, 201].includes(response.status)) {
-        //     setIsrefresh(!refresh); // Trigger a re-render by toggling the refresh state
-        //     dispatch({type: "UPDATE_VIEW_ITEM_REFRESH_AFTER_APPROVAL"})
-        // }
         return await postRequest(approveUrl, payload);
     };
-
-    // const callBack = () => {
-    //     setIsrefresh(prev => !prev); // Trigger a re-render by toggling the refresh state
-    //     return null;
-    // };
 
     const handleApproval = (type: string) => {
         setModalTitle(type);
@@ -129,7 +116,8 @@ export const useApprovalsAndButtonsHook = ({
                 showButton={true}
                 title="Approval Trail">
                 <TreeList
-                    searchKey={entityId}
+                    entityId={entityId}
+                    entityName={entityName}
                 />
             </SlideOver>
         </div>
@@ -257,8 +245,6 @@ export const useApprovalsAndButtonsHook = ({
                     </div>
                 ) : buttonBody
                 }
-
-
             </>
         );
     }

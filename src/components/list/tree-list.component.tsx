@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useGlobalContextHook } from "@/hooks/useGlobalContextHook";
-import { getRequest } from "@/utils/api-calls.util";
+import React, {useEffect, useState} from "react";
+import {useGlobalContextHook} from "@/hooks/useGlobalContextHook";
+import {getRequest} from "@/utils/api-calls.util";
 
 interface Props {
-    searchKey: string;
+    entityId: string;
+    entityName: string;
 }
 
-const TreeList = ({ searchKey }: Props) => {
+const TreeList = ({entityId, entityName}: Props) => {
     const [data, setData] = useState<any>([]);
     const [loading, setLoading] = useState(false);
-    const { state } = useGlobalContextHook();
-    const { viewItemRefreshAfterApproval } = state;
+    const {state} = useGlobalContextHook();
+    const {viewItemRefreshAfterApproval} = state;
 
-    const url = `approval-actions?q=${searchKey}`;
+    const url = `approval-actions?entityName=${entityName}&entityId=${entityId}`;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -22,6 +23,7 @@ const TreeList = ({ searchKey }: Props) => {
 
                 if (res.status === 200) {
                     const _data = res.data as any;
+                    console.log(_data);
                     setData(_data?.data);
                 }
             } catch (error: any) {
@@ -41,7 +43,6 @@ const TreeList = ({ searchKey }: Props) => {
                 <div className="ml-5 text-xl relative">
                     {/* Continuous vertical line */}
                     <div className="absolute left-2 top-0 bottom-0 w-[2px] bg-gray-300"></div>
-
                     <ul className="space-y-6 relative z-10">
                         {data.map((item: any, index: number) => (
                             <li key={index} className="relative flex flex-col">
@@ -62,7 +63,8 @@ const TreeList = ({ searchKey }: Props) => {
 
                                     {/* 🧠 Add indicator for AUTOMATIC type */}
                                     {item.type === "AUTOMATIC" && (
-                                        <span className="ml-3 text-xs uppercase bg-blue-100 text-blue-700 font-semibold px-2 py-0.5 rounded-full">
+                                        <span
+                                            className="ml-3 text-xs uppercase bg-blue-100 text-blue-700 font-semibold px-2 py-0.5 rounded-full">
                       Automatic
                     </span>
                                     )}
@@ -73,7 +75,8 @@ const TreeList = ({ searchKey }: Props) => {
                                     <li>
                                         <span className="text-gray-700 font-medium">Status:</span>{" "}
                                         {item.action === "APPROVED" ? (
-                                            <span className="text-green-700 font-semibold bg-green-50 px-2 py-0.5 rounded">
+                                            <span
+                                                className="text-green-700 font-semibold bg-green-50 px-2 py-0.5 rounded">
                         Approved
                       </span>
                                         ) : (
@@ -86,16 +89,16 @@ const TreeList = ({ searchKey }: Props) => {
                     <span className="text-gray-700 font-medium">
                       Approved By:
                     </span>{" "}
-                                        <span className="font-semibold">{item.approvedBy}</span>
+                                        <span className="font-semibold">{item.createdByName}</span>
                                     </li>
                                     <li>
                                         <span className="text-gray-700 font-medium">Remark:</span>{" "}
-                                        <span className="font-semibold">{item.remark}</span>
+                                        <span className="font-semibold">{item.description}</span>
                                     </li>
                                     <li>
                                         <span className="text-gray-700 font-medium">Date:</span>{" "}
                                         <span className="font-semibold">
-                      {item.formattedCreatedAt}
+                      {item.createdAt}
                     </span>
                                     </li>
 
