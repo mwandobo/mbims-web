@@ -62,13 +62,12 @@ function SidebarItem({ item }: { item: ISidebarItem }) {
     }, [path, pathName, items]);
 
     return (
-        <div className="text-gray-700 font-medium" style={{ fontSize: "13px" }}>
+        <div className="font-medium" style={{ fontSize: "13px" }}>
             <Link
                 href={items && items.length > 0 ? "#" : path}
                 onClick={handleClick}
-                className={`flex items-center mb-1 justify-between p-2 rounded cursor-pointer hover:bg-gray-200 ${
-                    isActive ? "bg-gray-200" : ""
-                }`}
+                className={`flex items-center mb-1 justify-between p-2 rounded cursor-pointer hover:bg-sidebar-hover
+                ${isActive ? "bg-sidebar-active text-white" : ""}`}
             >
                 <div className="flex items-center gap-2">
                     <Icon size={13} />

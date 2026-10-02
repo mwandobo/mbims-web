@@ -1,26 +1,126 @@
 @import "tailwindcss";
 
+/* =========================
+   LIGHT THEME (default)
+========================= */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    /* Base */
+    --background: #ffffff;
+    --foreground: #171717;
+
+    /* Brand */
+    --primary: #0D4C91;
+    --secondary: #E87927;
+
+    /* Surfaces */
+    --sidebar-bg: #0D4C91;
+    --sidebar-text: #ffffff;
+    --sidebar-hover: #245c9b;
+    --sidebar-active: #E87927;
+
+    --header-bg: #ffffff;
+    --header-text: #171717;
+    --header-border: #e5e7eb;
+
+    --card-bg: #ffffff;
+    --card-border: #e5e7eb;
+
+    --table-header-bg: #f3f4f6;
+    --table-row-hover: #f9fafb;
+
+    --input-border: #d1d5db;
+    --input-focus: #0D4C91;
+
+    /* Semantic */
+    --success: #16a34a;
+    --warning: #d97706;
+    --error: #dc2626;
+    --info: #0284c7;
+
+    /* Muted */
+    --muted: #6b7280;
+    --muted-bg: #f3f4f6;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
+/* =========================
+   DARK THEME
+========================= */
+.dark {
     --background: #0a0a0a;
     --foreground: #ededed;
-  }
+
+    --primary: #3b82f6;
+    --secondary: #f59e0b;
+
+    --sidebar-bg: #111827;
+    --sidebar-text: #f9fafb;
+    --sidebar-hover: #1f2937;
+    --sidebar-active: #f59e0b;
+
+    --header-bg: #111827;
+    --header-text: #f9fafb;
+    --header-border: #374151;
+
+    --card-bg: #1f2937;
+    --card-border: #374151;
+
+    --table-header-bg: #1f2937;
+    --table-row-hover: #111827;
+
+    --input-border: #4b5563;
+    --input-focus: #3b82f6;
+
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --info: #38bdf8;
+
+    --muted: #9ca3af;
+    --muted-bg: #1f2937;
+}
+
+/* =========================
+   TAILWIND THEME BRIDGE
+========================= */
+@theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    --color-primary: var(--primary);
+    --color-secondary: var(--secondary);
+
+    --color-sidebar-bg: var(--sidebar-bg);
+    --color-sidebar-text: var(--sidebar-text);
+    --color-sidebar-hover: var(--sidebar-hover);
+    --color-sidebar-active: var(--sidebar-active);
+
+    --color-header-bg: var(--header-bg);
+    --color-header-text: var(--header-text);
+    --color-header-border: var(--header-border);
+
+    --color-card-bg: var(--card-bg);
+    --color-card-border: var(--card-border);
+
+    --color-table-header-bg: var(--table-header-bg);
+    --color-table-row-hover: var(--table-row-hover);
+
+    --color-input-border: var(--input-border);
+    --color-input-focus: var(--input-focus);
+
+    --color-success: var(--success);
+    --color-warning: var(--warning);
+    --color-error: var(--error);
+    --color-info: var(--info);
+
+    --color-muted: var(--muted);
+    --color-muted-bg: var(--muted-bg);
+
+    --font-sans: var(--font-geist-sans);
+    --font-mono: var(--font-geist-mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: Arial, Helvetica, sans-serif;
 }

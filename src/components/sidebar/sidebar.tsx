@@ -215,50 +215,13 @@ const items: ISidebarItem[] = [
         icon: ArrowLeftRight,
         permission: 'reconciliation_read',
     },
+    {
+        name: 'Settings',
+        path: '/settings',
+        icon: Settings,
+        permission: 'setting_read',
+    },
 ]
-
-// function Sidebar() {
-//     const {state, dispatch} = useGlobalContextHook()
-//     const { isSideBarHidden } = state;
-//
-//
-//     const toggleSideBar = () => {
-//         dispatch({type: "UPDATE_HIDE_SIDEBAR", payload: !isSideBarHidden})
-//     }
-//
-//     return (
-//         <div
-//             className={`
-//                 fixed inset-y-0 left-0 z-40
-//                 w-64                          /* fixed width on mobile */
-//                 md:w-56 lg:w-64               /* fixed widths instead of 1/4 or 1/8 */
-//                 bg-white border-e border-gray-200
-//                 h-[86vh]
-//                 transform transition-transform duration-300 ease-in-out
-//                 ${isSideBarHidden ? '-translate-x-full' : 'translate-x-0'}
-//                 md:relative md:translate-x-0 md:flex-shrink-0
-//             `}
-//         >
-//             <div className="h-full w-full">
-//                 <div className={`ms-4 mt-4 -mb-8`}>
-//                     <button onClick={toggleSideBar} className=" mt-2  md:hidden "><ArrowLeftFromLine   size={32} className={`text-gray-400`} strokeWidth={2}/>  </button>
-//                 </div>
-//
-//                 <div className="bg-white px-2 h-full w-full">
-//                     <hr className="hidden md:block bg-gray-200" />
-//                     <div className="flex flex-col h-full w-full pt-10 pb-4 pe-4 overflow-y-auto overflow-x-hidden scrollbar-thin">
-//                         {items.map(
-//                             (item) =>
-//                                 checkPermissions(item?.permission) && (
-//                                     <SidebarItem key={item.path} item={item} />
-//                                 )
-//                         )}
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// }
 
 function Sidebar() {
     const { state, dispatch } = useGlobalContextHook()
@@ -289,15 +252,14 @@ function Sidebar() {
             }
             `}
         >
-            <div className="h-full w-full">
+            <div className="h-full w-full bg-sidebar-bg text-sidebar-text">
                 {/* Close button - only on small screens */}
                 <div className="ms-4 mt-4 -mb-8 md:hidden">
                     <button onClick={toggleSideBar} className="mt-2">
                         <ArrowLeftFromLine size={32} className="text-gray-400" strokeWidth={2} />
                     </button>
                 </div>
-
-                <div className="bg-white px-2 h-full w-full">
+                <div className=" px-2 h-full w-full">
                     <hr className="hidden md:block bg-gray-200" />
                     <div className="flex flex-col h-full w-full pt-10 pb-4 pe-4 overflow-y-auto overflow-x-hidden scrollbar-thin">
                         {items.map(
