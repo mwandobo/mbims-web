@@ -55,18 +55,11 @@ const TreeList = ({entityId, entityName}: Props) => {
                                                 : "border-red-500 bg-red-100"
                                         }`}
                                     ></div>
-
-                                    <span className="text-gray-700 font-medium">
-                    Approval Level:
-                  </span>
+                                    <span className="text-gray-700 font-medium">Approval Level: </span>
                                     <span className="font-bold">{item.approvalLevelName}</span>
-
-                                    {/* 🧠 Add indicator for AUTOMATIC type */}
                                     {item.type === "AUTOMATIC" && (
                                         <span
-                                            className="ml-3 text-xs uppercase bg-blue-100 text-blue-700 font-semibold px-2 py-0.5 rounded-full">
-                      Automatic
-                    </span>
+                                            className="ml-3 text-xs uppercase bg-blue-100 text-blue-700 font-semibold px-2 py-0.5 rounded-full">   Automatic  </span>
                                     )}
                                 </div>
 
@@ -76,19 +69,14 @@ const TreeList = ({entityId, entityName}: Props) => {
                                         <span className="text-gray-700 font-medium">Status:</span>{" "}
                                         {item.action === "APPROVED" ? (
                                             <span
-                                                className="text-green-700 font-semibold bg-green-50 px-2 py-0.5 rounded">
-                        Approved
-                      </span>
+                                                className="text-green-700 font-semibold bg-green-50 px-2 py-0.5 rounded"> Approved </span>
                                         ) : (
-                                            <span className="text-red-700 font-semibold bg-red-50 px-2 py-0.5 rounded">
-                        Disapproved
-                      </span>
+                                            <span
+                                                className="text-red-700 font-semibold bg-red-50 px-2 py-0.5 rounded">Disapproved </span>
                                         )}
                                     </li>
                                     <li>
-                    <span className="text-gray-700 font-medium">
-                      Approved By:
-                    </span>{" "}
+                                        <span className="text-gray-700 font-medium">  Approved By:    </span>{" "}
                                         <span className="font-semibold">{item.createdByName}</span>
                                     </li>
                                     <li>
@@ -97,20 +85,13 @@ const TreeList = ({entityId, entityName}: Props) => {
                                     </li>
                                     <li>
                                         <span className="text-gray-700 font-medium">Date:</span>{" "}
-                                        <span className="font-semibold">
-                      {item.createdAt}
-                    </span>
+                                        <span className="font-semibold"> {item.createdAt}</span>
                                     </li>
 
-                                    {/* 🧩 Optional: Show note or reason for AUTOMATIC */}
                                     {item.type === "AUTOMATIC" && (
                                         <li>
-                      <span className="text-gray-700 font-medium">
-                        Trigger Type:
-                      </span>{" "}
-                                            <span className="font-semibold text-blue-700">
-                        System-Generated
-                      </span>
+                                            <span className="text-gray-700 font-medium"> Trigger Type:  </span>{" "}
+                                            <span className="font-semibold text-blue-700"> System-Generated </span>
                                         </li>
                                     )}
                                 </ul>
