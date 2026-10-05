@@ -247,35 +247,95 @@ export default function MuiTableComponent({
                         <TableBody>
                             {visibleRows.length > 0 ? (
                                 visibleRows.map((row, index) => (
+                                    // <TableRow
+                                    //     hover
+                                    //     role="checkbox"
+                                    //     aria-checked={isSelected(index)}
+                                    //     tabIndex={-1}
+                                    //     key={index}
+                                    //     selected={isSelected(index)}
+                                    //     className="bg-table-row-bg text-table-row-text"
+                                    //     sx={{
+                                    //         backgroundColor: "var(--table-row-bg) !important",
+                                    //         color: "var(--table-row-text)",
+                                    //         "&:hover": {
+                                    //             backgroundColor: "var(--table-row-hover) !important",
+                                    //         },
+                                    //         "&.Mui-selected": {
+                                    //             backgroundColor: "var(--table-row-hover) !important",
+                                    //         },
+                                    //         "&.Mui-selected:hover": {
+                                    //             backgroundColor: "var(--table-row-hover) !important",
+                                    //         },
+                                    //     }}
+                                    // >
+                                    //     <TableCell
+                                    //         component="th"
+                                    //         id={`enhanced-table-checkbox-${index}`}
+                                    //         scope="row"
+                                    //         // sx={{ marginRight: "1px solid black" }}
+                                    //         className="!text-table-row-text !border-table-row-border !text-xs"
+                                    //     >
+                                    //         {(page - 1) * rowsPerPage + index + 1}
+                                    //     </TableCell>
+                                    //     {row.map((cell, cellIndex) => (
+                                    //         <TableCell
+                                    //             key={cellIndex}
+                                    //             padding="normal"
+                                    //             className="!text-table-row-text !border-l !border-table-row-border !text-xs"
+                                    //             style={{
+                                    //                 borderLeft: '1px solid #d1d1d1',
+                                    //                 fontSize: "12px"
+                                    //             }}
+                                    //         >
+                                    //             {cell}
+                                    //         </TableCell>
+                                    //     ))}
+                                    // </TableRow>
+
                                     <TableRow
-                                        hover
                                         role="checkbox"
                                         aria-checked={isSelected(index)}
                                         tabIndex={-1}
                                         key={index}
                                         selected={isSelected(index)}
-                                        className="bg-table-row-bg text-table-row-text hover:bg-table-row-hover"
+                                        className="bg-table-row-bg text-table-row-text"
                                         sx={{
-                                            "&:hover": { backgroundColor: "var(--table-row-hover)" },
+                                            backgroundColor: "var(--table-row-bg) !important",
+                                            color: "var(--table-row-text)",
+                                            "&:hover": {
+                                                backgroundColor: "var(--table-row-hover) !important",
+                                            },
+                                            "&.Mui-selected": {
+                                                backgroundColor: "var(--table-row-hover) !important",
+                                            },
+                                            "&.Mui-selected:hover": {
+                                                backgroundColor: "var(--table-row-hover) !important",
+                                            },
                                         }}
                                     >
                                         <TableCell
                                             component="th"
                                             id={`enhanced-table-checkbox-${index}`}
                                             scope="row"
-                                            // sx={{ marginRight: "1px solid black" }}
                                             className="!text-table-row-text !border-table-row-border !text-xs"
+                                            sx={{
+                                                color: "var(--table-row-text)",
+                                                borderColor: "var(--table-row-border)",
+                                            }}
                                         >
                                             {(page - 1) * rowsPerPage + index + 1}
                                         </TableCell>
+
                                         {row.map((cell, cellIndex) => (
                                             <TableCell
                                                 key={cellIndex}
                                                 padding="normal"
                                                 className="!text-table-row-text !border-l !border-table-row-border !text-xs"
-                                                style={{
-                                                    borderLeft: '1px solid #d1d1d1',
-                                                    fontSize: "12px"
+                                                sx={{
+                                                    color: "var(--table-row-text)",
+                                                    borderLeft: "1px solid var(--table-row-border)",
+                                                    fontSize: "12px",
                                                 }}
                                             >
                                                 {cell}
