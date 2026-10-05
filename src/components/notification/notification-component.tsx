@@ -181,7 +181,7 @@ const NotificationComponent = () => {
                     unreadCount> 0 && 'animate-pulse border border-gray-200'
                 }`}
             >
-                <Bell className={'text-gray-800 '}/>
+                <Bell className={''}/>
                 <span
                     className={
                         'ps-4 -mt-2 text-xs text-red-400 font-semibold'

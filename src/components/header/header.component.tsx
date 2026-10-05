@@ -38,7 +38,7 @@ function Header() {
     }
 
     return (
-        <nav className="w-full flex justify-between p-2 py-3 border-b border-gray-200 bg-white">
+        <nav className="w-full flex justify-between p-2 py-3 border-b border-gray-200 bg-header-bg text-header-text">
             {/* Logo + toggle (only for small screens) */}
             <div className={`flex items-center md:ps-8`}>
                 <button onClick={toggleSideBar} className="me-3 md:hidden">

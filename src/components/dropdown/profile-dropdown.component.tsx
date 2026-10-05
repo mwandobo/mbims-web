@@ -50,9 +50,9 @@ const ProfileDropdown = ({
                 className="flex items-center space-x-2 focus:outline-none"
             >
                 <div className={'flex flex-col items-center'}>
-                    <CircleUserRound size={15} className="text-gray-500 hidden md:block" />
-                    <CircleUserRound size={30} className="text-gray-500 md:hidden" />
-                    <span className="text-xs hidden md:block font-medium text-gray-500">{name}</span>
+                    <CircleUserRound size={15} className="hidden md:block" />
+                    <CircleUserRound size={30} className="md:hidden" />
+                    <span className="text-xs hidden md:block font-medium ">{name}</span>
                 </div>
 
             </button>
@@ -69,14 +69,7 @@ const ProfileDropdown = ({
                         </button>
                     }
 
-                    {/*{checkPermissions('settings_read') &&*/}
-                    {/*    <button*/}
-                    {/*        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"*/}
-                    {/*        onClick={() => onclick('settings')}*/}
-                    {/*    >*/}
-                    {/*        Settings*/}
-                    {/*    </button>*/}
-                    {/*}*/}
+
 
 
                     <button
