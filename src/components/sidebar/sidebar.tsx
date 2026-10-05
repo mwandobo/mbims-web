@@ -260,7 +260,6 @@ function Sidebar() {
                     </button>
                 </div>
                 <div className=" px-2 h-full w-full">
-                    <hr className="hidden md:block bg-gray-200" />
                     <div className="flex flex-col h-full w-full pt-10 pb-4 pe-4 overflow-y-auto overflow-x-hidden scrollbar-thin">
                         {items.map(
                             (item) =>

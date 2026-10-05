@@ -19,7 +19,6 @@ function AuthSkeletonComponent({children, loading, subtitle, title}: Props) {
                 backgroundImage: "url('/bg-1.jpg')",
                 backgroundRepeat: "repeat",
                 backgroundSize: "1000px 1000px"
-
             }}
         >
             <div className="absolute inset-0 bg-black opacity-60 z-[-1]"></div>

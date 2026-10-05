@@ -38,13 +38,13 @@ function Header() {
     }
 
     return (
-        <nav className="w-full flex justify-between p-2 py-3 border-b border-gray-200 bg-header-bg text-header-text">
+        <nav className="w-full flex justify-between p-2 py-3 bg-header-bg text-header-text">
             {/* Logo + toggle (only for small screens) */}
             <div className={`flex items-center md:ps-8`}>
                 <button onClick={toggleSideBar} className="me-3 md:hidden">
                     {isSideBarHidden ?<Menu size={32} strokeWidth={2} className={'text-gray-400'}/>  : <X size={32} strokeWidth={2}/> }
                 </button>
-                <img src="/logo.png" alt="logo" className="h-10 w-auto"/>
+                <img src="/logo2.png" alt="logo" className="h-10 w-auto"/>
             </div>
 
             {/* Right section */}
