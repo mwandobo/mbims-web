@@ -172,30 +172,6 @@ export default function MuiTableComponent({
 
     const visibleRows = data;
 
-    // useEffect(() => {
-    //
-    //     if (pageMetadata?.title) {
-    //         const searchKeySlug = getValueFromLocalStorage('search-key-slug').toString();
-    //         if (!searchKeySlug) {
-    //             setValueLocalStorage('search-key', "")
-    //             setSearchKey('')
-    //
-    //         } else {
-    //             const splitSearchKey = searchKeySlug.split('-')
-    //             const searchPageTitle = splitSearchKey[0];
-    //
-    //             if (searchPageTitle === pageMetadata.title) {
-    //                 const searchKey = getValueFromLocalStorage('search-key');
-    //                 setSearchKey(searchKey)
-    //             }
-    //         }
-    //     } else {
-    //         setSearchKey('')
-    //         setValueLocalStorage('search-key', "")
-    //     }
-    //
-    // }, [])
-
     useEffect(() => {
         if (pageMetadata?.title) {
             const rawSlug = getValueFromLocalStorage('search-key-slug');
@@ -256,12 +232,6 @@ export default function MuiTableComponent({
                         // onClick is no longer needed
                         rounded="md"
                         padding="p-3"
-                        shadow="shadow-md"
-                        bg_color="bg-gray-50"
-                        hover="hover:bg-gray-200 hover:border-gray-400"
-                        hover_text="hover:text-gray-900 hover:font-semibold"
-                        border="border border-gray-300"
-                        text_color="text-gray-700"
                     >
                         <Search size={13} />
                     </ButtonComponent>
@@ -285,41 +255,6 @@ export default function MuiTableComponent({
                             sortBy={sortBy}
                             sortDirection={sortDirection}
                         />
-                        {/*<TableBody>*/}
-                        {/*    {visibleRows.map((row, index) => (*/}
-                        {/*        <TableRow*/}
-                        {/*            hover*/}
-                        {/*            role="checkbox"*/}
-                        {/*            aria-checked={isSelected(index)}*/}
-                        {/*            tabIndex={-1}*/}
-                        {/*            key={index}*/}
-                        {/*            selected={isSelected(index)}*/}
-                        {/*            sx={{padding: '50px'}}*/}
-                        {/*        >*/}
-                        {/*            <TableCell*/}
-                        {/*                component="th"*/}
-                        {/*                id={`enhanced-table-checkbox-${index}`}*/}
-                        {/*                scope="row"*/}
-                        {/*                sx={{marginRight: "1px solid black"}}*/}
-                        {/*            >*/}
-                        {/*                {(page - 1) * rowsPerPage + index + 1}*/}
-                        {/*            </TableCell>*/}
-                        {/*            {row.map((cell, cellIndex) => (*/}
-                        {/*                <TableCell*/}
-                        {/*                    key={cellIndex}*/}
-                        {/*                    padding="normal"*/}
-                        {/*                    style={{*/}
-                        {/*                        borderLeft: '1px solid #d1d1d1',*/}
-                        {/*                        fontSize: "12px"*/}
-                        {/*                    }}*/}
-                        {/*                >*/}
-                        {/*                    {cell}*/}
-                        {/*                </TableCell>*/}
-                        {/*            ))}*/}
-                        {/*        </TableRow>*/}
-                        {/*    ))}*/}
-                        {/*</TableBody>*/}
-
                         <TableBody>
                             {visibleRows.length > 0 ? (
                                 visibleRows.map((row, index) => (

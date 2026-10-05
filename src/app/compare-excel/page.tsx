@@ -298,13 +298,7 @@ function ExcelCompare({ onComparisonComplete }: ExcelCompareProps) {
                         <ButtonComponent
                             name='Compare Files'
                             onClick={handleCompare}
-                            disabled={loading || !file1 || !file2}
-                            text_color='text-gray-700'
-                            bg_color='bg-gray-50'
-                            hover='hover:bg-gray-100 hover:border-gray-400'
-                            hover_text='hover:text-gray-900'
                             rounded='md'
-                            border='border border-gray-300'
                             padding='px-6 py-3'
                         >
                             <CircleEqual size={18} className="mr-2" />

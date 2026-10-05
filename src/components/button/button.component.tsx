@@ -1,92 +1,67 @@
-import {Button, CircularProgress,} from "@mui/material"
-import {ReactNode} from "react"
+import { CircularProgress } from "@mui/material";
+import { ReactNode } from "react";
 
 interface Props {
-    name?: string,
-    onClick?: () => void
-    children?: ReactNode
-    bg_color?: string
-    text_color?: string
-    hover?: string
-    hover_text?: string
-    type?: "button" | "submit" | "reset"
-    variant?: "contained" | "text" | "outlined" | undefined
-    isDisabled?: boolean
-    isLoading?: boolean
-    disabled?: boolean
-    isClickable?: boolean
-    isEndIcon?: boolean
-    width?: string
-    rounded?: string
-    padding?: string
-    border?: string
-    shadow?: string
-    isSmallButton?: boolean
-
+    name?: string;
+    onClick?: () => void;
+    children?: ReactNode;
+    type?: "button" | "submit" | "reset";
+    isDisabled?: boolean;
+    isLoading?: boolean;
+    isEndIcon?: boolean;
+    rounded?: string;
+    padding?: string;
+    isSmallButton?: boolean;
+    /** Optional overrides – leave empty to use theme */
+    className?: string;
 }
 
-
 export function ButtonComponent({
-                                   name,
-                                   onClick,
-                                   children,
-                                   bg_color = 'bg-gray-500',
-                                   text_color = 'text-white',
-                                   hover = 'hover:bg-gray-900',
-                                   hover_text = 'white',
-                                   variant = 'contained',
-                                   isDisabled =false,
-                                   isLoading,
-                                   type = 'button',
-                                   isClickable = true,
-                                   disabled=false,
-                                   isEndIcon,
-                                   width,
-                                   rounded,
-                                   shadow,
-                                   padding,
-                                   border,
-                                   isSmallButton,
-
-                               }: Props) {
-
-
-    const buttonStateRender =() => {
-        if(isLoading) return <CircularProgress size={20}/>
-
-        return (
-            <div className={`flex gap-1 ${text_color} ${!isDisabled && hover_text} px-1 h-5 items-center`}>
-                {isEndIcon ?
-                    <>
-                        {name}
-                        {children}
-
-                    </> :
-                    <>
-                        {children}
-                        {name}
-                    </>
-                }
-
-            </div>
-        )
-    }
-
+                                    name,
+                                    onClick,
+                                    children,
+                                    type = "button",
+                                    isDisabled = false,
+                                    isLoading = false,
+                                    isEndIcon = false,
+                                    rounded = "md",
+                                    padding = "p-2",
+                                    isSmallButton = false,
+                                    className = "",
+                                }: Props) {
     return (
         <button
             type={type}
-            className={`${bg_color} ${text_color} ${border} text-xs ${!isDisabled && hover}  ${shadow}  ${padding && padding} ${rounded && `rounded-${rounded}`}`}
             onClick={onClick}
-            style={{
-                fontSize: isSmallButton && "8px"
-            }}
-            disabled={isDisabled}
+            disabled={isDisabled || isLoading}
+            style={{ fontSize: isSmallButton ? "8px" : undefined }}
+            className={`
+        inline-flex items-center justify-center gap-1 text-xs
+        bg-button-bg text-button-text border border-button-border
+        hover:bg-button-hover-bg hover:text-button-hover-text
+        active:bg-button-active-bg active:text-button-active-text
+        disabled:opacity-50 disabled:cursor-not-allowed
+        shadow-md ${padding} rounded-${rounded}
+        ${className}
+      `}
         >
-            {buttonStateRender() }
+            {isLoading ? (
+                <CircularProgress size={16} color="inherit" />
+            ) : (
+                <>
+                    {isEndIcon ? (
+                        <>
+                            {name}
+                            {children}
+                        </>
+                    ) : (
+                        <>
+                            {children}
+                            {name}
+                        </>
+                    )}
+                </>
+            )}
         </button>
-    )
+    );
 }
-
-
-
-

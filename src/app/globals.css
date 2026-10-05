@@ -27,6 +27,15 @@
     --footer-text: #ffffff;
     --footer-border: #e5e7eb;
 
+    /* Buttons – brand */
+    --button-bg: #0D4C91;
+    --button-text: #ffffff;
+    --button-border: #0D4C91;
+    --button-hover-bg: #245c9b;
+    --button-hover-text: #ffffff;
+    --button-active-bg: #1a4b87;
+    --button-active-text: #ffffff;
+
     --card-bg: #ffffff;
     --card-border: #e5e7eb;
 
@@ -71,6 +80,15 @@
     --footer-text: #171717;
     --footer-border: #e5e7eb;
 
+    /* Buttons – light */
+    --button-bg: #f9fafb;
+    --button-text: #374151;
+    --button-border: #d1d5db;
+    --button-hover-bg: #e5e7eb;
+    --button-hover-text: #111827;
+    --button-active-bg: #d1d5db;
+    --button-active-text: #111827;
+
     --card-bg: #ffffff;
     --card-border: #e5e7eb;
 
@@ -111,6 +129,15 @@
     --footer-bg: #111827;
     --footer-text: #f9fafb;
     --footer-border: #374151;
+
+    /* Buttons – dark */
+    --button-bg: #1f2937;
+    --button-text: #f9fafb;
+    --button-border: #374151;
+    --button-hover-bg: #374151;
+    --button-hover-text: #ffffff;
+    --button-active-bg: #4b5563;
+    --button-active-text: #ffffff;
 
     --card-bg: #1f2937;
     --card-border: #374151;
@@ -153,6 +180,14 @@
     --color-footer-bg: var(--footer-bg);
     --color-footer-text: var(--footer-text);
     --color-footer-border: var(--footer-border);
+
+    --color-button-bg: var(--button-bg);
+    --color-button-text: var(--button-text);
+    --color-button-border: var(--button-border);
+    --color-button-hover-bg: var(--button-hover-bg);
+    --color-button-hover-text: var(--button-hover-text);
+    --color-button-active-bg: var(--button-active-bg);
+    --color-button-active-text: var(--button-active-text);
 
     --color-card-bg: var(--card-bg);
     --color-card-border: var(--card-border);

@@ -44,13 +44,8 @@ const CrudButtonsComponent = ({
                         <ButtonComponent
                             name="View"
                             onClick={() => {}} // click handled by Link
-                            text_color="text-gray-700"
                             isSmallButton={true}
-                            bg_color="bg-gray-50"
-                            hover="hover:bg-gray-200 hover:border-gray-400"
-                            hover_text="hover:text-gray-900 hover:font-semibold"
                             rounded="md"
-                            border="border border-gray-300"
                         >
                             <EyeIcon size={16} color="black" />
                         </ButtonComponent>
@@ -59,13 +54,8 @@ const CrudButtonsComponent = ({
                     <ButtonComponent
                         name="View"
                         onClick={() => handleClick?.("show", input)}
-                        text_color="text-gray-700"
                         isSmallButton={true}
-                        bg_color="bg-gray-50"
-                        hover="hover:bg-gray-200 hover:border-gray-400"
-                        hover_text="hover:text-gray-900 hover:font-semibold"
                         rounded="md"
-                        border="border border-gray-300"
                     >
                         <EyeIcon size={16} color="black" />
                     </ButtonComponent>
@@ -77,13 +67,8 @@ const CrudButtonsComponent = ({
                 <ButtonComponent
                     name="Delete"
                     onClick={() => handleClick?.("delete", input)}
-                    text_color="text-gray-700"
                     isSmallButton={true}
-                    bg_color="bg-gray-50"
-                    hover="hover:bg-gray-200 hover:border-gray-400"
-                    hover_text="hover:text-gray-900 hover:font-semibold"
                     rounded="md"
-                    border="border border-gray-300"
                 >
                     <Trash2 size={16} color="red" />
                 </ButtonComponent>
@@ -93,13 +78,8 @@ const CrudButtonsComponent = ({
                 <ButtonComponent
                     name="Edit"
                     onClick={() => handleClick?.("edit", input)}
-                    text_color="text-gray-700"
                     isSmallButton={true}
-                    bg_color="bg-gray-50"
-                    hover="hover:bg-gray-200 hover:border-gray-400"
-                    hover_text="hover:text-gray-900 hover:font-semibold"
                     rounded="md"
-                    border="border border-gray-300"
                 >
                     <Pen size={16} color="black" />
                 </ButtonComponent>

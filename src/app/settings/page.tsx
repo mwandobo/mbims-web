@@ -47,12 +47,6 @@ function Settings() {
                     rounded="md"
                     padding="p-3"
                     onClick={() => selectTheme("brand")}
-                    shadow="shadow-md"
-                    bg_color={theme === "brand" ? "bg-primary" : "bg-gray-50"}
-                    hover="hover:bg-gray-200 hover:border-gray-400"
-                    hover_text="hover:text-gray-900 hover:font-semibold"
-                    border="border border-gray-300"
-                    text_color={theme === "brand" ? "text-white" : "text-gray-700"}
                 >
                     <Palette size={13} />
                 </ButtonComponent>
@@ -62,12 +56,6 @@ function Settings() {
                     rounded="md"
                     padding="p-3"
                     onClick={() => selectTheme("light")}
-                    shadow="shadow-md"
-                    bg_color={theme === "light" ? "bg-primary" : "bg-gray-50"}
-                    hover="hover:bg-gray-200 hover:border-gray-400"
-                    hover_text="hover:text-gray-900 hover:font-semibold"
-                    border="border border-gray-300"
-                    text_color={theme === "light" ? "text-white" : "text-gray-700"}
                 >
                     <Sun size={13} />
                 </ButtonComponent>
@@ -77,12 +65,6 @@ function Settings() {
                     rounded="md"
                     padding="p-3"
                     onClick={() => selectTheme("dark")}
-                    shadow="shadow-md"
-                    bg_color={theme === "dark" ? "bg-primary" : "bg-gray-50"}
-                    hover="hover:bg-gray-200 hover:border-gray-400"
-                    hover_text="hover:text-gray-900 hover:font-semibold"
-                    border="border border-gray-300"
-                    text_color={theme === "dark" ? "text-white" : "text-gray-700"}
                 >
                     <Moon size={13} />
                 </ButtonComponent>
