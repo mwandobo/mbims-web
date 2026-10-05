@@ -67,7 +67,7 @@ function SidebarItem({ item }: { item: ISidebarItem }) {
                 href={items && items.length > 0 ? "#" : path}
                 onClick={handleClick}
                 className={`flex items-center mb-1 justify-between p-2 rounded cursor-pointer hover:bg-sidebar-hover
-                ${isActive ? "bg-sidebar-active text-white" : ""}`}
+                ${isActive ? "bg-sidebar-active text-sidebar-text-active" : ""}`}
             >
                 <div className="flex items-center gap-2">
                     <Icon size={13} />

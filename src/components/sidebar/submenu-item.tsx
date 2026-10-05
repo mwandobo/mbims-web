@@ -38,7 +38,7 @@ function SubMenuItem({ item }: { item: ISubItem }) {
             href={path}
             onClick={handleClick}
             className={`flex items-center justify-between py-1 ps-2 rounded cursor-pointer mb-1 hover:bg-sidebar-hover
-            ${isActive ? "bg-sidebar-active text-white" : ""}`}
+            ${isActive ? "bg-sidebar-active text-sidebar-text-active" : ""}`}
         >
             <div className="flex items-center space-x-2">
                 <Icon size={13} />

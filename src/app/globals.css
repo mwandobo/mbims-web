@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* =========================
-   LIGHT THEME (default)
+   ROOT = BRAND (default)
 ========================= */
 :root {
     /* Base */
@@ -15,12 +15,17 @@
     /* Surfaces */
     --sidebar-bg: #0D4C91;
     --sidebar-text: #ffffff;
+    --sidebar-text-active: #ffffff;
     --sidebar-hover: #245c9b;
     --sidebar-active: #E87927;
 
-    --header-bg:  #E87927;
+    --header-bg: #E87927;
     --header-text: #ffffff;
     --header-border: #e5e7eb;
+
+    --footer-bg: #E87927;
+    --footer-text: #ffffff;
+    --footer-border: #e5e7eb;
 
     --card-bg: #ffffff;
     --card-border: #e5e7eb;
@@ -43,7 +48,49 @@
 }
 
 /* =========================
-   DARK THEME
+   LIGHT = B&W only
+========================= */
+.light {
+    --background: #ffffff;
+    --foreground: #171717;
+
+    --primary: #171717;
+    --secondary: #4b5563;
+
+    --sidebar-bg: #ffffff;
+    --sidebar-text: #171717;
+    --sidebar-text-active: #171717;
+    --sidebar-hover: #f3f4f6;
+    --sidebar-active: #D9DCE0;
+
+    --header-bg: #ffffff;
+    --header-text: #171717;
+    --header-border: #e5e7eb;
+
+    --footer-bg: #ffffff;
+    --footer-text: #171717;
+    --footer-border: #e5e7eb;
+
+    --card-bg: #ffffff;
+    --card-border: #e5e7eb;
+
+    --table-header-bg: #f9fafb;
+    --table-row-hover: #f3f4f6;
+
+    --input-border: #d1d5db;
+    --input-focus: #171717;
+
+    --success: #16a34a;
+    --warning: #d97706;
+    --error: #dc2626;
+    --info: #0284c7;
+
+    --muted: #6b7280;
+    --muted-bg: #f3f4f6;
+}
+
+/* =========================
+   DARK
 ========================= */
 .dark {
     --background: #0a0a0a;
@@ -55,11 +102,15 @@
     --sidebar-bg: #111827;
     --sidebar-text: #f9fafb;
     --sidebar-hover: #1f2937;
-    --sidebar-active: #f59e0b;
+    --sidebar-active: #374151;
 
     --header-bg: #111827;
     --header-text: #f9fafb;
     --header-border: #374151;
+
+    --footer-bg: #111827;
+    --footer-text: #f9fafb;
+    --footer-border: #374151;
 
     --card-bg: #1f2937;
     --card-border: #374151;
@@ -91,12 +142,17 @@
 
     --color-sidebar-bg: var(--sidebar-bg);
     --color-sidebar-text: var(--sidebar-text);
+    --color-sidebar-text-active: var(--sidebar-text);
     --color-sidebar-hover: var(--sidebar-hover);
     --color-sidebar-active: var(--sidebar-active);
 
     --color-header-bg: var(--header-bg);
     --color-header-text: var(--header-text);
     --color-header-border: var(--header-border);
+
+    --color-footer-bg: var(--footer-bg);
+    --color-footer-text: var(--footer-text);
+    --color-footer-border: var(--footer-border);
 
     --color-card-bg: var(--card-bg);
     --color-card-border: var(--card-border);

@@ -236,7 +236,7 @@ function Sidebar() {
             className={`
                 fixed inset-y-0 left-0 z-40
                 bg-white border-e border-gray-200
-                h-[86vh]
+                h-[88.9vh]
                 transition-all duration-300 ease-in-out
                 overflow-hidden
 
