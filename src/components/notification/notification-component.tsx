@@ -174,98 +174,91 @@ const NotificationComponent = () => {
     }
 
     return (
-        <div className={''}>
+        <div>
             <button
                 onClick={toggleIsDropdownOpen}
-                className={`flex flex-col items-center space-x-2 focus:outline-none p-2 rounded-full ${
-                    unreadCount> 0 && 'animate-pulse border border-gray-200'
+                className={`flex flex-col items-center space-x-2 focus:outline-none p-2 rounded-full text-header-text ${
+                    unreadCount > 0 && "animate-pulse border border-header-border"
                 }`}
             >
-                <Bell className={''}/>
-                <span
-                    className={
-                        'ps-4 -mt-2 text-xs text-red-400 font-semibold'
-                    }
-                >
-                    {unreadCount > 0 ? unreadCount : ''}
-                </span>
+                <Bell />
+                <span className="ps-4 -mt-2 text-xs text-error font-semibold">
+        {unreadCount > 0 ? unreadCount : ""}
+      </span>
             </button>
-            <div className={'bg-red-200'}>
-                <DropdownComponent name={'Notifications'} toggleOpen={toggleIsDropdownOpen} isOpen={isDropdownOpen}>
-                    <div className={'w-full flex flex-col text-xs text-gray-800'}>
-                        <div className={'flex justify-between items-center mb-2'}>
-                            <h3 className={'font-medium text-sm'}>Notifications</h3>
 
-                            <div className={'flex gap-2'}>
-                                <button
-                                    onClick={handleDeleteAll}
-                                >
-                                    <Trash size={14} strokeWidth={3} className={'text-red-400'}/>
+            <div>
+                <DropdownComponent
+                    name="Notifications"
+                    toggleOpen={toggleIsDropdownOpen}
+                    isOpen={isDropdownOpen}
+                >
+                    <div className="w-full flex flex-col text-xs text-foreground bg-card-bg">
+                        <div className="flex justify-between items-center mb-2">
+                            <h3 className="font-medium text-sm text-foreground">Notifications</h3>
+                            <div className="flex gap-2">
+                                <button onClick={handleDeleteAll}>
+                                    <Trash size={14} strokeWidth={3} className="text-error" />
                                 </button>
-                                <button
-                                    onClick={handleReadAll}
-                                >
-                                    <MailOpen size={14} strokeWidth={3} className={'text-gray-600'}/>
+                                <button onClick={handleReadAll}>
+                                    <MailOpen size={14} strokeWidth={3} className="text-muted" />
                                 </button>
                             </div>
                         </div>
-                        <div className={'w-full flex flex-col'}>
-                            {notes && notes?.map((note, index) => (
+
+                        <div className="w-full flex flex-col">
+                            {notes?.map((note, index) => (
                                 <div
                                     key={index}
-                                    className={`flex flex-col ${index % 2 === 0 ? 'bg-white ' : 'bg-gray-100'} p-2 mb-1 ${!note.isRead && 'text-xs font-semibold'}`}
-                                    onClick={() => toggleExpand(index)} // Expand row on click
+                                    className={`flex flex-col p-2 mb-1 text-foreground ${
+                                        index % 2 === 0 ? "bg-card-bg" : "bg-muted-bg"
+                                    } ${!note.isRead ? "text-xs font-semibold" : ""}`}
+                                    onClick={() => toggleExpand(index)}
                                 >
-                                    {/* Main row */}
-                                    <div className={'flex justify-between'}>
+                                    <div className="flex justify-between">
                                         <div className="flex items-center">
-                                            {!note.isRead ?
-                                                <Circle size={6} className={'text-red-500 me-1'} strokeWidth={6}/> :
-                                                <p className={'ms-2'}></p>
-                                            }
+                                            {!note.isRead ? (
+                                                <Circle size={6} className="text-error me-1" strokeWidth={6} />
+                                            ) : (
+                                                <p className="ms-2"></p>
+                                            )}
                                             <p className="me-1">{index + 1}</p>
                                             <p>{note.title}</p>
                                         </div>
-                                        <div className={'flex gap-2 items-center'}>
+                                        <div className="flex gap-2 items-center">
                                             <button
                                                 onClick={(event) => handleDelete(index, event)}
-                                                className={'z-10'}
+                                                className="z-10"
                                             >
-                                                <Trash size={10} strokeWidth={4} className={'text-red-400'}/>
+                                                <Trash size={10} strokeWidth={4} className="text-error" />
                                             </button>
                                         </div>
                                     </div>
 
-                                    {/* Expanded details */}
                                     {expandedNotification === index && (
-                                        <div className="mt-2 text-gray-700 ps-4">
-                                            <p className={`border  ${index % 2 === 0 ? 'border-gray-200' : 'border-gray-300'} p-1 ps-2 rounded-md`}>{note?.description}</p>
+                                        <div className="mt-2 text-muted ps-4">
+                                            <p className="border border-card-border p-1 ps-2 rounded-md text-foreground">
+                                                {note?.description}
+                                            </p>
                                             <div className="flex items-center justify-between gap-3 w-full">
-                                                {/* View Button */}
                                                 <button
                                                     onClick={() => handleViewClick(note)}
-                                                    className="text-blue-500 flex items-center gap-1 text-[9px] hover:underline"
+                                                    className="text-primary flex items-center gap-1 text-[9px] hover:underline"
                                                 >
                                                     view <SquareArrowOutUpRight size={10} />
                                                 </button>
-
-                                                {/* Sender Info */}
                                                 <div className="flex items-center gap-3 justify-end">
-                                                    {/* Sender Name with ellipsis and tooltip */}
                                                     <p
-                                                        className="text-[9px] max-w-[100px] truncate cursor-pointer"
-                                                        title={note?.userName || 'Unknown'}
+                                                        className="text-[9px] max-w-[100px] truncate cursor-pointer text-muted"
+                                                        title={note?.userName || "Unknown"}
                                                     >
-                                                        Sender: {note?.userName || 'Unknown'}
+                                                        Sender: {note?.userName || "Unknown"}
                                                     </p>
-
-                                                    {/* Sent Date */}
-                                                    <p className="text-[9px] whitespace-nowrap">
-                                                        Sent On: {note?.formattedCreatedAt || 'Unknown'}
+                                                    <p className="text-[9px] whitespace-nowrap text-muted">
+                                                        Sent On: {note?.formattedCreatedAt || "Unknown"}
                                                     </p>
                                                 </div>
                                             </div>
-
                                         </div>
                                     )}
                                 </div>

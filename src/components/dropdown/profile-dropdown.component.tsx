@@ -44,37 +44,22 @@ const ProfileDropdown = ({
 
     return (
         <div className="relative" ref={dropdownRef}>
-            {/* Trigger Button */}
             <button
                 onClick={toggleDropdown}
-                className="flex items-center space-x-2 focus:outline-none"
+                className="flex items-center space-x-2 focus:outline-none text-header-text"
             >
-                <div className={'flex flex-col items-center'}>
+                <div className="flex flex-col items-center">
                     <CircleUserRound size={15} className="hidden md:block" />
                     <CircleUserRound size={30} className="md:hidden" />
-                    <span className="text-xs hidden md:block font-medium ">{name}</span>
+                    <span className="text-xs hidden md:block font-medium">{name}</span>
                 </div>
-
             </button>
 
-            {/* Dropdown Menu */}
             {isOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-20">
-                    {checkPermissions('activity_logs_read') &&
-                        <button
-                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                            onClick={() => onclick('activities')}
-                        >
-                            Activities
-                        </button>
-                    }
-
-
-
-
+                <div className="absolute right-0 mt-2 w-48 bg-card-bg text-foreground border border-card-border-light rounded-md shadow-lg py-2 z-20">
                     <button
-                        onClick={handleLogout} // Handle Logout Logic
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={handleLogout}
+                        className="block w-full text-left px-4 py-2 text-sm text-foreground hover:bg-muted-bg"
                     >
                         Logout
                     </button>

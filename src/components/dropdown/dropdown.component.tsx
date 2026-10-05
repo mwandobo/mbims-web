@@ -31,7 +31,7 @@ const DropdownComponent = ({ name, toggleOpen, isOpen , children}: Props) => {
     return (
         <div ref={dropdownRef}>
             {isOpen && (
-                <div className="absolute right-4 top-16 w-80 min-h-80 bg-gray-200 border border-gray-300 rounded-md shadow-lg py-2 z-20 p-2">
+                <div className="absolute right-4 top-16 w-80 min-h-80 bg-card-bg border border-card-border-light rounded-md shadow-lg py-2 z-20 p-2">
                     {children}
                 </div>
             )}

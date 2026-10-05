@@ -42,6 +42,7 @@
 
     --card-bg: #ffffff;
     --card-border: #a2a5aa;
+    --card-border-light: #d1d3d6;
 
     --table-header-bg: #0D4C91;
     --table-header-text: #ffffff;
@@ -105,6 +106,8 @@
 
     --card-bg: #ffffff;
     --card-border: #a2a5aa;
+    --card-border-light: #a2a5aa;
+
 
     --table-header-bg:  #D9DCE0;
     --table-header-text: #171717;
@@ -166,6 +169,7 @@
 
     --card-bg: #1f2937;
     --card-border: #535a66;
+    --card-border-light: #535a66;
 
     --table-header-bg: #1f2937;
     --table-header-text: #f9fafb;
@@ -227,6 +231,7 @@
 
     --color-card-bg: var(--card-bg);
     --color-card-border: var(--card-border);
+    --color-card-border-light: var(--card-border-light);
 
     --color-table-header-bg: var(--table-header-bg);
     --color-table-header-text: var(--table-header-text);
