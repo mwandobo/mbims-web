@@ -344,15 +344,31 @@ export default function MuiTableComponent({
                                     </TableRow>
                                 ))
                             ) : (
-                                <TableRow>
+                                <TableRow
+                                    className="bg-table-row-bg text-table-row-text"
+                                    sx={{
+                                        backgroundColor: "var(--table-row-bg) !important",
+                                        color: "var(--table-row-text)",
+                                        "&:hover": {
+                                            backgroundColor: "var(--table-row-hover) !important",
+                                        },
+                                        "&.Mui-selected": {
+                                            backgroundColor: "var(--table-row-hover) !important",
+                                        },
+                                        "&.Mui-selected:hover": {
+                                            backgroundColor: "var(--table-row-hover) !important",
+                                        },
+                                    }}
+
+                                >
                                     <TableCell
                                         colSpan={columns.length + 1} // +1 for the S/N column
                                         align="center"
-                                        style={{
-                                            padding: '40px 16px',
-                                            color: '#6b7280',
-                                            fontSize: '14px',
-                                            fontStyle: 'italic'
+                                        className="!text-table-row-text !border-l !border-table-row-border !text-xs"
+                                        sx={{
+                                            color: "var(--table-row-text)",
+                                            borderLeft: "1px solid var(--table-row-border)",
+                                            fontSize: "12px",
                                         }}
                                     >
                                         No data available
@@ -362,15 +378,45 @@ export default function MuiTableComponent({
                         </TableBody>
                     </Table>
                 </TableContainer>
-                {from !== "monitoring" && <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={totalRecords ?? data.length}
-                    rowsPerPage={rowsPerPage}
-                    page={(page - 1)}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />}
+                {from !== "monitoring" && (
+                    <TablePagination
+                        rowsPerPageOptions={[5, 10, 25]}
+                        component="div"
+                        count={totalRecords ?? data.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page - 1}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                        sx={{
+                            color: "var(--table-row-text)",
+                            backgroundColor: "var(--table-row-bg)",
+                            borderTop: "1px solid var(--table-row-border)",
+
+                            ".MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows": {
+                                color: "var(--table-row-text)",
+                            },
+
+                            ".MuiTablePagination-select": {
+                                color: "var(--table-row-text)",
+                            },
+
+                            ".MuiIconButton-root": {
+                                color: "var(--table-row-text)",
+                                "&.Mui-disabled": {
+                                    color: "var(--muted)",
+                                },
+                            },
+
+                            ".MuiSvgIcon-root": {
+                                color: "inherit",
+                            },
+
+                            ".MuiInputBase-root": {
+                                color: "var(--table-row-text)",
+                            },
+                        }}
+                    />
+                )}
             </Paper>
         </Box>
     );
