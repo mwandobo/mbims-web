@@ -47,7 +47,7 @@ const CrudButtonsComponent = ({
                             isSmallButton={true}
                             rounded="md"
                         >
-                            <EyeIcon size={16} color="black" />
+                            <EyeIcon size={16} />
                         </ButtonComponent>
                     </Link>
                 ) : (
@@ -57,7 +57,7 @@ const CrudButtonsComponent = ({
                         isSmallButton={true}
                         rounded="md"
                     >
-                        <EyeIcon size={16} color="black" />
+                        <EyeIcon size={16}  />
                     </ButtonComponent>
                 )
             )}
@@ -81,7 +81,7 @@ const CrudButtonsComponent = ({
                     isSmallButton={true}
                     rounded="md"
                 >
-                    <Pen size={16} color="black" />
+                    <Pen size={16}  />
                 </ButtonComponent>
             )}
         </div>
