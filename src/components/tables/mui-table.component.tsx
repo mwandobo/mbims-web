@@ -30,59 +30,55 @@ interface EnhancedTableProps {
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-    const {
-        order,
-        orderBy,
-        onRequestSort,
-        columns,
-        sortBy,
-        sortDirection,
-    } = props;
+    const { onRequestSort, columns, sortBy, sortDirection } = props;
 
-    const createSortHandler = (property: number) => (event: React.MouseEvent<unknown>) => {
-        onRequestSort(event, property);
-    };
-
+    const createSortHandler =
+        (property: number) => (event: React.MouseEvent<unknown>) => {
+            onRequestSort(event, property);
+        };
 
     return (
         <TableHead>
-            <TableRow style={{
-                borderTop: '1px solid #d1d1d1',
-                backgroundColor: '#d9dce0',
-                color: 'black',
-            }}>
+            <TableRow
+                className="bg-table-header-bg text-foreground border-t border-card-border"
+            >
                 <TableCell
                     padding="checkbox"
-                    style={{
-                        fontSize: "10px",
-                        fontWeight: 700
-                    }}
+                    className="!text-foreground !font-bold !text-[10px] !border-card-border"
                 >
-                    {'S/N'}
+                    S/N
                 </TableCell>
+
                 {columns.map((headCell, index) => (
                     <TableCell
                         key={index}
-                        align={headCell.numeric ? 'right' : 'left'}
-                        padding={headCell.disablePadding ? 'none' : 'normal'}
-                        // sortDirection={orderBy === index ? order : false}
+                        align={headCell.numeric ? "right" : "left"}
+                        padding={headCell.disablePadding ? "none" : "normal"}
                         sortDirection={sortBy === headCell.id ? sortDirection : false}
-                        style={{
-                            borderLeft: '1px solid #a8a6a6',
-                            width: headCell.width,
-                            fontSize: "12px",
-                            fontWeight: 700
-                        }}
+                        className="!text-foreground !font-bold !text-xs !border-l !border-card-border"
+                        style={{ width: headCell.width }}
                     >
                         <TableSortLabel
                             active={sortBy === headCell.id}
-                            direction={sortBy === headCell.id ? (sortDirection || 'asc') : 'asc'}
+                            direction={
+                                sortBy === headCell.id ? sortDirection || "asc" : "asc"
+                            }
                             onClick={createSortHandler(index)}
+                            className="!text-foreground"
+                            sx={{
+                                color: "inherit",
+                                "&.Mui-active": { color: "inherit" },
+                                "& .MuiTableSortLabel-icon": {
+                                    color: "inherit !important",
+                                },
+                            }}
                         >
                             {headCell.label}
                             {sortBy === headCell.id ? (
                                 <Box component="span" sx={visuallyHidden}>
-                                    {sortDirection === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                    {sortDirection === "desc"
+                                        ? "sorted descending"
+                                        : "sorted ascending"}
                                 </Box>
                             ) : null}
                         </TableSortLabel>
@@ -92,7 +88,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         </TableHead>
     );
 }
-
 interface Props {
     columns: any[];
     data: any[][];
