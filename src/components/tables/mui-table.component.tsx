@@ -40,11 +40,11 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     return (
         <TableHead>
             <TableRow
-                className="bg-table-header-bg text-foreground border-t border-card-border"
+                className="bg-table-header-bg text-table-header-text border-t border-table-header-border !text-[14px] "
             >
                 <TableCell
                     padding="checkbox"
-                    className="!text-foreground !font-bold !text-[10px] !border-card-border"
+                    className="!text-table-header-text !font-bold !border-table-header-border !py-2"
                 >
                     S/N
                 </TableCell>
@@ -55,7 +55,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                         align={headCell.numeric ? "right" : "left"}
                         padding={headCell.disablePadding ? "none" : "normal"}
                         sortDirection={sortBy === headCell.id ? sortDirection : false}
-                        className="!text-foreground !font-bold !text-xs !border-l !border-card-border"
+                        className="!text-foreground !font-bold !border-l !border-card-border"
                         style={{ width: headCell.width }}
                     >
                         <TableSortLabel
@@ -64,7 +64,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                                 sortBy === headCell.id ? sortDirection || "asc" : "asc"
                             }
                             onClick={createSortHandler(index)}
-                            className="!text-foreground"
+                            className="!text-table-header-text"
                             sx={{
                                 color: "inherit",
                                 "&.Mui-active": { color: "inherit" },
@@ -133,14 +133,8 @@ export default function MuiTableComponent({
         const column = columns[propertyIndex];
         if (!column?.id) return; // column must have an `id` (field name)
 
-
-
         const isAsc = sortBy === column.id && sortDirection === 'asc';
         const newDirection: Order = isAsc ? 'desc' : 'asc';
-
-        console.log('isAsc', isAsc);
-        console.log('newDirection', newDirection);
-
 
         // Notify parent → parent will call API with new sort
         onSortChange?.(column.id, newDirection);
@@ -260,13 +254,17 @@ export default function MuiTableComponent({
                                         tabIndex={-1}
                                         key={index}
                                         selected={isSelected(index)}
-                                        sx={{ padding: '50px' }}
+                                        className="bg-table-row-bg text-table-row-text hover:bg-table-row-hover"
+                                        sx={{
+                                            "&:hover": { backgroundColor: "var(--table-row-hover)" },
+                                        }}
                                     >
                                         <TableCell
                                             component="th"
                                             id={`enhanced-table-checkbox-${index}`}
                                             scope="row"
-                                            sx={{ marginRight: "1px solid black" }}
+                                            // sx={{ marginRight: "1px solid black" }}
+                                            className="!text-table-row-text !border-table-row-border !text-xs"
                                         >
                                             {(page - 1) * rowsPerPage + index + 1}
                                         </TableCell>
@@ -274,6 +272,7 @@ export default function MuiTableComponent({
                                             <TableCell
                                                 key={cellIndex}
                                                 padding="normal"
+                                                className="!text-table-row-text !border-l !border-table-row-border !text-xs"
                                                 style={{
                                                     borderLeft: '1px solid #d1d1d1',
                                                     fontSize: "12px"

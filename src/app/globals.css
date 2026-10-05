@@ -40,7 +40,14 @@
     --card-border: #e5e7eb;
 
     --table-header-bg: #0D4C91;
+    --table-header-text: #ffffff;
+    --table-header-border: #e5e7eb;
+
+    --table-row-bg: #ffffff;
+    --table-row-text: #171717;
+    --table-row-border: #e5e7eb;
     --table-row-hover: #f9fafb;
+    --table-row-alt: #f9fafb;
 
     --input-border: #d1d5db;
     --input-focus: #0D4C91;
@@ -93,7 +100,14 @@
     --card-border: #e5e7eb;
 
     --table-header-bg:  #D9DCE0;
+    --table-header-text: #171717;
+    --table-header-border: #e5e7eb;
+
+    --table-row-bg: #ffffff;
+    --table-row-text: #171717;
+    --table-row-border: #e5e7eb;
     --table-row-hover: #f3f4f6;
+    --table-row-alt: #f9fafb;
 
     --input-border: #d1d5db;
     --input-focus: #171717;
@@ -143,7 +157,14 @@
     --card-border: #374151;
 
     --table-header-bg: #1f2937;
-    --table-row-hover: #111827;
+    --table-header-text: #f9fafb;
+    --table-header-border: #374151;
+
+    --table-row-bg: #111827;
+    --table-row-text: #e5e7eb;
+    --table-row-border: #374151;
+    --table-row-hover: #1f2937;
+    --table-row-alt: #0f172a;
 
     --input-border: #4b5563;
     --input-focus: #3b82f6;
@@ -193,7 +214,15 @@
     --color-card-border: var(--card-border);
 
     --color-table-header-bg: var(--table-header-bg);
+    --color-table-header-text: var(--table-header-text);
+    --color-table-header-border: var(--table-header-border);
+
+    --color-table-row-bg: var(--table-row-bg);
+    --color-table-row-text: var(--table-row-text);
+    --color-table-row-border: var(--table-row-border);
     --color-table-row-hover: var(--table-row-hover);
+    --color-table-row-alt: var(--table-row-alt);
+
 
     --color-input-border: var(--input-border);
     --color-input-focus: var(--input-focus);
