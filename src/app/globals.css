@@ -8,6 +8,19 @@
     --background: #ffffff;
     --foreground: #171717;
 
+    /* Text */
+    --text-primary: #171717;
+    --text-secondary: #4b5563;
+    --text-muted: #6b7280;
+    --text-inverse: #ffffff;
+    --text-link: #0D4C91;
+    --text-link-hover: #245c9b;
+    --text-disabled: #9ca3af;
+    --text-success: #16a34a;
+    --text-warning: #d97706;
+    --text-error: #dc2626;
+    --text-info: #0284c7;
+
     /* Brand */
     --primary: #0D4C91;
     --secondary: #E87927;
@@ -27,8 +40,8 @@
     --footer-text: #ffffff;
     --footer-border: #e5e7eb;
 
-    --main-bg: #e5e7eb;           /* outer area around the page card */
-    --main-content-bg: #ffffff;   /* inner page card */
+    --main-bg: #e5e7eb;
+    --main-content-bg: #ffffff;
     --main-content-border: #e5e7eb;
 
     /* Buttons – brand */
@@ -56,6 +69,8 @@
 
     --input-border: #d1d5db;
     --input-focus: #0D4C91;
+    --input-text: #171717;
+    --input-placeholder: #9ca3af;
 
     /* Semantic */
     --success: #16a34a;
@@ -74,6 +89,18 @@
 .light {
     --background: #ffffff;
     --foreground: #171717;
+
+    --text-primary: #171717;
+    --text-secondary: #4b5563;
+    --text-muted: #6b7280;
+    --text-inverse: #ffffff;
+    --text-link: #171717;
+    --text-link-hover: #374151;
+    --text-disabled: #9ca3af;
+    --text-success: #16a34a;
+    --text-warning: #d97706;
+    --text-error: #dc2626;
+    --text-info: #0284c7;
 
     --primary: #171717;
     --secondary: #4b5563;
@@ -95,7 +122,7 @@
     --main-bg: #f3f4f6;
     --main-content-bg: #ffffff;
     --main-content-border: #e5e7eb;
-    /* Buttons – light */
+
     --button-bg: #f9fafb;
     --button-text: #374151;
     --button-border: #d1d5db;
@@ -108,8 +135,7 @@
     --card-border: #a2a5aa;
     --card-border-light: #a2a5aa;
 
-
-    --table-header-bg:  #D9DCE0;
+    --table-header-bg: #D9DCE0;
     --table-header-text: #171717;
     --table-header-border: #e5e7eb;
 
@@ -121,6 +147,8 @@
 
     --input-border: #d1d5db;
     --input-focus: #171717;
+    --input-text: #171717;
+    --input-placeholder: #9ca3af;
 
     --success: #16a34a;
     --warning: #d97706;
@@ -137,6 +165,18 @@
 .dark {
     --background: #0a0a0a;
     --foreground: #ededed;
+
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --text-muted: #9ca3af;
+    --text-inverse: #111827;
+    --text-link: #60a5fa;
+    --text-link-hover: #93c5fd;
+    --text-disabled: #6b7280;
+    --text-success: #22c55e;
+    --text-warning: #f59e0b;
+    --text-error: #ef4444;
+    --text-info: #38bdf8;
 
     --primary: #3b82f6;
     --secondary: #f59e0b;
@@ -158,7 +198,6 @@
     --main-content-bg: #111827;
     --main-content-border: #374151;
 
-    /* Buttons – dark */
     --button-bg: #1f2937;
     --button-text: #f9fafb;
     --button-border: #374151;
@@ -183,6 +222,8 @@
 
     --input-border: #4b5563;
     --input-focus: #3b82f6;
+    --input-text: #f9fafb;
+    --input-placeholder: #9ca3af;
 
     --success: #22c55e;
     --warning: #f59e0b;
@@ -199,6 +240,19 @@
 @theme inline {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
+
+    /* Text utilities: text-text-primary, text-text-muted, etc. */
+    --color-text-primary: var(--text-primary);
+    --color-text-secondary: var(--text-secondary);
+    --color-text-muted: var(--text-muted);
+    --color-text-inverse: var(--text-inverse);
+    --color-text-link: var(--text-link);
+    --color-text-link-hover: var(--text-link-hover);
+    --color-text-disabled: var(--text-disabled);
+    --color-text-success: var(--text-success);
+    --color-text-warning: var(--text-warning);
+    --color-text-error: var(--text-error);
+    --color-text-info: var(--text-info);
 
     --color-primary: var(--primary);
     --color-secondary: var(--secondary);
@@ -243,9 +297,10 @@
     --color-table-row-hover: var(--table-row-hover);
     --color-table-row-alt: var(--table-row-alt);
 
-
     --color-input-border: var(--input-border);
     --color-input-focus: var(--input-focus);
+    --color-input-text: var(--input-text);
+    --color-input-placeholder: var(--input-placeholder);
 
     --color-success: var(--success);
     --color-warning: var(--warning);

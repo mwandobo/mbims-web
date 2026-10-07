@@ -47,14 +47,14 @@ const SlideOver: React.FC<SlideOverProps> = ({
 
                 {/* Slide Over Panel */}
                 <div
-                    className={`fixed right-0 top-0 bottom-0 bg-white shadow-xl transform transition-transform duration-500 ease-in-out ${
+                    className={`fixed right-0 top-0 bottom-0 bg-main-content-bg shadow-xl transform transition-transform duration-500 ease-in-out ${
                         isOpen ? "translate-x-0" : "translate-x-full"
                     }`}
                     style={{ width }}
                 >
                     {/* Header */}
-                    <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-                        <h2 className="text-xl font-semibold">{title}</h2>
+                    <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-header-bg">
+                        <h2 className="text-xl font-semibold text-header-text">{title}</h2>
                         <button
                             onClick={toggleSlideOver}
                             className="text-gray-500 hover:text-gray-800"
