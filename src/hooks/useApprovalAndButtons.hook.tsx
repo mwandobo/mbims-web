@@ -21,7 +21,7 @@ interface Props {
     currentLevelId?: string;
     entityId?: string;
     entityName?: string;
-    extraData1?: any ;
+    extraData1?: any;
     entityCreatorId?: string;
     redirectUrl?: string;
     onAfterApprove?: () => Promise<void> | void; // ✅ new
@@ -72,7 +72,7 @@ export const useApprovalsAndButtonsHook = ({
             description: remark,
             approvalLevelId: currentLevelId ?? "",
             entityCreatorId: entityCreatorId ?? "",
-            extraData1:extraData1,
+            extraData1: extraData1,
             redirectUrl: redirectUrl ? `${homeURL}/${redirectUrl}` : "",
         }
 
@@ -123,59 +123,147 @@ export const useApprovalsAndButtonsHook = ({
         </div>
     }
 
+    // const renderApprovalStatus = (approvalStatus: string) => {
+    //     if (approvalStatus && approvalStatus === 'PENDING') {
+    //         if (!shouldApprove) {
+    //             return <div className={"flex w-full justify-between mt-1"}>
+    //                 <div className={"flex w-full justify-start"}>
+    //                     <p className={''}><span className='text-xs p-2 bg-gray-200 '>Waiting For Approval</span>
+    //                     </p>
+    //                     {renderTreeList()}
+    //                 </div>
+    //                 <p className={'flex w-full justify-end'}><span className='text-xs p-1 bg-gray-200 '>Waiting For Complete Approval</span>
+    //                 </p>
+    //             </div>
+    //         }
+    //
+    //         if (!isMyLevelApproved) {
+    //             return <div className={"flex w-full justify-between"}>
+    //                 <div className={"flex w-full justify-start items-center"}>
+    //                     <p className={''}>
+    //                         <span className='text-xs p-2 bg-gray-200 '>Waiting For Your Approval</span>
+    //                     </p>
+    //                     {renderTreeList()}
+    //                 </div>
+    //                 {renderApprovalButtons()}
+    //             </div>
+    //         }
+    //
+    //         return <div className={"flex w-full justify-between mt-1"}>
+    //             <div className={"flex w-full justify-start"}>
+    //                 <p className={''}><span className='text-xs p-2 bg-gray-200 '>Approved</span></p>
+    //                 {renderTreeList()}
+    //             </div>
+    //             <p className={'w-full flex justify-end'}><span className='text-xs p-1 bg-gray-200 '>Waiting For Further Approval</span>
+    //             </p>
+    //         </div>
+    //     }
+    //
+    //     switch (approvalStatus) {
+    //         case 'APPROVED':
+    //             return <div className={"flex  justify-start"}>
+    //                 <span className='bg-green-100 p-2 rounded-sm'>Approved</span>
+    //                 {renderTreeList()}
+    //             </div>
+    //         case 'REJECTED':
+    //             return <div className={"flex justify-start"}>
+    //                 <span className='bg-red-100 p-2 rounded-sm'>Disapproved</span>
+    //                 {renderTreeList()}
+    //             </div>
+    //         default:
+    //             return <div className={"flex justify-start"}>
+    //                 <span className='text-xs p-1 bg-gray-200'>Waiting For Approval</span> {renderTreeList()}
+    //             </div>
+    //     }
+    // }
+
     const renderApprovalStatus = (approvalStatus: string) => {
-        if (approvalStatus && approvalStatus === 'PENDING') {
+        if (approvalStatus && approvalStatus === "PENDING") {
             if (!shouldApprove) {
-                return <div className={"flex w-full justify-between mt-1"}>
-                    <div className={"flex w-full justify-start"}>
-                        <p className={''}><span className='text-xs p-2 bg-gray-200 '>Waiting For Approval</span>
+                return (
+                    <div className="flex w-full justify-between mt-1">
+                        <div className="flex w-full justify-start">
+                            <p>
+                              <span className="text-xs p-2 bg-muted-bg text-foreground">
+                                Waiting For Approval
+                              </span>
+                            </p>
+                            {renderTreeList()}
+                        </div>
+                        <p className="flex w-full justify-end">
+                            <span className="text-xs p-1 bg-muted-bg text-foreground">
+                              Waiting For Complete Approval
+                            </span>
                         </p>
-                        {renderTreeList()}
                     </div>
-                    <p className={'flex w-full justify-end'}><span className='text-xs p-1 bg-gray-200 '>Waiting For Complete Approval</span>
-                    </p>
-                </div>
+                );
             }
 
             if (!isMyLevelApproved) {
-                return <div className={"flex w-full justify-between"}>
-                    <div className={"flex w-full justify-start items-center"}>
-                        <p className={''}>
-                            <span className='text-xs p-2 bg-gray-200 '>Waiting For Your Approval</span>
+                return (
+                    <div className="flex w-full justify-between">
+                        <div className="flex w-full justify-start items-center">
+                            <p>
+                              <span className="text-xs p-2 bg-muted-bg text-foreground">
+                                Waiting For Your Approval
+                              </span>
+                            </p>
+                            {renderTreeList()}
+                        </div>
+                        {renderApprovalButtons()}
+                    </div>
+                );
+            }
+
+            return (
+                <div className="flex w-full justify-between mt-1">
+                    <div className="flex w-full justify-start">
+                        <p>
+                            <span className="text-xs p-2 bg-success/15 text-success">
+                              Approved
+                            </span>
                         </p>
                         {renderTreeList()}
                     </div>
-                    {renderApprovalButtons()}
+                    <p className="w-full flex justify-end">
+                          <span className="text-xs p-1 bg-muted-bg text-foreground">
+                            Waiting For Further Approval
+                          </span>
+                    </p>
                 </div>
-            }
-
-            return <div className={"flex w-full justify-between mt-1"}>
-                <div className={"flex w-full justify-start"}>
-                    <p className={''}><span className='text-xs p-2 bg-gray-200 '>Approved</span></p>
-                    {renderTreeList()}
-                </div>
-                <p className={'w-full flex justify-end'}><span className='text-xs p-1 bg-gray-200 '>Waiting For Further Approval</span>
-                </p>
-            </div>
+            );
         }
 
         switch (approvalStatus) {
-            case 'APPROVED':
-                return <div className={"flex  justify-start"}>
-                    <span className='bg-green-100 p-2 rounded-sm'>Approved</span>
-                    {renderTreeList()}
-                </div>
-            case 'REJECTED':
-                return <div className={"flex justify-start"}>
-                    <span className='bg-red-100 p-2 rounded-sm'>Disapproved</span>
-                    {renderTreeList()}
-                </div>
+            case "APPROVED":
+                return (
+                    <div className="flex justify-start">
+          <span className="bg-success/15 text-success p-2 rounded-sm">
+            Approved
+          </span>
+                        {renderTreeList()}
+                    </div>
+                );
+            case "REJECTED":
+                return (
+                    <div className="flex justify-start">
+          <span className="bg-error/15 text-error p-2 rounded-sm">
+            Disapproved
+          </span>
+                        {renderTreeList()}
+                    </div>
+                );
             default:
-                return <div className={"flex justify-start"}>
-                    <span className='text-xs p-1 bg-gray-200'>Waiting For Approval</span> {renderTreeList()}
-                </div>
+                return (
+                    <div className="flex justify-start">
+          <span className="text-xs p-1 bg-muted-bg text-foreground">
+            Waiting For Approval
+          </span>
+                        {renderTreeList()}
+                    </div>
+                );
         }
-    }
+    };
 
     const renderApprovalButtons = () => {
         return <div className='flex w-full gap-2 justify-end items-end mt-1'>

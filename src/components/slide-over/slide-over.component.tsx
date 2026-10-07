@@ -24,7 +24,9 @@ const SlideOver: React.FC<SlideOverProps> = ({
             {showButton && (
                 <button
                     onClick={toggleSlideOver}
-                    className="flex items-center gap-2 px-2 py-1 text-xs bg-blue-200 text-gray-600 hover:bg-blue-400 hover:text-gray-700 rounded"
+                    className="flex items-center gap-2 px-2 py-1 text-xs rounded
+                            bg-button-bg text-button-text border border-button-border
+                            hover:bg-button-hover-bg hover:text-button-hover-text"
                 >
                     <BadgeInfo size={12} />
                     View Approvals
