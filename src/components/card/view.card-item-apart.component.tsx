@@ -29,11 +29,11 @@ const ViewCardItemApartComponent = ({
     onClick
 }: Props) => {
     return (
-        <div className="flex flex-col ">
+        <div className="flex flex-col bg-card-bg text-text-primary p-2">
             <div className='flex justify-between mb-2'>
-                <h3 className='p-2 text-left text-lg text-gray-800'>
+                <h3 className='py-2 text-left text-lg '>
                     {titleA && <span className='mr-1 text-sm'>{titleA} :</span>}
-                    <span className='font-semibold text-gray-700 mr-1 text-sm'>{titleB}</span>
+                    <span className='font-semibold  mr-1 text-sm'>{titleB}</span>
                 </h3>
                 <div className=''>
                     {isExtraButton && (
@@ -49,9 +49,9 @@ const ViewCardItemApartComponent = ({
                 </div>
             </div>
 
-            <div className='flex flex-col w-full text-gray-800'>
+            <div className='flex flex-col w-full '>
                 {data && data.map((item, index) => (
-                    <div key={index} className="flex justify-between bg-gray-100 p-2 mb-1 ">
+                    <div key={index} className="flex justify-between  p-2 mb-1 bg-main-content-bg">
                         <h3 className="text-left border-r border-gray-700 pr-2 w-1/2 text-sm">{item.label}</h3>
                         <p className="font-semibold text-right pl-2  w-1/2 text-sm">{item.value}</p>
                     </div>
