@@ -36,7 +36,7 @@ function MainComponentWrapper({ children }: Props) {
             <div className="bg-main-bg pt-6 pb-2 px-4 md:w-[75vw] lg:w-full">
                 <div
                     className="bg-main-content-bg text-foreground border border-main-content-border
-            p-3 w-full h-[85vh] overflow-auto rounded-md"
+            p-3 w-full h-[85.7vh] overflow-auto rounded-md"
                 >
                     {children}
                 </div>
