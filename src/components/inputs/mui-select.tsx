@@ -8,7 +8,11 @@ import {
 } from "@mui/material";
 import { getRequest } from "@/utils/api-calls.util";
 import CreateOptionsForSelect from "@/utils/create-options-for-select";
-import { getInputHeight, getLabelClass, getTextFontSize } from "@/utils/input-styler";
+import {
+    getInputHeight,
+    getLabelClass,
+    getTextFontSize,
+} from "@/utils/input-styler";
 
 interface Props {
     handleChange: (
@@ -35,35 +39,23 @@ interface Props {
 }
 
 const MuiSelect = ({
-    handleChange,
-    optionsUrlData,
-    optionDataKey,
-    from,
-    isDisabled,
-    isRequired,
-    placeholder = "Select option...",
-    value,
-    error,
-    label = "",
-    control,
-    control_for,
-    control_type,
-    inputSize = "none",
-    layout = "none",
-}: Props) => {
+                       handleChange,
+                       optionsUrlData,
+                       optionDataKey,
+                       from,
+                       isDisabled,
+                       isRequired,
+                       placeholder = "Select option...",
+                       value,
+                       error,
+                       label = "",
+                       control,
+                       control_for,
+                       control_type,
+                       inputSize = "none",
+                       layout = "none",
+                   }: Props) => {
     const [options, setOptions] = useState<any[]>([]);
-
-    // // ==================== LOGGING DEFAULT VALUE ====================
-    // useEffect(() => {
-    //     // console.log(`[MuiSelect] ${label || from} - Current Value:`, {
-    //     //     value: value,
-    //     //     normalizedValue: String(value || ""),
-    //     //     type: typeof value,
-    //     //     from: from,
-    //     //     control_for: control_for,
-    //     // });
-    // }, [value, label, from, control_for]);
-    // // ============================================================
 
     const onChange = (event: SelectChangeEvent) => {
         return handleChange(event, from, control_for, control_type);
@@ -94,7 +86,7 @@ const MuiSelect = ({
     const normalizedValue = String(value || "");
 
     const renderRequiredAsterisk = () => (
-        <span style={{ color: "red", marginLeft: "4px" }}>*</span>
+        <span className="text-error ml-1">*</span>
     );
 
     return (
@@ -103,26 +95,28 @@ const MuiSelect = ({
                 layout === "row"
                     ? "flex items-center gap-4 mb-4"
                     : layout === "column"
-                    ? "flex flex-col mb-4"
-                    : "mb-4"
+                        ? "flex flex-col mb-4"
+                        : "mb-4"
             }
         >
             {(layout === "row" || layout === "column") && label && (
-                <label className={`text-black ${getLabelClass(inputSize)} flex items-center mb-2`}>
+                <label
+                    className={`text-foreground ${getLabelClass(inputSize)} flex items-center mb-2`}
+                >
                     {label}
                     {isRequired && renderRequiredAsterisk()}
                 </label>
             )}
 
             <div className="flex-1">
-                {error && <p className="text-red-400 mb-1 text-xs">{error}</p>}
+                {error && <p className="text-error mb-1 text-xs">{error}</p>}
 
                 <FormControl fullWidth>
                     <InputLabel
                         id={`${label}-select-label`}
                         sx={{
-                            color: "black",
-                            "&.Mui-focused": { color: "black" },
+                            color: "var(--text-muted)",
+                            "&.Mui-focused": { color: "var(--input-focus)" },
                             display: layout === "none" ? "block" : "none",
                             fontSize: getTextFontSize(inputSize),
                         }}
@@ -143,14 +137,51 @@ const MuiSelect = ({
                         sx={{
                             height: getInputHeight(inputSize),
                             fontSize: getTextFontSize(inputSize),
-                            color: normalizedValue === "" ? "#747B86" : "black",
-                            "& .MuiSelect-icon": { color: "#747B86" },
+                            color:
+                                normalizedValue === ""
+                                    ? "var(--input-placeholder)"
+                                    : "var(--input-text)",
+                            backgroundColor: "var(--card-bg)",
+                            "& .MuiSelect-icon": {
+                                color: "var(--text-muted)",
+                            },
+                            "& .MuiOutlinedInput-notchedOutline": {
+                                borderColor: "var(--input-border)",
+                            },
+                            "&:hover .MuiOutlinedInput-notchedOutline": {
+                                borderColor: "var(--input-focus)",
+                            },
                             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                borderColor: "rgb(24, 118, 209)",
+                                borderColor: "var(--input-focus)",
+                            },
+                            "&.Mui-disabled": {
+                                backgroundColor: "var(--muted-bg)",
+                                color: "var(--text-disabled)",
+                            },
+                            // dropdown paper
+                            "& .MuiPaper-root": {
+                                backgroundColor: "var(--card-bg)",
+                                color: "var(--foreground)",
+                            },
+                        }}
+                        MenuProps={{
+                            PaperProps: {
+                                sx: {
+                                    backgroundColor: "var(--card-bg)",
+                                    color: "var(--foreground)",
+                                    border: "1px solid var(--card-border)",
+                                },
                             },
                         }}
                     >
-                        <MenuItem value="" disabled sx={{ fontSize: getTextFontSize(inputSize), color: "#747B86" }}>
+                        <MenuItem
+                            value=""
+                            disabled
+                            sx={{
+                                fontSize: getTextFontSize(inputSize),
+                                color: "var(--input-placeholder)",
+                            }}
+                        >
                             <em>{placeholder}</em>
                         </MenuItem>
 
@@ -158,7 +189,19 @@ const MuiSelect = ({
                             <MenuItem
                                 key={option.value}
                                 value={option.value}
-                                sx={{ fontSize: getTextFontSize(inputSize), color: "black" }}
+                                sx={{
+                                    fontSize: getTextFontSize(inputSize),
+                                    color: "var(--foreground)",
+                                    "&:hover": {
+                                        backgroundColor: "var(--muted-bg)",
+                                    },
+                                    "&.Mui-selected": {
+                                        backgroundColor: "var(--muted-bg)",
+                                        "&:hover": {
+                                            backgroundColor: "var(--table-row-hover)",
+                                        },
+                                    },
+                                }}
                             >
                                 {option.label}
                             </MenuItem>
