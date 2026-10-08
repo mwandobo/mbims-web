@@ -3,7 +3,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
-import {TextField} from "@mui/material";
+import { TextField } from "@mui/material";
 
 interface Props {
     handleDateChange: (date: any, from: string) => void;
@@ -44,7 +44,6 @@ export default function MuiDate({
         }
     };
 
-    /** 🔹 Dynamic sizing functions */
     const getInputHeight = () => {
         switch (inputSize) {
             case "xs":
@@ -100,74 +99,89 @@ export default function MuiDate({
     };
 
     const renderRequiredAsterisk = () =>
-        isRequired ? (
-            <span style={{ color: "red", marginLeft: "4px" }}>*</span>
-        ) : null;
+        isRequired ? <span className="text-error ml-1">*</span> : null;
 
     const renderDatePicker = (passedLabel?: string) => (
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                    label={passedLabel}
-                    format="DD-MM-YYYY"
-                    disabled={isDisabled}
-                    value={parseDate(value)}
-                    onChange={onChange}
-                    minDate={parseDate(minDate)}
-                    maxDate={parseDate(maxDate)}
-                    defaultValue={parseDate(defaultValue)}
-                    enableAccessibleFieldDOMStructure={false} // ✅ FIX: allow using plain TextField
-                    slots={{
-                        textField: (params) => {
-                            // 🧹 Clean out unwanted props from params
-                            const { areAllSectionsEmpty, sectionListRef, ...safeParams } = params as any;
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+                label={passedLabel}
+                format="DD-MM-YYYY"
+                disabled={isDisabled}
+                value={parseDate(value)}
+                onChange={onChange}
+                minDate={parseDate(minDate)}
+                maxDate={parseDate(maxDate)}
+                defaultValue={parseDate(defaultValue)}
+                enableAccessibleFieldDOMStructure={false}
+                slots={{
+                    textField: (params) => {
+                        const { areAllSectionsEmpty, sectionListRef, ...safeParams } =
+                            params as any;
 
-                            return (
-                                <TextField
-                                    {...safeParams}
-                                    fullWidth
-                                    disabled={isDisabled}
-                                    InputProps={{
-                                        ...safeParams.InputProps,
-                                        sx: {
-                                            '& .MuiInputBase-input': {
-                                                fontSize: getFontSize(),
-                                                height: getInputHeight() - 16,
-                                                padding: '8px 10px',
-                                                color: 'black',
+                        return (
+                            <TextField
+                                {...safeParams}
+                                fullWidth
+                                disabled={isDisabled}
+                                InputProps={{
+                                    ...safeParams.InputProps,
+                                    sx: {
+                                        "& .MuiInputBase-input": {
+                                            fontSize: getFontSize(),
+                                            height: getInputHeight() - 16,
+                                            padding: "8px 10px",
+                                            color: "var(--input-text)",
+                                        },
+                                    },
+                                }}
+                                InputLabelProps={{
+                                    ...safeParams.InputLabelProps,
+                                    sx: {
+                                        fontSize: getLabelFontSize(),
+                                        color: "var(--text-muted)",
+                                        "&.Mui-focused": {
+                                            color: "var(--input-focus)",
+                                        },
+                                    },
+                                }}
+                                sx={{
+                                    "& .MuiOutlinedInput-root": {
+                                        height: getInputHeight(),
+                                        backgroundColor: "var(--card-bg)",
+                                        "& fieldset": {
+                                            borderColor: "var(--input-border)",
+                                        },
+                                        "&:hover fieldset": {
+                                            borderColor: "var(--input-focus)",
+                                        },
+                                        "&.Mui-focused fieldset": {
+                                            borderColor: "var(--input-focus)",
+                                        },
+                                        "&.Mui-disabled": {
+                                            backgroundColor: "var(--muted-bg)",
+                                            "& .MuiInputBase-input": {
+                                                color: "var(--text-disabled)",
+                                                WebkitTextFillColor: "var(--text-disabled)",
                                             },
                                         },
-                                    }}
-                                    InputLabelProps={{
-                                        ...safeParams.InputLabelProps,
-                                        sx: {
-                                            fontSize: getLabelFontSize(),
-                                            color: 'black',
-                                        },
-                                    }}
-                                    sx={{
-                                        '& .MuiOutlinedInput-root': {
-                                            height: getInputHeight(),
-                                            '& fieldset': { borderColor: '#d1d1d1' },
-                                            '&:hover fieldset': { borderColor: 'rgb(24, 118, 209)' },
-                                            '&.Mui-focused fieldset': { borderColor: 'rgb(24, 118, 209)' },
-                                        },
-                                        '& .MuiSvgIcon-root': {
-                                            fontSize:
-                                                inputSize === 'xs'
-                                                    ? 18
-                                                    : inputSize === 'sm'
-                                                        ? 20
-                                                        : 24,
-                                        },
-                                    }}
-                                />
-                            );
-                        },
-                    }}
-                />
-            </LocalizationProvider>
-        );
-
+                                    },
+                                    "& .MuiSvgIcon-root": {
+                                        color: "var(--text-muted)",
+                                        fontSize:
+                                            inputSize === "xs"
+                                                ? 18
+                                                : inputSize === "sm"
+                                                    ? 20
+                                                    : 24,
+                                    },
+                                }}
+                            />
+                        );
+                    },
+                }}
+            />
+        </LocalizationProvider>
+    );
 
     return (
         <div className="w-full">
@@ -175,7 +189,7 @@ export default function MuiDate({
                 <div className="flex w-full gap-2 items-center mb-3">
                     {label && (
                         <label
-                            className={`text-black text-sm md:min-w-[100px] min-w-[60px] max-w-[150px] text-right flex ${getLabelClass()}  items-center`}
+                            className={`text-foreground text-sm md:min-w-[100px] min-w-[60px] max-w-[150px] text-right flex ${getLabelClass()} items-center`}
                         >
                             {label}
                             {renderRequiredAsterisk()}
@@ -187,7 +201,7 @@ export default function MuiDate({
                 <div className="flex flex-col mb-3">
                     {label && (
                         <label
-                            className={`text-black mb-1 flex ${getLabelClass()}  items-center`}
+                            className={`text-foreground mb-1 flex ${getLabelClass()} items-center`}
                         >
                             {label}
                             {renderRequiredAsterisk()}
@@ -199,7 +213,9 @@ export default function MuiDate({
                 renderDatePicker(label)
             )}
 
-            {error && <p className="text-red-400 mt-1 text-xs ps-1">{error}</p>}
+            {error && (
+                <p className="text-error mt-1 text-xs ps-1">{error}</p>
+            )}
         </div>
     );
 }
