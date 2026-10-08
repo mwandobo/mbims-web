@@ -38,12 +38,14 @@ return border-bottom in header
 
 
 check use approval  done
-side view items 
-create items page
+side view items  done
+create items page done
 modal pop ups
 notification popup modals
 dashboard
-inputs
+inputs done
+role show
+assign page
 
 
 

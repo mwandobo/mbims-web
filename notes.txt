@@ -32,7 +32,8 @@ when creating a button with confirmation use the following util
  pm2 start node_modules/next/dist/bin/next --name "mbims-web" -- start
 
 
-              bg-white border-e border-gray-200
+to create a show page use a useHook
+    const { data, loading, refresh } = usePageShow(url);
 
 
 
