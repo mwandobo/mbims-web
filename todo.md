@@ -42,6 +42,8 @@ side view items
 create items page
 modal pop ups
 notification popup modals
+dashboard
+inputs
 
 
 

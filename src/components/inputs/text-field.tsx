@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
-import {getInputHeight, getLabelClass, getTextFontSize} from "@/utils/input-styler";
+import { getInputHeight, getLabelClass, getTextFontSize } from "@/utils/input-styler";
 
 interface TextFieldComponentProps {
     placeholder?: string;
@@ -29,12 +29,9 @@ const TextFieldComponent = ({
                                 layout = "none",
                                 inputSize = "md",
                             }: TextFieldComponentProps) => {
-    /** 🔹 Render red asterisk for required fields */
     const renderRequiredAsterisk = () => (
-        <span style={{ color: "red", marginLeft: "4px" }}>*</span>
+        <span className="text-error ml-1">*</span>
     );
-
-    console.log('value', value)
 
     return (
         <div
@@ -46,9 +43,10 @@ const TextFieldComponent = ({
                         : "mb-4"
             }
         >
-            {/* External label for row/column layouts */}
             {(layout === "row" || layout === "column") && label && (
-                <label className={`text-black ${getLabelClass(inputSize)} flex items-center mb-2`}>
+                <label
+                    className={`text-foreground ${getLabelClass(inputSize)} flex items-center mb-2`}
+                >
                     {label}
                     {isRequired && renderRequiredAsterisk()}
                 </label>
@@ -56,7 +54,7 @@ const TextFieldComponent = ({
 
             <div className="flex-1">
                 {errorMessage && (
-                    <p className="text-red-400 mb-1 text-xs">{errorMessage}</p>
+                    <p className="text-error mb-1 text-xs">{errorMessage}</p>
                 )}
 
                 <TextField
@@ -64,29 +62,46 @@ const TextFieldComponent = ({
                     sx={{
                         width: "100%",
                         "& .MuiInputLabel-root": {
-                            color: "black",
+                            color: "var(--text-muted)",
                             "&.Mui-focused": {
-                                color: "black",
+                                color: "var(--input-focus)",
                             },
                         },
                         "& .MuiOutlinedInput-root": {
-                            height: getInputHeight(inputSize), // 👈 dynamically controlled height
-                            // "& input": {
-                            //     padding: "4px 6px", // keep consistent padding
-                            // },
+                            height: getInputHeight(inputSize),
+                            color: "var(--input-text)",
+                            backgroundColor: "var(--card-bg)",
 
                             "& input": {
                                 padding: "8px 10px",
-                                fontSize: getTextFontSize(inputSize), // 👈 dynamic font size here
+                                fontSize: getTextFontSize(inputSize),
+                                color: "var(--input-text)",
+                                "&::placeholder": {
+                                    color: "var(--input-placeholder)",
+                                    opacity: 1,
+                                },
                             },
 
+                            "& .MuiOutlinedInput-notchedOutline": {
+                                borderColor: "var(--input-border)",
+                            },
+                            "&:hover .MuiOutlinedInput-notchedOutline": {
+                                borderColor: "var(--input-focus)",
+                            },
                             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                borderColor: "rgb(24, 118, 209)",
+                                borderColor: "var(--input-focus)",
+                            },
+                            "&.Mui-disabled": {
+                                backgroundColor: "var(--muted-bg)",
+                                "& input": {
+                                    color: "var(--text-disabled)",
+                                    WebkitTextFillColor: "var(--text-disabled)",
+                                },
                             },
                         },
                         ...(isRequired && {
                             "& .MuiInputLabel-asterisk": {
-                                color: "red",
+                                color: "var(--error)",
                             },
                         }),
                     }}
@@ -97,6 +112,7 @@ const TextFieldComponent = ({
                     type={type}
                     fullWidth
                     required={isRequired}
+                    error={Boolean(errorMessage)}
                 />
             </div>
         </div>

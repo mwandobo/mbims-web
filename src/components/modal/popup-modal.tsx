@@ -39,12 +39,35 @@ const PopupModal = ({
             <div className="absolute inset-0 bg-black opacity-50"></div>
 
             <div className={`relative ${sizeWidth()} max-h-full py-4 px-4 md:px-6 overflow-y-auto`}>
-                <div className="bg-white relative w-full rounded-lg shadow">
+                <div className="bg-card-bg relative w-full rounded-lg shadow">
                     {!isDisabled && (
+                        // <button
+                        //     type="button"
+                        //     onClick={onClose}
+                        //     className="absolute top-3 right-3 text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 flex items-center justify-center"
+                        // >
+                        //     <svg
+                        //         className="w-3 h-3"
+                        //         aria-hidden="true"
+                        //         xmlns="http://www.w3.org/2000/svg"
+                        //         fill="none"
+                        //         viewBox="0 0 14 14"
+                        //     >
+                        //         <path
+                        //             stroke="currentColor"
+                        //             strokeLinecap="round"
+                        //             strokeLinejoin="round"
+                        //             strokeWidth="2"
+                        //             d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                        //         />
+                        //     </svg>
+                        //     <span className="sr-only">Close modal</span>
+                        // </button>
+
                         <button
                             type="button"
                             onClick={onClose}
-                            className="absolute top-3 right-3 text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 flex items-center justify-center"
+                            className="absolute top-3 right-3 text-muted hover:bg-muted-bg hover:text-foreground rounded-lg text-sm w-8 h-8 flex items-center justify-center"
                         >
                             <svg
                                 className="w-3 h-3"
@@ -66,7 +89,7 @@ const PopupModal = ({
                     )}
 
                     <div className="p-6">
-                        <h3 className="text-2xl font-bold text-gray-700 mb-12 w-full flex justify-center">{title}</h3>
+                        <h3 className="text-2xl font-bold  mb-12 w-full flex justify-center">{title}</h3>
                         {children}
                     </div>
                 </div>
