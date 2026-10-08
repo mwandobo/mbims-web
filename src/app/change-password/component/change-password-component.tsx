@@ -126,7 +126,8 @@ export default function ChangePasswordComponent({ userId }: { userId: string }) 
                 <div className="w-full flex justify-center mt-4 mb-6">
                     <button
                         onClick={handleSubmit}
-                        className="flex w-full border justify-center border-blue-800 p-2 rounded-2xl shadow-lg items-center bg-[#0c55d7] hover:bg-[#0a4bc2] text-white gap-3"
+                        className="flex w-full border justify-center border-button-border p-2 rounded-2xl shadow-lg items-center
+                        bg-button-bg hover:bg-button-hover-bg text-button-text gap-3"
                     >
                         Change Password <CheckCircle2 size={18} />
                     </button>

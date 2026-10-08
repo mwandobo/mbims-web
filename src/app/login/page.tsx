@@ -139,15 +139,20 @@ export default function LoginPage() {
                     errorMessage={''}
                     layout={'column'}
                 />
-                <div className="flex flex-col items-end gap-2 mb-6 text-black">
-                    <button className="text-xs hover:underline py-2" onClick={handleForgotPassword}>
+                <div className="flex flex-col items-end gap-2 mb-6 text-foreground">
+                    <button
+                        className="text-xs text-muted hover:text-primary hover:underline py-2"
+                        onClick={handleForgotPassword}
+                    >
                         Forgot Password?
                     </button>
                     <div className="w-full flex justify-center">
                         <button
                             onClick={handleSubmit}
-                            className="flex w-full border justify-center border-blue-800 p-2 rounded-2xl shadow-lg items-center bg-[#0c55d7] hover:bg-[#0a4bc2] text-white gap-3">
-                            Login <LogIn/>
+                            className="flex w-full border justify-center border-button-border p-2 rounded-2xl shadow-lg items-center
+                 bg-button-bg hover:bg-button-hover-bg text-button-text gap-3"
+                        >
+                            Login <LogIn />
                         </button>
                     </div>
                 </div>
