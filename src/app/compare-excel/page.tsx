@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import ProtectedRoute from '@/components/authentication/protected-route'
-import PageHeader from '@/components/header/page-header'
+import ProtectedRoute from "@/components/authentication/protected-route";
 import { baseURL } from "@/utils/api-calls.util";
 import { getValueFromLocalStorage } from "@/utils/local-storage.util";
 import { ButtonComponent } from "@/components/button/button.component";
@@ -13,13 +12,15 @@ interface ExcelCompareProps {
 }
 
 function ExcelCompare({ onComparisonComplete }: ExcelCompareProps) {
-    const permission = 'compare_excel'
+    const permission = "compare_excel";
     const [file1, setFile1] = useState<File | null>(null);
     const [file2, setFile2] = useState<File | null>(null);
     const [result, setResult] = useState<any>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [activeTab, setActiveTab] = useState<'summary' | 'matches' | 'missing1' | 'missing2'>('summary');
+    const [activeTab, setActiveTab] = useState<
+        "summary" | "matches" | "missing1" | "missing2"
+    >("summary");
 
     const handleCompare = async () => {
         if (!file1 || !file2) {
@@ -31,10 +32,12 @@ function ExcelCompare({ onComparisonComplete }: ExcelCompareProps) {
         setError(null);
 
         try {
-            const token = getValueFromLocalStorage('token');
+            const token = getValueFromLocalStorage("token");
 
             if (!token) {
-                throw new Error("Authentication token not found. Please login again.");
+                throw new Error(
+                    "Authentication token not found. Please login again."
+                );
             }
 
             const formData = new FormData();
@@ -45,8 +48,8 @@ function ExcelCompare({ onComparisonComplete }: ExcelCompareProps) {
                 method: "POST",
                 body: formData,
                 headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+                    Authorization: `Bearer ${token}`,
+                },
             });
 
             if (!response.ok) {
@@ -55,7 +58,7 @@ function ExcelCompare({ onComparisonComplete }: ExcelCompareProps) {
 
             const resultData = await response.json();
             setResult(resultData);
-            setActiveTab('summary');
+            setActiveTab("summary");
             onComparisonComplete?.(resultData);
         } catch (err: any) {
             setError(err.message || "Failed to compare files");
@@ -65,7 +68,6 @@ function ExcelCompare({ onComparisonComplete }: ExcelCompareProps) {
         }
     };
 
-    // Custom File Input Component - CORRECTED VERSION
     const FileInput = ({
                            label,
                            file,
@@ -78,13 +80,8 @@ function ExcelCompare({ onComparisonComplete }: ExcelCompareProps) {
         const fileInputRef = useRef<HTMLInputElement>(null);
         const [fileName, setFileName] = useState<string>("");
 
-        // Sync with parent file state
         useEffect(() => {
-            if (file) {
-                setFileName(file.name);
-            } else {
-                setFileName("");
-            }
+            setFileName(file ? file.name : "");
         }, [file]);
 
         const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,7 +95,7 @@ function ExcelCompare({ onComparisonComplete }: ExcelCompareProps) {
 
         return (
             <div className="space-y-3">
-                <label className="block text-sm font-semibold text-gray-700">
+                <label className="block text-sm font-semibold text-foreground">
                     {label}:
                 </label>
 
@@ -113,20 +110,20 @@ function ExcelCompare({ onComparisonComplete }: ExcelCompareProps) {
 
                     <div
                         onClick={handleClick}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700
-                                 hover:bg-gray-50 transition-colors cursor-pointer flex items-center justify-between"
+                        className="w-full px-4 py-3 border border-input-border rounded-lg bg-card-bg text-foreground
+                       hover:bg-muted-bg transition-colors cursor-pointer flex items-center justify-between"
                     >
                         <div className="flex items-center">
-                            <Upload size={18} className="mr-3 text-gray-500" />
+                            <Upload size={18} className="mr-3 text-muted" />
                             <span className="text-sm">
-                                {fileName || `Choose ${label.toLowerCase()}...`}
-                            </span>
+                {fileName || `Choose ${label.toLowerCase()}...`}
+              </span>
                         </div>
 
                         {file && (
-                            <span className="text-sm text-green-600 font-medium">
-                                ✓ Selected
-                            </span>
+                            <span className="text-sm text-success font-medium">
+                ✓ Selected
+              </span>
                         )}
                     </div>
                 </div>
@@ -134,13 +131,12 @@ function ExcelCompare({ onComparisonComplete }: ExcelCompareProps) {
         );
     };
 
-    // Result Card Component
     const ResultCard = ({
                             count,
                             title,
                             description,
                             borderColor,
-                            textColor
+                            textColor,
                         }: {
         count: number;
         title: string;
@@ -148,23 +144,22 @@ function ExcelCompare({ onComparisonComplete }: ExcelCompareProps) {
         borderColor: string;
         textColor: string;
     }) => (
-        <div className={`bg-white rounded-lg shadow-md p-6 text-center border-l-4 ${borderColor}`}>
-            <div className={`text-3xl font-bold ${textColor} mb-2`}>
-                {count}
-            </div>
-            <div className="text-gray-700 font-semibold">{title}</div>
-            <div className="text-sm text-gray-500 mt-2">{description}</div>
+        <div
+            className={`bg-card-bg rounded-lg shadow-md p-6 text-center border-l-4 ${borderColor}`}
+        >
+            <div className={`text-3xl font-bold ${textColor} mb-2`}>{count}</div>
+            <div className="text-foreground font-semibold">{title}</div>
+            <div className="text-sm text-muted mt-2">{description}</div>
         </div>
     );
 
-    // Data Grid Component
     const DataGrid = ({
                           items,
                           title,
                           count,
                           bgColor,
                           borderColor,
-                          textColor
+                          textColor,
                       }: {
         items: string[];
         title: string;
@@ -173,14 +168,17 @@ function ExcelCompare({ onComparisonComplete }: ExcelCompareProps) {
         borderColor: string;
         textColor: string;
     }) => (
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-card-bg rounded-lg shadow-md p-6 border border-card-border">
             <h3 className={`text-lg font-semibold mb-4 ${textColor}`}>
                 {title} ({count})
             </h3>
             <div className="max-h-96 overflow-y-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                     {items.map((item: string, index: number) => (
-                        <div key={index} className={`${bgColor} p-3 rounded border ${borderColor}`}>
+                        <div
+                            key={index}
+                            className={`${bgColor} p-3 rounded border ${borderColor}`}
+                        >
                             <span className={`${textColor} font-mono text-sm`}>{item}</span>
                         </div>
                     ))}
@@ -189,94 +187,100 @@ function ExcelCompare({ onComparisonComplete }: ExcelCompareProps) {
         </div>
     );
 
+    const tabClass = (active: boolean, activeTone: string) =>
+        `py-2 px-4 border-b-2 font-medium text-sm ${
+            active
+                ? activeTone
+                : "border-transparent text-muted hover:text-foreground hover:border-card-border"
+        }`;
+
     const renderTabContent = () => {
         if (!result) return null;
 
-        const missing1 = result.missing[file1?.name || ''] || [];
-        const missing2 = result.missing[file2?.name || ''] || [];
+        const missing1 = result.missing[file1?.name || ""] || [];
+        const missing2 = result.missing[file2?.name || ""] || [];
 
         switch (activeTab) {
-            case 'summary':
+            case "summary":
                 return (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-gray-700">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-foreground">
                         <ResultCard
                             count={result.matches.length}
                             title="Matching Records"
                             description="Values present in both files"
-                            borderColor="border-green-500"
-                            textColor="text-green-600"
+                            borderColor="border-success"
+                            textColor="text-success"
                         />
                         <ResultCard
                             count={missing1.length}
                             title={`Missing in ${file1?.name}`}
                             description="Values only in first file"
-                            borderColor="border-red-500"
-                            textColor="text-red-600"
+                            borderColor="border-error"
+                            textColor="text-error"
                         />
                         <ResultCard
                             count={missing2.length}
                             title={`Missing in ${file2?.name}`}
                             description="Values only in second file"
-                            borderColor="border-red-500"
-                            textColor="text-red-600"
+                            borderColor="border-error"
+                            textColor="text-error"
                         />
                     </div>
                 );
 
-            case 'matches':
+            case "matches":
                 return (
                     <DataGrid
                         items={result.matches}
                         title="Matching Records"
                         count={result.matches.length}
-                        bgColor="bg-green-50"
-                        borderColor="border-green-200"
-                        textColor="text-green-700"
+                        bgColor="bg-success/10"
+                        borderColor="border-success/30"
+                        textColor="text-success"
                     />
                 );
 
-            case 'missing1':
+            case "missing1":
                 return (
                     <DataGrid
                         items={missing1}
                         title={`Missing in ${file1?.name}`}
                         count={missing1.length}
-                        bgColor="bg-red-50"
-                        borderColor="border-red-200"
-                        textColor="text-red-700"
+                        bgColor="bg-error/10"
+                        borderColor="border-error/30"
+                        textColor="text-error"
                     />
                 );
 
-            case 'missing2':
+            case "missing2":
                 return (
                     <DataGrid
                         items={missing2}
                         title={`Missing in ${file2?.name}`}
                         count={missing2.length}
-                        bgColor="bg-red-50"
-                        borderColor="border-red-200"
-                        textColor="text-red-700"
+                        bgColor="bg-error/10"
+                        borderColor="border-error/30"
+                        textColor="text-error"
                     />
                 );
         }
     };
 
     return (
-        <ProtectedRoute
-            permission={`${permission}_read`}
-            isLoading={loading}
-        >
-            <div className="px-6 space-y-6 text-gray-700">
-                {/* Header */}
+        <ProtectedRoute permission={`${permission}_read`} isLoading={loading}>
+            <div className="px-6 space-y-6 text-foreground">
                 <div className="text-center">
-                    <h1 className="text-3xl font-bold text-gray-800 mb-2">Reconciliation By Comparing Two Files</h1>
-                    <p className="text-gray-600">Compare two Excel files and identify matching and missing records</p>
+                    <h1 className="text-3xl font-bold text-foreground mb-2">
+                        Reconciliation By Comparing Two Files
+                    </h1>
+                    <p className="text-muted">
+                        Compare two Excel files and identify matching and missing records
+                    </p>
                 </div>
 
-                {/* File Upload Section */}
-                <div className="bg-white rounded-xl shadow-md p-6">
+                <div className="bg-card-bg rounded-xl shadow-md p-6 border border-card-border">
                     {error && (
-                        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+                        <div className="mb-6 p-4 bg-error/10 border border-error/30 rounded-lg text-error">
                             <strong>Error:</strong> {error}
                         </div>
                     )}
@@ -296,68 +300,65 @@ function ExcelCompare({ onComparisonComplete }: ExcelCompareProps) {
 
                     <div className="text-center">
                         <ButtonComponent
-                            name='Compare Files'
+                            name="Compare Files"
                             onClick={handleCompare}
-                            rounded='md'
-                            padding='px-6 py-3'
+                            rounded="md"
+                            padding="px-6 py-3"
                         >
                             <CircleEqual size={18} className="mr-2" />
                         </ButtonComponent>
                     </div>
                 </div>
 
-                {/* Results Section */}
                 {result && (
-                    <div className="bg-white rounded-xl shadow-md p-6">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-6">Comparison Results</h2>
+                    <div className="bg-card-bg rounded-xl shadow-md p-6 border border-card-border">
+                        <h2 className="text-2xl font-bold text-foreground mb-6">
+                            Comparison Results
+                        </h2>
 
-                        {/* Tabs */}
-                        <div className="border-b border-gray-200 mb-6">
+                        <div className="border-b border-card-border mb-6">
                             <nav className="-mb-px flex space-x-8">
                                 <button
-                                    onClick={() => setActiveTab('summary')}
-                                    className={`py-2 px-4 border-b-2 font-medium text-sm ${
-                                        activeTab === 'summary'
-                                            ? 'border-blue-500 text-blue-600'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                                    }`}
+                                    onClick={() => setActiveTab("summary")}
+                                    className={tabClass(
+                                        activeTab === "summary",
+                                        "border-primary text-primary"
+                                    )}
                                 >
                                     Summary
                                 </button>
                                 <button
-                                    onClick={() => setActiveTab('matches')}
-                                    className={`py-2 px-4 border-b-2 font-medium text-sm ${
-                                        activeTab === 'matches'
-                                            ? 'border-green-500 text-green-600'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                                    }`}
+                                    onClick={() => setActiveTab("matches")}
+                                    className={tabClass(
+                                        activeTab === "matches",
+                                        "border-success text-success"
+                                    )}
                                 >
                                     Matches ({result.matches.length})
                                 </button>
                                 <button
-                                    onClick={() => setActiveTab('missing1')}
-                                    className={`py-2 px-4 border-b-2 font-medium text-sm ${
-                                        activeTab === 'missing1'
-                                            ? 'border-red-500 text-red-600'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                                    }`}
+                                    onClick={() => setActiveTab("missing1")}
+                                    className={tabClass(
+                                        activeTab === "missing1",
+                                        "border-error text-error"
+                                    )}
                                 >
-                                    Missing in {file1?.name} ({result.missing[file1?.name || '']?.length || 0})
+                                    Missing in {file1?.name} (
+                                    {result.missing[file1?.name || ""]?.length || 0})
                                 </button>
                                 <button
-                                    onClick={() => setActiveTab('missing2')}
-                                    className={`py-2 px-4 border-b-2 font-medium text-sm ${
-                                        activeTab === 'missing2'
-                                            ? 'border-red-500 text-red-600'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                                    }`}
+                                    onClick={() => setActiveTab("missing2")}
+                                    className={tabClass(
+                                        activeTab === "missing2",
+                                        "border-error text-error"
+                                    )}
                                 >
-                                    Missing in {file2?.name} ({result.missing[file2?.name || '']?.length || 0})
+                                    Missing in {file2?.name} (
+                                    {result.missing[file2?.name || ""]?.length || 0})
                                 </button>
                             </nav>
                         </div>
 
-                        {/* Tab Content */}
                         {renderTabContent()}
                     </div>
                 )}

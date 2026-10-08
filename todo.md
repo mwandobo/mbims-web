@@ -40,12 +40,16 @@ return border-bottom in header
 check use approval  done
 side view items  done
 create items page done
-modal pop ups
 notification popup modals
-dashboard
 inputs done
-role show
-assign page
+role show done
+assign page done
+recon done
+auth pages
+dashboard
+modal pop ups confirmation and Toast 
+
+
 
 
 
