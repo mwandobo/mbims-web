@@ -1,8 +1,8 @@
 import { toast, ToastPosition } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 interface Props {
-    type?: 'error' | 'success' | 'info' | 'warning';
+    type?: "error" | "success" | "info" | "warning";
     position?: ToastPosition;
     text: string;
     duration?: number;
@@ -12,9 +12,8 @@ const ToastComponent = ({
                             text,
                             position = "top-center",
                             duration = 5000,
-                            type = 'success'
+                            type = "success",
                         }: Props) => {
-
     const commonOptions = {
         position,
         autoClose: duration,
@@ -23,16 +22,29 @@ const ToastComponent = ({
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
+        theme: "colored" as const,
+        style: {
+            background:
+                type === "error"
+                    ? "var(--error)"
+                    : type === "warning"
+                        ? "var(--warning)"
+                        : type === "info"
+                            ? "var(--info)"
+                            : "var(--success)",
+            color: "var(--text-inverse)",
+            borderRadius: "8px",
+        },
     };
 
     switch (type) {
-        case 'error':
+        case "error":
             toast.error(text, commonOptions);
             break;
-        case 'info':
+        case "info":
             toast.info(text, commonOptions);
             break;
-        case 'warning':
+        case "warning":
             toast.warning(text, commonOptions);
             break;
         default:
