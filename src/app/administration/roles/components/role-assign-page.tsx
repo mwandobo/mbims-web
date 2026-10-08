@@ -50,111 +50,6 @@ export default function RolesAssignPage({roleAssignId}: { roleAssignId: string }
     const [checkAll, setCheckAll] = useState(false);
     const [groups, setGroups] = useState<any[]>([]);
 
-    // const handleCheck = (event: any, from?: string) => {
-    //     const value = event?.target?.value;
-    //     let updatedGrops: any[] = [];
-    //
-    //     if (from === 'all') {
-    //         setCheckAll(!checkAll)
-    //
-    //         updatedGrops = groups.map((group: any) => {
-    //             let updatedPerms = group.permissions.map((perm: any) => {
-    //                 return {...perm, checked: !checkAll}
-    //             });
-    //             return {...group, checked: !checkAll, permissions: updatedPerms}
-    //         });
-    //     } else {
-    //         let array_strin: any | undefined[] = from?.split('_');
-    //         const groupName = array_strin[0]
-    //         const groupId = array_strin[1]
-    //
-    //         if (groupName === 'group') {
-    //             updatedGrops = groups.map((group: any) => {
-    //                 if (group.name === groupId) {
-    //                     let updatedPerms = group.permissions.map((perm: any) => {
-    //                         return {...perm, checked: !group.checked}
-    //                     });
-    //                     return {...group, checked: !group.checked, permissions: updatedPerms}
-    //                 }
-    //                 return group
-    //             });
-    //             const checkA = updatedGrops.every((per: any) => per.checked === true)
-    //             setCheckAll(checkA)
-    //         }
-    //
-    //         if (groupName === 'perm') {
-    //             updatedGrops = groups.map((group: any) => {
-    //                 let updatedPerms = group.permissions.map((perm: any) => {
-    //                     if (perm.id === groupId) {
-    //                         return {...perm, checked: !perm.checked}
-    //                     }
-    //                     return perm;
-    //                 });
-    //
-    //                 const checkg = updatedPerms.every((per: any) => per.checked === true)
-    //                 return {...group, checked: checkg, permissions: updatedPerms}
-    //             });
-    //         }
-    //     }
-    //
-    //     setGroups(updatedGrops)
-    // }
-
-
-    // const handleCheck = (event: any, from?: string) => {
-    //     if (!from) return;
-    //
-    //     let updatedGroups: any[] = [];
-    //
-    //     if (from === 'all') {
-    //         setCheckAll(!checkAll);
-    //
-    //         updatedGroups = groups.map((group: any) => {
-    //             const updatedPerms = group.permissions.map((perm: any) => ({
-    //                 ...perm,
-    //                 checked: !checkAll,
-    //             }));
-    //             return { ...group, checked: !checkAll, permissions: updatedPerms };
-    //         });
-    //     } else {
-    //         // Take only the first "_" as separator
-    //         const separatorIndex = from.indexOf('_');
-    //         const type = from.substring(0, separatorIndex);      // "group" | "perm"
-    //         const id = from.substring(separatorIndex + 1);       // full name or permission id
-    //
-    //         if (type === 'group') {
-    //             updatedGroups = groups.map((group: any) => {
-    //                 if (group.name === id) {
-    //                     const updatedPerms = group.permissions.map((perm: any) => ({
-    //                         ...perm,
-    //                         checked: !group.checked,
-    //                     }));
-    //                     return { ...group, checked: !group.checked, permissions: updatedPerms };
-    //                 }
-    //                 return group;
-    //             });
-    //             setCheckAll(updatedGroups.every((g: any) => g.checked));
-    //         }
-    //
-    //         if (type === 'perm') {
-    //             updatedGroups = groups.map((group: any) => {
-    //                 const updatedPerms = group.permissions.map((perm: any) => {
-    //                     if (String(perm.id) === String(id)) {
-    //                         return { ...perm, checked: !perm.checked };
-    //                     }
-    //                     return perm;
-    //                 });
-    //                 const allChecked = updatedPerms.every((p: any) => p.checked);
-    //                 return { ...group, checked: allChecked, permissions: updatedPerms };
-    //             });
-    //             setCheckAll(updatedGroups.every((g: any) => g.checked));
-    //         }
-    //     }
-    //
-    //     setGroups(updatedGroups);
-    // };
-
-
     const handleCheck = (event: any, from?: string) => {
         if (!from) return;
 
@@ -286,70 +181,64 @@ export default function RolesAssignPage({roleAssignId}: { roleAssignId: string }
                                     titleB={` ${data?.roleName} `}
                                 />
                             </div>
-                            <hr className="bg-gray-100"/>
+                            <hr className="border-card-border" />
 
                             <div className="mt-3 px-3">
-                                <div className="border border-solid border-gray-200 p-4 tetx-xs">
-                                    <>
-                                        <h4 className="text-sm font-semibold">Permissions</h4>
-                                        <div
-                                            className={'flex w-full mb-2 border border-gray-300 shadow-md rounded-sm  p-2'}
-                                        >
-                                            <MuiCheckbox
-                                                handleChange={handleCheck}
-                                                label="All Permissions"
-                                                from='all'
-                                                checked={checkAll}
-                                            />
-                                        </div>
-                                        <div className={'grid grid-cols-2 gap-2'}>
-                                            {
-                                                groups && groups.map((group, index) => (
-                                                    <div
-                                                        key={group.id}
-                                                        className={'flex w-full border border-gray-300 shadow-md rounded-sm bg-gray-50 p-2'}
-                                                        // sx={{
-                                                        //     marginBottom: '20px',
-                                                        //     paddingLeft: '20px'
-                                                        // }}
-                                                    >
-                                                        <div className={'w-1/4'}>
-                                                            <MuiCheckbox
-                                                                handleChange={handleCheck}
-                                                                label={group.name}
-                                                                from={`group::${group.name}`}
-                                                                checked={group.checked}
-                                                            />
-                                                        </div>
+                                <div className="border border-solid border-card-border p-4 text-xs">
+                                    <h4 className="text-sm font-semibold text-foreground">Permissions</h4>
 
-                                                        <hr/>
-                                                        <div className="flex flex-col item-start ps-20 w-3/4">
-                                                            {group.permissions && group.permissions.map((permission: any) => (
-                                                                <MuiCheckbox
-                                                                    key={permission.id}
-                                                                    handleChange={handleCheck}
-                                                                    label={permission.name}
-                                                                    from={`perm::${permission.id}`}
-                                                                    checked={permission.checked}
-                                                                />
-                                                            ))}
-                                                        </div>
+                                    <div className="flex w-full mb-2 border border-card-border shadow-md rounded-sm p-2 bg-card-bg">
+                                        <MuiCheckbox
+                                            handleChange={handleCheck}
+                                            label="All Permissions"
+                                            from="all"
+                                            checked={checkAll}
+                                        />
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-2">
+                                        {groups &&
+                                            groups.map((group) => (
+                                                <div
+                                                    key={group.name}
+                                                    className="flex w-full border border-card-border shadow-md rounded-sm bg-muted-bg p-2"
+                                                >
+                                                    <div className="w-1/4">
+                                                        <MuiCheckbox
+                                                            handleChange={handleCheck}
+                                                            label={group.name}
+                                                            from={`group::${group.name}`}
+                                                            checked={group.checked}
+                                                        />
                                                     </div>
-                                                ))
-                                            }
 
-                                        </div>
+                                                    <hr className="border-card-border" />
 
-                                        <div className="flex justify-end mt-2">
-                                            <ButtonComponent name={'save'}
-                                                             onClick={handleSave}
-                                                             rounded={'md'}
-                                                             padding={'p-3'}
-                                            >
-                                                <CheckCircle2/>
-                                            </ButtonComponent>
-                                        </div>
-                                    </>
+                                                    <div className="flex flex-col items-start ps-20 w-3/4">
+                                                        {group.permissions?.map((permission: any) => (
+                                                            <MuiCheckbox
+                                                                key={permission.id}
+                                                                handleChange={handleCheck}
+                                                                label={permission.name}
+                                                                from={`perm::${permission.id}`}
+                                                                checked={permission.checked}
+                                                            />
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                    </div>
+
+                                    <div className="flex justify-end mt-2">
+                                        <ButtonComponent
+                                            name="save"
+                                            onClick={handleSave}
+                                            rounded="md"
+                                            padding="p-3"
+                                        >
+                                            <CheckCircle2 />
+                                        </ButtonComponent>
+                                    </div>
                                 </div>
                             </div>
                         </MuiCardComponent>
