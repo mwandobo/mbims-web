@@ -31,7 +31,7 @@ import {
     BookKey,
     ShieldEllipsis,
     CalendarDays, Calendar, Proportions, BookOpenCheck, ArrowLeftRight, Terminal,
-    Scale, LandPlot, Menu, X, Maximize2, ArrowLeftFromLine
+    Scale, LandPlot, Menu, X, Maximize2, ArrowLeftFromLine,BanknoteArrowUp
 } from 'lucide-react'
 import React from 'react'
 import SidebarItem from './item'
@@ -203,6 +203,13 @@ const items: ISidebarItem[] = [
         permission: 'customer_read',
         icon: Users 
     },
+    {
+        name: 'Deposits',
+        path: '/deposit',
+        icon: BanknoteArrowUp,
+        permission: 'deposits_read',
+    },
+
           {
         name: 'Transactions',
         path: '/transaction',

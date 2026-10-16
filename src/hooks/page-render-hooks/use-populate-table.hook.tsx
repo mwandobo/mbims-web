@@ -162,6 +162,13 @@ export const usePopulateTableHook = ({
                         }
                     }
 
+                    if (obj.amount ) {
+                        obj = {
+                            ...obj,
+                            amount: <FormattedMoney amount={obj.amount} isHideCurrency={true}/>
+                        }
+                    }
+
                     const hideButton = () => {
                         return !(!obj?.status || obj?.status === 'pending');
                     };

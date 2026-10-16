@@ -30,7 +30,7 @@ interface EnhancedTableProps {
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-    const { onRequestSort, columns, sortBy, sortDirection } = props;
+    const {onRequestSort, columns, sortBy, sortDirection} = props;
 
     const createSortHandler =
         (property: number) => (event: React.MouseEvent<unknown>) => {
@@ -56,7 +56,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                         padding={headCell.disablePadding ? "none" : "normal"}
                         sortDirection={sortBy === headCell.id ? sortDirection : false}
                         className="!text-foreground !font-bold !border-l !border-card-border"
-                        style={{ width: headCell.width }}
+                        style={{width: headCell.width}}
                     >
                         <TableSortLabel
                             active={sortBy === headCell.id}
@@ -67,7 +67,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                             className="!text-table-header-text"
                             sx={{
                                 color: "inherit",
-                                "&.Mui-active": { color: "inherit" },
+                                "&.Mui-active": {color: "inherit"},
                                 "& .MuiTableSortLabel-icon": {
                                     color: "inherit !important",
                                 },
@@ -88,6 +88,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         </TableHead>
     );
 }
+
 interface Props {
     columns: any[];
     data: any[][];
@@ -222,7 +223,7 @@ export default function MuiTableComponent({
                         rounded="md"
                         padding="p-3"
                     >
-                        <Search size={13} />
+                        <Search size={13}/>
                     </ButtonComponent>
                 </form>
 
@@ -247,52 +248,6 @@ export default function MuiTableComponent({
                         <TableBody>
                             {visibleRows.length > 0 ? (
                                 visibleRows.map((row, index) => (
-                                    // <TableRow
-                                    //     hover
-                                    //     role="checkbox"
-                                    //     aria-checked={isSelected(index)}
-                                    //     tabIndex={-1}
-                                    //     key={index}
-                                    //     selected={isSelected(index)}
-                                    //     className="bg-table-row-bg text-table-row-text"
-                                    //     sx={{
-                                    //         backgroundColor: "var(--table-row-bg) !important",
-                                    //         color: "var(--table-row-text)",
-                                    //         "&:hover": {
-                                    //             backgroundColor: "var(--table-row-hover) !important",
-                                    //         },
-                                    //         "&.Mui-selected": {
-                                    //             backgroundColor: "var(--table-row-hover) !important",
-                                    //         },
-                                    //         "&.Mui-selected:hover": {
-                                    //             backgroundColor: "var(--table-row-hover) !important",
-                                    //         },
-                                    //     }}
-                                    // >
-                                    //     <TableCell
-                                    //         component="th"
-                                    //         id={`enhanced-table-checkbox-${index}`}
-                                    //         scope="row"
-                                    //         // sx={{ marginRight: "1px solid black" }}
-                                    //         className="!text-table-row-text !border-table-row-border !text-xs"
-                                    //     >
-                                    //         {(page - 1) * rowsPerPage + index + 1}
-                                    //     </TableCell>
-                                    //     {row.map((cell, cellIndex) => (
-                                    //         <TableCell
-                                    //             key={cellIndex}
-                                    //             padding="normal"
-                                    //             className="!text-table-row-text !border-l !border-table-row-border !text-xs"
-                                    //             style={{
-                                    //                 borderLeft: '1px solid #d1d1d1',
-                                    //                 fontSize: "12px"
-                                    //             }}
-                                    //         >
-                                    //             {cell}
-                                    //         </TableCell>
-                                    //     ))}
-                                    // </TableRow>
-
                                     <TableRow
                                         role="checkbox"
                                         aria-checked={isSelected(index)}
@@ -378,45 +333,44 @@ export default function MuiTableComponent({
                         </TableBody>
                     </Table>
                 </TableContainer>
-                {from !== "monitoring" && (
-                    <TablePagination
-                        rowsPerPageOptions={[5, 10, 25]}
-                        component="div"
-                        count={totalRecords ?? data.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page - 1}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                        sx={{
+
+                <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    component="div"
+                    count={totalRecords ?? data.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page - 1}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    sx={{
+                        color: "var(--table-row-text)",
+                        backgroundColor: "var(--table-row-bg)",
+                        borderTop: "1px solid var(--table-row-border)",
+
+                        ".MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows": {
                             color: "var(--table-row-text)",
-                            backgroundColor: "var(--table-row-bg)",
-                            borderTop: "1px solid var(--table-row-border)",
+                        },
 
-                            ".MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows": {
-                                color: "var(--table-row-text)",
-                            },
+                        ".MuiTablePagination-select": {
+                            color: "var(--table-row-text)",
+                        },
 
-                            ".MuiTablePagination-select": {
-                                color: "var(--table-row-text)",
+                        ".MuiIconButton-root": {
+                            color: "var(--table-row-text)",
+                            "&.Mui-disabled": {
+                                color: "var(--muted)",
                             },
+                        },
 
-                            ".MuiIconButton-root": {
-                                color: "var(--table-row-text)",
-                                "&.Mui-disabled": {
-                                    color: "var(--muted)",
-                                },
-                            },
+                        ".MuiSvgIcon-root": {
+                            color: "inherit",
+                        },
 
-                            ".MuiSvgIcon-root": {
-                                color: "inherit",
-                            },
-
-                            ".MuiInputBase-root": {
-                                color: "var(--table-row-text)",
-                            },
-                        }}
-                    />
-                )}
+                        ".MuiInputBase-root": {
+                            color: "var(--table-row-text)",
+                        },
+                    }}
+                />
             </Paper>
         </Box>
     );
