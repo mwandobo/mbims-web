@@ -1,0 +1,156 @@
+"use client";
+
+import ProtectedRoute from "@/components/authentication/protected-route";
+import MuiCardComponent from "@/components/card/mui-card.component";
+import ViewCardComponent from "@/components/card/view.card.component";
+import PageHeader from "@/components/header/page-header";
+import {useRouter} from "next/navigation";
+import {useEffect, useState} from "react";
+import {getRequest} from "@/utils/api-calls.util";
+import RequestedItems from "@/app/asset-management/asset-request/components/requested-items";
+import {ButtonComponent} from "@/components/button/button.component";
+import {CheckCircle2} from "lucide-react";
+import {useApprovalsAndButtonsHook} from "@/hooks/useApprovalAndButtons.hook";
+import {ASSET_REQUEST_APPROVAL} from "@/utils/constants";
+import ToastComponent from "@/components/popup/toast";
+import {showConfirmationModal} from "@/utils/show-alert-dialog";
+import {useGlobalContextHook} from "@/hooks/useGlobalContextHook";
+
+export default function AssetRequestShowPageComponent({resourceRequestId}: { resourceRequestId: string }) {
+    const permission = "resource_request";
+    const router = useRouter();
+    const [data, setData] = useState<any>(null);
+    const [loading, setLoading] = useState(false);
+    const id = resourceRequestId;
+    const {dispatch, state} = useGlobalContextHook()
+
+    const url = `resource-requests/${id}`;
+    const navigateToLogin = () => {
+        return router.push("/login");
+    };
+
+    const onSave = async () => {
+        try {
+            setLoading(true);
+            const res = await getRequest(`${url}/submit`);
+            if (res && res.status === 200) {
+                ToastComponent({type: 'success', text: 'Asset Request submitted successfully'});
+                await fetchData(); // refresh data
+                router.refresh(); // refresh Next.js route data (if using App Router)
+            }
+        } catch (error: any) {
+            const text = error?.response?.data?.message ?? error?.response?.data?.error;
+            ToastComponent({type: 'error', text: text ?? 'Something went wrong'});
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleSubmit = () => {
+        showConfirmationModal({
+            title: 'Are You Sure?',
+            text: `Are You Sure You Want To Submit Resource Request name: ${data?.name}?`,
+            onConfirm: onSave,  // Action to perform on confirmation
+            onCancel: () => console.log('User canceled the action'), // Optional cancel action
+        });
+    };
+
+    const fetchData = async () => {
+        setLoading(true);
+        if (id) {
+            try {
+                const res = await getRequest(url);
+                if (res && res.status === 200) {
+                    setData(res.data);
+                }
+            } catch (error: any) {
+                if (error?.code === "ERR_NETWORK") {
+                    navigateToLogin();
+                }
+            } finally {
+                setLoading(false);
+            }
+        }
+    };
+
+    const {
+        approvalsAndButtonsWrapper,
+    } = useApprovalsAndButtonsHook({
+        approval_slug: ASSET_REQUEST_APPROVAL,
+        from: ASSET_REQUEST_APPROVAL,
+        from_id: id,
+        approvalStatus: data?.approvalStatus,
+        hasApprovalMode: data?.hasApprovalMode,
+        shouldApprove: data?.shouldApprove,
+        isMyLevelApproved: data?.isMyLevelApproved,
+        currentLevelId: data?.currentLevelId,
+        entityCreatorId: data?.createdById,
+        entityId: id,
+        entityName: data?.entityName,
+        extraData1: data?.items,
+        onAfterApprove: fetchData,
+        redirectUrl: `resource-request/${id}`
+    })
+
+    useEffect(() => {
+        fetchData();
+    }, [state.isPageStateChange]);
+
+    const buttonsBody = () => {
+        const showButton = () => {
+            if (data?.status <= 0 && data?.requestedItemsQuantity > 0) {
+                return true;
+            }
+            return false;
+        };
+        return <>
+            {showButton() &&
+                <ButtonComponent
+                    name={'Submit Request'}
+                    onClick={handleSubmit}
+                    rounded={'md'}
+                    padding={'p-3'}
+                >
+                    <CheckCircle2 size={13}/>
+                </ButtonComponent>
+            }
+        </>
+    }
+
+    return (
+        <ProtectedRoute permission={`${permission}_read`} isLoading={loading}>
+            <PageHeader
+                links={[
+                    {
+                        name: "Resource Request",
+                        linkTo: "/resource-request",
+                        permission: "resource_request",
+                        isClickable: true,
+                    },
+                    {name: "Show", linkTo: "/resource-request/show", permission: ""},
+                ]}
+                isShowPage={true}
+            />
+
+            <MuiCardComponent>
+                <ViewCardComponent
+                    data={[
+                        {label: "Request Name", value: data?.name},
+                        {label: "Status", value: data?.statusLabel},
+                        {label: "Description", value: data?.description},
+                    ]}
+                    titleA="Resource Request"
+                    titleB={data?.name}
+                    OptionalElement={ data?.status >0 && approvalsAndButtonsWrapper({})}
+                />
+            </MuiCardComponent>
+
+            <div className={'border border-gray-200 my-4'}>
+                <RequestedItems requestId={id} permission={permission} isShowButtons={data?.status <=0}/>
+            </div>
+            <div className={'flex justify-end w-full'}>
+                {buttonsBody()}
+            </div>
+        </ProtectedRoute>
+    );
+}

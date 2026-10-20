@@ -1,0 +1,102 @@
+"use client"
+
+import ProtectedRoute from '@/components/authentication/protected-route'
+import PageHeader from '@/components/header/page-header'
+import React from 'react'
+import {usePageDataHook} from "@/hooks/page-render-hooks/use-page-data.hook";
+
+interface Props {
+    parent_id?: string
+    subHeader?: string
+}
+
+function AssetRequest({
+                   parent_id,
+                   subHeader
+               }: Props) {
+
+    const _deptFormInputs = [
+        {
+            name: 'name',
+            type: 'text',
+            label: 'Request Title',
+            value: '',
+            required: true,
+            isError: false,
+            errorMessage: '',
+            layout: 'column',
+        },
+        {
+            name: 'description',
+            type: 'textArea',
+            label: 'Description',
+            value: '',
+            required: true,
+            isError: false,
+            errorMessage: ''
+        },
+    ]
+    const _columns = [
+        {
+            id: 'name',
+            numeric: false,
+            disablePadding: false,
+            label: 'Request Title',
+        },
+        {
+            id: 'createdAt',
+            numeric: false,
+            disablePadding: false,
+            label: 'Date',
+        },
+        {
+            id: 'createdByName',
+            numeric: false,
+            disablePadding: false,
+            label: 'Requested By',
+        },
+        {
+            id: 'statusLabel',
+            numeric: false,
+            disablePadding: false,
+            label: 'Status',
+        },
+    ]
+
+    const permission = 'resource_request'
+    const url = `/asset-requests`
+
+    const {
+        loading,
+        createdForm,
+        handleClick,
+        tabular,
+    } = usePageDataHook({
+        columns: _columns,
+        formInputs: _deptFormInputs,
+        url: url,
+        modalTitle: 'Resource Request',
+        viewUrl: '/resource-request/',
+        state_properties: [],
+        permission: permission,
+        isApiV2: true,
+        isMaintainViewNavigationForV1: true,
+    })
+    return (
+        <ProtectedRoute
+            permission={`${permission}_read`}
+            isLoading={loading}
+        >
+            <PageHeader
+                handleClick={handleClick}
+                links={[{name: 'Resource Requests / List', linkTo: '/resource-request', permission: ''}]}
+                subHeader={subHeader}
+                permission={`${permission}_create`}
+            />
+            {tabular()}
+            {createdForm('sm')}
+        </ProtectedRoute>
+    )
+}
+
+export default AssetRequest

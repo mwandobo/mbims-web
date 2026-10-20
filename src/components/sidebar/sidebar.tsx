@@ -31,7 +31,7 @@ import {
     BookKey,
     ShieldEllipsis,
     CalendarDays, Calendar, Proportions, BookOpenCheck, ArrowLeftRight, Terminal,
-    Scale, LandPlot, Menu, X, Maximize2, ArrowLeftFromLine,BanknoteArrowUp
+    Scale, LandPlot, Menu, X, Maximize2, ArrowLeftFromLine, BanknoteArrowUp, FileUser
 } from 'lucide-react'
 import React from 'react'
 import SidebarItem from './item'
@@ -130,13 +130,14 @@ const items: ISidebarItem[] = [
                 permission: 'asset_read',
                 icon: Table
             },
-            {
-                name: 'Asset Request',
-                path: '/asset-management/asset-request',
-                permission: 'asset_request_read',
-                icon: User
-            },
+
         ]
+    },
+    {
+        name: 'Resource Request',
+        path: '/resource-request',
+        permission: 'resource_request_read',
+        icon: FileUser
     },
 
     {
