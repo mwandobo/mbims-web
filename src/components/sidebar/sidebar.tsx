@@ -31,7 +31,7 @@ import {
     BookKey,
     ShieldEllipsis,
     CalendarDays, Calendar, Proportions, BookOpenCheck, ArrowLeftRight, Terminal,
-    Scale, LandPlot, Menu, X, Maximize2, ArrowLeftFromLine, BanknoteArrowUp, FileUser
+    Scale, LandPlot, Menu, X, Maximize2, ArrowLeftFromLine, BanknoteArrowUp, FileUser, Group
 } from 'lucide-react'
 import React from 'react'
 import SidebarItem from './item'
@@ -122,13 +122,13 @@ const items: ISidebarItem[] = [
                 name: 'Asset Categories',
                 path: '/asset-management/asset-category',
                 permission: 'asset_category_read',
-                icon: Table
+                icon: Group
             },
             {
                 name: 'Assets',
                 path: '/asset-management/asset',
                 permission: 'asset_read',
-                icon: Table
+                icon: FileBox
             },
 
         ]

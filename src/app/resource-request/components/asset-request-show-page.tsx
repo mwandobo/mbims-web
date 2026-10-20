@@ -24,7 +24,7 @@ export default function AssetRequestShowPageComponent({resourceRequestId}: { res
     const id = resourceRequestId;
     const {dispatch, state} = useGlobalContextHook()
 
-    const url = `resource-requests/${id}`;
+    const url = `asset-requests/${id}`;
     const navigateToLogin = () => {
         return router.push("/login");
     };
