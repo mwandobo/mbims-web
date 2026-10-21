@@ -1,15 +1,16 @@
 'use client';
 
-import { Card, Row, Col, Statistic, Avatar, Spin, Alert, Empty, Typography } from 'antd';
+import {Card, Row, Col, Statistic, Avatar, Spin, Alert, Empty, Typography, Button} from 'antd';
 import {
     UserAddOutlined,
     BankOutlined,
     DollarOutlined,
-    UserOutlined,
+    UserOutlined, ArrowRightOutlined,
 } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import { getRequest } from '@/utils/api-calls.util';
 import {AxiosResponse} from "axios";
+import Link from "next/link";
 
 const { Text } = Typography;
 
@@ -43,7 +44,7 @@ const IndividualPerformanceComponent = () => {
                 setError(null);
 
                 const response: AxiosResponse<IndividualPerformance[]>  = await getRequest(
-                    'performances/individual-stats?limit=6'
+                    'performances/individual-stats'
                 );
                 console.log('individual-stats response', response);
 
@@ -83,6 +84,7 @@ const IndividualPerformanceComponent = () => {
     }
 
     return (
+        <div>
         <Row gutter={[20, 20]}>
             {data.map((employee) => (
                 <Col
@@ -140,6 +142,22 @@ const IndividualPerformanceComponent = () => {
                 </Col>
             ))}
         </Row>
+
+            {/* View more */}
+            <div className="flex justify-end">
+                <Link href="/performance-management/individual">
+                    <Button
+                        type="link"
+                        size="large"
+                        icon={<ArrowRightOutlined />}
+                        iconPosition="end"
+                        className="!px-0 font-medium"
+                    >
+                        View all units
+                    </Button>
+                </Link>
+            </div>
+        </div>
     );
 };
 
