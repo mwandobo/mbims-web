@@ -1,37 +1,17 @@
 "use client"
 
 import {
-    Book,
-    FolderKanban,
-    FolderOpenDot,
-    HardDrive,
     LayoutDashboard,
     LucideIcon,
-    CreditCard,
-    NotebookPen,
     RollerCoaster,
     Settings,
     Table,
     User,
     Users,
-    UserCheck,
-    Calculator,
-    FileIcon,
-    FileSliders,
-    FileSpreadsheet,
-    FilePenLine,
-    FileDiff,
     FileBox,
-    FileClock,
-    ReceiptPoundSterling,
-    ShoppingCart,
-    BadgeDollarSign,
-    SquareDashedKanban,
-    Store,
-    BookKey,
     ShieldEllipsis,
-    CalendarDays, Calendar, Proportions, BookOpenCheck, ArrowLeftRight, Terminal,
-    Scale, LandPlot, Menu, X, Maximize2, ArrowLeftFromLine, BanknoteArrowUp, FileUser, Group
+    ArrowLeftRight, Terminal,
+    ArrowLeftFromLine, BanknoteArrowUp, FileUser, Group
 } from 'lucide-react'
 import React from 'react'
 import SidebarItem from './item'
@@ -63,16 +43,10 @@ const items: ISidebarItem[] = [
         permission: 'dashboard_read'
     },
     {
-        name: 'Compare Excel',
-        path: '/compare-excel',
-        icon: ArrowLeftRight,
-        permission: 'compare_excel_read',
-    },
-    {
         name: 'Administration',
         path: '/administration',
         permission: 'administration_read',
-        icon: ShieldEllipsis ,
+        icon: ShieldEllipsis,
         items: [
             {
                 name: 'Departments',
@@ -92,7 +66,7 @@ const items: ISidebarItem[] = [
                 permission: 'employee_read',
                 icon: User
             },
-              {
+            {
                 name: 'Units',
                 path: '/administration/units',
                 permission: 'unit_read',
@@ -116,7 +90,7 @@ const items: ISidebarItem[] = [
         name: 'Asset Management',
         path: '/asset-management',
         permission: 'asset_management_read',
-        icon: ShieldEllipsis ,
+        icon: ShieldEllipsis,
         items: [
             {
                 name: 'Asset Categories',
@@ -130,7 +104,6 @@ const items: ISidebarItem[] = [
                 permission: 'asset_read',
                 icon: FileBox
             },
-
         ]
     },
     {
@@ -143,66 +116,15 @@ const items: ISidebarItem[] = [
     {
         name: 'Performance Management',
         path: '/performance-management',
-        permission: 'performance_management_read',
-        icon: ShieldEllipsis ,
-        items: [
-            {
-                name: 'Customer Onboarding',
-                path: '/performance-management/customer-onboarding',
-                permission: 'customer_onboarding_read',
-                icon: User
-            },
-            {
-                name: 'Deposits',
-                path: '/performance-management/deposits',
-                permission: 'deposits_read',
-                icon:CreditCard
-            },
-            {
-                name: 'Performance',
-                path: '/performance-management/performance',
-                permission: 'performance_read',
-                icon: LandPlot
-            }
-        ]
-    },
-    {
-        name: 'Performance ',
-        path: '/performance',
         permission: 'performance_read',
-        icon: ShieldEllipsis ,
-        items: [
-            {
-                name: 'Unit Performance',
-                path: '/performance/unit-performance',
-                permission: 'unit_performance',
-                icon: User
-            },
-            {
-                name: 'Individual Performance',
-                path: '/performance/individual-performance',
-                permission: 'individual_performance',
-                icon: User
-            },
-
-        ]
+        icon: ShieldEllipsis,
     },
-
-
-
 
     {
-        name: 'Performance Management',
-        path: '/performance-management',
-        permission: 'performancee_read',
-        icon: Scale 
-    },
-
-        {
         name: 'Customers',
         path: '/customer',
         permission: 'customer_read',
-        icon: Users 
+        icon: Users
     },
     {
         name: 'Deposits',
@@ -210,12 +132,11 @@ const items: ISidebarItem[] = [
         icon: BanknoteArrowUp,
         permission: 'deposits_read',
     },
-
-          {
+    {
         name: 'Transactions',
         path: '/transaction',
         permission: 'transaction_read',
-        icon: Users 
+        icon: Users
     },
     {
         name: 'Reconciliation',
@@ -232,11 +153,11 @@ const items: ISidebarItem[] = [
 ]
 
 function Sidebar() {
-    const { state, dispatch } = useGlobalContextHook()
-    const { isSideBarHidden } = state
+    const {state, dispatch} = useGlobalContextHook()
+    const {isSideBarHidden} = state
 
     const toggleSideBar = () => {
-        dispatch({ type: "UPDATE_HIDE_SIDEBAR" })
+        dispatch({type: "UPDATE_HIDE_SIDEBAR"})
     }
 
     return (
@@ -263,15 +184,16 @@ function Sidebar() {
                 {/* Close button - only on small screens */}
                 <div className="ms-4 mt-4 -mb-8 md:hidden">
                     <button onClick={toggleSideBar} className="mt-2">
-                        <ArrowLeftFromLine size={32} className="text-gray-400" strokeWidth={2} />
+                        <ArrowLeftFromLine size={32} className="text-gray-400" strokeWidth={2}/>
                     </button>
                 </div>
                 <div className=" px-2 h-full w-full">
-                    <div className="flex flex-col h-full w-full pt-10 pb-4 pe-4 overflow-y-auto overflow-x-hidden scrollbar-thin">
+                    <div
+                        className="flex flex-col h-full w-full pt-10 pb-4 pe-4 overflow-y-auto overflow-x-hidden scrollbar-thin">
                         {items.map(
                             (item) =>
                                 checkPermissions(item?.permission) && (
-                                    <SidebarItem key={item.path} item={item} />
+                                    <SidebarItem key={item.path} item={item}/>
                                 )
                         )}
                     </div>
@@ -280,4 +202,5 @@ function Sidebar() {
         </div>
     )
 }
+
 export default Sidebar
