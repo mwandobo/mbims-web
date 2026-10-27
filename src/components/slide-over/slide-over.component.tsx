@@ -1,72 +1,56 @@
-import { useState } from "react";
-import { BadgeInfo } from "lucide-react";
-
 interface SlideOverProps {
     title?: string;
     width?: string;
-    showButton?: boolean;
+    isShowSlideOver?: boolean;
     children: React.ReactNode;
+    onClose: () => void;
 }
 
 const SlideOver: React.FC<SlideOverProps> = ({
-                                                 title = "Approval Trail",
-                                                 width = "25%",
-                                                 children,
-                                                 showButton
-                                             }) => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggleSlideOver = () => setIsOpen(!isOpen);
+                                                   title = "Approval Trail",
+                                                   width = "25%",
+                                                   children,
+                                                   isShowSlideOver,
+                                                   onClose,
+                                               }) => {
+    const toggleSlideOver = () => {
+        onClose();
+    };
 
     return (
         <>
-            {/* Button to open the slide-over */}
-            {showButton && (
-                <button
-                    onClick={toggleSlideOver}
-                    className="flex items-center gap-2 px-2 py-1 text-xs rounded
-                            bg-button-bg text-button-text border border-button-border
-                            hover:bg-button-hover-bg hover:text-button-hover-text"
-                >
-                    <BadgeInfo size={12} />
-                    View Approvals
-                </button>
-            )}
-
-            {/* Slide-over Container */}
             <div
-                className={`fixed inset-0 z-50 overflow-hidden transition-all ease-in-out duration-50 ${
-                    isOpen ? "visible opacity-100" : "invisible opacity-0"
+                className={`fixed inset-0 z-50 overflow-hidden transition-all ease-in-out duration-500 text-xs flex flex-col justify-center items-center ${
+                    isShowSlideOver ? 'visible opacity-100' : 'invisible opacity-0'
                 }`}
             >
-                {/* Overlay (transparent + blur) */}
                 <div
-                    className={`fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-500 ease-in-out ${
-                        isOpen ? "opacity-100" : "opacity-0"
+                    className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-500 ease-in-out ${
+                        isShowSlideOver ? 'opacity-50' : 'opacity-0'
                     }`}
                     onClick={toggleSlideOver}
                 />
 
-                {/* Slide Over Panel */}
+                {/* Slide Over */}
                 <div
-                    className={`fixed right-0 top-0 bottom-0 bg-main-content-bg shadow-xl transform transition-transform duration-500 ease-in-out ${
-                        isOpen ? "translate-x-0" : "translate-x-full"
+                    className={`fixed right-0 top-0 bottom-0 p-4 rounded-md   bg-main-content-bg shadow-xl transform transition-transform duration-500 ease-in-out flex flex-col ${
+                        isShowSlideOver ? 'translate-x-0' : 'translate-x-full'
                     }`}
                     style={{ width }}
                 >
                     {/* Header */}
-                    <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-header-bg">
-                        <h2 className="text-xl font-semibold text-header-text">{title}</h2>
-                        <button
-                            onClick={toggleSlideOver}
-                            className="text-gray-500 hover:text-gray-800"
-                        >
+                    <div className="flex justify-end  items-center mb-2">
+                        <button onClick={toggleSlideOver} className="text-gray-500 hover:text-gray-800">
                             ✕
                         </button>
                     </div>
+                    <hr className="w-full border-gray-200 mb-2" />
 
                     {/* Content */}
-                    <div className="p-4 overflow-y-auto">{children}</div>
+                    <div className="overflow-y-auto flex-grow">
+                        {children}
+                    </div>
+
                 </div>
             </div>
         </>

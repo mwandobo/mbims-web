@@ -23,7 +23,6 @@ const TreeList = ({entityId, entityName}: Props) => {
 
                 if (res.status === 200) {
                     const _data = res.data as any;
-                    console.log(_data);
                     setData(_data?.data);
                 }
             } catch (error: any) {

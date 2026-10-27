@@ -4,7 +4,7 @@ import ProtectedRoute from '@/components/authentication/protected-route'
 import PageHeader from '@/components/header/page-header'
 import React, {JSX} from 'react'
 import {usePageDataHook} from "@/hooks/page-render-hooks/use-page-data.hook";
-import RequestedItemView from "@/app/asset-management/asset-request/components/requested-item-view";
+import RequestedItemView from "@/app/resource-request/components/requested-item-view";
 
 const formInputs = [
     {

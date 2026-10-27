@@ -1,7 +1,7 @@
 'use client'
 import React, {useState} from "react";
 import {useGlobalContextHook} from "@/hooks/useGlobalContextHook";
-import SlideOverV2 from "@/components/slide-over/slide-over-v2.component";
+import SlideOver from "@/components/slide-over/slide-over.component";
 
 const SlideOverRender = () => {
     const {state, dispatch} = useGlobalContextHook()
@@ -18,7 +18,7 @@ const SlideOverRender = () => {
         })
     }
 
-    return <SlideOverV2
+    return <SlideOver
         isShowSlideOver={slideOverContent?.isOpen}
         title="Apply Filters"
         onClose={handleCloseSlideOver}
@@ -26,7 +26,7 @@ const SlideOverRender = () => {
     >
 
         {slideOverContent?.sliderOverComponent(slideOverContent.payload) ?? ''}
-    </SlideOverV2>
+    </SlideOver>
 };
 
 export default SlideOverRender;

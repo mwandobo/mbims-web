@@ -2,12 +2,12 @@
 
 import React, {ReactNode, useEffect, useState} from 'react';
 import Swal from "sweetalert2";
-import SlideOver from "@/components/slide-over/slide-over.component";
 import TreeList from "@/components/list/tree-list.component";
 import {getRequest, postRequest} from "@/utils/api-calls.util";
 import {ButtonComponent} from "@/components/button/button.component";
 import CrudFormComponent from "@/components/forms/crud-form.component";
 import {capitalizeFirstWord} from "@/utils/string-manipulations";
+import ApprovalSlideOver from "@/app/administration/approvals/components/approval-slide-over.component";
 
 interface Props {
     approval_slug?: string;
@@ -24,6 +24,11 @@ interface Props {
     extraData1?: any;
     entityCreatorId?: string;
     redirectUrl?: string;
+    approvers?:Array<{
+        name: string;
+        positionName?: string;
+        // add any other fields you have (email, level, etc.)
+    }>;
     onAfterApprove?: () => Promise<void> | void; // ✅ new
 }
 
@@ -42,6 +47,7 @@ export const useApprovalsAndButtonsHook = ({
                                                entityCreatorId,
                                                redirectUrl,
                                                extraData1,
+                                               approvers,
                                                onAfterApprove
                                            }: Props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,7 +60,7 @@ export const useApprovalsAndButtonsHook = ({
     }, []);
 
     interface ApproveProps {
-        approval_name?: string;
+   approval_name?: string;
         from: string;
         from_id: string;
         remark?: string;
@@ -112,70 +118,18 @@ export const useApprovalsAndButtonsHook = ({
 
     const renderTreeList = () => {
         return <div className={'flex justify-between ml-2 w-36'}>
-            <SlideOver
+            <ApprovalSlideOver
                 showButton={true}
                 title="Approval Trail">
                 <TreeList
                     entityId={entityId}
                     entityName={entityName}
                 />
-            </SlideOver>
+            </ApprovalSlideOver>
+
+            {renderApproversList()}
         </div>
     }
-
-    // const renderApprovalStatus = (approvalStatus: string) => {
-    //     if (approvalStatus && approvalStatus === 'PENDING') {
-    //         if (!shouldApprove) {
-    //             return <div className={"flex w-full justify-between mt-1"}>
-    //                 <div className={"flex w-full justify-start"}>
-    //                     <p className={''}><span className='text-xs p-2 bg-gray-200 '>Waiting For Approval</span>
-    //                     </p>
-    //                     {renderTreeList()}
-    //                 </div>
-    //                 <p className={'flex w-full justify-end'}><span className='text-xs p-1 bg-gray-200 '>Waiting For Complete Approval</span>
-    //                 </p>
-    //             </div>
-    //         }
-    //
-    //         if (!isMyLevelApproved) {
-    //             return <div className={"flex w-full justify-between"}>
-    //                 <div className={"flex w-full justify-start items-center"}>
-    //                     <p className={''}>
-    //                         <span className='text-xs p-2 bg-gray-200 '>Waiting For Your Approval</span>
-    //                     </p>
-    //                     {renderTreeList()}
-    //                 </div>
-    //                 {renderApprovalButtons()}
-    //             </div>
-    //         }
-    //
-    //         return <div className={"flex w-full justify-between mt-1"}>
-    //             <div className={"flex w-full justify-start"}>
-    //                 <p className={''}><span className='text-xs p-2 bg-gray-200 '>Approved</span></p>
-    //                 {renderTreeList()}
-    //             </div>
-    //             <p className={'w-full flex justify-end'}><span className='text-xs p-1 bg-gray-200 '>Waiting For Further Approval</span>
-    //             </p>
-    //         </div>
-    //     }
-    //
-    //     switch (approvalStatus) {
-    //         case 'APPROVED':
-    //             return <div className={"flex  justify-start"}>
-    //                 <span className='bg-green-100 p-2 rounded-sm'>Approved</span>
-    //                 {renderTreeList()}
-    //             </div>
-    //         case 'REJECTED':
-    //             return <div className={"flex justify-start"}>
-    //                 <span className='bg-red-100 p-2 rounded-sm'>Disapproved</span>
-    //                 {renderTreeList()}
-    //             </div>
-    //         default:
-    //             return <div className={"flex justify-start"}>
-    //                 <span className='text-xs p-1 bg-gray-200'>Waiting For Approval</span> {renderTreeList()}
-    //             </div>
-    //     }
-    // }
 
     const renderApprovalStatus = (approvalStatus: string) => {
         if (approvalStatus && approvalStatus === "PENDING") {
@@ -263,6 +217,42 @@ export const useApprovalsAndButtonsHook = ({
                     </div>
                 );
         }
+    };
+
+
+    const renderApproversList = () => {
+        if (!approvers || approvers.length === 0) return null;
+
+        return (
+            <div className="flex justify-between ml-2">
+                <ApprovalSlideOver showButton={true} title="Approvers" buttonTitle={'List Approvers'}>
+                    <div className="space-y-3 p-1">
+                        {approvers.map((approver, index) => (
+                            <div
+                                key={index}
+                                className="flex items-start gap-3 rounded-lg border border-border bg-muted/30 px-3 py-2.5"
+                            >
+                                {/* Optional avatar / number */}
+                                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-medium text-primary">
+                                    {index + 1}
+                                </div>
+
+                                <div className="min-w-0 flex-1">
+                                    <p className="truncate text-sm font-medium text-foreground">
+                                        {approver.name}
+                                    </p>
+                                    {approver.positionName && (
+                                        <p className="truncate text-xs text-muted-foreground">
+                                            {approver.positionName}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </ApprovalSlideOver>
+            </div>
+        );
     };
 
     const renderApprovalButtons = () => {

@@ -7,7 +7,6 @@ import PageHeader from "@/components/header/page-header";
 import {useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
 import {getRequest} from "@/utils/api-calls.util";
-import RequestedItems from "@/app/asset-management/asset-request/components/requested-items";
 import {ButtonComponent} from "@/components/button/button.component";
 import {CheckCircle2} from "lucide-react";
 import {useApprovalsAndButtonsHook} from "@/hooks/useApprovalAndButtons.hook";
@@ -15,6 +14,7 @@ import {ASSET_REQUEST_APPROVAL} from "@/utils/constants";
 import ToastComponent from "@/components/popup/toast";
 import {showConfirmationModal} from "@/utils/show-alert-dialog";
 import {useGlobalContextHook} from "@/hooks/useGlobalContextHook";
+import RequestedItems from "@/app/resource-request/components/requested-items";
 
 export default function AssetRequestShowPageComponent({resourceRequestId}: { resourceRequestId: string }) {
     const permission = "resource_request";
@@ -89,6 +89,7 @@ export default function AssetRequestShowPageComponent({resourceRequestId}: { res
         entityName: data?.entityName,
         extraData1: data?.items,
         onAfterApprove: fetchData,
+        approvers: data?.approvers,
         redirectUrl: `resource-request/${id}`
     })
 
