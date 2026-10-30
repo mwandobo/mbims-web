@@ -8,6 +8,7 @@ import {ButtonComponent} from "@/components/button/button.component";
 import CrudFormComponent from "@/components/forms/crud-form.component";
 import {capitalizeFirstWord} from "@/utils/string-manipulations";
 import ApprovalSlideOver from "@/app/administration/approvals/components/approval-slide-over.component";
+import ChangeApprovalLevelsModal from "@/app/administration/approvals/components/change-approval-levels-modal";
 
 interface Props {
     approval_slug?: string;
@@ -54,6 +55,7 @@ export const useApprovalsAndButtonsHook = ({
     const [modalTitle, setModalTitle] = useState("");
     const [remark, setRemark] = useState('');
     const homeURL = process.env.NEXT_PUBLIC_HOME_BASE_URL as string;
+    const [isChangeLevelsOpen, setIsChangeLevelsOpen] = useState(false);
 
     useEffect(() => {
 
@@ -220,37 +222,107 @@ export const useApprovalsAndButtonsHook = ({
     };
 
 
+    // const renderApproversList = () => {
+    //     if (!approvers || approvers.length === 0) return null;
+    //
+    //     return (
+    //         <div className="flex justify-between ml-2">
+    //             <ApprovalSlideOver showButton={true} title="Approvers" buttonTitle={'List Approvers'}>
+    //                 <div className="space-y-3 p-1">
+    //                     {approvers.map((approver, index) => (
+    //                         <div
+    //                             key={index}
+    //                             className="flex items-start gap-3 rounded-lg border border-border bg-muted/30 px-3 py-2.5"
+    //                         >
+    //                             {/* Optional avatar / number */}
+    //                             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-medium text-primary">
+    //                                 {index + 1}
+    //                             </div>
+    //
+    //                             <div className="min-w-0 flex-1">
+    //                                 <p className="truncate text-sm font-medium text-foreground">
+    //                                     {approver.name}
+    //                                 </p>
+    //                                 {approver.positionName && (
+    //                                     <p className="truncate text-xs text-muted-foreground">
+    //                                         {approver.positionName}
+    //                                     </p>
+    //                                 )}
+    //                             </div>
+    //                         </div>
+    //                     ))}
+    //                 </div>
+    //             </ApprovalSlideOver>
+    //         </div>
+    //     );
+    // };
+
     const renderApproversList = () => {
         if (!approvers || approvers.length === 0) return null;
 
         return (
             <div className="flex justify-between ml-2">
-                <ApprovalSlideOver showButton={true} title="Approvers" buttonTitle={'List Approvers'}>
-                    <div className="space-y-3 p-1">
-                        {approvers.map((approver, index) => (
-                            <div
-                                key={index}
-                                className="flex items-start gap-3 rounded-lg border border-border bg-muted/30 px-3 py-2.5"
-                            >
-                                {/* Optional avatar / number */}
-                                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-medium text-primary">
-                                    {index + 1}
-                                </div>
+                <ApprovalSlideOver
+                    showButton={true}
+                    title="Approvers"
+                    buttonTitle="List Approvers"
+                    width="28%"
+                >
+                    <div className="space-y-4">
+                        {/* List of current approvers */}
+                        <div className="space-y-3">
+                            {approvers.map((approver, index) => (
+                                <div
+                                    key={index}
+                                    className="flex items-start gap-3 rounded-lg border border-border bg-muted/30 px-3 py-2.5"
+                                >
+                                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-medium text-primary">
+                                        {index + 1}
+                                    </div>
 
-                                <div className="min-w-0 flex-1">
-                                    <p className="truncate text-sm font-medium text-foreground">
-                                        {approver.name}
-                                    </p>
-                                    {approver.positionName && (
-                                        <p className="truncate text-xs text-muted-foreground">
-                                            {approver.positionName}
+                                    <div className="min-w-0 flex-1">
+                                        <p className="truncate text-sm font-medium text-foreground">
+                                            {approver.name}
                                         </p>
-                                    )}
+                                        {approver.positionName && (
+                                            <p className="truncate text-xs text-muted-foreground">
+                                                {approver.positionName}
+                                            </p>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
+
+                        {/* Action button */}
+                        <div className="pt-4 border-t border-border">
+                            <ButtonComponent
+                                name="Change Approval Levels"
+                                onClick={() => setIsChangeLevelsOpen(true)}
+                                rounded="md"
+                                padding="p-2"
+                                // optional: only show if user has permission
+                                // isDisabled={!canChangeLevels}
+                            />
+                        </div>
                     </div>
                 </ApprovalSlideOver>
+
+                {/* Modal for changing levels */}
+                <ChangeApprovalLevelsModal
+                    isOpen={isChangeLevelsOpen}
+                    onClose={() => setIsChangeLevelsOpen(false)}
+                    entityId={entityId}
+                    entityName={entityName}
+                    currentApprovers={approvers}
+                    onSuccess={() => {
+                        setIsChangeLevelsOpen(false);
+                        // refresh the page / call onAfterApprove or a refresh callback
+                        if (typeof onAfterApprove === "function") {
+                            onAfterApprove();
+                        }
+                    }}
+                />
             </div>
         );
     };

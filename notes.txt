@@ -36,6 +36,9 @@ to create a show page use a useHook
     const { data, loading, refresh } = usePageShow(url);
 
 
+const data = (res.data as any)?.data ?? res.data ?? [];
+ setAvailableRoles(Array.isArray(data) ? data : []);
+
 
 
 
