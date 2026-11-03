@@ -151,7 +151,7 @@ const ChangeApprovalLevelsModal: React.FC<Props> = ({
             isOpen={isOpen}
             onClose={onClose}
             title="Change Approval Levels"
-            size="md"
+            size="xs"
             onSaveButtonName="Save Changes"
         >
             {isLoading ? (
