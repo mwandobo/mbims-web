@@ -64,7 +64,7 @@ const columns = [
 
 interface Props {
     id?: string,
-    permission: string,
+    permission?: string,
 }
 
 function ApprovalLevel({id, permission}: Props) {
