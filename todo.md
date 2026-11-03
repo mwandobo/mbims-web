@@ -54,6 +54,13 @@ automate money format
 check theme settings in performance
 
 add button to lift level up in approval
+add positions in the department
+add ability to not edit roles created by the system
+Avoid submit if no changes done to edit form
+ability to delete role
+filter positions based on department
+after change password just leave a loader
+hold old approvals if new approvals are implemented
 
 
 

@@ -17,6 +17,7 @@ interface Props {
     parent?: string;
     approvalStatus?: string;
     hasApprovalMode?: boolean;
+    hasApprovedStarted?: boolean;
     isMyLevelApproved?: boolean;
     shouldApprove?: boolean;
     currentLevelId?: string;
@@ -26,8 +27,8 @@ interface Props {
     entityCreatorId?: string;
     redirectUrl?: string;
     approvers?:Array<{
-        name: string;
-        positionName?: string;
+        position: string;
+        users?: string[];
         // add any other fields you have (email, level, etc.)
     }>;
     onAfterApprove?: () => Promise<void> | void; // ✅ new
@@ -49,7 +50,8 @@ export const useApprovalsAndButtonsHook = ({
                                                redirectUrl,
                                                extraData1,
                                                approvers,
-                                               onAfterApprove
+                                               onAfterApprove,
+                                               hasApprovedStarted
                                            }: Props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalTitle, setModalTitle] = useState("");
@@ -222,41 +224,6 @@ export const useApprovalsAndButtonsHook = ({
     };
 
 
-    // const renderApproversList = () => {
-    //     if (!approvers || approvers.length === 0) return null;
-    //
-    //     return (
-    //         <div className="flex justify-between ml-2">
-    //             <ApprovalSlideOver showButton={true} title="Approvers" buttonTitle={'List Approvers'}>
-    //                 <div className="space-y-3 p-1">
-    //                     {approvers.map((approver, index) => (
-    //                         <div
-    //                             key={index}
-    //                             className="flex items-start gap-3 rounded-lg border border-border bg-muted/30 px-3 py-2.5"
-    //                         >
-    //                             {/* Optional avatar / number */}
-    //                             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-medium text-primary">
-    //                                 {index + 1}
-    //                             </div>
-    //
-    //                             <div className="min-w-0 flex-1">
-    //                                 <p className="truncate text-sm font-medium text-foreground">
-    //                                     {approver.name}
-    //                                 </p>
-    //                                 {approver.positionName && (
-    //                                     <p className="truncate text-xs text-muted-foreground">
-    //                                         {approver.positionName}
-    //                                     </p>
-    //                                 )}
-    //                             </div>
-    //                         </div>
-    //                     ))}
-    //                 </div>
-    //             </ApprovalSlideOver>
-    //         </div>
-    //     );
-    // };
-
     const renderApproversList = () => {
         if (!approvers || approvers.length === 0) return null;
 
@@ -270,23 +237,57 @@ export const useApprovalsAndButtonsHook = ({
                 >
                     <div className="space-y-4">
                         {/* List of current approvers */}
+                        {/*<div className="space-y-3">*/}
+                        {/*    {approvers.map((approver, index) => (*/}
+                        {/*        <div*/}
+                        {/*            key={index}*/}
+                        {/*            className="flex items-start gap-3 rounded-lg border border-border bg-muted/30 px-3 py-2.5"*/}
+                        {/*        >*/}
+                        {/*            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-medium text-primary">*/}
+                        {/*                {index + 1}*/}
+                        {/*            </div>*/}
+
+                        {/*            <div className="min-w-0 flex-1">*/}
+                        {/*                <p className="truncate text-sm font-medium text-foreground">*/}
+                        {/*                    {approver.name}*/}
+                        {/*                </p>*/}
+                        {/*                {approver.positionName && (*/}
+                        {/*                    <p className="truncate text-xs text-muted-foreground">*/}
+                        {/*                        {approver.positionName}*/}
+                        {/*                    </p>*/}
+                        {/*                )}*/}
+                        {/*            </div>*/}
+                        {/*        </div>*/}
+                        {/*    ))}*/}
+                        {/*</div>*/}
+
                         <div className="space-y-3">
                             {approvers.map((approver, index) => (
                                 <div
                                     key={index}
-                                    className="flex items-start gap-3 rounded-lg border border-border bg-muted/30 px-3 py-2.5"
+                                    className="rounded-lg border border-border bg-muted/30 px-3 py-2.5"
                                 >
-                                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-medium text-primary">
-                                        {index + 1}
+                                    {/* Position header */}
+                                    <div className="flex items-center gap-3 mb-2">
+                                        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-medium text-primary">
+                                            {index + 1}
+                                        </div>
+                                        <p className="text-sm font-semibold text-foreground">
+                                            {approver.position}
+                                        </p>
                                     </div>
 
-                                    <div className="min-w-0 flex-1">
-                                        <p className="truncate text-sm font-medium text-foreground">
-                                            {approver.name}
-                                        </p>
-                                        {approver.positionName && (
-                                            <p className="truncate text-xs text-muted-foreground">
-                                                {approver.positionName}
+                                    {/* Users under this position */}
+                                    <div className="ml-10 space-y-1">
+                                        {approver.users && approver.users.length > 0 ? (
+                                            approver.users.map((userName, userIdx) => (
+                                                <p key={userIdx} className="text-xs text-muted-foreground">
+                                                    • {userName}
+                                                </p>
+                                            ))
+                                        ) : (
+                                            <p className="text-xs text-muted-foreground italic">
+                                                — No user assigned —
                                             </p>
                                         )}
                                     </div>
@@ -295,7 +296,7 @@ export const useApprovalsAndButtonsHook = ({
                         </div>
 
                         {/* Action button */}
-                        <div className="pt-4 border-t border-border">
+                        {!hasApprovedStarted && <div className="pt-4 border-t border-border">
                             <ButtonComponent
                                 name="Change Approval Levels"
                                 onClick={() => setIsChangeLevelsOpen(true)}
@@ -304,7 +305,7 @@ export const useApprovalsAndButtonsHook = ({
                                 // optional: only show if user has permission
                                 // isDisabled={!canChangeLevels}
                             />
-                        </div>
+                        </div>}
                     </div>
                 </ApprovalSlideOver>
 

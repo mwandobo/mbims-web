@@ -7,10 +7,17 @@ import { postRequest, getRequest } from "@/utils/api-calls.util";
 import LoadingComponent from "@/components/status/loading.component";
 import { PlusCircle, Trash2, GripVertical } from "lucide-react";
 
-interface Approver {
-    name: string;
-    positionName?: string;
-    roleId?: number; // important for editing
+// New shape coming from backend
+interface ApproverFromBackend {
+    position: string;
+    users?: string[];
+}
+
+// Internal shape used inside the modal
+interface LevelItem {
+    roleId?: number;
+    position: string;
+    users: string[];
 }
 
 interface Props {
@@ -18,7 +25,7 @@ interface Props {
     onClose: () => void;
     entityId?: string | number;
     entityName?: string;
-    currentApprovers: Approver[];
+    currentApprovers: ApproverFromBackend[];
     onSuccess: () => void;
 }
 
@@ -30,28 +37,41 @@ const ChangeApprovalLevelsModal: React.FC<Props> = ({
                                                         currentApprovers,
                                                         onSuccess,
                                                     }) => {
-    const [levels, setLevels] = useState<Approver[]>([]);
+    const [levels, setLevels] = useState<LevelItem[]>([]);
     const [availableRoles, setAvailableRoles] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
 
-    // Load current levels + available roles when modal opens
     useEffect(() => {
         if (!isOpen) return;
 
         const loadData = async () => {
             setIsLoading(true);
             try {
-                // 1. Current levels (you can also pass them as prop)
-                setLevels(currentApprovers || []);
+                // 1. Load available roles
+                const res = await getRequest("roles");
+                let roles: any[] = [];
 
-                // 2. All roles the user can choose from
-                const res = await getRequest("roles"); // adjust endpoint
                 if (res.status === 200) {
                     const data = (res.data as any)?.data ?? res.data ?? [];
-                    setAvailableRoles(Array.isArray(data) ? data : []);
-
+                    roles = Array.isArray(data) ? data : [];
+                    setAvailableRoles(roles);
                 }
+
+                // 2. Map currentApprovers → levels (match by position name)
+                const mappedLevels: LevelItem[] = (currentApprovers || []).map((approver) => {
+                    const matchedRole = roles.find(
+                        (r) => r.name?.trim() === approver.position?.trim()
+                    );
+
+                    return {
+                        roleId: matchedRole?.id,
+                        position: approver.position,
+                        users: approver.users || [],
+                    };
+                });
+
+                setLevels(mappedLevels);
             } catch (err) {
                 console.error(err);
             } finally {
@@ -65,7 +85,7 @@ const ChangeApprovalLevelsModal: React.FC<Props> = ({
     const handleAddLevel = () => {
         setLevels((prev) => [
             ...prev,
-            { name: "", positionName: "", roleId: undefined },
+            { roleId: undefined, position: "", users: [] },
         ]);
     };
 
@@ -82,8 +102,9 @@ const ChangeApprovalLevelsModal: React.FC<Props> = ({
             updated[index] = {
                 ...updated[index],
                 roleId: role.id,
-                positionName: role.name,
-                name: role.name, // or keep empty until real users are resolved
+                position: role.name,
+                // users stay empty until backend refreshes after save
+                users: updated[index].users || [],
             };
             return updated;
         });
@@ -91,6 +112,13 @@ const ChangeApprovalLevelsModal: React.FC<Props> = ({
 
     const handleSubmit = async () => {
         if (!entityId || !entityName) return;
+
+        // Basic validation
+        const hasInvalid = levels.some((l) => !l.roleId);
+        if (hasInvalid) {
+            alert("Please select a role for every level");
+            return;
+        }
 
         setIsSaving(true);
         try {
@@ -103,7 +131,7 @@ const ChangeApprovalLevelsModal: React.FC<Props> = ({
                 })),
             };
 
-            const res = await postRequest("approval-levels/override", payload); // ← your endpoint
+            const res = await postRequest("approval-levels/override", payload);
 
             if ([200, 201].includes(res.status)) {
                 onSuccess();
@@ -135,42 +163,53 @@ const ChangeApprovalLevelsModal: React.FC<Props> = ({
                         Levels will be applied in the order shown below.
                     </p>
 
-                    <div className="space-y-3 max-h-[400px] overflow-y-auto pr-1">
+                    <div className="space-y-3 max-h-[420px] overflow-y-auto pr-1">
                         {levels.map((level, index) => (
                             <div
                                 key={index}
-                                className="flex items-center gap-3 p-3 rounded-lg border bg-muted/20"
+                                className="rounded-lg border bg-muted/20 p-3 space-y-2"
                             >
-                                <div className="text-muted-foreground">
-                                    <GripVertical size={16} />
+                                <div className="flex items-center gap-3">
+                                    <div className="text-muted-foreground">
+                                        <GripVertical size={16} />
+                                    </div>
+
+                                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-xs font-medium">
+                                        {index + 1}
+                                    </div>
+
+                                    <select
+                                        className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                                        value={level.roleId || ""}
+                                        onChange={(e) =>
+                                            handleRoleChange(index, Number(e.target.value))
+                                        }
+                                    >
+                                        <option value="">Select Role / Position</option>
+                                        {availableRoles.map((role) => (
+                                            <option key={role.id} value={role.id}>
+                                                {role.name}
+                                            </option>
+                                        ))}
+                                    </select>
+
+                                    <button
+                                        onClick={() => handleRemoveLevel(index)}
+                                        className="text-destructive hover:text-destructive/80 p-1"
+                                        title="Remove level"
+                                    >
+                                        <Trash2 size={16} />
+                                    </button>
                                 </div>
 
-                                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-xs font-medium">
-                                    {index + 1}
-                                </div>
-
-                                <select
-                                    className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm"
-                                    value={level.roleId || ""}
-                                    onChange={(e) =>
-                                        handleRoleChange(index, Number(e.target.value))
-                                    }
-                                >
-                                    <option value="">Select Role / Position</option>
-                                    {availableRoles?.map((role) => (
-                                        <option key={role.id} value={role.id}>
-                                            {role.name}
-                                        </option>
-                                    ))}
-                                </select>
-
-                                <button
-                                    onClick={() => handleRemoveLevel(index)}
-                                    className="text-destructive hover:text-destructive/80 p-1"
-                                    title="Remove level"
-                                >
-                                    <Trash2 size={16} />
-                                </button>
+                                {/* Show current users under this position */}
+                                {level.users && level.users.length > 0 && (
+                                    <div className="ml-12 text-xs text-muted-foreground space-y-0.5">
+                                        {level.users.map((user, i) => (
+                                            <div key={i}>• {user}</div>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>
@@ -190,7 +229,6 @@ const ChangeApprovalLevelsModal: React.FC<Props> = ({
                             onClick={onClose}
                             rounded="md"
                             padding="p-2"
-                            // variant="outline" if you have it
                         />
                         <ButtonComponent
                             name={isSaving ? "Saving..." : "Save Changes"}

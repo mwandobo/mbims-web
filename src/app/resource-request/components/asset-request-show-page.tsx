@@ -90,7 +90,8 @@ export default function AssetRequestShowPageComponent({resourceRequestId}: { res
         extraData1: data?.items,
         onAfterApprove: fetchData,
         approvers: data?.approvers,
-        redirectUrl: `resource-request/${id}`
+        redirectUrl: `resource-request/${id}`,
+        hasApprovedStarted: data?.hasApprovedStarted,
     })
 
     useEffect(() => {
