@@ -1,23 +1,26 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import PopupModal from "@/components/modal/popup-modal";
 import { ButtonComponent } from "@/components/button/button.component";
 import { postRequest, getRequest } from "@/utils/api-calls.util";
 import LoadingComponent from "@/components/status/loading.component";
-import { PlusCircle, Trash2, GripVertical } from "lucide-react";
+import { PlusCircle, Trash2, GripVertical, Search, ChevronDown, Check } from "lucide-react";
 
-// New shape coming from backend
 interface ApproverFromBackend {
     position: string;
     users?: string[];
 }
 
-// Internal shape used inside the modal
 interface LevelItem {
     roleId?: number;
     position: string;
     users: string[];
+}
+
+interface RoleOption {
+    id: number;
+    name: string;
 }
 
 interface Props {
@@ -29,6 +32,245 @@ interface Props {
     onSuccess: () => void;
 }
 
+// /** Searchable role picker — search is inside the control */
+// const RoleSelect: React.FC<{
+//     value?: number;
+//     label?: string;
+//     options: RoleOption[];
+//     onChange: (roleId: number) => void;
+//     placeholder?: string;
+// }> = ({ value, label, options, onChange, placeholder = "Select role" }) => {
+//     const [open, setOpen] = useState(false);
+//     const [query, setQuery] = useState("");
+//     const rootRef = useRef<HTMLDivElement>(null);
+//     const inputRef = useRef<HTMLInputElement>(null);
+//
+//     const selected = options.find((o) => o.id === value);
+//     const display = selected?.name ?? label ?? "";
+//
+//     const filtered = useMemo(() => {
+//         const q = query.trim().toLowerCase();
+//         if (!q) return options;
+//         return options.filter((o) => o.name.toLowerCase().includes(q));
+//     }, [options, query]);
+//
+//     useEffect(() => {
+//         const onDocClick = (e: MouseEvent) => {
+//             if (!rootRef.current?.contains(e.target as Node)) {
+//                 setOpen(false);
+//                 setQuery("");
+//             }
+//         };
+//         document.addEventListener("mousedown", onDocClick);
+//         return () => document.removeEventListener("mousedown", onDocClick);
+//     }, []);
+//
+//     useEffect(() => {
+//         if (open) {
+//             setQuery("");
+//             setTimeout(() => inputRef.current?.focus(), 0);
+//         }
+//     }, [open]);
+//
+//     return (
+//         <div ref={rootRef} className="relative min-w-0 flex-1">
+//             <button
+//                 type="button"
+//                 onClick={() => setOpen((v) => !v)}
+//                 className="flex w-full items-center justify-between gap-2 rounded-md border border-input bg-background px-2.5 py-1.5 text-left text-sm hover:bg-muted/40"
+//             >
+//                 <span className={`truncate ${display ? "text-foreground" : "text-muted-foreground"}`}>
+//                     {display || placeholder}
+//                 </span>
+//                 <ChevronDown size={14} className="shrink-0 text-muted-foreground" />
+//             </button>
+//
+//             {open && (
+//                 <div className="absolute z-50 mt-1 w-full overflow-hidden rounded-md border border-border bg-background shadow-lg">
+//                     <div className="flex items-center gap-2 border-b border-border px-2 py-1.5">
+//                         <Search size={13} className="text-muted-foreground shrink-0" />
+//                         <input
+//                             ref={inputRef}
+//                             value={query}
+//                             onChange={(e) => setQuery(e.target.value)}
+//                             placeholder="Search role..."
+//                             className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+//                         />
+//                     </div>
+//                     <ul className="max-h-48 overflow-y-auto py-1">
+//                         {filtered.length === 0 && (
+//                             <li className="px-3 py-2 text-xs text-muted-foreground">No roles found</li>
+//                         )}
+//                         {filtered.map((role) => {
+//                             const isActive = role.id === value;
+//                             return (
+//                                 <li key={role.id}>
+//                                     <button
+//                                         type="button"
+//                                         onClick={() => {
+//                                             onChange(role.id);
+//                                             setOpen(false);
+//                                             setQuery("");
+//                                         }}
+//                                         className={`flex w-full items-center justify-between gap-2 px-3 py-1.5 text-left text-sm hover:bg-muted ${
+//                                             isActive ? "bg-muted/60 font-medium" : ""
+//                                         }`}
+//                                     >
+//                                         <span className="truncate">{role.name}</span>
+//                                         {isActive && <Check size={14} className="shrink-0 text-primary" />}
+//                                     </button>
+//                                 </li>
+//                             );
+//                         })}
+//                     </ul>
+//                 </div>
+//             )}
+//         </div>
+//     );
+// };
+
+
+import { createPortal } from "react-dom";
+
+const RoleSelect: React.FC<{
+    value?: number;
+    label?: string;
+    options: RoleOption[];
+    onChange: (roleId: number) => void;
+    placeholder?: string;
+}> = ({ value, label, options, onChange, placeholder = "Select role" }) => {
+    const [open, setOpen] = useState(false);
+    const [query, setQuery] = useState("");
+    const [coords, setCoords] = useState({ top: 0, left: 0, width: 0 });
+    const rootRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const selected = options.find((o) => o.id === value);
+    const display = selected?.name ?? label ?? "";
+
+    const filtered = useMemo(() => {
+        const q = query.trim().toLowerCase();
+        if (!q) return options;
+        return options.filter((o) => o.name.toLowerCase().includes(q));
+    }, [options, query]);
+
+    const updatePosition = () => {
+        const el = rootRef.current;
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        setCoords({
+            top: rect.bottom + 4,
+            left: rect.left,
+            width: rect.width,
+        });
+    };
+
+    useEffect(() => {
+        const onDocClick = (e: MouseEvent) => {
+            if (!rootRef.current?.contains(e.target as Node)) {
+                // also ignore clicks inside the portaled menu
+                const menu = document.getElementById("role-select-menu");
+                if (menu?.contains(e.target as Node)) return;
+                setOpen(false);
+                setQuery("");
+            }
+        };
+        document.addEventListener("mousedown", onDocClick);
+        return () => document.removeEventListener("mousedown", onDocClick);
+    }, []);
+
+    useEffect(() => {
+        if (!open) return;
+        updatePosition();
+        setQuery("");
+        setTimeout(() => inputRef.current?.focus(), 0);
+
+        const onScrollOrResize = () => updatePosition();
+        window.addEventListener("scroll", onScrollOrResize, true);
+        window.addEventListener("resize", onScrollOrResize);
+        return () => {
+            window.removeEventListener("scroll", onScrollOrResize, true);
+            window.removeEventListener("resize", onScrollOrResize);
+        };
+    }, [open]);
+
+    return (
+        <div ref={rootRef} className="relative min-w-0 flex-1">
+            <button
+                type="button"
+                onClick={() => setOpen((v) => !v)}
+                className="flex w-full items-center justify-between gap-2 rounded-md border border-input bg-background px-2.5 py-1.5 text-left text-sm hover:bg-muted/40"
+            >
+                <span
+                    className={`truncate ${
+                        display ? "text-foreground" : "text-muted-foreground"
+                    }`}
+                >
+                    {display || placeholder}
+                </span>
+                <ChevronDown size={14} className="shrink-0 text-muted-foreground" />
+            </button>
+
+            {open &&
+                createPortal(
+                    <div
+                        id="role-select-menu"
+                        style={{
+                            position: "fixed",
+                            top: coords.top,
+                            left: coords.left,
+                            width: coords.width,
+                            zIndex: 9999, // above modal z-50
+                        }}
+                        className="overflow-hidden rounded-md border border-border bg-background shadow-lg"
+                    >
+                        <div className="flex items-center gap-2 border-b border-border px-2 py-1.5">
+                            <Search size={13} className="shrink-0 text-muted-foreground" />
+                            <input
+                                ref={inputRef}
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                                placeholder="Search role..."
+                                className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                            />
+                        </div>
+                        <ul className="max-h-48 overflow-y-auto py-1">
+                            {filtered.length === 0 && (
+                                <li className="px-3 py-2 text-xs text-muted-foreground">
+                                    No roles found
+                                </li>
+                            )}
+                            {filtered.map((role) => {
+                                const isActive = role.id === value;
+                                return (
+                                    <li key={role.id}>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                onChange(role.id);
+                                                setOpen(false);
+                                                setQuery("");
+                                            }}
+                                            className={`flex w-full items-center justify-between gap-2 px-3 py-1.5 text-left text-sm hover:bg-muted ${
+                                                isActive ? "bg-muted/60 font-medium" : ""
+                                            }`}
+                                        >
+                                            <span className="truncate">{role.name}</span>
+                                            {isActive && (
+                                                <Check size={14} className="shrink-0 text-primary" />
+                                            )}
+                                        </button>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>,
+                    document.body
+                )}
+        </div>
+    );
+};
+
 const ChangeApprovalLevelsModal: React.FC<Props> = ({
                                                         isOpen,
                                                         onClose,
@@ -38,7 +280,7 @@ const ChangeApprovalLevelsModal: React.FC<Props> = ({
                                                         onSuccess,
                                                     }) => {
     const [levels, setLevels] = useState<LevelItem[]>([]);
-    const [availableRoles, setAvailableRoles] = useState<any[]>([]);
+    const [availableRoles, setAvailableRoles] = useState<RoleOption[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
 
@@ -48,30 +290,33 @@ const ChangeApprovalLevelsModal: React.FC<Props> = ({
         const loadData = async () => {
             setIsLoading(true);
             try {
-                // 1. Load available roles
                 const res = await getRequest("roles");
-                let roles: any[] = [];
+                let roles: RoleOption[] = [];
 
                 if (res.status === 200) {
                     const data = (res.data as any)?.data ?? res.data ?? [];
-                    roles = Array.isArray(data) ? data : [];
+                    roles = (Array.isArray(data) ? data : []).map((r: any) => ({
+                        id: Number(r.id),
+                        name: String(r.name ?? "").trim(),
+                    }));
                     setAvailableRoles(roles);
                 }
 
-                // 2. Map currentApprovers → levels (match by position name)
-                const mappedLevels: LevelItem[] = (currentApprovers || []).map((approver) => {
-                    const matchedRole = roles.find(
-                        (r) => r.name?.trim() === approver.position?.trim()
+                // position = role/position name; users = people in that role
+                const mapped: LevelItem[] = (currentApprovers || []).map((approver) => {
+                    const pos = (approver.position ?? "").trim();
+                    const matched = roles.find(
+                        (r) => r.name.toLowerCase() === pos.toLowerCase()
                     );
 
                     return {
-                        roleId: matchedRole?.id,
-                        position: approver.position,
+                        roleId: matched?.id,
+                        position: pos,
                         users: approver.users || [],
                     };
                 });
 
-                setLevels(mappedLevels);
+                setLevels(mapped);
             } catch (err) {
                 console.error(err);
             } finally {
@@ -82,11 +327,17 @@ const ChangeApprovalLevelsModal: React.FC<Props> = ({
         loadData();
     }, [isOpen, currentApprovers]);
 
+    const getOptionsForLevel = (index: number) => {
+        const taken = new Set(
+            levels
+                .map((l, i) => (i === index ? undefined : l.roleId))
+                .filter((id): id is number => id != null)
+        );
+        return availableRoles.filter((r) => !taken.has(r.id));
+    };
+
     const handleAddLevel = () => {
-        setLevels((prev) => [
-            ...prev,
-            { roleId: undefined, position: "", users: [] },
-        ]);
+        setLevels((prev) => [...prev, { roleId: undefined, position: "", users: [] }]);
     };
 
     const handleRemoveLevel = (index: number) => {
@@ -98,24 +349,21 @@ const ChangeApprovalLevelsModal: React.FC<Props> = ({
         if (!role) return;
 
         setLevels((prev) => {
-            const updated = [...prev];
-            updated[index] = {
-                ...updated[index],
+            const next = [...prev];
+            next[index] = {
+                ...next[index],
                 roleId: role.id,
                 position: role.name,
-                // users stay empty until backend refreshes after save
-                users: updated[index].users || [],
+                users: next[index].users || [],
             };
-            return updated;
+            return next;
         });
     };
 
     const handleSubmit = async () => {
         if (!entityId || !entityName) return;
 
-        // Basic validation
-        const hasInvalid = levels.some((l) => !l.roleId);
-        if (hasInvalid) {
+        if (levels.some((l) => !l.roleId)) {
             alert("Please select a role for every level");
             return;
         }
@@ -123,7 +371,7 @@ const ChangeApprovalLevelsModal: React.FC<Props> = ({
         setIsSaving(true);
         try {
             const payload = {
-                entityId,
+                entityId: Number(entityId),
                 entityName,
                 levels: levels.map((l, idx) => ({
                     order: idx + 1,
@@ -132,7 +380,6 @@ const ChangeApprovalLevelsModal: React.FC<Props> = ({
             };
 
             const res = await postRequest("approval-levels/override", payload);
-
             if ([200, 201].includes(res.status)) {
                 onSuccess();
             } else {
@@ -145,6 +392,9 @@ const ChangeApprovalLevelsModal: React.FC<Props> = ({
             setIsSaving(false);
         }
     };
+
+    const canAddMore =
+        levels.filter((l) => l.roleId).length < availableRoles.length;
 
     return (
         <PopupModal
@@ -159,57 +409,47 @@ const ChangeApprovalLevelsModal: React.FC<Props> = ({
             ) : (
                 <div className="space-y-4">
                     <p className="text-sm text-muted-foreground">
-                        You can override the default approval chain for this specific record.
-                        Levels will be applied in the order shown below.
+                        Override the default chain for this record only. Order is the
+                        approval sequence.
                     </p>
 
-                    <div className="space-y-3 max-h-[420px] overflow-y-auto pr-1">
+                    <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1">
+                        {levels.length === 0 && (
+                            <p className="py-6 text-center text-sm text-muted-foreground">
+                                No levels yet. Add one to get started.
+                            </p>
+                        )}
+
                         {levels.map((level, index) => (
                             <div
                                 key={index}
-                                className="rounded-lg border bg-muted/20 p-3 space-y-2"
+                                className="rounded-lg border border-border bg-muted/20 p-3"
                             >
-                                <div className="flex items-center gap-3">
-                                    <div className="text-muted-foreground">
-                                        <GripVertical size={16} />
-                                    </div>
-
-                                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-xs font-medium">
+                                <div className="flex items-center gap-2">
+                                    <GripVertical
+                                        size={14}
+                                        className="shrink-0 text-muted-foreground"
+                                    />
+                                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-[11px] font-medium text-primary">
                                         {index + 1}
-                                    </div>
+                                    </span>
 
-                                    <select
-                                        className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm"
-                                        value={level.roleId || ""}
-                                        onChange={(e) =>
-                                            handleRoleChange(index, Number(e.target.value))
-                                        }
-                                    >
-                                        <option value="">Select Role / Position</option>
-                                        {availableRoles.map((role) => (
-                                            <option key={role.id} value={role.id}>
-                                                {role.name}
-                                            </option>
-                                        ))}
-                                    </select>
+                                    <RoleSelect
+                                        value={level.roleId}
+                                        label={level.position}
+                                        options={getOptionsForLevel(index)}
+                                        onChange={(id) => handleRoleChange(index, id)}
+                                    />
 
                                     <button
+                                        type="button"
                                         onClick={() => handleRemoveLevel(index)}
-                                        className="text-destructive hover:text-destructive/80 p-1"
+                                        className="rounded p-1.5 text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
                                         title="Remove level"
                                     >
-                                        <Trash2 size={16} />
+                                        <Trash2 size={15} />
                                     </button>
                                 </div>
-
-                                {/* Show current users under this position */}
-                                {level.users && level.users.length > 0 && (
-                                    <div className="ml-12 text-xs text-muted-foreground space-y-0.5">
-                                        {level.users.map((user, i) => (
-                                            <div key={i}>• {user}</div>
-                                        ))}
-                                    </div>
-                                )}
                             </div>
                         ))}
                     </div>
@@ -219,17 +459,13 @@ const ChangeApprovalLevelsModal: React.FC<Props> = ({
                         onClick={handleAddLevel}
                         rounded="md"
                         padding="p-2"
+                        isDisabled={!canAddMore}
                     >
-                        <PlusCircle size={16} className="mr-1" />
+                        <PlusCircle size={15} className="mr-1" />
                     </ButtonComponent>
 
-                    <div className="flex justify-end gap-3 pt-4 border-t">
-                        <ButtonComponent
-                            name="Cancel"
-                            onClick={onClose}
-                            rounded="md"
-                            padding="p-2"
-                        />
+                    <div className="flex justify-end gap-2 border-t border-border pt-3">
+                        <ButtonComponent name="Cancel" onClick={onClose} rounded="md" padding="p-2" />
                         <ButtonComponent
                             name={isSaving ? "Saving..." : "Save Changes"}
                             onClick={handleSubmit}
