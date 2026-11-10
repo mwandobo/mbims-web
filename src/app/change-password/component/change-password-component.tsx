@@ -54,31 +54,25 @@ export default function ChangePasswordComponent({ userId }: { userId: string }) 
             const permissions = role?.permissions
             const notifications = response.data.notifications
 
-            if (setValueLocalStorage('token', token) &&
-                setValueLocalStorage('user', JSON.stringify(user)) &&
-                setValueLocalStorage('system_permissions', JSON.stringify(permissions))
+            if (
+                setValueLocalStorage("token", token) &&
+                setValueLocalStorage("user", JSON.stringify(user)) &&
+                setValueLocalStorage("system_permissions", JSON.stringify(permissions))
             ) {
-                setLoading(!loading)
                 dispatch({ type: "SET_CURRENT_USER", payload: user })
-                const notificationPayload = {
-                    count: notifications?.filter((note: any) => !note.isRead).length,
-                    notifications: notifications,
-                };
+                dispatch({ type: "UPDATE_NOTIFICATION", payload: true })
 
-                // 👈 this is the key fix
-                // dispatch({type: "UPDATE_NOTIFICATION_BODY", payload: notificationPayload});
-                dispatch({type: "UPDATE_NOTIFICATION", payload: true});
+                ToastComponent({ text: "Password changed successfully", duration: 1000 })
 
-                router.push('/')
-            } else {
-                alert('error setting value to local storage')
+                // stay on loading skeleton — do NOT setLoading(false)
+                router.push("/")
+                return
             }
 
-            ToastComponent({text: "Password changed successfully", duration: 1000})
-
-            router.push("/")
-
+            throw "Error setting value to local storage"
         } catch (error: any) {
+            setLoading(false) // only here
+
             const message =
                 error?.response?.data?.message ?? error?.message ?? error
 
@@ -87,8 +81,6 @@ export default function ChangePasswordComponent({ userId }: { userId: string }) 
                 text: message,
                 icon: "error",
             })
-        } finally {
-            setLoading(false)
         }
     }
 

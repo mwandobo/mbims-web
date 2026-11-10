@@ -44,8 +44,9 @@ export default function LoginPage() {
                     const user = response?.data?.user
 
                     const passwordChanged = user?.isPasswordChanged
+                    const isRecoveryRequest = user?.isRecoveryRequested
 
-                    if (!passwordChanged) {
+                    if (!passwordChanged || isRecoveryRequest) {
                         router.push(`/change-password/${user.id}`)
                         return   // ← important: stop here
                     }
