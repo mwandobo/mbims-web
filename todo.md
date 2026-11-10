@@ -61,6 +61,11 @@ ability to delete role
 filter positions based on department
 after change password just leave a loader
 hold old approvals if new approvals are implemented
+after reset password one must change it
+add show password
+in list approvers show who have approved
+handle once approval started and then the edit or delete level have perfomed ... what does it affect the previous 
+
 
 
 

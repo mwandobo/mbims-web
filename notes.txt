@@ -40,10 +40,20 @@ const data = (res.data as any)?.data ?? res.data ?? [];
  setAvailableRoles(Array.isArray(data) ? data : []);
 
 
+System Developer
 
+Finance Officer
+bonifacemwandobo@gmail.com
+MBISE PONIWOA
+fHX!IV9Sudgo
 
+ICT Manager
+bonifacesimon04@gmail.com
+HAWANGA ANDY
 
-
+Finance Manager
+bmwandobo@mwalimubank.co.tz
+BONIFACE SIMON MWANDOBO
 
 
 
