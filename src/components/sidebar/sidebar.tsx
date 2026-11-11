@@ -167,6 +167,7 @@ function Sidebar() {
                 h-[88.9vh]
                 transition-all duration-300 ease-in-out
                 overflow-hidden
+                border-t border-sidebar-border
 
                 /* Mobile */
                 w-64

@@ -31,6 +31,7 @@
     --sidebar-text-active: #ffffff;
     --sidebar-hover: #245c9b;
     --sidebar-active: #E87927;
+    --sidebar-border: #E87927;
 
     --header-bg: #E87927;
     --header-text: #ffffff;
@@ -110,6 +111,7 @@
     --sidebar-text-active: #171717;
     --sidebar-hover: #f3f4f6;
     --sidebar-active: #D9DCE0;
+    --sidebar-border: #F3F4F6;
 
     --header-bg: #ffffff;
     --header-text: #171717;
@@ -185,6 +187,7 @@
     --sidebar-text: #f9fafb;
     --sidebar-hover: #1f2937;
     --sidebar-active: #374151;
+    --sidebar-border: transparent;
 
     --header-bg: #111827;
     --header-text: #f9fafb;
@@ -262,6 +265,7 @@
     --color-sidebar-text-active: var(--sidebar-text);
     --color-sidebar-hover: var(--sidebar-hover);
     --color-sidebar-active: var(--sidebar-active);
+    --color-sidebar-border: var(--sidebar-border);
 
     --color-header-bg: var(--header-bg);
     --color-header-text: var(--header-text);
