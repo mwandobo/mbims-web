@@ -4,7 +4,7 @@ import "./globals.css";
 import { GlobalContextProvider } from "@/context/GlobalContext";
 import React from "react";
 import HydrationZustand from "@/app/Hydrated";
-import MainComponentWrapper from "@/components/sidebar/main-component-wrapper";
+import MainComponentWrapper from "@/components/main-component-wrapper";
 import { ToastContainer } from "react-toastify";
 import SlideOverRender from "@/components/slide-over/slide-over-render.component";
 import Footer from "@/components/footer/footer.component";
