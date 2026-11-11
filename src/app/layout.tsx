@@ -52,7 +52,7 @@ export default function RootLayout({ children }: Props) {
                 }}
             />
         </head>
-        <body>
+        <body suppressHydrationWarning>
         <div className="bg-background min-h-screen">
             <ThemeProvider>
                 <AuthenticatedApp>
