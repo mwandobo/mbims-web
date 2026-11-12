@@ -152,98 +152,51 @@ const items: ISidebarItem[] = [
     },
 ]
 
-// function Sidebar() {
-//     const {state, dispatch} = useGlobalContextHook()
-//     const {isSideBarHidden} = state
-//
-//     const toggleSideBar = () => {
-//         dispatch({type: "UPDATE_HIDE_SIDEBAR"})
-//     }
-//
-//     return (
-//         <div
-//             className={`
-//                 fixed inset-y-0 left-0 z-40
-//                 h-[88.9vh]
-//                 transition-all duration-300 ease-in-out
-//                 overflow-hidden
-//                 border-t border-sidebar-border
-//
-//                 /* Mobile */
-//                 w-64
-//                 ${isSideBarHidden ? "-translate-x-full" : "translate-x-0"}
-//
-//                 /* Desktop */
-//                 md:relative md:flex-shrink-0
-//                 ${isSideBarHidden
-//                 ? "md:w-0 md:min-w-0 md:opacity-0 md:border-none md:translate-x-0"
-//                 : "md:w-56 lg:w-64 md:translate-x-0"
-//             }
-//             `}
-//         >
-//             <div className="h-full w-full bg-sidebar-bg text-sidebar-text">
-//                 {/* Close button - only on small screens */}
-//                 <div className="ms-4 mt-4 -mb-8 md:hidden">
-//                     <button onClick={toggleSideBar} className="mt-2">
-//                         <ArrowLeftFromLine size={32} className="text-gray-400" strokeWidth={2}/>
-//                     </button>
-//                 </div>
-//                 <div className=" px-2 h-full w-full">
-//                     <div
-//                         className="flex flex-col h-full w-full pt-10 pb-4 pe-4 overflow-y-auto overflow-x-hidden scrollbar-thin">
-//                         {items.map(
-//                             (item) =>
-//                                 checkPermissions(item?.permission) && (
-//                                     <SidebarItem key={item.path} item={item}/>
-//                                 )
-//                         )}
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
-
 function Sidebar() {
-    const { state, dispatch } = useGlobalContextHook()
-    const { isSideBarHidden } = state
+    const {state, dispatch} = useGlobalContextHook()
+    const {isSideBarHidden} = state
     const collapsed = isSideBarHidden
 
     const toggleSideBar = () => {
-        dispatch({ type: "UPDATE_HIDE_SIDEBAR" })
+        dispatch({type: "UPDATE_HIDE_SIDEBAR"})
     }
 
     return (
         <div
             className={`
-                fixed inset-y-0 left-0 z-40
-                h-[88.9vh]
-                transition-all duration-300 ease-in-out
-                overflow-hidden
-                border-t border-sidebar-border
+    fixed inset-y-0 left-0 z-40
+    h-[88.9vh]
+    transition-all duration-300 ease-in-out
+    border-t border-sidebar-border
 
-                /* Mobile: full drawer, slide off when collapsed */
-                w-64
-                ${collapsed ? "-translate-x-full" : "translate-x-0"}
+    /* clip only when expanded; collapsed must show flyouts */
+    ${collapsed ? "overflow-visible" : "overflow-hidden"}
 
-                /* Desktop: never fully gone — narrow rail when collapsed */
-                md:relative md:flex-shrink-0 md:translate-x-0 md:opacity-100
-                ${collapsed ? "md:w-16 md:min-w-16" : "md:w-56 lg:w-64"}
-            `}
+    w-64
+    ${collapsed ? "-translate-x-full" : "translate-x-0"}
+
+    md:relative md:flex-shrink-0 md:translate-x-0 md:opacity-100
+    ${collapsed ? "md:w-16 md:min-w-16" : "md:w-56 lg:w-64"}
+`}
         >
             <div className="h-full w-full bg-sidebar-bg text-sidebar-text">
                 <div className="ms-4 mt-4 -mb-8 md:hidden">
                     <button onClick={toggleSideBar} className="mt-2">
-                        <ArrowLeftFromLine size={32} className="text-gray-400" strokeWidth={2} />
+                        <ArrowLeftFromLine size={32} className="text-gray-400" strokeWidth={2}/>
                     </button>
                 </div>
 
                 <div className={`h-full w-full ${collapsed ? "px-1" : "px-2"}`}>
-                    <div className="flex flex-col h-full w-full pt-10 pb-4 pe-2 overflow-y-auto overflow-x-hidden scrollbar-thin">
+                    <div
+                        className={`
+                            flex flex-col h-full w-full pt-10 pb-4 pe-2 scrollbar-thin
+                            ${collapsed ? "overflow-visible" : "overflow-y-auto overflow-x-hidden"}
+                          `}
+                    >
                         {items.map(
                             (item) =>
                                 checkPermissions(item?.permission) && (
-                                    <SidebarItem key={item.path} item={item} />
+                                    <SidebarItem key={item.path} item={item}/>
                                 )
                         )}
                     </div>
