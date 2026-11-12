@@ -96,7 +96,7 @@ function Header() {
             <div className="flex items-center justify-end gap-2 me-4">
                 <NotificationComponent />
                 <ProfileDropdown
-                    name={currentUser?.email}
+                    user={currentUser}
                     handleLogout={handleLogout}
                 />
             </div>
