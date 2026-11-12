@@ -41,7 +41,7 @@ function SubMenuItem({ item }: { item: ISubItem }) {
             ${isActive ? "bg-sidebar-active text-sidebar-text-active" : ""}`}
         >
             <div className="flex items-center space-x-2">
-                <Icon size={13} />
+                <Icon size={16} />
                 <p>{name}</p>
             </div>
         </Link>

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { ChevronDown, LucideIcon } from "lucide-react";
@@ -81,7 +80,7 @@ function SidebarItem({ item }: { item: ISidebarItem }) {
                 `}
             >
                 <div className={`flex items-center ${collapsed ? "" : "gap-2"}`}>
-                    <Icon size={collapsed ? 22 : 13} />
+                    <Icon size={collapsed ? 24 : 20} />
                     {!collapsed && <p>{name}</p>}
                 </div>
 
@@ -114,11 +113,11 @@ function SidebarItem({ item }: { item: ISidebarItem }) {
             {collapsed && hoverOpen && (
                 <div
                     className="
-                        absolute left-full top-0 z-50 ml-1 min-w-[180px]
-                        rounded-md border border-sidebar-border
-                        bg-sidebar-bg text-sidebar-text shadow-lg
-                        py-1 px-1
-                    "
+                          absolute left-full top-0 z-[100] ml-1 min-w-[180px]
+                          rounded-md border border-sidebar-border
+                          bg-sidebar-bg text-sidebar-text shadow-lg
+                          py-1 px-1
+                        "
                 >
                     {/* Parent label */}
                     <div className="px-3 py-2 text-xs font-semibold border-b border-sidebar-border mb-1">
