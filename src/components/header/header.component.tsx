@@ -10,6 +10,7 @@ import {
     getValueFromLocalStorage,
     removeValueFromLocalStorage,
 } from "@/utils/local-storage.util";
+import ThemeSwitcherComponent from "@/components/header/theme-switcher-component";
 
 type Theme = "brand" | "light" | "dark";
 
@@ -94,6 +95,7 @@ function Header() {
             </div>
 
             <div className="flex items-center justify-end gap-2 me-4">
+                <ThemeSwitcherComponent />
                 <NotificationComponent />
                 <ProfileDropdown
                     user={currentUser}
