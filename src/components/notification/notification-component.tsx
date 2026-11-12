@@ -1,84 +1,119 @@
 'use client';
 
-import React, {useEffect, useMemo, useState} from 'react';
-import {Bell, Circle, MailOpen, SquareArrowOutUpRight, Trash} from 'lucide-react';
-import DropdownComponent from '@/components/dropdown/dropdown.component';
-import {useGlobalContextHook} from '@/hooks/useGlobalContextHook';
-import {useRouter} from "next/navigation";
-import ToastComponent from "@/components/popup/toast";
-import {getValueFromLocalStorage, setValueLocalStorage} from "@/utils/local-storage.util";
-import {deleteRequest, getRequest} from "@/utils/api-calls.util";
-import LoadingComponent from "@/components/status/loading.component";
-import {showConfirmationModal} from "@/utils/show-alert-dialog";
-import LoadingSmallComponent from "@/components/status/loading-small.component";
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Bell, BellOff, CheckCheck, ExternalLink, Trash2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useGlobalContextHook } from '@/hooks/useGlobalContextHook';
+import ToastComponent from '@/components/popup/toast';
+import LoadingSmallComponent from '@/components/status/loading-small.component';
+import { getValueFromLocalStorage } from '@/utils/local-storage.util';
+import { deleteRequest, getRequest } from '@/utils/api-calls.util';
+import { showConfirmationModal } from '@/utils/show-alert-dialog';
+
+interface Note {
+    id: number | string;
+    title: string;
+    description?: string;
+    isRead: boolean;
+    redirectUrl?: string;
+    group?: string;
+    state_redirect_url?: string;
+    for_id?: number | string;
+    userName?: string;
+    formattedCreatedAt?: string;
+}
+
+type Filter = 'all' | 'unread';
+
+const SUB_VIEW_GROUPS = ['procurement', 'finance', 'sales', 'inventory', 'workshop'];
+
+const getInitials = (name?: string) => {
+    const parts = (name || '?').trim().split(/\s+/).filter(Boolean);
+    return ((parts[0]?.[0] ?? '?') + (parts[1]?.[0] ?? '')).toUpperCase();
+};
 
 const NotificationComponent = () => {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [notes, setNotes] = useState([]);
-    const [loading, setLoading] = useState(false)
-    const [expandedNotification, setExpandedNotification] = useState<number | null>(null); // Track expanded notification
-    const {state, dispatch} = useGlobalContextHook();
-    const router = useRouter()
-    const token = getValueFromLocalStorage("token");
+    const [isOpen, setIsOpen] = useState(false);
+    const [notes, setNotes] = useState<Note[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [filter, setFilter] = useState<Filter>('all');
+    const [expandedId, setExpandedId] = useState<Note['id'] | null>(null);
 
-    const {refreshNotification, currentUser} = state;
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
+    const token = getValueFromLocalStorage('token');
+    const { state, dispatch } = useGlobalContextHook();
+    const { refreshNotification, currentUser } = state;
 
+    // Fetch notifications (loading state only affects the panel, not the whole component)
     useEffect(() => {
+        let active = true;
         const fetchData = async () => {
-            setLoading(true)
-                try {
-                    const res = await getRequest('notifications')
-                    if ( res.status === 200) {
-                        // @ts-ignore
-                        setNotes(res.data?.data);
-                        setLoading(false)
-                    }
-
-                } catch (error: any) {
-                    if (error?.code === "ERR_NETWORK") {
-                        console.log('error')
-                    }
-                }
-        };
-        fetchData()
-    }, [refreshNotification, token,currentUser ]);
-
-    const toggleIsDropdownOpen = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-    };
-
-    const toggleExpand = async (index: number) => {
-        setExpandedNotification(expandedNotification === index ? null : index);
-        const note = notes[index];
-
-        if (!note?.isRead) {
             try {
-                const updatedNotification = await getRequest(`notifications/${note?.id}/read`);
-                if (updatedNotification.status === 200) {
-                    // Create a new array so React detects the change
-                    const updatedNotes = notes.map((n, i) =>
-                        i === index ? { ...n, isRead: true } : n
-                    );
-                    setNotes(updatedNotes);
+                const res = await getRequest('notifications');
+                if (active && res.status === 200) {
+                    setNotes((res.data as any)?.data ?? res.data ?? []);
+                }
+            } catch (error: any) {
+                if (error?.code === 'ERR_NETWORK') console.log('error');
+            } finally {
+                if (active) setLoading(false);
+            }
+        };
+        fetchData();
+        return () => {
+            active = false;
+        };
+    }, [refreshNotification, token, currentUser]);
+
+    // Close on outside click or Escape
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') setIsOpen(false);
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
+
+    const unreadCount = useMemo(() => notes.filter((n) => !n.isRead).length, [notes]);
+    const visibleNotes = useMemo(
+        () => (filter === 'unread' ? notes.filter((n) => !n.isRead) : notes),
+        [notes, filter]
+    );
+
+    const toggleExpand = async (note: Note) => {
+        setExpandedId((prev) => (prev === note.id ? null : note.id));
+
+        if (!note.isRead) {
+            try {
+                const res = await getRequest(`notifications/${note.id}/read`);
+                if (res.status === 200) {
+                    setNotes((prev) => prev.map((n) => (n.id === note.id ? { ...n, isRead: true } : n)));
                 }
             } catch (error) {
-                console.error("Error updating notification:", error);
+                console.error('Error updating notification:', error);
             }
         }
     };
 
-    const handleDelete = async (index: number, event: any) => {
-        event.stopPropagation();
-        const note = notes[index]// Toggle expanded state
+    const handleDelete = async (note: Note) => {
         try {
-            const response = await deleteRequest(`notifications/${note?.id}`);
-            if (response.status === 200) {
-                const newNotes = notes.filter((note, _index) => Number(_index) !== Number(index))
-                setNotes(newNotes)
-                ToastComponent({text:'Deleted Successfully'})
+            const res = await deleteRequest(`notifications/${note.id}`);
+            if (res.status === 200) {
+                setNotes((prev) => prev.filter((n) => n.id !== note.id));
+                ToastComponent({ text: 'Deleted Successfully' });
             }
         } catch (error) {
-            console.error("Error fetching notifications:", error);
+            console.error('Error deleting notification:', error);
         }
     };
 
@@ -92,8 +127,8 @@ const NotificationComponent = () => {
             text: 'This will permanently delete all notifications. Do you want to continue?',
             onConfirm: async () => {
                 try {
-                    const response = await getRequest(`notifications/delete-all`);
-                    if (response.status === 200) {
+                    const res = await getRequest('notifications/delete-all');
+                    if (res.status === 200) {
                         setNotes([]);
                         ToastComponent({ text: 'All notifications deleted successfully' });
                     }
@@ -105,168 +140,207 @@ const NotificationComponent = () => {
         });
     };
 
-
     const handleReadAll = async () => {
+        if (unreadCount === 0) return;
         try {
-            const updatedNotificationResult = await getRequest(`notifications/read-all`);
-            if (updatedNotificationResult.status === 200) {
-                const newNotes = notes.map(note => {
-                    return {...note, isRead: true}
-                })
-                setNotes(newNotes)
+            const res = await getRequest('notifications/read-all');
+            if (res.status === 200) {
+                setNotes((prev) => prev.map((n) => ({ ...n, isRead: true })));
             }
         } catch (error) {
-            console.error("Error fetching notifications:", error);
+            console.error('Error marking all as read:', error);
         }
     };
 
+    const handleViewClick = (note: Note) => {
+        const { redirectUrl, group, state_redirect_url, for_id } = note;
 
-    const unreadCount = useMemo(
-        () => notes.filter(note => !note.isRead).length,
-        [notes]
-    );
-
-    const handleViewClick = (notificationBody: any) => {
-        const {redirectUrl, group, state_redirect_url, for_id} = notificationBody
         if (!redirectUrl) {
             return ToastComponent({
                 type: 'error',
-                text: 'Something went Wrong. Data not Available'
-            })
+                text: 'Something went Wrong. Data not Available',
+            });
         }
 
-        if (group) {
-            let body = null;
-
-            switch (group) {
-                case 'plan':
-                    const redirect_body = {id: for_id, from: state_redirect_url}
-                    dispatch({type: 'SET_PLANNING_ITEM', payload: redirect_body})
-                    break;
-                case 'procurement':
-                    body = {id: for_id, from: state_redirect_url}
-                    dispatch({type: "SET_SUB_VIEW_ITEM", payload: body});
-                    break;
-                case 'finance':
-                    body = {id: for_id, from: state_redirect_url}
-                    dispatch({type: "SET_SUB_VIEW_ITEM", payload: body});
-                    break;
-                case 'sales':
-                    body = {id: for_id, from: state_redirect_url}
-                    dispatch({type: "SET_SUB_VIEW_ITEM", payload: body});
-                    break;
-                case 'inventory':
-                    body = {id: for_id, from: state_redirect_url}
-                    dispatch({type: "SET_SUB_VIEW_ITEM", payload: body});
-                    break;
-                case 'workshop':
-                    body = {id: for_id, from: state_redirect_url}
-                    dispatch({type: "SET_SUB_VIEW_ITEM", payload: body});
-                    break;
-            }
+        const payload = { id: for_id, from: state_redirect_url };
+        if (group === 'plan') {
+            dispatch({ type: 'SET_PLANNING_ITEM', payload });
+        } else if (group && SUB_VIEW_GROUPS.includes(group)) {
+            dispatch({ type: 'SET_SUB_VIEW_ITEM', payload });
         }
-        router.push(redirectUrl)
-        setIsDropdownOpen(false);
-    }
 
-    if(loading){
-        return  <LoadingSmallComponent />
-    }
+        router.push(redirectUrl);
+        setIsOpen(false);
+    };
 
     return (
-        <div>
+        <div className="relative" ref={dropdownRef}>
+            {/* Bell trigger (same size as the profile avatar) */}
             <button
-                onClick={toggleIsDropdownOpen}
-                className={`flex flex-col items-center space-x-2 focus:outline-none p-2 rounded-full text-header-text ${
-                    unreadCount > 0 && "animate-pulse border border-header-border"
-                }`}
+                onClick={() => setIsOpen((prev) => !prev)}
+                aria-haspopup="dialog"
+                aria-expanded={isOpen}
+                aria-label={unreadCount > 0 ? `Notifications, ${unreadCount} unread` : 'Notifications'}
+                className="relative flex h-9 w-9 items-center justify-center rounded-full bg-header-text/15 text-header-text ring-2 ring-transparent transition hover:ring-header-text/40 focus:outline-none focus-visible:ring-header-text/60 md:h-8 md:w-8"
             >
-                <Bell />
-                <span className="ps-4 -mt-2 text-xs text-error font-semibold">
-        {unreadCount > 0 ? unreadCount : ""}
-      </span>
+                <Bell className="h-[18px] w-[18px] md:h-4 md:w-4" />
+                {unreadCount > 0 && (
+                    <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-error px-1 text-[10px] font-semibold leading-none text-white">
+                        {unreadCount > 99 ? '99+' : unreadCount}
+                    </span>
+                )}
             </button>
 
-            <div>
-                <DropdownComponent
-                    name="Notifications"
-                    toggleOpen={toggleIsDropdownOpen}
-                    isOpen={isDropdownOpen}
+            {isOpen && (
+                <div
+                    role="dialog"
+                    aria-label="Notifications"
+                    className="fixed inset-x-3 top-16 z-30 overflow-hidden rounded-xl border border-card-border-light bg-card-bg text-foreground shadow-xl sm:absolute sm:inset-x-auto sm:right-0 sm:top-full sm:mt-2 sm:w-96"
                 >
-                    <div className="w-full flex flex-col text-xs text-foreground bg-card-bg">
-                        <div className="flex justify-between items-center mb-2">
-                            <h3 className="font-medium text-sm text-foreground">Notifications</h3>
-                            <div className="flex gap-2">
-                                <button onClick={handleDeleteAll}>
-                                    <Trash size={14} strokeWidth={3} className="text-error" />
-                                </button>
-                                <button onClick={handleReadAll}>
-                                    <MailOpen size={14} strokeWidth={3} className="text-muted" />
-                                </button>
-                            </div>
+                    {/* Header */}
+                    <div className="flex items-center justify-between border-b border-card-border-light px-4 py-3">
+                        <div className="flex items-center gap-2">
+                            <h3 className="text-sm font-semibold">Notifications</h3>
+                            {unreadCount > 0 && (
+                                <span className="rounded-full bg-muted-bg px-2 py-0.5 text-[11px] font-medium">
+                                    {unreadCount} new
+                                </span>
+                            )}
                         </div>
-
-                        <div className="w-full flex flex-col">
-                            {notes?.map((note, index) => (
-                                <div
-                                    key={index}
-                                    className={`flex flex-col p-2 mb-1 text-foreground ${
-                                        index % 2 === 0 ? "bg-card-bg" : "bg-muted-bg"
-                                    } ${!note.isRead ? "text-xs font-semibold" : ""}`}
-                                    onClick={() => toggleExpand(index)}
-                                >
-                                    <div className="flex justify-between">
-                                        <div className="flex items-center">
-                                            {!note.isRead ? (
-                                                <Circle size={6} className="text-error me-1" strokeWidth={6} />
-                                            ) : (
-                                                <p className="ms-2"></p>
-                                            )}
-                                            <p className="me-1">{index + 1}</p>
-                                            <p>{note.title}</p>
-                                        </div>
-                                        <div className="flex gap-2 items-center">
-                                            <button
-                                                onClick={(event) => handleDelete(index, event)}
-                                                className="z-10"
-                                            >
-                                                <Trash size={10} strokeWidth={4} className="text-error" />
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    {expandedNotification === index && (
-                                        <div className="mt-2 text-muted ps-4">
-                                            <p className="border border-card-border p-1 ps-2 rounded-md text-foreground">
-                                                {note?.description}
-                                            </p>
-                                            <div className="flex items-center justify-between gap-3 w-full">
-                                                <button
-                                                    onClick={() => handleViewClick(note)}
-                                                    className="text-primary flex items-center gap-1 text-[9px] hover:underline"
-                                                >
-                                                    view <SquareArrowOutUpRight size={10} />
-                                                </button>
-                                                <div className="flex items-center gap-3 justify-end">
-                                                    <p
-                                                        className="text-[9px] max-w-[100px] truncate cursor-pointer text-muted"
-                                                        title={note?.userName || "Unknown"}
-                                                    >
-                                                        Sender: {note?.userName || "Unknown"}
-                                                    </p>
-                                                    <p className="text-[9px] whitespace-nowrap text-muted">
-                                                        Sent On: {note?.formattedCreatedAt || "Unknown"}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
+                        <div className="flex items-center gap-1">
+                            <button
+                                onClick={handleReadAll}
+                                disabled={unreadCount === 0}
+                                title="Mark all as read"
+                                aria-label="Mark all as read"
+                                className="rounded-md p-1.5 transition hover:bg-muted-bg disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                                <CheckCheck size={16} />
+                            </button>
+                            <button
+                                onClick={handleDeleteAll}
+                                disabled={notes.length === 0}
+                                title="Delete all"
+                                aria-label="Delete all notifications"
+                                className="rounded-md p-1.5 text-error transition hover:bg-muted-bg disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                                <Trash2 size={16} />
+                            </button>
                         </div>
                     </div>
-                </DropdownComponent>
-            </div>
+
+                    {/* Filter tabs */}
+                    <div className="flex gap-1 border-b border-card-border-light px-3 py-2">
+                        {(['all', 'unread'] as Filter[]).map((f) => (
+                            <button
+                                key={f}
+                                onClick={() => setFilter(f)}
+                                className={`rounded-full px-3 py-1 text-xs font-medium capitalize transition ${
+                                    filter === f ? 'bg-muted-bg text-foreground' : 'text-muted hover:bg-muted-bg'
+                                }`}
+                            >
+                                {f}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* List */}
+                    <div className="max-h-[60vh] overflow-y-auto sm:max-h-96">
+                        {loading && notes.length === 0 ? (
+                            <div className="flex justify-center py-10">
+                                <LoadingSmallComponent />
+                            </div>
+                        ) : visibleNotes.length === 0 ? (
+                            <div className="flex flex-col items-center gap-2 px-6 py-12 text-center">
+                                <BellOff size={28} className="text-muted" />
+                                <p className="text-sm font-medium">
+                                    {filter === 'unread' ? 'No unread notifications' : "You're all caught up"}
+                                </p>
+                                <p className="text-xs text-muted">New notifications will show up here.</p>
+                            </div>
+                        ) : (
+                            <ul className="divide-y divide-card-border-light">
+                                {visibleNotes.map((note) => {
+                                    const isExpanded = expandedId === note.id;
+                                    return (
+                                        <li key={note.id}>
+                                            <div
+                                                role="button"
+                                                tabIndex={0}
+                                                onClick={() => toggleExpand(note)}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter' || e.key === ' ') {
+                                                        e.preventDefault();
+                                                        toggleExpand(note);
+                                                    }
+                                                }}
+                                                className={`flex cursor-pointer gap-3 border-l-2 px-4 py-3 transition hover:bg-muted-bg focus:outline-none focus-visible:bg-muted-bg ${
+                                                    note.isRead ? 'border-transparent' : 'border-primary'
+                                                }`}
+                                            >
+                                                {/* Sender avatar */}
+                                                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted-bg text-[11px] font-semibold">
+                                                    {getInitials(note.userName)}
+                                                </div>
+
+                                                <div className="min-w-0 flex-1">
+                                                    <div className="flex items-start justify-between gap-2">
+                                                        <p
+                                                            className={`text-sm leading-snug ${
+                                                                note.isRead ? 'font-medium' : 'font-semibold'
+                                                            } ${isExpanded ? '' : 'line-clamp-1'}`}
+                                                        >
+                                                            {note.title}
+                                                        </p>
+                                                        {!note.isRead && (
+                                                            <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-error" />
+                                                        )}
+                                                    </div>
+
+                                                    <p
+                                                        className={`mt-0.5 text-xs text-muted ${
+                                                            isExpanded ? '' : 'line-clamp-1'
+                                                        }`}
+                                                    >
+                                                        {note.description}
+                                                    </p>
+
+                                                    <p className="mt-1 text-[11px] text-muted">
+                                                        {note.userName || 'Unknown'} · {note.formattedCreatedAt || 'Unknown'}
+                                                    </p>
+
+                                                    {isExpanded && (
+                                                        <div className="mt-3 flex items-center gap-2">
+                                                            <button
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    handleViewClick(note);
+                                                                }}
+                                                                className="flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-white transition hover:opacity-90"
+                                                            >
+                                                                View <ExternalLink size={12} />
+                                                            </button>
+                                                            <button
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    handleDelete(note);
+                                                                }}
+                                                                className="flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium text-error transition hover:bg-muted-bg"
+                                                            >
+                                                                <Trash2 size={12} /> Delete
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
