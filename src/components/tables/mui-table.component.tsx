@@ -15,6 +15,9 @@ import {ButtonComponent} from "@/components/button/button.component";
 import {Search} from "lucide-react";
 import {getValueFromLocalStorage, setValueLocalStorage} from "@/utils/local-storage.util";
 import {PageMetaDataType} from "@/common/types";
+import ToastComponent from "@/components/popup/toast";
+import {downloadExport, ExportFormat} from "@/components/tables/utils/download-export.util";
+import ExportMenu from "@/components/tables/components/export-menu.component";
 
 type Order = 'asc' | 'desc';
 
@@ -104,6 +107,7 @@ interface Props {
     sortDirection?: 'asc' | 'desc';
     onSortChange?: (sortBy: string, direction: 'asc' | 'desc') => void;
     pageMetadata?: PageMetaDataType
+    exportKey?: string;
 }
 
 export default function MuiTableComponent({
@@ -120,7 +124,8 @@ export default function MuiTableComponent({
                                               sortBy,
                                               sortDirection,
                                               onSortChange,
-                                              pageMetadata
+                                              pageMetadata,
+                                              exportKey
                                           }: Props) {
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<number>(-1); // Changed to use column index
@@ -143,6 +148,15 @@ export default function MuiTableComponent({
 
     const handleChangePage = (event: unknown, newPage: number) => {
         updatePage(++newPage)
+    };
+
+    const handleExport = async (format: ExportFormat) => {
+        if (!exportKey) return;
+        try {
+            await downloadExport({ exportKey, format, filterKey, sortBy, sortDirection });
+        } catch (error: any) {
+            ToastComponent({ type: "error", text: error?.message ?? "Export failed. Please try again." });
+        }
     };
 
     const handleSearchChange = (value: any) => {
@@ -188,6 +202,13 @@ export default function MuiTableComponent({
     return (
         <Box sx={{width: '100%', marginTop: '10px'}}>
             <div className={'flex w-full justify-end mb-2'}>
+                {exportKey && (
+                    <ExportMenu
+                        onExport={handleExport}
+                        disabled={data.length === 0}
+                        hint={`Exports all records${filterKey ? " matching your search" : ""}`}
+                    />
+                )}
                 <form
                     className="flex w-1/4 gap-2"
                     onSubmit={(e) => {

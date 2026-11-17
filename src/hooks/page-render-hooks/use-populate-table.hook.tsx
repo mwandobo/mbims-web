@@ -30,8 +30,7 @@ interface Props {
     sortBy?: string
     sortDirection?: 'asc' | 'desc'
     onSortChange?: (sortBy: string, direction: 'asc' | 'desc') => void
-
-
+    exportKey?: string;
 }
 
 export const usePopulateTableHook = ({
@@ -55,12 +54,12 @@ export const usePopulateTableHook = ({
                                          updateFilterKey,
                                          totalRecords,
                                          tablePaginationType,
-
                                          pageMetadata,
                                          sortBy,
                                          sortDirection,
                                          onSortChange,
-                                         viewUrl
+                                         viewUrl,
+                                         exportKey
                                      }: Props) => {
 
 
@@ -219,6 +218,7 @@ export const usePopulateTableHook = ({
                         sortBy={sortBy}
                         sortDirection={sortDirection}
                         onSortChange={onSortChange}
+                        exportKey={exportKey}
                     />
                 )}
             </div>

@@ -24,5 +24,14 @@ const postRequest = <T>(url: string, data: any, isFormData?: boolean) =>
     index.post<T>(url, data, config(isFormData));
 const putRequest = <T>(url: string, data: any) => index.patch<T>(url, data, config());
 const deleteRequest = <T>(url: string) => index.delete<T>(url, config());
+const getBlobRequest = (url: string) => {
+    const base = config();
+    return index.get<Blob>(url, {
+        ...base,
+        responseType: "blob",
+        headers: { ...base.headers, Accept: "*/*" }, // your default "*" isn't a valid media type
+    });
+};
 
-export { getRequest, postRequest, putRequest, deleteRequest, baseURL};
+export { getRequest, postRequest, putRequest, deleteRequest, getBlobRequest, baseURL };
+

@@ -40,7 +40,7 @@ interface Props {
     tablePaginationType?: 'front-end' | 'back-end',
     inputSize?: string,
     pageMetadata?: PageMetaDataType
-
+    exportKey?: string;
 }
 
 export const usePageDataHook = ({
@@ -72,6 +72,7 @@ export const usePageDataHook = ({
                                     tablePaginationType = 'back-end',
                                     pageMetadata,
                                     inputSize,
+                                    exportKey,
                                 }: Props
 ) => {
     const [loading, setLoading] = useState(false)
@@ -158,6 +159,7 @@ export const usePageDataHook = ({
         sortDirection,
         viewUrl:viewUrl,
         onSortChange: handleSortChange,
+        exportKey
     })
 
     const ensureURL = (url: string, baseURL: string) => {

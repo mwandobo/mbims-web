@@ -62,7 +62,8 @@ function Departments() {
         state_properties: [],
         permission: permission,
         isApiV2: true,
-        isMaintainViewNavigationForV1: true
+        isMaintainViewNavigationForV1: true,
+        exportKey: 'departments',
     })
 
     return (
