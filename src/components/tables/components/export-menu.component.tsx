@@ -52,7 +52,7 @@ const ExportMenu = ({ onExport, hint, disabled }: Props) => {
                 disabled={disabled || busy !== null}
                 aria-haspopup="menu"
                 aria-expanded={isOpen}
-                className="flex items-center gap-1.5 rounded border border-card-border bg-card-bg px-3 py-1.5 text-sm text-foreground transition hover:bg-muted-bg disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex items-center gap-1.5 rounded border border-card-border bg-card-bg px-3 py-2.5 text-sm text-foreground transition hover:bg-muted-bg disabled:cursor-not-allowed disabled:opacity-50"
             >
                 {busy ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />}
                 Export
@@ -62,7 +62,7 @@ const ExportMenu = ({ onExport, hint, disabled }: Props) => {
             {isOpen && (
                 <div
                     role="menu"
-                    className="absolute right-0 z-20 mt-2 w-56 overflow-hidden rounded-xl border border-card-border-light bg-card-bg p-1.5 text-foreground shadow-xl"
+                    className="absolute left-0 z-20 mt-2 w-56 overflow-hidden rounded-xl border border-card-border-light bg-card-bg p-1.5 text-foreground shadow-xl"
                 >
                     <p className="px-2.5 pb-1 pt-1.5 text-[11px] text-muted">{hint}</p>
                     {OPTIONS.map(({ format, label, icon: Icon }) => (

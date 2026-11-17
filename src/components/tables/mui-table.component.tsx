@@ -201,7 +201,7 @@ export default function MuiTableComponent({
 
     return (
         <Box sx={{width: '100%', marginTop: '10px'}}>
-            <div className={'flex w-full justify-end mb-2'}>
+            <div className={'flex w-full justify-between mb-2'}>
                 {exportKey && (
                     <ExportMenu
                         onExport={handleExport}
@@ -209,44 +209,47 @@ export default function MuiTableComponent({
                         hint={`Exports all records${filterKey ? " matching your search" : ""}`}
                     />
                 )}
-                <form
-                    className="flex w-1/4 gap-2"
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        updateFilterKey(searchKey);
-                    }}
-                >
-                    <input
-                        type="text"
-                        placeholder="Search..."
-                        style={{
-                            padding: '6px 12px',
-                            fontSize: '14px',
-                            borderRadius: '4px',
-                            border: '1px solid #ccc',
-                            flex: 1,
-                            color: 'black'
+                <>
+                    <form
+                        className="flex w-1/4 gap-2"
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            updateFilterKey(searchKey);
                         }}
-                        value={searchKey}
-                        onChange={(e) => handleSearchChange(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                e.preventDefault();
-                                updateFilterKey(searchKey);
-                            }
-                        }}
-                    />
-
-                    <ButtonComponent
-                        type="submit"
-                        name="Search"
-                        // onClick is no longer needed
-                        rounded="md"
-                        padding="p-3"
                     >
-                        <Search size={13}/>
-                    </ButtonComponent>
-                </form>
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            style={{
+                                padding: '6px 12px',
+                                fontSize: '14px',
+                                borderRadius: '4px',
+                                border: '1px solid #ccc',
+                                flex: 1,
+                                color: 'black'
+                            }}
+                            value={searchKey}
+                            onChange={(e) => handleSearchChange(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    updateFilterKey(searchKey);
+                                }
+                            }}
+                        />
+
+                        <ButtonComponent
+                            type="submit"
+                            name="Search"
+                            // onClick is no longer needed
+                            rounded="md"
+                            padding="p-3"
+                        >
+                            <Search size={13}/>
+                        </ButtonComponent>
+                    </form>
+                </>
+
 
             </div>
             <Paper sx={{width: '100%', mb: 2}}>
