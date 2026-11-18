@@ -31,6 +31,8 @@ interface Props {
     sortDirection?: 'asc' | 'desc'
     onSortChange?: (sortBy: string, direction: 'asc' | 'desc') => void
     exportKey?: string;
+    importKey?: string;
+    onImported?: () => void;
 }
 
 export const usePopulateTableHook = ({
@@ -59,7 +61,9 @@ export const usePopulateTableHook = ({
                                          sortDirection,
                                          onSortChange,
                                          viewUrl,
-                                         exportKey
+                                         exportKey,
+                                         importKey,
+                                         onImported
                                      }: Props) => {
 
 
@@ -161,7 +165,7 @@ export const usePopulateTableHook = ({
                         }
                     }
 
-                    if (obj.amount ) {
+                    if (obj.amount) {
                         obj = {
                             ...obj,
                             amount: <FormattedMoney amount={obj.amount} isHideCurrency={true}/>
@@ -219,6 +223,8 @@ export const usePopulateTableHook = ({
                         sortDirection={sortDirection}
                         onSortChange={onSortChange}
                         exportKey={exportKey}
+                        importKey={importKey}
+                        onImported={onImported}
                     />
                 )}
             </div>

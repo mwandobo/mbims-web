@@ -41,6 +41,8 @@ interface Props {
     inputSize?: string,
     pageMetadata?: PageMetaDataType
     exportKey?: string;
+    importKey?: string;
+    onImported?: () => void;
 }
 
 export const usePageDataHook = ({
@@ -73,6 +75,8 @@ export const usePageDataHook = ({
                                     pageMetadata,
                                     inputSize,
                                     exportKey,
+                                    importKey,
+                                    onImported
                                 }: Props
 ) => {
     const [loading, setLoading] = useState(false)
@@ -159,7 +163,13 @@ export const usePageDataHook = ({
         sortDirection,
         viewUrl:viewUrl,
         onSortChange: handleSortChange,
-        exportKey
+        exportKey,
+        importKey,
+        onImported: () => {
+            setPage(1);      // new records sort first (id desc), so go back to page 1
+            fetchData();     // reload the table
+            onImported?.();  // still call the page's own callback, if one was passed
+        },
     })
 
     const ensureURL = (url: string, baseURL: string) => {

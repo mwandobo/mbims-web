@@ -64,6 +64,7 @@ function Departments() {
         isApiV2: true,
         isMaintainViewNavigationForV1: true,
         exportKey: 'departments',
+        importKey: 'departments',
     })
 
     return (

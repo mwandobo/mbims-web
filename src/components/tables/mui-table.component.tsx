@@ -18,6 +18,7 @@ import {PageMetaDataType} from "@/common/types";
 import ToastComponent from "@/components/popup/toast";
 import {downloadExport, ExportFormat} from "@/components/tables/utils/download-export.util";
 import ExportMenu from "@/components/tables/components/export-menu.component";
+import ImportDialog from "@/components/tables/components/import-dialog.component";
 
 type Order = 'asc' | 'desc';
 
@@ -108,6 +109,8 @@ interface Props {
     onSortChange?: (sortBy: string, direction: 'asc' | 'desc') => void;
     pageMetadata?: PageMetaDataType
     exportKey?: string;
+    importKey?: string;
+    onImported?: () => void;
 }
 
 export default function MuiTableComponent({
@@ -125,7 +128,9 @@ export default function MuiTableComponent({
                                               sortDirection,
                                               onSortChange,
                                               pageMetadata,
-                                              exportKey
+                                              exportKey,
+                                              importKey,
+                                              onImported
                                           }: Props) {
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<number>(-1); // Changed to use column index
@@ -202,13 +207,16 @@ export default function MuiTableComponent({
     return (
         <Box sx={{width: '100%', marginTop: '10px'}}>
             <div className={'flex w-full justify-between mb-2'}>
-                {exportKey && (
-                    <ExportMenu
-                        onExport={handleExport}
-                        disabled={data.length === 0}
-                        hint={`Exports all records${filterKey ? " matching your search" : ""}`}
-                    />
-                )}
+                <div className="flex items-center gap-2">
+                    {exportKey && (
+                        <ExportMenu
+                            onExport={handleExport}
+                            disabled={data.length === 0}
+                            hint={`Exports all records${filterKey ? " matching your search" : ""}`}
+                        />
+                    )}
+                    {importKey && <ImportDialog importKey={importKey} onImported={onImported} />}
+                </div>
                 <>
                     <form
                         className="flex w-1/4 gap-2"
